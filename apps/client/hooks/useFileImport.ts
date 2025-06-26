@@ -1,7 +1,7 @@
 import ClinicalSystems from "@/constants/clinicalSystems";
 import SoftwareTools from "@/constants/softwareTools";
 import { useRef, useState } from "react";
-
+import ErrorMessages from "@/constants/messages"
 
 
 export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTool:SoftwareTools){
@@ -16,7 +16,7 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       setImportError("")
       if (clinicalSystem == ClinicalSystems.NotSelected || softwareTool == SoftwareTools.NotSelected){
          console.log("button clicked")
-         setImportError("Please select a software tool and a clinical system before import.");
+         setImportError(ErrorMessages.import);
          return
       }
       else{
