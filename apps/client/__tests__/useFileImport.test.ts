@@ -4,9 +4,8 @@ import {act} from 'react';
 import ErrorMessages from "@/constants/messages"
 import ClinicalSystems from "@/constants/clinicalSystems";
 import SoftwareTools from "@/constants/softwareTools";
-// test('should raise error', ()=> {
-//    const result = renderHook() => useFileImport()
-// })
+
+
 describe ('using useFileImport hook', ()=> {
    test('No tool or clinical system selected. Should display error message', ()=> {
       const { result } = renderHook(()=>useFileImport(ClinicalSystems.NotSelected, SoftwareTools.NotSelected))
@@ -17,7 +16,7 @@ describe ('using useFileImport hook', ()=> {
       expect(result.current.importError).toBe(ErrorMessages.import)
    })
 
-   test ('No Clinical system selected. Should display error messages', ()=> {
+   test ('No Clinical system selected. Should display error message', ()=> {
       const { result } = renderHook(()=>useFileImport(ClinicalSystems.NotSelected, SoftwareTools.af))
 
       act(()=> {
@@ -25,5 +24,24 @@ describe ('using useFileImport hook', ()=> {
       })
       expect(result.current.importError).toBe(ErrorMessages.import)
    })
-   
+
+   test ('No software tool selected. Should display error message', ()=> {
+      const { result } = renderHook(()=> useFileImport(ClinicalSystems.EMIS, SoftwareTools.NotSelected))
+
+      act(()=>{
+         result.current.handleImportButtonClick()
+      })
+
+      expect(result.current.importError).toBe(ErrorMessages.import)
+   })
+
+   test('Tool and clinical system selected, no error message', ()=>{
+      const { result } = renderHook(()=> useFileImport(ClinicalSystems.EMIS,SoftwareTools.af))
+
+      act(()=> {
+         result.current.handleImportButtonClick()
+      })
+
+      expect(result.current.importError).toBe("")
+   })
 }) 
