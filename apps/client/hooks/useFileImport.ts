@@ -29,7 +29,6 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
    }
 
    const handleFileChange = (event:React.ChangeEvent<HTMLInputElement>) =>{
-      // console.log("hello")
 
       const eventTarget = event.target as HTMLInputElement
       const eventTargetFiles = eventTarget.files
@@ -37,7 +36,7 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       if (eventTargetFiles){
          setImportedFile(eventTargetFiles)
       }
-      // setImportedFile(eventTargetFiles[0])
+
       console.log(eventTargetFiles)
    }
 

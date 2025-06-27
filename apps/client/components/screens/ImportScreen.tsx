@@ -4,8 +4,9 @@ import { Button } from '../ui/button'
 import SoftwareTools from '@/constants/softwareTools'
 import ClinicalSystems from '@/constants/clinicalSystems'
 import useFileImport from '@/hooks/useFileImport'
-import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent} from "@/components/ui/card"
 import { Source_Sans_3 } from 'next/font/google'
+import getFileInputProps from './importScreen.helpers'
 
 
 const sourceFont = Source_Sans_3({
@@ -13,6 +14,7 @@ const sourceFont = Source_Sans_3({
    weight:"500"
    
 })
+
 const ImportScreen = () => {
    const [selectedSoftwareTool, setSelectedSoftwareTool] = useState<SoftwareTools>(SoftwareTools.NotSelected)
    const [selectedClinicalSystem, setSelectedClinicalSystem] = useState<ClinicalSystems>(ClinicalSystems.NotSelected)
@@ -40,9 +42,9 @@ const ImportScreen = () => {
       setSelectedClinicalSystem(eventTargetValue)
    }
 
-   console.log(selectedClinicalSystem, selectedSoftwareTool)
 
    
+   const inputProps = getFileInputProps(selectedSoftwareTool, selectedClinicalSystem)
 
 
    return (
@@ -137,8 +139,8 @@ const ImportScreen = () => {
                   <p className="text-lg mt-2 text-red-600 leading-5">{importError}</p>
                   <div className="mt-4">
                      
-                     <input type="file" id="myfile" name="myfile" ref ={fileInputRef} onChange={handleFileChange} style={{display:"none"}}></input>
-
+                     <input  {...inputProps} ref ={fileInputRef} onChange={handleFileChange} style={{display:"none"}}></input>
+{/* type="file" id="myfile" name="myfile" */}
                      <Button 
                         className="text-center bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E]
                            text-white w-[6em] text-2xl import_button cursor-pointer font-bold py-6" 
