@@ -21,7 +21,6 @@ const ImportScreen = () => {
 
    const {
       importError,
-      setImportError,
       handleImportButtonClick,
       fileInputRef,
       handleFileChange
@@ -29,11 +28,9 @@ const ImportScreen = () => {
 
 
    const handleSelectTool = (event: React.ChangeEvent<HTMLInputElement>) => {
- 
       const eventTarget = event.target as HTMLInputElement
       const eventTargetValue = eventTarget.value as SoftwareTools
       setSelectedSoftwareTool(eventTargetValue)
-
    }
 
    const handleSelectClinicalSystem = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,11 +48,6 @@ const ImportScreen = () => {
       <main className={sourceFont.className}>
          <div className= "flex justify-center items-start h-screen bg-[#21376A]">
             <Card className = "w-[500px] text-center mt-[25vh] px-6 py-10">
-               {/* <div className = "border max-w-[500px] bg-white mt-[20vh] text-center py-12 rounded-t-lg"> */}
-
-               {/* <CardHeader className='text-xl font-sourceSans'>Clinical Effectiveness Group</CardHeader>
-               <CardHeader className=''>CEG Software tools</CardHeader> */}
-               {/* <CardContent className="font-semibold"> */}
                <CardContent>
                   <div className="text-[#21376A]">
                      <h2 className="text-xl font-bold ">Clinical Effectiveness Group</h2>
@@ -159,6 +151,9 @@ const ImportScreen = () => {
 }
 
 export default ImportScreen
+
+
+
   {/* <h2>Select clinical system</h2> <div>*/}
                {/* <h1></h1> */}
             {/* <h1>CEG Software tools</h1> */}

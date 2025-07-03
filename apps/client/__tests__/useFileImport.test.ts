@@ -13,7 +13,7 @@ describe ('using useFileImport hook', ()=> {
       act(()=> {
          result.current.handleImportButtonClick()
       })
-      expect(result.current.importError).toBe(ErrorMessages.import)
+      expect(result.current.importError).toBe(ErrorMessages.ImportError)
    })
 
    test ('No Clinical system selected. Should display error message', ()=> {
@@ -22,7 +22,7 @@ describe ('using useFileImport hook', ()=> {
       act(()=> {
          result.current.handleImportButtonClick()
       })
-      expect(result.current.importError).toBe(ErrorMessages.import)
+      expect(result.current.importError).toBe(ErrorMessages.ImportError)
    })
 
    test ('No software tool selected. Should display error message', ()=> {
@@ -32,7 +32,7 @@ describe ('using useFileImport hook', ()=> {
          result.current.handleImportButtonClick()
       })
 
-      expect(result.current.importError).toBe(ErrorMessages.import)
+      expect(result.current.importError).toBe(ErrorMessages.ImportError)
    })
 
    test('Tool and clinical system selected, no error message', ()=>{

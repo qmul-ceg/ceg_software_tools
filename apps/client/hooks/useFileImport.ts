@@ -50,7 +50,6 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       if (eventTargetFiles){
          setImportedFile(eventTargetFiles)
       }
-  
    }
    
    useEffect(() => {
