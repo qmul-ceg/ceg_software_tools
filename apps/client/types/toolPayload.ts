@@ -4,5 +4,5 @@ import SoftwareTools from "@/constants/softwareTools"
 export interface ToolPayload{
    tool: SoftwareTools,
    clinicalSystem: ClinicalSystems,
-   file: any
+   file: FileList[]
 }
