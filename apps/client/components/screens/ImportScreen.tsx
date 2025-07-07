@@ -132,7 +132,7 @@ const ImportScreen = () => {
                   <div className="mt-4">
                      
                      <input  {...inputProps} ref ={fileInputRef} onChange={handleFileChange} style={{display:"none"}}></input>
-{/* type="file" id="myfile" name="myfile" */}
+
                      <Button 
                         className="text-center bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E]
                            text-white w-[6em] text-2xl import_button cursor-pointer font-bold py-6" 

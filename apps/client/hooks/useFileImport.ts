@@ -3,7 +3,7 @@ import SoftwareTools from "@/constants/softwareTools";
 import { useEffect, useRef, useState } from "react";
 import ErrorMessages from "@/constants/messages"
 import toolRouter from "@/services/toolRouter";
-import { ToolPayload } from "@/types/toolPayload";
+import { ImportPayload } from "@/types/importPayload";
 
 
 export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTool:SoftwareTools){
@@ -31,7 +31,7 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
    }
 
    const routePayload = ()=> {
-      const newPayload: ToolPayload = {
+      const newPayload: ImportPayload = {
          tool: softwareTool,
          clinicalSystem: clinicalSystem,
          file: importedFile
