@@ -5,11 +5,35 @@ import cvdToolModule from "@/tools/cvdToolModule/cvdToolModule"
 
 
 export default function toolRouter(payload:ImportPayload){
-   const routePayload = {
-      [SoftwareTools.cvd] : cvdToolModule
+   const payloadHandlers: Partial<Record<SoftwareTools, (payload: ImportPayload) => void >> = {
+      [SoftwareTools.cvd]: cvdToolModule,
+   };
+
+   const handlePayload = payloadHandlers[payload.tool];
+   if(handlePayload){
+      handlePayload(payload)
    }
-   //Tool router will call whichever tool we want to route our payload to 
-   //How do we know which router to check . 
-      // console.log(payload)
-   console.log(routePayload[payload.tool])
+   else {
+      //Log error message to user. 
+   }
+
 }
+
+
+
+
+
+
+// const payloadHandlers: Partial<Record <SoftwareTools, (payload:ImportPayload) => void>> = {
+   //    [SoftwareTools.cvd] : cvdToolModule
+   // }
+   // //Tool router will call whichever tool we want to route our payload to 
+   // //How do we know which router to check . 
+   //    // console.log(payload)
+   // const handlePayload = payloadHandlers[payload.tool];
+   // if(handlePayload){
+   //    handlePayload(payload)
+   // }
+   // else{
+   //    console.log("Selected tool is not registered")
+   // }
