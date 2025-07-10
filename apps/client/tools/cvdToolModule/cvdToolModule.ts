@@ -1,5 +1,6 @@
 import ClinicalSystems from "@/constants/clinicalSystems";
 import { ImportPayload } from "@/types/importPayload";
+import validateCvdSystmOneReport from "./reportValidators/validateCvdSystmOneReport";
 
 
 
@@ -12,11 +13,15 @@ export default function cvdToolModule(payload:ImportPayload){
    // These functionalities can be packed and sent to our display screen. 
    //We call the display screen with our packed results. 
 
-
    //VALIDATE PAYLOAD
-   const validateHandlers: Partial<Record< ClinicalSystems, (payload:Partial<ImportPayload>) => void>> ={
-      [ClinicalSystems.EMIS] = validateCvdEMISReport,
-      [ClinicalSystems.SystmOne] = validateCvdSystmOneReport
+   const validateHandlers: Partial<Record< ClinicalSystems, (payload:FileList) => void>> ={
+      // [ClinicalSystems.EMIS] = validateCvdEMISReport,
+      [ClinicalSystems.SystmOne] : validateCvdSystmOneReport
    }
-   console.log(payload)
+   const validateReport = validateHandlers[payload.clinicalSystem]
+
+   if (validateReport){
+      validateReport(payload.file)
+   }
+   // console.log(validateReport)
 }

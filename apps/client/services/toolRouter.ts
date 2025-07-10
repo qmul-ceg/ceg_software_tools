@@ -4,18 +4,26 @@ import cvdToolModule from "@/tools/cvdToolModule/cvdToolModule"
 
 
 
+
 export default function toolRouter(payload:ImportPayload){
+
    const payloadHandlers: Partial<Record<SoftwareTools, (payload: ImportPayload) => void >> = {
       [SoftwareTools.cvd]: cvdToolModule,
    };
 
    const handlePayload = payloadHandlers[payload.tool];
+  
    if(handlePayload){
       handlePayload(payload)
+      return true
    }
    else {
+      return false
       //Log error message to user. 
+      //Should cantain fallback or error handling for unsupported tool-system combinations
    }
+
+
 
 }
 

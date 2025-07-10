@@ -23,7 +23,7 @@ const ImportScreen = () => {
       importError,
       handleImportButtonClick,
       fileInputRef,
-      handleFileChange
+      handleFileChange,
    } = useFileImport(selectedClinicalSystem, selectedSoftwareTool)
 
 
@@ -39,7 +39,7 @@ const ImportScreen = () => {
       setSelectedClinicalSystem(eventTargetValue)
    }
 
-
+   // console.log(selectedSoftwareTool)
    
    const inputProps = getFileInputProps(selectedSoftwareTool, selectedClinicalSystem)
 
@@ -53,12 +53,11 @@ const ImportScreen = () => {
                      <h2 className="text-xl font-bold ">Clinical Effectiveness Group</h2>
                      <h1 className="text-3xl font-extrabold">CEG software tools</h1>
                   </div>
-                  
-
+               
                
                   <div className="font-bold mt-4 text-xl leading-6" >
-                     These tools have been created to present clinical information coded in the patient health record. 
-                     They are not diagnostic tools or intended to replace clinical judgement.
+                     These tools have been developed to present clinical information coded in the patient health record. 
+                     They are not diagnostic tools and are not intended to replace clinical judgement.
                   </div>
                   
                   {/* Software tool selection */}
@@ -125,8 +124,7 @@ const ImportScreen = () => {
                         </div>
 
                      </div>
-
-                        
+     
                   </div>
                   <p className="text-lg mt-2 text-red-600 leading-5">{importError}</p>
                   <div className="mt-4">
@@ -139,18 +137,16 @@ const ImportScreen = () => {
                         onClick={handleImportButtonClick}>
                         Import
                      </Button>
-
                   </div>
                </CardContent> 
             </Card>
-        
-         
          </div>
       </main>
    )
 }
 
 export default ImportScreen
+
 
 
 
