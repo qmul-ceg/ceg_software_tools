@@ -13,6 +13,9 @@ import ErrorMessages from "@/constants/messages";
    //We call the display screen with our packed results. 
 export default async function cvdToolModule(payload:ImportPayload){
 
+   const validateTest: Record<string, Boolean> ={
+      validationResult : false
+   }
    //VALIDATE PAYLOAD
    const validateHandlers: Partial<Record< ClinicalSystems, (payload:FileList) => Promise<Object>>> ={
       // [ClinicalSystems.EMIS] = validateCvdEMISReport,
@@ -20,13 +23,17 @@ export default async function cvdToolModule(payload:ImportPayload){
    }
    const validateReport = validateHandlers[payload.clinicalSystem]
 
-   if (validateReport){
-      const result = await validateReport(payload.file)
+   const isValid = (value:Boolean) => value == true;
 
-      //Confirm all the values in the result objeect are true 
-      //If the y are not true set an error 
-      // console.log(result)
+
+   if (validateReport){
+      const validationResult:Object = await validateReport(payload.file)
+      const validationResultArray:Array<Boolean> = Array.from(Object.values(validationResult))
+      const confirmValidation:Boolean = validationResultArray.every(isValid)
+      console.log(confirmValidation)
+      validateTest['validationResult'] = confirmValidation
    }
    
-
+   return {validateTest}
+   // return confirmValidation
 }

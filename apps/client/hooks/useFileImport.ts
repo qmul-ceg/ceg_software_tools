@@ -7,7 +7,6 @@ import { ImportPayload } from "@/types/importPayload";
 
 
 export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTool:SoftwareTools){
-   // console.log("hi")
    const fileInputRef = useRef<HTMLInputElement>(null);
 
    const [importError, setImportError] = useState<ErrorMessages>(ErrorMessages.None);
@@ -42,17 +41,30 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
    }
    
    
-   const routePayload = ()=> {
+   const routePayload = async ()=> {
 
       const newPayload: ImportPayload = {
          tool: softwareTool,
          clinicalSystem: clinicalSystem,
          file: importedFile
       }
-      const payloadResult = toolRouter(newPayload)
-      if (!payloadResult){
-         setImportError(ErrorMessages.ClinicalSystemError)
+
+      
+      const payloadResult = await toolRouter(newPayload)
+      const result = payloadResult.toolRouterResult.validateReport
+      
+      // if(result['validationResult'] == True){
+
+      // }
+      if(Object.values(result)[0] === true){
+         setImportError(ErrorMessages.validImport)
       }
+      console.log()
+
+
+      // if (!payloadResult){
+      //    setImportError(ErrorMessages.ClinicalSystemError)
+      // }
    }
 
 

@@ -6,25 +6,34 @@ import cvdToolModule from "@/tools/cvdToolModule/cvdToolModule";
 
 
 
-export default function toolRouter(payload:ImportPayload){
+export default async function toolRouter(payload:ImportPayload){
 
-   const payloadHandlers: Partial<Record<SoftwareTools, (payload: ImportPayload) => void >> = {
+   const payloadHandlers: Partial<Record<SoftwareTools, (payload: ImportPayload) => any >> = {
       [SoftwareTools.cvd]: cvdToolModule,
    };
 
    const handlePayload = payloadHandlers[payload.tool];
-  
-   if(handlePayload){
-      handlePayload(payload)
-      return true
-   }
-   else {
-      return false
-      //Log error message to user. 
-      //Should cantain fallback or error handling for unsupported tool-system combinations
+   
+   const toolRouterResult:Record<string, Boolean> = {
+      validateReport : false
    }
 
+   if(handlePayload){ 
+      // handlePayload(payload)
 
+      const result =  await handlePayload(payload)
+
+      toolRouterResult['validateReport'] = result.validateTest
+      console.log(result)
+      // return true
+   }
+   // else {
+   //    return false
+   //    //Log error message to user. 
+   //    //Should cantain fallback or error handling for unsupported tool-system combinations
+   // }
+
+   return {toolRouterResult}
 
 }
 
