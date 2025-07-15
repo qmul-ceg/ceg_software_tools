@@ -13,19 +13,11 @@ export default async function toolRouter(payload:ImportPayload){
    };
 
    const handlePayload = payloadHandlers[payload.tool];
-   
-   const toolRouterResult:Record<string, Boolean> = {
-      validateReport : false
-   }
+   let validationResult:Object = {}
 
    if(handlePayload){ 
-      // handlePayload(payload)
-
-      const result =  await handlePayload(payload)
-
-      toolRouterResult['validateReport'] = result.validateTest
-      console.log(result)
-      // return true
+      validationResult =  await handlePayload(payload)
+      console.log(validationResult)
    }
    // else {
    //    return false
@@ -33,7 +25,7 @@ export default async function toolRouter(payload:ImportPayload){
    //    //Should cantain fallback or error handling for unsupported tool-system combinations
    // }
 
-   return {toolRouterResult}
+   return {validationResult}
 
 }
 

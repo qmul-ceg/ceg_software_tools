@@ -27,11 +27,6 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       }
    }
 
-
-   
-
-
-
    const handleFileChange = (event:React.ChangeEvent<HTMLInputElement>) =>{
       const eventTarget = event.target as HTMLInputElement
       const eventTargetFiles = eventTarget.files
@@ -42,29 +37,22 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
    
    
    const routePayload = async ()=> {
-
       const newPayload: ImportPayload = {
          tool: softwareTool,
          clinicalSystem: clinicalSystem,
          file: importedFile
       }
-
       
-      const payloadResult = await toolRouter(newPayload)
-      const result = payloadResult.toolRouterResult.validateReport
-      
-      // if(result['validationResult'] == True){
-
-      // }
-      if(Object.values(result)[0] === true){
-         setImportError(ErrorMessages.validImport)
+      const routerResult = await toolRouter(newPayload);
+      const resultDetails = Object.values(routerResult.validationResult)[0]
+      if(resultDetails.status === "failure"){
+         if(resultDetails.info=="cvdImportError1"){
+            setImportError(ErrorMessages.cvdImportError1);
+         }
+         else if(resultDetails.info=="cvdImportError2"){
+            setImportError(ErrorMessages.cvdImportError2);
+         }
       }
-      console.log()
-
-
-      // if (!payloadResult){
-      //    setImportError(ErrorMessages.ClinicalSystemError)
-      // }
    }
 
 
@@ -81,3 +69,10 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
    return { fileInputRef, handleImportButtonClick, importError, setImportError, handleFileChange, importedFile }
 };    
 
+
+      // if (!payloadResult){
+      //    setImportError(ErrorMessages.ClinicalSystemError)
+      // }      
+      // if(result['validationResult'] == True){
+
+      // }  // console.log()

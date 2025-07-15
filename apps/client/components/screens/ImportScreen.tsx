@@ -39,7 +39,6 @@ const ImportScreen = () => {
       setSelectedClinicalSystem(eventTargetValue)
    }
 
-   // console.log(selectedSoftwareTool)
    
    const inputProps = getFileInputProps(selectedSoftwareTool, selectedClinicalSystem)
 
