@@ -6,9 +6,9 @@ enum ErrorMessages{
 
    // Tool Import error messages
    cvdImportError1 = "The CVD SystmOne import does not have 3 files.",
-   cvdImportError2 ="One of the files in the folder is corrupt and could not be read."
-   // validImport= "Import is valid",
-   // invalidImport="Invalid import"
+   cvdImportError2 ="One of the files in the imported CVD SytmOne folder is invalid and could not be read. Please import a valid report",
+   cvdImportError3 ="The imported CVD EMIS report is invalid and could not be read. Please import a valid report."
+
 }
 
 export default ErrorMessages

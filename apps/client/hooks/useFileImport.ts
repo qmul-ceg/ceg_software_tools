@@ -46,12 +46,8 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       const routerResult = await toolRouter(newPayload);
       const resultDetails = Object.values(routerResult.validationResult)[0]
       if(resultDetails.status === "failure"){
-         if(resultDetails.info=="cvdImportError1"){
-            setImportError(ErrorMessages.cvdImportError1);
-         }
-         else if(resultDetails.info=="cvdImportError2"){
-            setImportError(ErrorMessages.cvdImportError2);
-         }
+         const validationErrorMessage = resultDetails.info
+         setImportError(ErrorMessages[validationErrorMessage as keyof typeof ErrorMessages])
       }
    }
 

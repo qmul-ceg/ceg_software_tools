@@ -1,8 +1,9 @@
 import ClinicalSystems from "@/constants/clinicalSystems";
 import { ImportPayload } from "@/types/importPayload";
 import validateCvdSystmOneReport from "./reportValidators/validateCvdSystmOneReport";
-
-import ErrorMessages from "@/constants/messages";
+import validateCvdEMISReport from "./reportValidators/validateCvdEMISReport";
+import { ValidationInterface, ParserResultInterface } from "@/types/shared.types";
+import parseCvdSystmOneReport from "./reportParsers/parseCvdSystmOneReport";
 
 //This is the entry point of the module 
 //We accept our payload here so we call this function    
@@ -12,17 +13,33 @@ import ErrorMessages from "@/constants/messages";
    // These functionalities can be packed and sent to our display screen. 
    //We call the display screen with our packed results. 
 export default async function cvdToolModule(payload:ImportPayload){
-
+   // console.log(payload)
    //VALIDATE PAYLOAD
-   const validateHandlers: Partial<Record< ClinicalSystems, (payload:FileList) => Promise<Object>>> ={
-      // [ClinicalSystems.EMIS] = validateCvdEMISReport,
+   const validateHandlers: Partial<Record< ClinicalSystems, (payload:FileList ) => Promise<ValidationInterface>>> ={
+      [ClinicalSystems.EMIS] : validateCvdEMISReport,
       [ClinicalSystems.SystmOne] : validateCvdSystmOneReport
    }
+
+   const parseHandlers: Partial<Record< ClinicalSystems, (payload: FileList) => Promise<ParserResultInterface>>> = {
+      [ClinicalSystems.SystmOne] : parseCvdSystmOneReport,
+   }
+
+
    const validateReport = validateHandlers[payload.clinicalSystem]
-   let validationResult: Object = {}
+   const parseReport = parseHandlers[payload.clinicalSystem]
+   
+   let validationResult: ValidationInterface ={status: "", info: ""}
+   let parserResult: ParserResultInterface = {status: "", info: "", masterReport: {}}
 
    if (validateReport){
       validationResult = await validateReport(payload.file)
+
+      if(validationResult.status == "success"){
+         if(parseReport){
+            parserResult = await parseReport(payload.file)
+            console.log(parserResult)
+         }
+      }
    }
    
    return {validationResult}

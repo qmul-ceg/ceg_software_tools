@@ -125,7 +125,7 @@ const ImportScreen = () => {
                      </div>
      
                   </div>
-                  <p className="text-lg mt-2 text-red-600 leading-5">{importError}</p>
+                  <p className="text-lg mt-4 text-red-600 leading-5">{importError}</p>
                   <div className="mt-4">
                      
                      <input  {...inputProps} ref ={fileInputRef} onChange={handleFileChange} style={{display:"none"}}></input>

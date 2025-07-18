@@ -1,20 +1,21 @@
-export default async function validateCvdSystmOneReport(fileList:FileList){
-   // console.log(fileList.length)
-   const validationResult: Record<string, string>={
+import { ValidationInterface } from "@/types/shared.types"
+
+export default async function validateCvdSystmOneReport(files:FileList){
+
+   const validationResult: ValidationInterface ={
       status: "",
       info:""
    }
 
    let filesArray: Array<File> = []
    
-   for(let i = 0; i < fileList.length; i++){
-      let file = fileList[i]
+   for(let i = 0; i < files.length; i++){
+      let file = files[i]
       if(file.name.toLowerCase().endsWith(".csv")){
          filesArray.push(file)
       }
    }
 
-   console.log(filesArray.length)
 
    if(filesArray.length !== 3){
       validationResult['status'] = "failure";
@@ -51,7 +52,6 @@ export default async function validateCvdSystmOneReport(fileList:FileList){
    const headerResults = await Promise.all(headerReaderPromises)
    for (let i = 0; i < headerResults.length; i++ ){
       let headerArray = headerResults[i];
-      console.log(headerArray)
       if ((headerArray[0].trim() === "Full Name" || headerArray[0].trim() === "NHS number" ) &&
          (headerArray[1].trim() === "Age" || headerArray[1].trim() === 'Frailty' || headerArray[1].trim() === 'Antiplatelet') )
       {
@@ -62,7 +62,6 @@ export default async function validateCvdSystmOneReport(fileList:FileList){
          validationResult['status'] = "failure";
          validationResult['info'] = "cvdImportError2"
       }
-
    }
    
    return validationResult
