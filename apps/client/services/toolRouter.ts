@@ -1,6 +1,6 @@
 import { ImportPayload } from "@/types/importPayload";
 import SoftwareTools from "@/constants/softwareTools";
-import cvdToolModule from "@/tools/cvdToolModule/cvdToolModule";
+import cvdToolModule from "@/modules/cvd/cvdToolModule";
 
 
 
