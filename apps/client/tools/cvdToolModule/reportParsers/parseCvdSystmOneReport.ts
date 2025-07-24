@@ -55,11 +55,7 @@ export default async function parseCvdSystmOneReport (files:FileList ){
    // console.log(sortedFiles)
 
    const parseFiles = async(files: Object): Promise<ParserResultInterface> => {
-      const parserResult: ParserResultInterface = {
-         status : "",
-         info : "",
-         masterReport: {}
-      };
+      
       
       const parsedFilesPromises: Array<Promise<object>> = []
 
@@ -106,12 +102,10 @@ export default async function parseCvdSystmOneReport (files:FileList ){
                   resolve(objectsArray)
                   //Do i need a reject
                }
-
             })
          })
       }
    
-      // console.log(parseFile(filesArray[0]))
       for(let file of filesArray){
          parsedFilesPromises.push(parseFile(file))
       }
@@ -137,22 +131,39 @@ export default async function parseCvdSystmOneReport (files:FileList ){
                      masterReport[objectValue] = {...masterReport[objectValue], ...parsedObject[i]}
                   }
                }
-
             }
          }
       } 
 
-      console.log(masterReport)
+      let parserResult: ParserResultInterface = {
+         status : "success",
+         info : "Reports successfully parsed",
+         masterReport: masterReport
+      };
 
       return parserResult
      
    }
 
-
    const parsedFiles = await parseFiles(sortedFiles)
-
-   console.log(parsedFiles)
+   return parsedFiles
 }  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
