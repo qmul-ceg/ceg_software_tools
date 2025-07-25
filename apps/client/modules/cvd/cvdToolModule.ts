@@ -5,6 +5,11 @@ import validateCVDEMISReport from "./reportValidators/validateCVDEMISReport";
 import { ValidationInterface, ParserResultInterface } from "@/types/shared.types";
 import parseCVDSystmOneReport from "./reportParsers/parseCVDSystmOneReport";
 import parseCVDEMISReport from "./reportParsers/parseCVDEMISReport"
+
+
+
+
+
 //This is the entry point of the module 
 //We accept our payload here so we call this function    
 // //Validate file based on clinical system in the payload - We can call separate functionalities one for sytmOne clinical systems and one for EMIS
@@ -29,7 +34,7 @@ export default async function cvdToolModule(payload:ImportPayload){
    const validateReport = validateHandlers[payload.clinicalSystem]
    const parseReport = parseHandlers[payload.clinicalSystem]
    
-   let validationResult: ValidationInterface ={status: "", info: ""}
+   let validationResult: ValidationInterface = {status: "", info: ""}
    let parserResult: ParserResultInterface = {status: "", info: "", masterReport: {}}
 
    if (validateReport){

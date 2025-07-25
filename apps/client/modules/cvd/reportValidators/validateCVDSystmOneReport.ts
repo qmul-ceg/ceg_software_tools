@@ -1,5 +1,5 @@
 import { ValidationInterface } from "@/types/shared.types"
-import { readFileHeaders, filterCSVFiles, validateCVDReportHeaders } from "../utils/validateHelpers"
+import { readFileHeaders, filterCSVFiles, validateCVDReportHeaders } from "../utils/cvdValidateHelpers"
 
 
 export default async function validateCVDSystmOneReport(files:FileList){

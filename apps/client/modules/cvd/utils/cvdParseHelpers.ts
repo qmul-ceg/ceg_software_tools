@@ -1,5 +1,5 @@
 import { ParserResultInterface } from "@/types/shared.types";
-import Papa from 'papaparse'
+import Papa from 'papaparse';
 
 
 const sortSystmOneFilesByHeader = async (files: Array<File>): Promise<Object> => {
@@ -46,10 +46,6 @@ const sortSystmOneFilesByHeader = async (files: Array<File>): Promise<Object> =>
       
       return sortedReports
 }
-
-
-
-
 
 const parseSystmOneReport = async(files: Object): Promise<ParserResultInterface> => {
       
@@ -136,6 +132,18 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResultInterface>
 
       return parserResult
    }
+
+// const parseEMISReport = async (files:File): Promise<ParserResultInterface> => {
+//    let parsedFile:ParserResultInterface = {
+//       status : "",
+//       info : "",
+//       masterReport : {}
+//    }
+
+//    return new P
+
+//    return parsedFile
+// }
 
 
 export { sortSystmOneFilesByHeader, parseSystmOneReport }
