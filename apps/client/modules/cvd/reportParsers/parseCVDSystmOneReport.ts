@@ -5,7 +5,7 @@ export default async function parseCvdSystmOneReport (report:FileList ):Promise<
 
    const filesArray:Array<File> = [...report];
 
-   const sortedFiles =  await sortSystmOneFilesByHeader(filesArray)
+   const sortedFiles = await sortSystmOneFilesByHeader(filesArray)
 
    const parsedFiles = await parseSystmOneReport(sortedFiles)
    return parsedFiles

@@ -20,12 +20,13 @@ const sortSystmOneFilesByHeader = async (files: Array<File>): Promise<Object> =>
                   if(headerArray[0].trim() === "Full Name" && headerArray[1].trim() === "Age" && headerArray[2].trim() === "Gender"){
                      sortedReports["report1"] = file;
                   }
-                  else if (headerArray[0].trim() === "NHS number" && headerArray[1].trim() === "Antiplatelet" && headerArray[2].trim() === "Date of issue"){
+                  else if (headerArray[0].trim() === "NHS number" && headerArray[1].trim() === "Frailty" && headerArray[2].trim() === "Frailty (Date last ever)"){
                      sortedReports["report2"] = file;
                   }
-                  else if (headerArray[0].trim() === "NHS number" && headerArray[1].trim() === "Frailty" && headerArray[2].trim() === "Frailty (Date last ever)"){
+                  else if (headerArray[0].trim() === "NHS number" && headerArray[1].trim() === "Antiplatelet" && headerArray[2].trim() === "Date of issue"){
                      sortedReports["report3"] = file;
                   }
+
                }
                resolve(headerArray)
             }
@@ -41,6 +42,7 @@ const sortSystmOneFilesByHeader = async (files: Array<File>): Promise<Object> =>
       }
 
       await Promise.all(headers).then((result)=> {
+         
          return result
       })
       
@@ -52,9 +54,9 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResultInterface>
       const parsedFilesPromises: Array<Promise<object>> = []
 
       let fileArray: Array<File> = []
-      //Get report headers
+
       for(const [key, value] of Object.entries(files)){      
-            fileArray.push(value)
+         fileArray.push(value)
       }
 
       //Parse each file 
@@ -103,47 +105,62 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResultInterface>
       
 
       const parsedFilesResults = await Promise.all(parsedFilesPromises);
-      const masterReport: Record<string, object> = {};
+      console.log(Object.values(parsedFilesResults))
+      const masterReport: Record<string, Array<string>> = {};
       
       for (let parsedObjectItems of parsedFilesResults){
-         const parsedObject = Object.values(parsedObjectItems)
+         console.log(parsedObjectItems)
+         const parsedObject = Object.values(parsedObjectItems) as Array<string>
          
          for(let i = 0; i < parsedObject.length; i++){
             for(let [key, value] of Object.entries(parsedObject[i])){
                let objectkey = key.trim() as string
                let objectValue = value as string
-               
+
                if (objectkey === "NHS number"){
                   if(!masterReport[objectValue]){
-                     masterReport[objectValue] = parsedObject[i]
+                     masterReport[objectValue] = Object.values(parsedObject[i])
                   }else{
-                     masterReport[objectValue] = {...masterReport[objectValue], ...parsedObject[i]}
+                     masterReport[objectValue] = [...masterReport[objectValue], ...Object.values(parsedObject[i])]
                   }
                }
             }
          }
       } 
 
+      console.log(masterReport)
+
+
+
       let parserResult: ParserResultInterface = {
          status : "success",
          info : "Reports successfully parsed",
          masterReport: masterReport
       };
-
       return parserResult
    }
 
-// const parseEMISReport = async (files:File): Promise<ParserResultInterface> => {
-//    let parsedFile:ParserResultInterface = {
-//       status : "",
-//       info : "",
-//       masterReport : {}
-//    }
-
-//    return new P
-
-//    return parsedFile
-// }
 
 
-export { sortSystmOneFilesByHeader, parseSystmOneReport }
+export { sortSystmOneFilesByHeader, parseSystmOneReport } 
+
+
+
+
+
+//USED TO CREATE OBJECT FOR SYSTMONE PARSING
+
+// for(let i = 0; i < parsedObject.length; i++){
+         //    for(let [key, value] of Object.entries(parsedObject[i])){
+         //       let objectkey = key.trim() as string
+         //       let objectValue = value as string
+               
+         //       if (objectkey === "NHS number"){
+         //          if(!masterReport[objectValue]){
+         //             masterReport[objectValue] = parsedObject[i]
+         //          }else{
+         //             masterReport[objectValue] = {...masterReport[objectValue], ...parsedObject[i]}
+         //          }
+         //       }
+         //    }
+         // }
