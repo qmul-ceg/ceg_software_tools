@@ -1,56 +1,58 @@
 import { ParserResultInterface } from "@/types/shared.types";
 import Papa from 'papaparse';
+import { parse } from "path";
 
+//CREATED TO SORT FILES IN A SPECIFIC STRUCTURE BUT NOT WORKING AS EXEPECTED DUE TO THE ASYNCHRONOUS NATURE 
+//Check with Zaheer
+// const sortSystmOneFilesByHeader = async (files: Array<File>): Promise<Object> => {
 
-const sortSystmOneFilesByHeader = async (files: Array<File>): Promise<Object> => {
-      const sortedReports: Record<string, File> = {};
-      const headers: Array<Promise<string[]>> = []
+//       const sortedReports: Record<string, File> = {};
+//       const headers: Array<Promise<string[]>> = []
 
+//       const readHeaders = (file:File)=> {
+//          return new Promise<string[]>((resolve, reject)=>{
+//             const headerReader = new FileReader();
 
-      const readHeaders = (file:File)=> {
-         return new Promise<string[]>((resolve, reject)=>{
-            const headerReader = new FileReader();
-
-            headerReader.onload = () => {
-               const result= headerReader.result as string;
-               const lines = result.split("\n");
-               const headerArray = lines[0].split(",");
+//             headerReader.onload = () => {
+//                const result= headerReader.result as string;
+//                const lines = result.split("\n");
+//                const headerArray = lines[0].split(",");
                
-               for(let i = 0; i < headerArray.length; i++){
-                  if(headerArray[0].trim() === "Full Name" && headerArray[1].trim() === "Age" && headerArray[2].trim() === "Gender"){
-                     sortedReports["report1"] = file;
-                  }
-                  else if (headerArray[0].trim() === "NHS number" && headerArray[1].trim() === "Frailty" && headerArray[2].trim() === "Frailty (Date last ever)"){
-                     sortedReports["report2"] = file;
-                  }
-                  else if (headerArray[0].trim() === "NHS number" && headerArray[1].trim() === "Antiplatelet" && headerArray[2].trim() === "Date of issue"){
-                     sortedReports["report3"] = file;
-                  }
+//                for(let i = 0; i < headerArray.length; i++){
+//                   if(headerArray[0].trim() === "Full Name" && headerArray[1].trim() === "Age" && headerArray[2].trim() === "Gender"){
+//                      sortedReports["report1"] = file;
+//                   }
+//                   else if (headerArray[0].trim() === "NHS number" && headerArray[1].trim() === "Frailty" && headerArray[2].trim() === "Frailty (Date last ever)"){
+//                      sortedReports["report2"] = file;
+//                   }
+//                   else if (headerArray[0].trim() === "NHS number" && headerArray[1].trim() === "Antiplatelet" && headerArray[2].trim() === "Date of issue"){
+//                      sortedReports["report3"] = file;
+//                   }
 
-               }
-               resolve(headerArray)
-            }
-            headerReader.onerror = () => {
-               new Error ("One or more files could not be read")
-            }
-            headerReader.readAsText(file)
-         })
-      }
+//                }
+//                resolve(headerArray)
+//             }
+//             headerReader.onerror = () => {
+//                new Error ("One or more files could not be read")
+//             }
+//             headerReader.readAsText(file)
+//          })
+//       }
 
-      for(let file of files){
-         headers.push(readHeaders(file))
-      }
+//       for(let file of files){
+//          headers.push(readHeaders(file))
+//       }
 
-      await Promise.all(headers).then((result)=> {
+//       await Promise.all(headers).then((result)=> {
          
-         return result
-      })
+//          return result
+//       })
       
-      return sortedReports
-}
+//       return sortedReports
+// }
 
 const parseSystmOneReport = async(files: Object): Promise<ParserResultInterface> => {
-      
+      // console.log(files)
       const parsedFilesPromises: Array<Promise<object>> = []
 
       let fileArray: Array<File> = []
@@ -104,23 +106,27 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResultInterface>
       }
       
 
-      const parsedFilesResults = await Promise.all(parsedFilesPromises);
-      console.log(Object.values(parsedFilesResults))
+      const parsedFilesResults = await Promise.all(parsedFilesPromises); //Array of arrays 
+
       const masterReport: Record<string, Array<string>> = {};
       
-      for (let parsedObjectItems of parsedFilesResults){
-         console.log(parsedObjectItems)
-         const parsedObject = Object.values(parsedObjectItems) as Array<string>
+      for (let parsedObjectItems of parsedFilesResults){ //Array of objects
+         const parsedObject= Object.values(parsedObjectItems) as Array<{ [key:string] : string}>  
          
          for(let i = 0; i < parsedObject.length; i++){
+
             for(let [key, value] of Object.entries(parsedObject[i])){
-               let objectkey = key.trim() as string
+           
+               let objectKey = key.trim() as string
                let objectValue = value as string
 
-               if (objectkey === "NHS number"){
+               if (objectKey === "NHS number"){
+                  delete parsedObject[i][objectKey]
                   if(!masterReport[objectValue]){
+                     
                      masterReport[objectValue] = Object.values(parsedObject[i])
                   }else{
+                     
                      masterReport[objectValue] = [...masterReport[objectValue], ...Object.values(parsedObject[i])]
                   }
                }
@@ -128,7 +134,6 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResultInterface>
          }
       } 
 
-      console.log(masterReport)
 
 
 
@@ -142,7 +147,23 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResultInterface>
 
 
 
-export { sortSystmOneFilesByHeader, parseSystmOneReport } 
+export { parseSystmOneReport } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
