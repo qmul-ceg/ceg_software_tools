@@ -51,8 +51,12 @@ import { parse } from "path";
 //       return sortedReports
 // }
 
+
+
+
+
 const parseSystmOneReport = async(files: Object): Promise<ParserResultInterface> => {
-      // console.log(files)
+      console.log(files)
       const parsedFilesPromises: Array<Promise<object>> = []
 
       let fileArray: Array<File> = []
