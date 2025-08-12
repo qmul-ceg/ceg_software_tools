@@ -73,21 +73,16 @@
 
 
 .filter{
-   transition : height 0.7s ease, height;
-   overflow:hidden;
+   transition : height 0.7s ease;
+   /* overflow:hidden; */
 }
 
 .filter.open{
-   height : 200px;
-
-   /* transform: translateY(0); */
-   /* opacity:1 */
+   height : 250px;
 }
 
 .filter.closed{
    height: 0px;
-
-   visibility:hidden;
 }
 
 @custom-variant dark (&:is(.dark *));

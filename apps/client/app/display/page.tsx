@@ -5,7 +5,7 @@ import DisplayScreen from '@/components/display/DisplayScreen'
 const Display = () => {
    // console.log(QMUL_Logo_Blue_RBG)
    return (
-      <div className= "">
+      <div className= "max-w-[2000px] m-auto">
          <DisplayScreen />
       </div>
   )

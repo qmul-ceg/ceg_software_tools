@@ -1,7 +1,10 @@
 import { PopoverContent, Popover, PopoverTrigger } from "@/components/ui/popover"
 import Link from "next/link"
-import React from 'react'
-
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
 
 
 const Menu = () => {
@@ -17,56 +20,58 @@ const Menu = () => {
                         User guide & <br></br>resources
                </PopoverTrigger>
                <PopoverContent className = "px-2 py-2 w-[14em] mr-28">
-                        <div className=" text-sm ">
-                           <div> 
-                              {/* <a href = "https://www.qmul.ac.uk/ceg/support-for-gp-practices/resources/software-tools/aftool/user-guidance/"
-                                 className="ml-2 menu_list_items">User guide</a>         */}
-                              <ul className="ml-2 menu_list_items">
-                                 <li>
-                                    <a href = "https://www.qmul.ac.uk/ceg/support-for-gp-practices/resources/software-tools/aftool/user-guidance/"
-                                       target="_blank" rel="noopener noreferrer"
-                                    >
-                                       User guide
-                                    </a>
-                                 </li>
-                              </ul>
-                           </div>
-                           <div className="w-full border mt-1 mb-1"></div>
-                           <div>
-                              <strong>Resources</strong>
-                              <ul className="ml-2 menu_list_items">
-                                 <li><a href="https://www.qmul.ac.uk/ceg/" target="_blank" rel="noopener noreferrer">CEG website</a></li>
-                                 <li><a href="https://cks.nice.org.uk/topics/anticoagulation-oral/" target="_blank" rel="noopener noreferrer">NICE CKS Anticoagulation</a></li>
-                                 <li><a href="https://www.mdcalc.com/calc/43/creatinine-clearance-cockcroft-gault-equation" target="_blank" rel="noopener noreferrer">Creatine clearance MDCALC</a></li>
-                              </ul>
-                           </div>                            
-                           
-                           
-
-                        </div>
-                     </PopoverContent>
+                  <div className=" text-sm ">
+                     <div> 
+                        {/* <a href = "https://www.qmul.ac.uk/ceg/support-for-gp-practices/resources/software-tools/aftool/user-guidance/"
+                           className="ml-2 menu_list_items">User guide</a>         */}
+                        <ul className="ml-2 menu_list_items">
+                           <li>
+                              <a href = "https://www.qmul.ac.uk/ceg/support-for-gp-practices/resources/software-tools/aftool/user-guidance/"
+                                 target="_blank" rel="noopener noreferrer"
+                              >
+                                 User guide
+                              </a>
+                           </li>
+                        </ul>
+                     </div>
+                     <div className="w-full border mt-1 mb-1"></div>
+                     <div>
+                        <strong>Resources</strong>
+                        <ul className="ml-2 menu_list_items">
+                           <li><a href="https://www.qmul.ac.uk/ceg/" target="_blank" rel="noopener noreferrer">CEG website</a></li>
+                           <li><a href="https://cks.nice.org.uk/topics/anticoagulation-oral/" target="_blank" rel="noopener noreferrer">NICE CKS Anticoagulation</a></li>
+                           <li><a href="https://www.mdcalc.com/calc/43/creatinine-clearance-cockcroft-gault-equation" target="_blank" rel="noopener noreferrer">Creatine clearance MDCALC</a></li>
+                        </ul>
+                     </div>                            
+                  </div>
+               </PopoverContent>
             </Popover>
          </div>
                      <div className="flex border border-[#21376A] rounded-lg ">
                <div className="mr-1">
-                  <Popover>
-                     <PopoverTrigger className ="h-full ">
-                        <div className="text-center  px-6 ">
+
+
+                  <HoverCard>
+                     <HoverCardTrigger className ="h-full cursor-pointer">
+                        <div className="text-center  px-6 py-2">
                            <p className="text-md hover:text-black font-bold text-[#21376A]">Export</p>
                         </div>
-                     </PopoverTrigger>
-                     <PopoverContent className="px-2 py-2 w-[17em] ml-18">
+                     </HoverCardTrigger>
+                     <HoverCardContent className="px-2 py-2 w-[17em] ml-18 ">
                         <div className="text-sm">
                            <strong className="text-sm">EXPORT SELECTED PATIENTS LIST</strong>
-                           <ul className=" ml-2 menu_list_items">
-                              <li><button>Excel list (.xlsx)</button> </li>
-                              <li><button>Accurx list (.csv)</button> </li>
-                              <li><button>NHS No. list (.txt)</button> </li>
+                           <ul className=" ml-2 menu_list_items ">
+                              <li ><button className="cursor-pointer hover:opacity-70 font-medium">Excel list (.xlsx)</button> </li>
+                              <li ><button className="cursor-pointer hover:opacity-70 font-medium">Accurx list (.csv)</button> </li>
+                              <li><button className="cursor-pointer hover:opacity-70 font-medium"> NHS No. list (.txt)</button> </li>
                            </ul>
                         </div>
                         
-                     </PopoverContent>
-                  </Popover>
+                     </HoverCardContent>
+                  </HoverCard>
+
+
+
                </div>
 
                <div className="">
