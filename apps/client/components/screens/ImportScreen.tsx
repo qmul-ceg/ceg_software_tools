@@ -1,5 +1,5 @@
 "use client"
-import React, { use, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import SoftwareTools from '@/constants/softwareTools'
 import ClinicalSystems from '@/constants/clinicalSystems'
@@ -7,7 +7,8 @@ import useFileImport from '@/hooks/useFileImport'
 import { Card, CardContent} from "@/components/ui/card"
 import { Source_Sans_3 } from 'next/font/google'
 import getFileInputProps from './importScreen.helpers'
-
+import { useRouter } from 'next/navigation'
+import DisplayProvider from '@/contexts/DispayContext'
 
 const sourceFont = Source_Sans_3({
    subsets:['latin'],
@@ -24,6 +25,7 @@ const ImportScreen = () => {
       handleImportButtonClick,
       fileInputRef,
       handleFileChange,
+      displayScreen
    } = useFileImport(selectedClinicalSystem, selectedSoftwareTool)
 
 
@@ -41,9 +43,17 @@ const ImportScreen = () => {
 
    
    const inputProps = getFileInputProps(selectedSoftwareTool, selectedClinicalSystem)
+   const router = useRouter();
 
+   useEffect(()=> {
+      if(displayScreen){
+      router.push(displayScreen)
+   }
+   },[displayScreen])
+   
 
    return (
+
       <main className={sourceFont.className}>
          <div className= "flex justify-center items-start h-screen bg-[#21376A]">
             <Card className = "w-[500px] text-center mt-[25vh] px-6 py-10">
@@ -136,15 +146,23 @@ const ImportScreen = () => {
                         onClick={handleImportButtonClick}>
                         Import
                      </Button>
+                     
                   </div>
                </CardContent> 
             </Card>
          </div>
       </main>
+
    )
 }
 
 export default ImportScreen
+
+
+
+
+
+
 
 
 

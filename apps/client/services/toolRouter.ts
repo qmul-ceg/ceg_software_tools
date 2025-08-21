@@ -12,15 +12,15 @@ export default async function toolRouter(payload:ImportPayload){
    };
 
    const handlePayload = payloadHandlers[payload.tool];
-   let validationResult:Object = {}
+   let toolResult:Object = {}
 
    if(handlePayload){ 
-      validationResult =  await handlePayload(payload)
-
+      toolResult =  await handlePayload(payload)
+      console.log(toolResult)
    }
 
 
-   return {validationResult}
+   return toolResult
 
 }
 

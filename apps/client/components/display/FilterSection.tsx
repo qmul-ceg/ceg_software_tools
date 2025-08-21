@@ -55,6 +55,10 @@ const FilterSection = () => {
 
             </div>
          </div>
+
+         <div className="border border-black border-dotted">
+            Filters
+         </div>
          
          
          {/* SUMMARY BOX */}

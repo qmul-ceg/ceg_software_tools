@@ -1,15 +1,18 @@
 "use client"
-import React from 'react'
+import React, { useContext } from 'react'
 import { Source_Sans_3 } from 'next/font/google'
 import { useState } from 'react'
 import Menu from './Menu'
+import { DisplayContext } from '@/contexts/DispayContext'
 
 const sourceFont = Source_Sans_3({
    subsets:['latin'],
    weight:"500",
 })
 const HeaderSection = () => {
-   const [toolName, setToolName] = useState<string>("")
+
+
+   const example = useContext(DisplayContext)
 
 
    return (
@@ -35,7 +38,7 @@ const HeaderSection = () => {
                2xl:text-4xl  font-sourceSans 
                font-bold
                text-[#21376A]"
-            >{toolName} tool </h1>
+            >{example?.toolName} tool </h1>
  
          </div>
          <div>
@@ -47,3 +50,8 @@ const HeaderSection = () => {
 }
 
 export default HeaderSection
+   // if (sampleName){
+   //    setToolName(sampleName)
+   // }   
+   // 
+   // // const [toolName, setToolName] = useState<string>("")

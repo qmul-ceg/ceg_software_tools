@@ -43,11 +43,15 @@ export default async function cvdToolModule(payload:ImportPayload){
       if(validationResult.status == "success"){
          if(parseReport){
             parserResult = await parseReport(payload.file)
-            console.log(parserResult)
+
+            if (parserResult.status === "success"){
+               console.log(parserResult)
+            }
+            
          }
       }
    }
    
-   return {validationResult}
+   return { validationResult, parserResult}
 
 }
