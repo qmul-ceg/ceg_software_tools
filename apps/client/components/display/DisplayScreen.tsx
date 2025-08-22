@@ -1,3 +1,4 @@
+"use client"
 import React, { useContext } from 'react'
 import HeaderSection from './HeaderSection'
 import FilterSection from './FilterSection'
@@ -5,11 +6,11 @@ import TableSection from './TableSection'
 import FooterSection from './FooterSection'
 import DisplayProvider, { DisplayContext } from '@/contexts/DispayContext'
 
-const DisplayScreen = ( {dataPayload} : { dataPayload : object}) => {
-   // const sample = useContext(DisplayContext)
+const DisplayScreen = () => {
+
 
    return (
-      <DisplayProvider>
+
          <div className = "border h-screen">
             <div>
                <HeaderSection />
@@ -35,8 +36,9 @@ const DisplayScreen = ( {dataPayload} : { dataPayload : object}) => {
 
             
          </div>
-   </DisplayProvider>
+
   )
 }
 
 export default DisplayScreen
+   // const sample = useContext(DisplayContext)

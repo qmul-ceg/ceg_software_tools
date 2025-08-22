@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button"
 import ImportScreen from "@/components/screens/ImportScreen";
-
+import DisplayProvider from "@/contexts/DispayContext";
 
 export default function Home() {
   return (
    <div>
-      <ImportScreen />
+         <ImportScreen />
    </div>
   );
 }

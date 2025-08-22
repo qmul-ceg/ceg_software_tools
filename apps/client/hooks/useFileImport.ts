@@ -8,7 +8,9 @@ import { ImportPayload } from "@/types/importPayload";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { DisplayContext } from "@/contexts/DispayContext";
-// import { useDisplayContext } from "@/contexts/DispayContext";
+import { useDisplay } from "@/contexts/DispayContext";
+
+
 
 export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTool:SoftwareTools){
    const fileInputRef = useRef<HTMLInputElement>(null);
@@ -17,16 +19,9 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
    const [displayScreen, setDisplayScreen] = useState<string>("");
    const isMounted = useRef(false);
 
-   
-   // const ctx = useContext(DisplayContext)
-   // if(!ctx) return null;
-   // const {setToolName } = ctx
-   // const example = useContext(DisplayContext)
-   // const check = useContext(DisplayContext)
-   // if(check){
-   //       let { setToolName } = useContext(DisplayContext)
-   // }
-   // const {setToolName} = useDisplayContext();
+   const router = useRouter();
+
+   const { toolName, setToolName } = useDisplay();
 
    const handleImportButtonClick = () => {
       setImportError(ErrorMessages.None)
@@ -75,13 +70,13 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       // const resultDetails = Object.values(routerResult.validationResult)[0]
 
       if (validationResultArray[0] === "success" && parserResultArray[0] === "success"){
-         // setToolName("CVD")
-
-
+         setToolName("CVD")
          setDisplayScreen("/display")
+         // console.log(displayScreen)
          //Check if the parser is also successful 
          //we want to alert 
          console.log("confirming validation & parsing")
+
       }
 
       if(validationResultArray[0] === "failure"){
@@ -89,6 +84,14 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
          setImportError(ErrorMessages[validationErrorMessage as keyof typeof ErrorMessages])
       }
    }
+
+   useEffect(()=> {
+      console.log(toolName, displayScreen)
+      if(toolName){
+         setDisplayScreen("/display")
+      }
+      router.push(displayScreen)
+   }, [toolName])
 
 
    useEffect(() => {
@@ -128,4 +131,15 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       // }      
       // if(result['validationResult'] == True){
 
-      // }  // console.log()
+      // }  // console.log()   // const ctx = useContext(DisplayContext)
+   // if(!ctx) return null;
+   // const {setToolName } = ctx
+   // const example = useContext(DisplayContext)
+   // const check = useContext(DisplayContext)
+   // if(check){
+   //       let { setToolName } = useContext(DisplayContext)
+   // }// import { useDisplayContext } from "@/contexts/DispayContext";         // useEffect(()=> {
+         //    if(displayScreen){
+         //    router.push(displayScreen)
+         // }
+         // },[displayScreen])

@@ -9,6 +9,7 @@ import { Source_Sans_3 } from 'next/font/google'
 import getFileInputProps from './importScreen.helpers'
 import { useRouter } from 'next/navigation'
 import DisplayProvider from '@/contexts/DispayContext'
+import { useDisplay } from '@/contexts/DispayContext'
 
 const sourceFont = Source_Sans_3({
    subsets:['latin'],
@@ -16,10 +17,14 @@ const sourceFont = Source_Sans_3({
    
 })
 
+
+
 const ImportScreen = () => {
    const [selectedSoftwareTool, setSelectedSoftwareTool] = useState<SoftwareTools>(SoftwareTools.NotSelected)
    const [selectedClinicalSystem, setSelectedClinicalSystem] = useState<ClinicalSystems>(ClinicalSystems.NotSelected)
 
+
+   const { toolName, setToolName } = useDisplay();
    const {
       importError,
       handleImportButtonClick,
@@ -45,11 +50,12 @@ const ImportScreen = () => {
    const inputProps = getFileInputProps(selectedSoftwareTool, selectedClinicalSystem)
    const router = useRouter();
 
-   useEffect(()=> {
-      if(displayScreen){
-      router.push(displayScreen)
-   }
-   },[displayScreen])
+   // useEffect(()=> {
+   //    console.log(toolName)
+   //    if(displayScreen && toolName === "CVD"){
+   //       router.push(displayScreen)
+   //    }
+   // }, [toolName])
    
 
    return (

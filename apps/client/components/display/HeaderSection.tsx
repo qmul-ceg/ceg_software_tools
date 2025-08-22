@@ -4,6 +4,7 @@ import { Source_Sans_3 } from 'next/font/google'
 import { useState } from 'react'
 import Menu from './Menu'
 import { DisplayContext } from '@/contexts/DispayContext'
+import { useDisplay } from '@/contexts/DispayContext'
 
 const sourceFont = Source_Sans_3({
    subsets:['latin'],
@@ -11,8 +12,7 @@ const sourceFont = Source_Sans_3({
 })
 const HeaderSection = () => {
 
-
-   const example = useContext(DisplayContext)
+   const { toolName, setToolName } = useDisplay();
 
 
    return (
@@ -38,7 +38,7 @@ const HeaderSection = () => {
                2xl:text-4xl  font-sourceSans 
                font-bold
                text-[#21376A]"
-            >{example?.toolName} tool </h1>
+            >{toolName} tool </h1>
  
          </div>
          <div>
@@ -54,4 +54,5 @@ export default HeaderSection
    //    setToolName(sampleName)
    // }   
    // 
-   // // const [toolName, setToolName] = useState<string>("")
+   // // const [toolName, setToolName] = useState<string>("")   // setToolName("cvd")
+   // console.log(toolName)
