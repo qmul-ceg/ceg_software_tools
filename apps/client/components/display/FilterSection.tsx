@@ -2,11 +2,13 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons'
-
+import { useDisplay } from '@/contexts/DispayContext'
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const FilterSection = () => {
    const [showFilter, setShowFilter] = useState<boolean>(true)
-   
+   const { filterItems, setFilterItems} = useDisplay()
+   console.log(filterItems)
   return (
    <div className="">
 
@@ -56,8 +58,43 @@ const FilterSection = () => {
             </div>
          </div>
 
-         <div className="border border-black border-dotted">
-            Filters
+         <div className="border border-black border-dotted w-[900px] grid grid-rows-3 grid-flow-col h-50">
+
+            {Object.entries(filterItems).map(([key, value]) => (
+               <Select >
+                  <SelectTrigger className={`  ${ key == "Adverse meds" ? "bg-red-700 text-white" : "bg-[#21376A] text-white"}`}>
+                     <p className="text-white font-bold">{key}</p>
+                  </SelectTrigger>
+                  <SelectContent >
+                     {
+                        value.map((innerList:[]) => (
+                           <ul className="border-b-2">{
+                              innerList.slice(1).map((item) => (
+                                 <label className=" flex space-x-2 ">
+                                    <input type="checkbox" className='mr-2'/>
+                                    <span >{item}</span>
+                                    
+
+                                 </label>
+                                 
+                           ))
+                        }
+                           
+                        </ul>
+                           
+                        ))
+                     }
+                     
+                     {/* <ul >
+                        <li>{value}</li>
+                     </ul> */}
+                  </SelectContent>
+               </Select>
+
+               ))
+            }
+               
+               
          </div>
          
          
@@ -99,3 +136,21 @@ export default FilterSection
                   <DropdownMenuItem>Subscription</DropdownMenuItem>
                </DropdownMenuContent>
             </DropdownMenu> */}
+            
+            
+            
+            {/* // filterItems
+            //    filterItems.map((item) =>  (
+            //       <Select >
+            //          <SelectTrigger className={`  ${ item == "Adverse meds" ? "bg-red-700 text-white" : "bg-[#21376A] text-white"}`}>
+            //             <p className="text-white font-bold">{item}</p>
+            //          </SelectTrigger>
+            //       </Select>
+            //       // <ul>
+            //       //    <li>{item}</li>
+            //       // </ul>
+                     
+            //    )
+    
+            // )
+             */}

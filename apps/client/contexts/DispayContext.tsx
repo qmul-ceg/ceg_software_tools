@@ -5,6 +5,9 @@ import { createContext } from 'react'
 type Data = {
    toolName: string;
    setToolName: React.Dispatch<React.SetStateAction<string>>;
+   filterItems: Object;
+   setFilterItems: React.Dispatch<React.SetStateAction<Object>>;
+
 }
 
 
@@ -12,13 +15,16 @@ export const DisplayContext = createContext<Data | null>(null);
 
 export default function DisplayProvider ({children} : {children : React.ReactNode }){
    const [toolName, setToolName] = useState("")
+   const [filterItems, setFilterItems] = useState<Object>({})
    
    return (
-      <DisplayContext.Provider value = {{ toolName, setToolName }}>
+      <DisplayContext.Provider value = {{ toolName, setToolName, filterItems, setFilterItems }}>
          {children}
 
       </DisplayContext.Provider>
    )
+
+
 }
 
 export function useDisplay() {

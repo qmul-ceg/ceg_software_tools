@@ -21,7 +21,7 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
 
    const router = useRouter();
 
-   const { toolName, setToolName } = useDisplay();
+   const { toolName, setToolName, setFilterItems } = useDisplay();
 
    const handleImportButtonClick = () => {
       setImportError(ErrorMessages.None)
@@ -71,6 +71,41 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
 
       if (validationResultArray[0] === "success" && parserResultArray[0] === "success"){
          setToolName("CVD")
+         // setFilterItems(["Antihypertensive meds", "Blood pressure readings", "Housebound/Care home", "Lipid medications", "Vulnerabilities",  "Cholestrol readings", "QRisk score", "Co-morbidities", "Ethnicity", "Adverse meds", "Age" ])
+         setFilterItems(
+            {
+               "Antihypertensive meds" : 
+                  [  ["", "ACEi/ARB", "Ca-Channel", "Thiazides", "Beta-blockers","Others"], 
+                     ["No.of Antihypertensives", "0", "1", "2 or more"], ["", "Max tolerated dose"], 
+                     ["", "Antihypertensives declined (12m)"]],
+               "Blood pressure readings":
+                  [  ["", "Under 140/90", "Over 140/90", "Over 150/90"], 
+                     ["", "Not in last 12m", "Not in financial year"]],
+               "Housebound/Care home":
+                  [  ["Housebound", "Care home"]],
+               "Lipid medications":
+                  [  ["Statin", "High intensity Statin", "medium or low intensity", "Not on Statin"], 
+                     ["", "On inclisiran"],
+                     ["", "Max tolerated dose"],
+                     ["", "Statin exlusions (Valid* contraindicated/declined"]],
+               "Co-morbidities":
+                  [  ["", "CVD (IHD/Stroke/TIA/PAD)", "Hypertension", "Diabetes", "CKD 3-5", "Atrial Fibrillation", "Cancer"]],
+               "Cholestrol readings":
+                  [  ["LDL", "> 2.0"], ["", "Not in last 12m", "Not in financial year"]],
+               "QRisk score":
+                  [  ["", "10% or more", "20% or more"], ["", "Not recorded in last 12m"]],
+               "Vulnerabilities":
+                  [ ["", "Severe mental illness", "Learning disability", "Dementia"]],
+               "Ethnicity":
+                  [ ["", "Asian/Asian British", "Black/Black British", "Mixed or multiple ethnic groups", "White", "Other/Not specified"]],
+               "Adverse meds":
+                  [ ["", "NSAIDs (excl. aspirin)"]],
+               "Age":
+                  [  ["", "65 or under", "65 - 79", "above 80"]]
+               
+
+         })
+
          setDisplayScreen("/display")
          // console.log(displayScreen)
          //Check if the parser is also successful 
