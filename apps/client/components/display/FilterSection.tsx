@@ -7,7 +7,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/
 
 const FilterSection = () => {
    const [showFilter, setShowFilter] = useState<boolean>(true)
-   const { filterItems, setFilterItems} = useDisplay()
+   const { filterItems, setFilterItems, quickFilters, summaryTable} = useDisplay()
    console.log(filterItems)
   return (
    <div className="">
@@ -53,12 +53,18 @@ const FilterSection = () => {
                className=  "flex justify-between px-2 py-2 rounded-t-lg bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E] text-white" >
                <p className ="font-semibold text-md text-left ">Quick filters</p>
             </header>
-            <div className="border-[0.1em] border-[#21376A] h-40 border-t-0  pt-2 font-semibold ">
+            <div className="flex flex-col border-[0.1em] text-left border-[#21376A]  border-t-0 p-2 font-semibold ">
+               {quickFilters.map((item) => (
+                  <label>
+                     <input type="checkbox" className="mr-2"></input>
+                     <span>{item}</span>
+                  </label>
 
+               ))}
             </div>
          </div>
 
-         <div className="border border-black border-dotted w-[900px] grid grid-rows-3 grid-flow-col h-50">
+         <div className="border border-black border-dotted w-[800px] grid grid-rows-3 grid-flow-col h-50">
 
             {Object.entries(filterItems).map(([key, value]) => (
                <Select >
@@ -99,12 +105,26 @@ const FilterSection = () => {
          
          
          {/* SUMMARY BOX */}
-         <div className="min-w-[500px] ml-0">
-            <header className="flex  rounded-t-lg px-2 py-2 bg-[#21376A] text-white">
+         <div className="max-w-[650px] w-[600px] ml-0">
+            <header className="flex  rounded-t-lg px-2 py-2 bg-[#21376A] text-white justify-between">
                <p className ="font-semibold text-md text-left ">Summary</p>
+               <div className= "flex gap-6 text-sm font-bold  mr-14">
+                  <p>Numerator</p>
+                  <p>Denominator</p>
+                  <p>%</p>
+               </div>
             </header>
-            <div className="border-[0.1em] border-[#21376A] h-40 border-t-0  pt-2 font-semibold ">
-
+            <div className="border-[0.1em] border-[#21376A] border-t-0  p-2 font-semibold ">
+               {summaryTable.map((item)=> (
+                  <div className="text-sm flex  justify-between">
+                     <p>{item[0]}</p>
+                     <div className="flex gap-16 mr-12">
+                        <p>0</p>
+                        <p>0</p>
+                        <p>0%</p>
+                     </div>
+                  </div>
+               ))}
             </div>
 
          </div>

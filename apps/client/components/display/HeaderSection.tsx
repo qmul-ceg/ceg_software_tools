@@ -38,7 +38,7 @@ const HeaderSection = () => {
                2xl:text-4xl  font-sourceSans 
                font-bold
                text-[#21376A]"
-            >{toolName} tool </h1>
+            >{toolName}</h1>
  
          </div>
          <div>

@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { DisplayContext } from "@/contexts/DispayContext";
 import { useDisplay } from "@/contexts/DispayContext";
+import { dummy_data } from "./dummy_data";
 
 
 
@@ -21,7 +22,7 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
 
    const router = useRouter();
 
-   const { toolName, setToolName, setFilterItems } = useDisplay();
+   const { toolName, setToolName, setFilterItems, setQuickFilters, setSummaryTable, summaryTable, setTableHeader, setTableData } = useDisplay();
 
    const handleImportButtonClick = () => {
       setImportError(ErrorMessages.None)
@@ -66,12 +67,12 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       const validationResultArray = Object.values(validationResult)
       const parserResultArray = Object.values(parserResult)
       
-      
+      console.log(parserResultArray)
       // const resultDetails = Object.values(routerResult.validationResult)[0]
 
       if (validationResultArray[0] === "success" && parserResultArray[0] === "success"){
-         setToolName("CVD")
-         // setFilterItems(["Antihypertensive meds", "Blood pressure readings", "Housebound/Care home", "Lipid medications", "Vulnerabilities",  "Cholestrol readings", "QRisk score", "Co-morbidities", "Ethnicity", "Adverse meds", "Age" ])
+         setToolName("CVD Prevention tool")
+
          setFilterItems(
             {
                "Antihypertensive meds" : 
@@ -82,7 +83,7 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
                   [  ["", "Under 140/90", "Over 140/90", "Over 150/90"], 
                      ["", "Not in last 12m", "Not in financial year"]],
                "Housebound/Care home":
-                  [  ["Housebound", "Care home"]],
+                  [  ["", "Housebound", "Care home"]],
                "Lipid medications":
                   [  ["Statin", "High intensity Statin", "medium or low intensity", "Not on Statin"], 
                      ["", "On inclisiran"],
@@ -98,13 +99,42 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
                   [ ["", "Severe mental illness", "Learning disability", "Dementia"]],
                "Ethnicity":
                   [ ["", "Asian/Asian British", "Black/Black British", "Mixed or multiple ethnic groups", "White", "Other/Not specified"]],
+               "Age":
+                  [  ["", "65 or under", "65 - 79", "above 80"]],
                "Adverse meds":
                   [ ["", "NSAIDs (excl. aspirin)"]],
-               "Age":
-                  [  ["", "65 or under", "65 - 79", "above 80"]]
-               
 
-         })
+         });
+
+         setQuickFilters(
+            [  "BP > 140/90, no hypertension diagnosis", 
+               "CVD and not on statin", 
+               "CKD 3-5 and diabetes, not on ACEi/ARB",
+               "Raised QRISK and not on statin",
+               "CKD on NSAID",
+               "Hypertension, no antihypertensive and BP > 140/90 ",
+               "Hypertension with last BP > 12m ago"
+            ])
+         
+         setSummaryTable ([
+            ["CVD:- prescribed high intensity statin", "0", "0", "0%"],
+            ["CVD with LDL ≥ 2.6 and NOT on inclisiran"],
+            ["CVD with LDL <= 2 (QoF)"],
+            ["CVD:- NOT on statin"],
+            ["QRisk 2/3 10% - 19%:- prescribed statin"],
+            ["QRisk 2/3 ≥ 20%:- prescribed statin"],
+            ["Hypertension:- BP ≤ 140/90 (age < 80) (QoF)"],
+            ["Hypertension:- BP ≤ 150/90 (age ≥ 80) (QoF)"],
+            ["CKD 3-5 prescribed any statin"]
+         ])
+
+         setTableHeader(["Full name", "Age", "Gender", "Patient reference no.", "Statin prescription", "Statin intensity", "Statin     exclusion", "Inclisiran", "Blood pressure", "CVD", "CKD 3 - 5", "HTN", "Diabetes", "Total cholestrol", "LDL cholestrol", "eGFR",
+         "No. of anti-hptn meds", "Medication review latest date"
+         ])
+
+         setTableData(dummy_data)
+
+
 
          setDisplayScreen("/display")
          // console.log(displayScreen)
@@ -177,4 +207,7 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
          //    if(displayScreen){
          //    router.push(displayScreen)
          // }
-         // },[displayScreen])
+         // },[displayScreen])         
+         // 
+         // 
+   // setFilterItems(["Antihypertensive meds", "Blood pressure readings", "Housebound/Care home", "Lipid medications", "Vulnerabilities",  "Cholestrol readings", "QRisk score", "Co-morbidities", "Ethnicity", "Adverse meds", "Age" ])

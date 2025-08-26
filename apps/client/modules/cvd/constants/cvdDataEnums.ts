@@ -117,7 +117,7 @@ enum EMISReportKeys{
    
 }
 
-enum SystmOneReportKeys{
+export enum SystmOneReportKeys{
    Full_Name,
    Age,
    Gender,	
