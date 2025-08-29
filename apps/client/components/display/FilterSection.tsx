@@ -40,8 +40,6 @@ const FilterSection = () => {
                               onClick={()=>setShowFilter(!showFilter)}
             />
          </div>
-
-         
       </div>
       
 

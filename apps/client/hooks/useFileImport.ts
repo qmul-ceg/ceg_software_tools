@@ -65,74 +65,37 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       // console.log(Object.values(parserResult))
 
       const validationResultArray = Object.values(validationResult)
-      const parserResultArray = Object.values(parserResult)
+      const parserResultArray:any[] = Object.values(parserResult)
       
       console.log(parserResultArray)
       // const resultDetails = Object.values(routerResult.validationResult)[0]
 
       if (validationResultArray[0] === "success" && parserResultArray[0] === "success"){
-         setToolName("CVD Prevention tool")
-
-         setFilterItems(
-            {
-               "Antihypertensive meds" : 
-                  [  ["", "ACEi/ARB", "Ca-Channel", "Thiazides", "Beta-blockers","Others"], 
-                     ["No.of Antihypertensives", "0", "1", "2 or more"], ["", "Max tolerated dose"], 
-                     ["", "Antihypertensives declined (12m)"]],
-               "Blood pressure readings":
-                  [  ["", "Under 140/90", "Over 140/90", "Over 150/90"], 
-                     ["", "Not in last 12m", "Not in financial year"]],
-               "Housebound/Care home":
-                  [  ["", "Housebound", "Care home"]],
-               "Lipid medications":
-                  [  ["Statin", "High intensity Statin", "medium or low intensity", "Not on Statin"], 
-                     ["", "On inclisiran"],
-                     ["", "Max tolerated dose"],
-                     ["", "Statin exlusions (Valid* contraindicated/declined"]],
-               "Co-morbidities":
-                  [  ["", "CVD (IHD/Stroke/TIA/PAD)", "Hypertension", "Diabetes", "CKD 3-5", "Atrial Fibrillation", "Cancer"]],
-               "Cholestrol readings":
-                  [  ["LDL", "> 2.0"], ["", "Not in last 12m", "Not in financial year"]],
-               "QRisk score":
-                  [  ["", "10% or more", "20% or more"], ["", "Not recorded in last 12m"]],
-               "Vulnerabilities":
-                  [ ["", "Severe mental illness", "Learning disability", "Dementia"]],
-               "Ethnicity":
-                  [ ["", "Asian/Asian British", "Black/Black British", "Mixed or multiple ethnic groups", "White", "Other/Not specified"]],
-               "Age":
-                  [  ["", "65 or under", "65 - 79", "above 80"]],
-               "Adverse meds":
-                  [ ["", "NSAIDs (excl. aspirin)"]],
-
-         });
-
-         setQuickFilters(
-            [  "BP > 140/90, no hypertension diagnosis", 
-               "CVD and not on statin", 
-               "CKD 3-5 and diabetes, not on ACEi/ARB",
-               "Raised QRISK and not on statin",
-               "CKD on NSAID",
-               "Hypertension, no antihypertensive and BP > 140/90 ",
-               "Hypertension with last BP > 12m ago"
-            ])
+         setToolName(parserResultArray[3].toolName)
+         setFilterItems(parserResultArray[3].filters)
+         setQuickFilters(parserResultArray[3].quickFilters)
          
-         setSummaryTable ([
-            ["CVD:- prescribed high intensity statin", "0", "0", "0%"],
-            ["CVD with LDL ≥ 2.6 and NOT on inclisiran"],
-            ["CVD with LDL <= 2 (QoF)"],
-            ["CVD:- NOT on statin"],
-            ["QRisk 2/3 10% - 19%:- prescribed statin"],
-            ["QRisk 2/3 ≥ 20%:- prescribed statin"],
-            ["Hypertension:- BP ≤ 140/90 (age < 80) (QoF)"],
-            ["Hypertension:- BP ≤ 150/90 (age ≥ 80) (QoF)"],
-            ["CKD 3-5 prescribed any statin"]
-         ])
+         setSummaryTable (parserResultArray[3].summaryTable)
 
-         setTableHeader(["Full name", "Age", "Gender", "Patient reference no.", "Statin prescription", "Statin intensity", "Statin     exclusion", "Inclisiran", "Blood pressure", "CVD", "CKD 3 - 5", "HTN", "Diabetes", "Total cholestrol", "LDL cholestrol", "eGFR",
-         "No. of anti-hptn meds", "Medication review latest date"
-         ])
+         setTableHeader(parserResultArray[3].tableHeader)
 
-         setTableData(dummy_data)
+         console.log(parserResultArray[2])
+         // setTableData(dummy_data)
+         // const patientDataArray:string[][] = []
+         // patientDataArray.push(Object.values(parserResultArray[2]))
+         // // console.log(patientDataArray)
+         setTableData(Object.values(parserResultArray[2]))
+
+         
+         // setTableData((prev)=> {
+         //       let patientDataArray = []
+         //       // for (const [key, value] of Object.entries(parserResultArray[2])){
+         //       //    patientDataArray.push(value)
+         //       // }
+         //       return [...prev, Object.values(parserResultArray[2])]
+               
+         //    }
+         // )
 
 
 
@@ -182,32 +145,55 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
 
 
 
+// if (!payloadResult){
+//    setImportError(ErrorMessages.ClinicalSystemError)
+// }      
+// if(result['validationResult'] == True){
 
+// }  // console.log()   // const ctx = useContext(DisplayContext)
+// if(!ctx) return null;
+// const {setToolName } = ctx
+// const example = useContext(DisplayContext)
+// const check = useContext(DisplayContext)
+// if(check){
+//       let { setToolName } = useContext(DisplayContext)
+// }// import { useDisplayContext } from "@/contexts/DispayContext";         // useEffect(()=> {
+   //    if(displayScreen){
+   //    router.push(displayScreen)
+   // }
+   // },[displayScreen])         
+   // 
+   // 
+// setFilterItems(["Antihypertensive meds", "Blood pressure readings", "Housebound/Care home", "Lipid medications", "Vulnerabilities",  "Cholestrol readings", "QRisk score", "Co-morbidities", "Ethnicity", "Adverse meds", "Age" ])
+// setFilterItems(
+   //    {
+   //       "Antihypertensive meds" : 
+   //          [  ["", "ACEi/ARB", "Ca-Channel", "Thiazides", "Beta-blockers","Others"], 
+   //             ["No.of Antihypertensives", "0", "1", "2 or more"], ["", "Max tolerated dose"], 
+   //             ["", "Antihypertensives declined (12m)"]],
+   //       "Blood pressure readings":
+   //          [  ["", "Under 140/90", "Over 140/90", "Over 150/90"], 
+   //             ["", "Not in last 12m", "Not in financial year"]],
+   //       "Housebound/Care home":
+   //          [  ["", "Housebound", "Care home"]],
+   //       "Lipid medications":
+   //          [  ["Statin", "High intensity Statin", "medium or low intensity", "Not on Statin"], 
+   //             ["", "On inclisiran"],
+   //             ["", "Max tolerated dose"],
+   //             ["", "Statin exlusions (Valid* contraindicated/declined"]],
+   //       "Co-morbidities":
+   //          [  ["", "CVD (IHD/Stroke/TIA/PAD)", "Hypertension", "Diabetes", "CKD 3-5", "Atrial Fibrillation", "Cancer"]],
+   //       "Cholestrol readings":
+   //          [  ["LDL", "> 2.0"], ["", "Not in last 12m", "Not in financial year"]],
+   //       "QRisk score":
+   //          [  ["", "10% or more", "20% or more"], ["", "Not recorded in last 12m"]],
+   //       "Vulnerabilities":
+   //          [ ["", "Severe mental illness", "Learning disability", "Dementia"]],
+   //       "Ethnicity":
+   //          [ ["", "Asian/Asian British", "Black/Black British", "Mixed or multiple ethnic groups", "White", "Other/Not specified"]],
+   //       "Age":
+   //          [  ["", "65 or under", "65 - 79", "above 80"]],
+   //       "Adverse meds":
+   //          [ ["", "NSAIDs (excl. aspirin)"]],
 
-
-
-
-
-
-
-
-      // if (!payloadResult){
-      //    setImportError(ErrorMessages.ClinicalSystemError)
-      // }      
-      // if(result['validationResult'] == True){
-
-      // }  // console.log()   // const ctx = useContext(DisplayContext)
-   // if(!ctx) return null;
-   // const {setToolName } = ctx
-   // const example = useContext(DisplayContext)
-   // const check = useContext(DisplayContext)
-   // if(check){
-   //       let { setToolName } = useContext(DisplayContext)
-   // }// import { useDisplayContext } from "@/contexts/DispayContext";         // useEffect(()=> {
-         //    if(displayScreen){
-         //    router.push(displayScreen)
-         // }
-         // },[displayScreen])         
-         // 
-         // 
-   // setFilterItems(["Antihypertensive meds", "Blood pressure readings", "Housebound/Care home", "Lipid medications", "Vulnerabilities",  "Cholestrol readings", "QRisk score", "Co-morbidities", "Ethnicity", "Adverse meds", "Age" ])
+   // });

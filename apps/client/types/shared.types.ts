@@ -7,4 +7,5 @@ export interface ParserResultInterface{
    status : string,
    info?: string,
    masterReport? : Object
+   toolConfig ? : Object
 }

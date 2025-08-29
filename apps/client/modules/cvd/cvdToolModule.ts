@@ -5,7 +5,7 @@ import validateCVDEMISReport from "./reportValidators/validateCVDEMISReport";
 import { ValidationInterface, ParserResultInterface } from "@/types/shared.types";
 import parseCVDSystmOneReport from "./reportParsers/parseCVDSystmOneReport";
 import parseCVDEMISReport from "./reportParsers/parseCVDEMISReport"
-
+import { cvdConfig } from "./utils/cvdConfig";
 
 
 
@@ -45,6 +45,7 @@ export default async function cvdToolModule(payload:ImportPayload){
             parserResult = await parseReport(payload.file)
 
             if (parserResult.status === "success"){
+               parserResult.toolConfig = cvdConfig
                console.log(parserResult)
             }
             
