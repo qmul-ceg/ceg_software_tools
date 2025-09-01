@@ -101,9 +101,45 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                            </div>
                         </div>
                      </div>
-
-
                   </div>
+
+                  {/* TABLES */}
+                  <div className=" h-60 px-2 text-sm mt-4">
+                     {/* BLOOD PRESSURE CHART TABLE */}
+                     <table className=' w-full'>
+                        <thead>
+                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+                              <div className='flex gap-20'>
+                                 <th className=" ">Systolic BP value (mmHg)</th>
+                                 <th className=' '>Date recorded (last 3y)</th>
+                              </div>
+                              
+                              <th className=' '></th>
+
+                           </tr>
+                        </thead>
+                        <tbody className=''>
+                           <div className='border h-50 '>
+                           </div>
+                        </tbody>
+                     </table>
+
+
+
+                     {/* MEDICATIONS TABLE */}
+                     <table className='w-full text-left mt-4'>
+                        <thead className='border '>
+                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+                              <th className='w-[45%] '>Medication</th>
+                              <th className='w-[40%] '>Medication name</th>
+                              <th>Date recorded</th>
+                           </tr>
+                        </thead>
+                     </table>
+                  </div>
+
+
+
                </div>
             </div>
          </div>   
