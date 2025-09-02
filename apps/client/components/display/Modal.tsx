@@ -104,7 +104,7 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                   </div>
 
                   {/* TABLES */}
-                  <div className=" h-60 px-2 text-sm mt-4">
+                  <div className=" h-[750px] px-2 text-sm mt-4 border overflow-auto">
                      {/* BLOOD PRESSURE CHART TABLE */}
                      <table className=' w-full'>
                         <thead>
@@ -135,11 +135,295 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                               <th>Date recorded</th>
                            </tr>
                         </thead>
+                        <tbody>
+                           <tr>
+                              <td className='border'>ACEi/ARB (6m)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td className='border'>Beta-blocker (6m)</td>
+                              <td></td>
+                              <td></td>
+
+                           </tr>
+                           <tr>
+                              <td className='border'>Calcium Channel Blockers (CCB)(6m)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>                           
+                           <tr>
+                              <td className='border'>Thiazide(-like) diuretic (6m)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>                           
+                           <tr>
+                              <td className='border'>Other (e.g. centrally-acting, loop diuretic)(6m)</td>
+                              <td></td>
+                              <td></td>
+
+                           </tr>                           
+                           <tr>
+                              <td className='border'>Antiplatelet</td>
+                              <td></td>
+                              <td></td>
+
+                           </tr>
+                           
+                        </tbody>
+                     </table>
+
+                     {/*Lipids medications */}
+                     <table className='w-full text-left mt-4'>
+                        <thead className='border '>
+                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+                              <th className='w-[45%] '>Lipids medications</th>
+                              <th className='w-[40%] '>Medication name</th>
+                              <th>Date recorded</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td className='border'>Statin Any / High intensity (6m)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td className='border'>Ezetimbe (6m)</td>
+                              <td></td>
+                              <td></td>
+
+                           </tr>
+                           <tr>
+                              <td className='border'>Bempedoic Acid (6m)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>                           
+                           <tr>
+                              <td className='border'>PCSK9 (incl. Inclisiran)(6m)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>                           
+                           <tr>
+                              <td className='border'>Other lipid lowering therapy (6m)</td>
+                              <td></td>
+                              <td></td>
+
+                           </tr>               
+                        </tbody>
+                     </table>
+
+                     {/* STATIN EXCLUSION */}
+                     <table className='w-full text-left mt-4'>
+                        <thead className='border '>
+                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+                              <th className='w-[45%] '>Statin exclusion</th>
+                              <th className='w-[40%] '>Description</th>
+                              <th>Date recorded</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td className='border'>Contraindicated (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td className='border'>Patient declined (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                        </tbody>
+                     </table>
+
+                     <table className='w-full text-left mt-4'>
+                        <thead className='border '>
+                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+                              <th className='w-[45%] '>Adverse meds</th>
+                              <th className='w-[40%] '>Description</th>
+                              <th>Date recorded</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td className='border'>NSAIDs (excl. aspirin) (6m)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                        </tbody>
+                     </table>
+
+                     <table className='w-full text-left mt-4'>
+                        <thead className='border '>
+                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+                              <th className='w-[45%] '>Clinical data</th>
+                              <th className='w-[40%] '>Value</th>
+                              <th>Date recorded</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td className='border'>Total cholestrol (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td className='border'>HDL cholestrol (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td className='border'>LDL cholestrol (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr><tr>
+                              <td className='border'>non-HDL cholestrol (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr><tr>
+                              <td className='border'>Ratio total cholestrol/HDL (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr><tr>
+                              <td className='border'>Triglycerides (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr><tr>
+                              <td className='border'>eGFR (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr><tr>
+                              <td className='border'>Serum creatinine (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr><tr>
+                              <td className='border'>Urine ACR (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td className='border'>Serum ALT or AST (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td className='border'>Pulse check (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                        </tbody>
+                     </table>
+
+                     <table className='w-full text-left mt-4'>
+                        <thead className='border '>
+                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+                              <th className='w-[45%] '>CVD and Comorbidities</th>
+                              <th className='w-[40%] '>Description</th>
+                              <th>Date recorded</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td className='border'>CVD (IHD/Stroke/TIA/PAD)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td className='border'>Hypertension</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td className='border'>Heart Failure</td>
+                              <td></td>
+                              <td></td>
+                           </tr><tr>
+                              <td className='border'>Diabetes(T1/T2)</td>
+                              <td></td>
+                              <td></td>
+                           </tr><tr>
+                              <td className='border'>AF</td>
+                              <td></td>
+                              <td></td>
+                           </tr><tr>
+                              <td className='border'>CKD 3-5</td>
+                              <td></td>
+                              <td></td>
+                           </tr><tr>
+                              <td className='border'>Rheumatoid Arthritis or Lupus</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                        </tbody>
+                     </table>
+
+
+                     <table className='w-full text-left mt-4'>
+                        <thead className='border '>
+                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+                              <th className='w-[45%] '>Vulnerabilities</th>
+                              <th className='w-[40%] '>Description</th>
+                              <th>Date recorded</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td className='border'>SMI</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td className='border'>Frailty score</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td className='border'>Housebound</td>
+                              <td></td>
+                              <td></td>
+                           </tr><tr>
+                              <td className='border'>Learning disability</td>
+                              <td></td>
+                              <td></td>
+                           </tr><tr>
+                              <td className='border'>Palliative care</td>
+                              <td></td>
+                              <td></td>
+                           </tr><tr>
+                              <td className='border'>Dementia</td>
+                              <td></td>
+                              <td></td>
+                           </tr><tr>
+                              <td className='border'>Cancer</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                        </tbody>
+                     </table>
+
+                     <table className='w-full text-left mt-4'>
+                        <thead className='border '>
+                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+                              <th className='w-[45%] '>Social factors</th>
+                              <th className='w-[40%] '>Description</th>
+                              <th>Date recorded</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td className='border'>Alcohol consumption (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td className='border'>Smoking (latest ever)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           
+                        </tbody>
                      </table>
                   </div>
-
-
-
                </div>
             </div>
          </div>   

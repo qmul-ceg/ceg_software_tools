@@ -26,6 +26,7 @@ const TableSection = ({setIsModalOpen} : ChildProps) => {
 
                      {
                         tableData.map((item)=> (
+                           
                            <tr className="border text-xs">
                               <td className="text-left w-[14em] px-2 cursor-pointer" onClick={()=>setIsModalOpen(true)}>{item[SystmOneReportKeys.Full_Name]}</td>
                               <td className="text-center">{item[SystmOneReportKeys.Age]}</td>
@@ -46,8 +47,10 @@ const TableSection = ({setIsModalOpen} : ChildProps) => {
                               <td className="text-center">{item[SystmOneReportKeys.Hypertension_Code_Term]}</td>
                               <td className="text-center">{item[SystmOneReportKeys.Medication_Review_Date]}</td>
                            </tr>
+                           
                         ))
                      } 
+           
             </tbody>  
          </table>
          {/* <div className=" rounded-t-lg border border-[#21376A] h-[6em]">

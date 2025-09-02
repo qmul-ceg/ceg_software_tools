@@ -94,7 +94,7 @@
    top:0;
    left:0;
 
-   cursor: pointer;
+   /* cursor: pointer; */
    z-index:9;
    display: flex;
    justify-content: center;
@@ -112,6 +112,7 @@
    width: 60em;
    height: 65em;
    margin-top: 150px;
+   /* overflow-y: auto; */
    /* margin-bottom: 10em; */
 
 }

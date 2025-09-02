@@ -27,7 +27,7 @@ const DisplayScreen = () => {
 
          </div>
          
-         <div>
+         <div className=' overflow-auto'>
             <TableSection setIsModalOpen={setIsModalOpen}/>
          </div>
 
