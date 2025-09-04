@@ -1,6 +1,8 @@
 "use client"
 import React, { useContext, useState } from 'react'
 import { createContext } from 'react'
+import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
+
 
 type Data = {
    toolName: string;
@@ -34,6 +36,16 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    const [tableHeader, setTableHeader] = useState<string[]>([])
    const [tableData, setTableData] = useState<string[][]>([])
    
+   // let ageTest: string[][] = []
+   // for(let item of tableData){
+      
+   //    if (parseInt(item[SystmOneReportKeys.Age], 10) > 65){
+   //       ageTest.push(item)
+   //    }
+
+   // }
+
+   // setTableData(ageTest)
    return (
       <DisplayContext.Provider value = {{ toolName, setToolName, filterItems, setFilterItems, 
          quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader, setTableData, tableData  }}>
@@ -41,8 +53,6 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
 
       </DisplayContext.Provider>
    )
-
-
 }
 
 export function useDisplay() {

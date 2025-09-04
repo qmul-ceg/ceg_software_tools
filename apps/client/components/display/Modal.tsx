@@ -104,7 +104,7 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                   </div>
 
                   {/* TABLES */}
-                  <div className=" h-[750px] px-2 text-sm mt-4 border overflow-auto">
+                  <div className=" h-[36em] px-2 text-sm mt-4 border overflow-auto">
                      {/* BLOOD PRESSURE CHART TABLE */}
                      <table className=' w-full'>
                         <thead>

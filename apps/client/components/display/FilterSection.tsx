@@ -9,6 +9,11 @@ const FilterSection = () => {
    const [showFilter, setShowFilter] = useState<boolean>(true)
    const { filterItems, setFilterItems, quickFilters, summaryTable} = useDisplay()
    console.log(filterItems)
+
+   const callFilter = (input:string)=> {
+      console.log(input)
+   }
+   
   return (
    <div className="">
 
@@ -66,19 +71,19 @@ const FilterSection = () => {
 
             {Object.entries(filterItems).map(([key, value]) => (
                <Select >
-                  <SelectTrigger className={`  ${ key == "Adverse meds" ? "bg-red-700 text-white" : "bg-[#21376A] text-white"}`}>
+                  <SelectTrigger className={`  ${ key == "Adverse meds" ? "bg-red-700 text-white" : "bg-[#21376A] text-white"} cursor-pointer`}>
                      <p className="text-white font-bold">{key}</p>
                   </SelectTrigger>
                   <SelectContent >
                      {
                         value.map((innerList:[]) => (
                            <ul className="border-b-2">{
-                              innerList.slice(1).map((item) => (
-                                 <label className=" flex space-x-2 ">
-                                    <input type="checkbox" className='mr-2'/>
-                                    <span >{item}</span>
-                                    
-
+                              innerList.slice(1).map((item, index) => 
+                              (
+                                 
+                                 <label className=" flex space-x-2 cursor-pointer">
+                                    <input type="checkbox" className='mr-2 cursor-pointer'/>
+                                    <span onClick={()=>callFilter(key)}>{item}</span>
                                  </label>
                                  
                            ))

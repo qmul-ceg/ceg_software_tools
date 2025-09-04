@@ -48,7 +48,6 @@ export default async function cvdToolModule(payload:ImportPayload){
                parserResult.toolConfig = cvdConfig
                console.log(parserResult)
             }
-            
          }
       }
    }
