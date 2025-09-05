@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useDisplay } from '@/contexts/DispayContext'
 import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
+import { table } from 'console'
 
 type ChildProps = {
    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -8,10 +9,40 @@ type ChildProps = {
 
 const TableSection = ({setIsModalOpen} : ChildProps) => {
    const { tableHeader, tableData } = useDisplay()
-   // const [openModal, setOpenModal] = useState<boolean>(true)
+
+   const [ testData, setTestData] = useState<string[][]>(tableData)
+   // console.log(testData) 
+   const testFunction = (data:string[][]) => {
+
+      //Manipulates data 
+      const newData: string[][] = []
+      data.map((item) => {
+         
+         if (item[SystmOneReportKeys.Gender].trim() === 'Male' ){
+            newData.push(item)
+         }
+
+      })
+      // setTestData(newData)
+      return newData
+      //updates the state
+   }
+
+   const updateTable = () =>{
+      // console.log("hi")
+      setTestData(testFunction(tableData))
+   }
+   
+   // console.log(testFunction(tableData))
+
   return (
       <div className="border border-dashed min-h-0 flex flex-col ">
+         <button onClick={()=>updateTable()} className='border w-4 border-black'>HI</button>
          <table>
+
+            
+
+
             <thead className='text-sm'>
                
                   <tr className=' '>
@@ -25,7 +56,7 @@ const TableSection = ({setIsModalOpen} : ChildProps) => {
             <tbody>
 
                      {
-                        tableData.map((item)=> (
+                        testData.map((item)=> (
                            
                            <tr className="border text-xs">
                               <td className="text-left w-[14em] px-2 cursor-pointer" onClick={()=>setIsModalOpen(true)}>{item[SystmOneReportKeys.Full_Name]}</td>
@@ -53,6 +84,7 @@ const TableSection = ({setIsModalOpen} : ChildProps) => {
            
             </tbody>  
          </table>
+         
          {/* <div className=" rounded-t-lg border border-[#21376A] h-[6em]">
             {tableHeader}
          </div>

@@ -49,7 +49,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    return (
       <DisplayContext.Provider value = {{ toolName, setToolName, filterItems, setFilterItems, 
          quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader, setTableData, tableData  }}>
-            {children}
+         {children}
 
       </DisplayContext.Provider>
    )
@@ -60,6 +60,29 @@ export function useDisplay() {
   if (!ctx) throw new Error("useDisplay must be used within DisplayProvider");
   return ctx; // now ctx is Data, not Data | null
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
