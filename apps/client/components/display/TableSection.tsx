@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDisplay } from '@/contexts/DispayContext'
 import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 import { table } from 'console'
@@ -8,36 +8,72 @@ type ChildProps = {
 }
 
 const TableSection = ({setIsModalOpen} : ChildProps) => {
-   const { tableHeader, tableData } = useDisplay()
+   const { tableHeader, tableData, age  , selectedFilter} = useDisplay()
 
    const [ testData, setTestData] = useState<string[][]>(tableData)
+
+   useEffect(()=> {
+
+      
+      // If selected Filter is true
+
+      // Take the table data loop through it 
+      // find the data that 
+      if(selectedFilter){
+         const updatedTableData: string[][] = []
+         testData.map((item) => {
+
+            if(selectedFilter === "65 or under"){
+               if(parseInt(item[SystmOneReportKeys.Age]) <= 65){
+                  updatedTableData.push(item)
+               }
+            }
+            else if (selectedFilter === "above 80"){
+                if(parseInt(item[SystmOneReportKeys.Age]) > 80){
+                  updatedTableData.push(item)
+               }
+            }
+            else if (selectedFilter === "65 - 79"){
+                if((parseInt(item[SystmOneReportKeys.Age]) >= 65) && parseInt(item[SystmOneReportKeys.Age]) < 79){
+                  updatedTableData.push(item)
+               }
+            }
+         })
+         setTestData(updatedTableData)
+      }else{
+         setTestData(tableData)
+      }
+
+   }, [selectedFilter])
+
+
+
+
+
    // console.log(testData) 
-   const testFunction = (data:string[][]) => {
+   // const testFunction = (data:string[][]) => {
+   //    //Manipulates data 
+   //    const newData: string[][] = []
+   //    data.map((item) => {
 
-      //Manipulates data 
-      const newData: string[][] = []
-      data.map((item) => {
-         
-         if (item[SystmOneReportKeys.Gender].trim() === 'Male' ){
-            newData.push(item)
-         }
+   //       if (item[SystmOneReportKeys.Gender].trim() === 'Male' ){
+   //          newData.push(item)
+   //       }
+   //    })
+   //    // setTestData(newData)
+   //    return newData
+   //    //updates the state
+   // }
 
-      })
-      // setTestData(newData)
-      return newData
-      //updates the state
-   }
+   // const updateTable = () =>{
 
-   const updateTable = () =>{
-      // console.log("hi")
-      setTestData(testFunction(tableData))
-   }
+   //    setTestData(testFunction(tableData))
+   // }
    
-   // console.log(testFunction(tableData))
 
   return (
       <div className="border border-dashed min-h-0 flex flex-col ">
-         <button onClick={()=>updateTable()} className='border w-4 border-black'>HI</button>
+         <button className='border w-4 border-black'>HI</button>
          <table>
 
             

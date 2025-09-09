@@ -23,6 +23,12 @@ type Data = {
    tableData: string[][];
    setTableData: React.Dispatch<React.SetStateAction<string[][]>>
 
+   age : string;
+   setAge: React.Dispatch<React.SetStateAction<string>>
+
+   selectedFilter: string;
+   setSelectedFilter: React.Dispatch<React.SetStateAction<string>>
+
 }
 
 
@@ -35,20 +41,13 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    const [summaryTable, setSummaryTable] = useState<string[][]>([])
    const [tableHeader, setTableHeader] = useState<string[]>([])
    const [tableData, setTableData] = useState<string[][]>([])
+   const [age, setAge] = useState<string>("")
+   const [selectedFilter, setSelectedFilter] = useState<string>("")
    
-   // let ageTest: string[][] = []
-   // for(let item of tableData){
-      
-   //    if (parseInt(item[SystmOneReportKeys.Age], 10) > 65){
-   //       ageTest.push(item)
-   //    }
 
-   // }
-
-   // setTableData(ageTest)
    return (
       <DisplayContext.Provider value = {{ toolName, setToolName, filterItems, setFilterItems, 
-         quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader, setTableData, tableData  }}>
+         quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader, setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter  }}>
          {children}
 
       </DisplayContext.Provider>
@@ -95,4 +94,15 @@ export function useDisplay() {
 // }
 
 // export const DisplayContext = createContext<Data | null>(null);
-   // const cvdData:Data = {toolName: "CVD"}
+   // const cvdData:Data = {toolName: "CVD"}  
+   // 
+   
+   
+   // let ageTest: string[][] = []
+   // for(let item of tableData){
+      
+   //    if (parseInt(item[SystmOneReportKeys.Age], 10) > 65){
+   //       ageTest.push(item)
+   //    }
+
+   // }
