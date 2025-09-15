@@ -26,12 +26,12 @@ const HeaderSection = () => {
             </a>
          </div>
          <div className="text-center w-full sm:w-auto  flex-row flex-1">
-            <h1 
+            <a href="https://www.qmul.ac.uk/ceg/" target = "_blank" rel ="noopener noreferrer"
                className="text-2xl 
                lg:text-xl xl:text-2xl 
                font-bold
                text-[#21376A]" 
-            >Clinical Effectiveness Group</h1>
+            >Clinical Effectiveness Group</a>
             <h1 
                className="text-xl md:text-2xl 
                lg:text-3xl xl:text-4xl 

@@ -89,7 +89,7 @@ const FilterSection = () => {
 
                {Object.entries(filterItems).map(([key, value]) => (
                   <Select >
-                     <SelectTrigger className={`  ${ key == "Adverse meds" ? "bg-red-700 text-white" : "bg-[#21376A] text-white"} cursor-pointer`}>
+                     <SelectTrigger className={`  ${ key == "Adverse meds" ? "bg-red-700 text-white" : "bg-[#21376A] text-white"} cursor-pointer `}>
                         <p className="text-white font-bold">{key}</p>
                      </SelectTrigger>
                      <SelectContent >

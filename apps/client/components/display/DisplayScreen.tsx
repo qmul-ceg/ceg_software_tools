@@ -12,7 +12,7 @@ const DisplayScreen = () => {
 
    return (
 
-      <div className = "border h-screen">
+      <div className = "flex flex-col border h-screen">
          <div>
             <HeaderSection />
 
@@ -27,13 +27,14 @@ const DisplayScreen = () => {
 
          </div>
          
-         <div className=' overflow-auto'>
+         <div className=' border rounded-t-lg  overflow-y-auto'>
             <TableSection setIsModalOpen={setIsModalOpen}/>
          </div>
 
-         <div className="mt-auto">
+         <div className="  mt-auto">
             <FooterSection />
          </div>
+
          {
             isModalOpen ?
                (
