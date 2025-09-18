@@ -6,48 +6,98 @@ import { table } from 'console'
 type ChildProps = {
    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
-
+type Filters = {
+   name: string;
+   age: string
+}
 const TableSection = ({setIsModalOpen} : ChildProps) => {
-   const { tableHeader, tableData, age  , selectedFilter} = useDisplay()
-
+   // const { tableHeader, tableData, age  , selectedFilter, filterStates} = useDisplay()
+   const { tableHeader, tableData,selectedFilter, filterStates} = useDisplay()
    const [ testData, setTestData] = useState<string[][]>(tableData)
 
+
    useEffect(()=> {
-
       
-      // If selected Filter is true
-
-      // Take the table data loop through it 
-      // find the data that 
-      if(selectedFilter){
+      if(filterStates){
          const updatedTableData: string[][] = []
          testData.map((item) => {
-
-            if(selectedFilter === "65 or under"){
+            if (filterStates.age === "65 or under"){
                if(parseInt(item[SystmOneReportKeys.Age]) <= 65){
                   updatedTableData.push(item)
                }
             }
-            else if (selectedFilter === "above 80"){
-                if(parseInt(item[SystmOneReportKeys.Age]) > 80){
-                  updatedTableData.push(item)
+            else if (filterStates.age === "above 80"){
+               if(parseInt(item[SystmOneReportKeys.Age]) > 80){
+               updatedTableData.push(item)
                }
             }
-            else if (selectedFilter === "65 - 79"){
-                if((parseInt(item[SystmOneReportKeys.Age]) >= 65) && parseInt(item[SystmOneReportKeys.Age]) < 79){
+            else if (filterStates.age === "65 - 79"){
+               if((parseInt(item[SystmOneReportKeys.Age]) >= 65) && parseInt(item[SystmOneReportKeys.Age]) < 79){
                   updatedTableData.push(item)
                }
             }
          })
-         setTestData(updatedTableData)
-      }else{
-         setTestData(tableData)
-      }
+         setTestData(updatedTableData)            
+         }else{
+            setTestData(tableData)
+         }
+      
+   }, [filterStates])
 
-   }, [selectedFilter])
 
 
 
+
+
+
+
+
+
+
+
+
+
+   // useEffect(()=> {
+   //    if(selectedFilter){
+         
+   //       const updatedTableData: string[][] = []
+   //       testData.map((item) => {
+
+   //          if(selectedFilter === "65 or under"){
+   //             if(parseInt(item[SystmOneReportKeys.Age]) <= 65){
+   //                updatedTableData.push(item)
+   //             }
+   //          }
+   //          else if (selectedFilter === "above 80"){
+   //              if(parseInt(item[SystmOneReportKeys.Age]) > 80){
+   //                updatedTableData.push(item)
+   //             }
+   //          }
+   //          else if (selectedFilter === "65 - 79"){
+   //              if((parseInt(item[SystmOneReportKeys.Age]) >= 65) && parseInt(item[SystmOneReportKeys.Age]) < 79){
+   //                updatedTableData.push(item)
+   //             }
+   //          }
+   //       })
+   //       setTestData(updatedTableData)
+   //    }else{
+   //       setTestData(tableData)
+//}
+
+   // }, [selectedFilter])
+
+
+
+
+
+
+
+ // If selected Filter is true
+
+      // Take the table data loop through it 
+      // find the data that 
+      // 
+      // console.log(selectedFilter)
 
 
 

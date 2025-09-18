@@ -22,7 +22,7 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
 
    const router = useRouter();
 
-   const { toolName, setToolName, setFilterItems, setQuickFilters, setSummaryTable, summaryTable, setTableHeader, setTableData } = useDisplay();
+   const { toolName, setToolName, setFilterItems, setQuickFilters, setSummaryTable, summaryTable, setTableHeader, setTableData, setFilterStates } = useDisplay();
 
    const handleImportButtonClick = () => {
       setImportError(ErrorMessages.None)
@@ -80,12 +80,23 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
          setTableHeader(parserResultArray[3].tableHeader)
 
          console.log(parserResultArray[2])
+       
+         setTableData(Object.values(parserResultArray[2]))
+
+         const sampleFilters = {
+            name: "",
+            age : "",
+
+         }
+         setFilterStates(sampleFilters)
+         
+         
+         
+         
          // setTableData(dummy_data)
          // const patientDataArray:string[][] = []
          // patientDataArray.push(Object.values(parserResultArray[2]))
          // // console.log(patientDataArray)
-         setTableData(Object.values(parserResultArray[2]))
-
          
          // setTableData((prev)=> {
          //       let patientDataArray = []

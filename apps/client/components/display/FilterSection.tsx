@@ -6,31 +6,36 @@ import { useDisplay } from '@/contexts/DispayContext'
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const FilterSection = () => {
+
    const [showFilter, setShowFilter] = useState<boolean>(true)
-   const { filterItems, setFilterItems, quickFilters, summaryTable, age, setAge, selectedFilter, setSelectedFilter} = useDisplay()
-   // console.log(filterItems)
+   const { filterItems, setFilterItems, quickFilters, summaryTable, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates} = useDisplay()
+  
 
-   // const filterTest = (input:string, filter:string)=> {
-   //    const filters = []
-   //    filters.push(input)
-   //    filters.push(filter)
-   //    if (selectedFilter.length > 0 ){
-   //       setSelectedFilter([])
-   //    }
-
-   //    setSelectedFilter(filters)
-   // }
-   
- 
-
-   const handleFilterChange = (value:string)=>{
+   const handleFilterChange = (filterName: string, value:string)=>{
+      // console.log(filterName, value)
       setSelectedFilter((prev) => prev === value ? "" : value)
+      // setFilterStates({...filterStates, age: value})
+      // setFilterStates(prev => {
+      //     == value)
+      // })
 
+      setFilterStates(prev => {
+         if (prev.age == value){
+            return {...prev, age: ""}
+         }
+         return {...prev, age: value}
+      })
+
+      
    }
 
-  useEffect(()=> {
-      console.log(selectedFilter)
-   }, [selectedFilter])
+   // console.log(filterStates)
+
+
+
+//   useEffect(()=> {
+//       console.log(selectedFilter)
+//    }, [selectedFilter])
 
    return (
       <div className="">
@@ -104,7 +109,7 @@ const FilterSection = () => {
                                           type="checkbox" 
                                           className='mr-2 cursor-pointer'
                                           value = {item} 
-                                          onChange={()=>handleFilterChange(item)}
+                                          onChange={()=>handleFilterChange(key, item)}
                                           checked = {selectedFilter === item}
                                           // checked = {selectedFilter === "item"} 
                                        />
@@ -204,3 +209,19 @@ export default FilterSection
     
             // )
              */}
+             
+             
+             
+             
+             // console.log(filterItems)
+
+   // const filterTest = (input:string, filter:string)=> {
+   //    const filters = []
+   //    filters.push(input)
+   //    filters.push(filter)
+   //    if (selectedFilter.length > 0 ){
+   //       setSelectedFilter([])
+   //    }
+
+   //    setSelectedFilter(filters)
+   // }

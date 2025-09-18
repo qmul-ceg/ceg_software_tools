@@ -3,7 +3,10 @@ import React, { useContext, useState } from 'react'
 import { createContext } from 'react'
 import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 
-
+type Filters = {
+   name: string;
+   age: string
+}
 type Data = {
    toolName: string;
    setToolName: React.Dispatch<React.SetStateAction<string>>;
@@ -29,6 +32,11 @@ type Data = {
    selectedFilter: string;
    setSelectedFilter: React.Dispatch<React.SetStateAction<string>>
 
+   filterStates: Filters;
+   setFilterStates: React.Dispatch<React.SetStateAction<Filters>>
+   // toolEventHandlers: object;
+   // setToolEventHandlers: React.Dispatch<React.SetStateAction<object>>
+
 }
 
 
@@ -43,11 +51,13 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    const [tableData, setTableData] = useState<string[][]>([])
    const [age, setAge] = useState<string>("")
    const [selectedFilter, setSelectedFilter] = useState<string>("")
+   const [filterStates, setFilterStates] = useState<Filters>({name: "", age: ""})
    
 
    return (
       <DisplayContext.Provider value = {{ toolName, setToolName, filterItems, setFilterItems, 
-         quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader, setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter  }}>
+         quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader,
+          setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates  }}>
          {children}
 
       </DisplayContext.Provider>
