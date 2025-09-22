@@ -12,92 +12,47 @@ type Filters = {
 }
 const TableSection = ({setIsModalOpen} : ChildProps) => {
    // const { tableHeader, tableData, age  , selectedFilter, filterStates} = useDisplay()
-   const { tableHeader, tableData,selectedFilter, filterStates} = useDisplay()
-   const [ testData, setTestData] = useState<string[][]>(tableData)
-
+   const { tableHeader, tableData,selectedFilter, filterStates, age} = useDisplay()
+   const [ filteredData, setFilteredData] = useState<string[][]>(tableData)
 
    useEffect(()=> {
-      
-      if(filterStates){
-         const updatedTableData: string[][] = []
-         testData.map((item) => {
-            if (filterStates.age === "65 or under"){
-               if(parseInt(item[SystmOneReportKeys.Age]) <= 65){
-                  updatedTableData.push(item)
-               }
-            }
-            else if (filterStates.age === "above 80"){
-               if(parseInt(item[SystmOneReportKeys.Age]) > 80){
-               updatedTableData.push(item)
-               }
-            }
-            else if (filterStates.age === "65 - 79"){
-               if((parseInt(item[SystmOneReportKeys.Age]) >= 65) && parseInt(item[SystmOneReportKeys.Age]) < 79){
-                  updatedTableData.push(item)
-               }
-            }
-         })
-         setTestData(updatedTableData)            
-         }else{
-            setTestData(tableData)
-         }
-      
-   }, [filterStates])
 
 
+      const filteredAge = tableData.filter((row) => {
+         const rowAge = parseInt(row[SystmOneReportKeys.Age])
 
+         const sixtyFiveOrUnderGroup = age.some(value => value === "65 or under") && rowAge <= 65;
+         const sixtyFiveToSeventyNineGroup = age.some(value => value === "65 - 79") && (rowAge > 65 && rowAge <= 79);
+         const aboveEightyGroup = age.some(value => value === "above 80") && rowAge > 80;
+         const noAge = age.length === 0 
 
+         return sixtyFiveOrUnderGroup || sixtyFiveToSeventyNineGroup || aboveEightyGroup || noAge
+      })
 
-
-
-
-
-
-
-
-
-
+      setFilteredData(filteredAge)
+   
+   }, [age])
+   
+   //CONTINUE THIS 
    // useEffect(()=> {
-   //    if(selectedFilter){
-         
-   //       const updatedTableData: string[][] = []
-   //       testData.map((item) => {
+   //    const cvdFilterLogic = (dataToFilter: string[][]) => {
+   //       return dataToFilter.filter((row) => {
+   //          const rowAge = parseInt(row[SystmOneReportKeys.Age])
 
-   //          if(selectedFilter === "65 or under"){
-   //             if(parseInt(item[SystmOneReportKeys.Age]) <= 65){
-   //                updatedTableData.push(item)
-   //             }
-   //          }
-   //          else if (selectedFilter === "above 80"){
-   //              if(parseInt(item[SystmOneReportKeys.Age]) > 80){
-   //                updatedTableData.push(item)
-   //             }
-   //          }
-   //          else if (selectedFilter === "65 - 79"){
-   //              if((parseInt(item[SystmOneReportKeys.Age]) >= 65) && parseInt(item[SystmOneReportKeys.Age]) < 79){
-   //                updatedTableData.push(item)
-   //             }
-   //          }
+   //          const ageFilter = 
+   //             age.some(value => value === "65 or under") && rowAge < 65 ||
+   //             age.some(value => value === "65 - 79") && (rowAge >= 65 &&  rowAge <= 79) ||
+   //             age.some(value => value === "above 80") && rowAge >= 80 ||
+   //             age.length === 0;
+
    //       })
-   //       setTestData(updatedTableData)
-   //    }else{
-   //       setTestData(tableData)
-//}
-
-   // }, [selectedFilter])
-
-
-
-
-
-
-
- // If selected Filter is true
-
-      // Take the table data loop through it 
-      // find the data that 
-      // 
-      // console.log(selectedFilter)
+   //    }
+   // }, [age, tableData])
+   
+   
+   
+   
+   
 
 
 
@@ -125,7 +80,7 @@ const TableSection = ({setIsModalOpen} : ChildProps) => {
                
                      {
                         
-                        testData.map((item, index)=> (
+                        filteredData.map((item, index)=> (
                           
                            <tr className="border text-xs hover:bg-gray-100">
                               <td className="text-left w-[14em] px-2 cursor-pointer" onClick={()=>setIsModalOpen(true)}>{item[SystmOneReportKeys.Full_Name]}</td>
@@ -192,3 +147,155 @@ export default TableSection
 
    //    setTestData(testFunction(tableData))
    // }
+   
+   
+   
+   
+   // age.some(value => 
+         //    (value === "65 or under" && parseInt(row[SystmOneReportKeys.Age]) < 65) ||
+         //    (age.some(value => value === "65 - 79" && (parseInt(row[SystmOneReportKeys.Age]) >= 65 && parseInt(row[SystmOneReportKeys.Age]) <= 79)  )) ||
+         //    (age.some(value => value === "above 80" && parseInt(row[SystmOneReportKeys.Age]) >=  80) )
+         // )
+   // useEffect(()=> {
+      
+
+   //    const filteredAge = testData.filter(row => 
+   //       (age.some(value => value === "65 or under" && parseInt(row[SystmOneReportKeys.Age]) < 65) )  ||
+   //       (age.some(value => value === "65 - 79" && (parseInt(row[SystmOneReportKeys.Age]) >= 65 && parseInt(row[SystmOneReportKeys.Age]) <= 79)  )) ||
+   //       (age.some(value => value === "above 80" && parseInt(row[SystmOneReportKeys.Age]) >=  80) )  || 
+   //       age.length === 0
+         
+   //    )
+   //    setTestData(filteredAge)
+   // }, [age])
+
+
+   
+//go through each value 
+      // filter out the people who have their values 
+      // const updatedTableData = []
+      // setTestData(testData.filter((row)=> age.includes(row[SystmOneReportKeys.Age])))
+      // if (age.length > 0 ){
+      //    const filteredAge = testData.filter(row => age.includes(row[SystmOneReportKeys.Age]))
+      //    // setTestData(filteredAge)
+      //    console.log(filteredAge)
+      // }else {
+      //    setTestData(tableData)
+      // }
+   // useEffect(()=> {
+
+      
+   //    if(age){
+   //       const updatedTableData: string[][] = [];
+   //       tableData.map((item)=> {
+   //          if (age === "65 or under"){
+   //             if(parseInt(item[SystmOneReportKeys.Age]) <= 65){
+   //                updatedTableData.push(item)
+   //             }
+   //          }
+   //          else if (age === "above 80"){
+   //             if(parseInt(item[SystmOneReportKeys.Age]) > 80){
+   //             updatedTableData.push(item)
+   //             }
+   //          }
+   //          else if (age === "65 - 79"){
+   //             if((parseInt(item[SystmOneReportKeys.Age]) >= 65) && parseInt(item[SystmOneReportKeys.Age]) < 79){
+   //                updatedTableData.push(item)
+   //             }
+   //          }
+   //       })
+   //       setTestData(updatedTableData)
+
+   //    }else {
+   //       setTestData(tableData)
+   //    }
+
+   // }, [age])
+
+
+
+
+
+
+   // useEffect(()=> {
+      
+   //    if(filterStates){
+   //       const updatedTableData: string[][] = []
+   //       testData.map((item) => {
+   //          if (filterStates.age === "65 or under"){
+   //             if(parseInt(item[SystmOneReportKeys.Age]) <= 65){
+   //                updatedTableData.push(item)
+   //             }
+   //          }
+   //          else if (filterStates.age === "above 80"){
+   //             if(parseInt(item[SystmOneReportKeys.Age]) > 80){
+   //             updatedTableData.push(item)
+   //             }
+   //          }
+   //          else if (filterStates.age === "65 - 79"){
+   //             if((parseInt(item[SystmOneReportKeys.Age]) >= 65) && parseInt(item[SystmOneReportKeys.Age]) < 79){
+   //                updatedTableData.push(item)
+   //             }
+   //          }
+   //       })
+   //       setTestData(updatedTableData)            
+   //       }else{
+   //          setTestData(tableData)
+   //       }
+      
+   // }, [filterStates])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   // useEffect(()=> {
+   //    if(selectedFilter){
+         
+   //       const updatedTableData: string[][] = []
+   //       testData.map((item) => {
+
+   //          if(selectedFilter === "65 or under"){
+   //             if(parseInt(item[SystmOneReportKeys.Age]) <= 65){
+   //                updatedTableData.push(item)
+   //             }
+   //          }
+   //          else if (selectedFilter === "above 80"){
+   //              if(parseInt(item[SystmOneReportKeys.Age]) > 80){
+   //                updatedTableData.push(item)
+   //             }
+   //          }
+   //          else if (selectedFilter === "65 - 79"){
+   //              if((parseInt(item[SystmOneReportKeys.Age]) >= 65) && parseInt(item[SystmOneReportKeys.Age]) < 79){
+   //                updatedTableData.push(item)
+   //             }
+   //          }
+   //       })
+   //       setTestData(updatedTableData)
+   //    }else{
+   //       setTestData(tableData)
+//}
+
+   // }, [selectedFilter])
+
+
+
+
+
+
+
+ // If selected Filter is true
+
+      // Take the table data loop through it 
+      // find the data that 
+      // 
+      // console.log(selectedFilter)

@@ -26,8 +26,8 @@ type Data = {
    tableData: string[][];
    setTableData: React.Dispatch<React.SetStateAction<string[][]>>
 
-   age : string;
-   setAge: React.Dispatch<React.SetStateAction<string>>
+   age : string[];
+   setAge: React.Dispatch<React.SetStateAction<string[]>>
 
    selectedFilter: string;
    setSelectedFilter: React.Dispatch<React.SetStateAction<string>>
@@ -49,7 +49,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    const [summaryTable, setSummaryTable] = useState<string[][]>([])
    const [tableHeader, setTableHeader] = useState<string[]>([])
    const [tableData, setTableData] = useState<string[][]>([])
-   const [age, setAge] = useState<string>("")
+   const [age, setAge] = useState<string[]>([])
    const [selectedFilter, setSelectedFilter] = useState<string>("")
    const [filterStates, setFilterStates] = useState<Filters>({name: "", age: ""})
    

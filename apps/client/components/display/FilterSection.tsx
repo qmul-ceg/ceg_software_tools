@@ -12,23 +12,17 @@ const FilterSection = () => {
   
 
    const handleFilterChange = (filterName: string, value:string)=>{
-      // console.log(filterName, value)
-      setSelectedFilter((prev) => prev === value ? "" : value)
-      // setFilterStates({...filterStates, age: value})
-      // setFilterStates(prev => {
-      //     == value)
-      // })
-
-      setFilterStates(prev => {
-         if (prev.age == value){
-            return {...prev, age: ""}
-         }
-         return {...prev, age: value}
-      })
-
       
-   }
+      if(age.includes(value)){
+         setAge((prev) => prev.filter((item)=> item !== value) )
+      }
+      else {
+         setAge([...age, value])
+      }
 
+      // setAge((prev) => prev === value ? "" : value)
+   }
+   console.log(age)
    // console.log(filterStates)
 
 
@@ -110,7 +104,7 @@ const FilterSection = () => {
                                           className='mr-2 cursor-pointer'
                                           value = {item} 
                                           onChange={()=>handleFilterChange(key, item)}
-                                          checked = {selectedFilter === item}
+                                          checked = {age.includes(item)}
                                           // checked = {selectedFilter === "item"} 
                                        />
                                        {/* <span onClick={()=>filterTest(item, key)}>{item}</span> */}
@@ -118,7 +112,7 @@ const FilterSection = () => {
 
                                     </label>
                                     
-                              ))
+                                 ))
                            }
                               
                            </ul>
@@ -225,3 +219,23 @@ export default FilterSection
 
    //    setSelectedFilter(filters)
    // }
+   
+   
+   
+   
+   
+   
+   
+   // console.log(filterName, value)
+      // setSelectedFilter((prev) => prev === value ? "" : value)
+      // setFilterStates({...filterStates, age: value})
+      // setFilterStates(prev => {
+      //     == value)
+      // })
+
+      // setFilterStates(prev => {
+      //    if (prev.age == value){
+      //       return {...prev, age: ""}
+      //    }
+      //    return {...prev, age: value}
+      // })
