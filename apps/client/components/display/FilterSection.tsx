@@ -12,29 +12,59 @@ const FilterSection = () => {
   
 
    const handleFilterChange = (filterName: string, value:string)=>{
-      
-      if(age.includes(value)){
-         setAge((prev) => prev.filter((item)=> item !== value) )
-      }
-      else {
-         setAge([...age, value])
+      console.log(filterName)
+
+      //TURN THIS INTO SWITCH CASE ... POSSIBLY 
+      if (filterName === "Age"){
+         setFilterStates(prev => {
+            if(prev.ageFilter.includes(value)){
+               return {
+                  ...prev,
+                  ageFilter: prev.ageFilter.filter((item) => item !== value)
+               }
+            }
+
+            return {
+               ...prev,
+               ageFilter: [...prev.ageFilter, value]
+            }
+         })
       }
 
-      // setAge((prev) => prev === value ? "" : value)
+      else if (filterName === "Housebound/Care home"){
+         setFilterStates(prev => {
+            if(prev.houseboundCarehomeFilter === value){
+               return {
+                  ...prev,
+                  houseboundCarehomeFilter : ""
+               }
+            }
+            return {
+               ...prev,
+               houseboundCarehomeFilter : value
+            }
+         })
+
+      }
    }
-   console.log(age)
-   // console.log(filterStates)
+
+   useEffect(()=>{
+      console.log(filterStates)
+
+   }, [filterStates])
 
 
+      // if(age.includes(value)){
+      //    setAge((prev) => prev.filter((item)=> item !== value) )
+      // }
+      // else {
+      //    setAge([...age, value])
+      // }
 
-//   useEffect(()=> {
-//       console.log(selectedFilter)
-//    }, [selectedFilter])
+
 
    return (
       <div className="">
-
-
          <div className = " flex px-4 min-h-16 items-center  rounded-t-lg bg-[#21376A]">
             <div className=" items-center">
                <p className="text-xl font-bold text-white">
@@ -104,10 +134,10 @@ const FilterSection = () => {
                                           className='mr-2 cursor-pointer'
                                           value = {item} 
                                           onChange={()=>handleFilterChange(key, item)}
-                                          checked = {age.includes(item)}
-                                          // checked = {selectedFilter === "item"} 
+                                          checked = {filterStates.houseboundCarehomeFilter === item}
+                                          
                                        />
-                                       {/* <span onClick={()=>filterTest(item, key)}>{item}</span> */}
+                                       
                                        <span>{item}</span>
 
                                     </label>

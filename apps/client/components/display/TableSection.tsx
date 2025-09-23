@@ -17,21 +17,50 @@ const TableSection = ({setIsModalOpen} : ChildProps) => {
 
    useEffect(()=> {
 
+      const filterConfig = tableData.filter((row) => {
+         const ageIndex = parseInt(row[SystmOneReportKeys.Age])
+         const houseboundIndex = row[SystmOneReportKeys.Housebound_Code_Term].trim()
+      
+         const filterByAge = 
+            filterStates.ageFilter.some(value => value === "65 or under") && ageIndex <= 65 ||
+            filterStates.ageFilter.some(value => value === "65 - 79") && (ageIndex > 65 && ageIndex <= 79) ||
+            filterStates.ageFilter.some(value => value === "above 80") && ageIndex > 80 ||
+            filterStates.ageFilter.length === 0 
 
-      const filteredAge = tableData.filter((row) => {
-         const rowAge = parseInt(row[SystmOneReportKeys.Age])
+         const filterByHousebound = 
+            filterStates.houseboundCarehomeFilter === "" ||
+            filterStates.houseboundCarehomeFilter === "Housebound"  && houseboundIndex === "13CA."
 
-         const sixtyFiveOrUnderGroup = age.some(value => value === "65 or under") && rowAge <= 65;
-         const sixtyFiveToSeventyNineGroup = age.some(value => value === "65 - 79") && (rowAge > 65 && rowAge <= 79);
-         const aboveEightyGroup = age.some(value => value === "above 80") && rowAge > 80;
-         const noAge = age.length === 0 
+         
+         return filterByAge && filterByHousebound
 
-         return sixtyFiveOrUnderGroup || sixtyFiveToSeventyNineGroup || aboveEightyGroup || noAge
       })
 
-      setFilteredData(filteredAge)
+
+
+
+
+
+
+      // const filteredAge = tableData.filter((row) => {
+      //    const rowAge = parseInt(row[SystmOneReportKeys.Age])
+
+      //    const sixtyFiveOrUnderGroup = filterStates.ageFilter.some(value => value === "65 or under") && rowAge <= 65;
+      //    const sixtyFiveToSeventyNineGroup = filterStates.ageFilter.some(value => value === "65 - 79") && (rowAge > 65 && rowAge <= 79);
+      //    const aboveEightyGroup = filterStates.ageFilter.some(value => value === "above 80") && rowAge > 80;
+      //    const noAge = filterStates.ageFilter.length === 0 
+
+      //    return sixtyFiveOrUnderGroup || sixtyFiveToSeventyNineGroup || aboveEightyGroup || noAge
+      // })
+
+      setFilteredData(filterConfig)
    
-   }, [age])
+   }, [filterStates])
+
+   
+
+
+
    
    //CONTINUE THIS 
    // useEffect(()=> {
@@ -60,12 +89,7 @@ const TableSection = ({setIsModalOpen} : ChildProps) => {
 
   return (
       <div className="border border-dashed min-h-0 flex flex-col ">
-         
          <table>
-
-            
-
-
             <thead className='text-sm'>
                
                   <tr className=' '>
@@ -73,15 +97,11 @@ const TableSection = ({setIsModalOpen} : ChildProps) => {
                         <th className=' border-2'>{item}</th>
                      ))}
                   </tr>
-
-               
             </thead> 
             <tbody >
                
                      {
-                        
-                        filteredData.map((item, index)=> (
-                          
+                        filteredData.map((item, index)=> ( 
                            <tr className="border text-xs hover:bg-gray-100">
                               <td className="text-left w-[14em] px-2 cursor-pointer" onClick={()=>setIsModalOpen(true)}>{item[SystmOneReportKeys.Full_Name]}</td>
                               <td className="text-center">{item[SystmOneReportKeys.Age]}</td>
@@ -103,10 +123,8 @@ const TableSection = ({setIsModalOpen} : ChildProps) => {
                               <td className="text-center">{item[SystmOneReportKeys.Medication_Review_Date]}</td>
 
                            </tr>                           
-                        
                         ))
                      } 
-               
             </tbody>  
          </table>
       </div>
@@ -299,3 +317,23 @@ export default TableSection
       // find the data that 
       // 
       // console.log(selectedFilter)
+
+
+      
+   // useEffect(()=> {
+
+
+   //    const filteredAge = tableData.filter((row) => {
+   //       const rowAge = parseInt(row[SystmOneReportKeys.Age])
+
+   //       const sixtyFiveOrUnderGroup = age.some(value => value === "65 or under") && rowAge <= 65;
+   //       const sixtyFiveToSeventyNineGroup = age.some(value => value === "65 - 79") && (rowAge > 65 && rowAge <= 79);
+   //       const aboveEightyGroup = age.some(value => value === "above 80") && rowAge > 80;
+   //       const noAge = age.length === 0 
+
+   //       return sixtyFiveOrUnderGroup || sixtyFiveToSeventyNineGroup || aboveEightyGroup || noAge
+   //    })
+
+   //    setFilteredData(filteredAge)
+   
+   // }, [age])

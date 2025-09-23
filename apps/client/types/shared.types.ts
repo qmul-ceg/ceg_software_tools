@@ -1,9 +1,9 @@
-export interface ValidationInterface{
+export type ValidationType = {
    status : string,
    info? : string
 }
 
-export interface ParserResultInterface{
+export type ParserResultType = {
    status : string,
    info?: string,
    masterReport? : Object

@@ -2,7 +2,7 @@ import ClinicalSystems from "@/constants/clinicalSystems";
 import { ImportPayload } from "@/types/importPayload";
 import validateCVDSystmOneReport from "./reportValidators/validateCVDSystmOneReport";
 import validateCVDEMISReport from "./reportValidators/validateCVDEMISReport";
-import { ValidationInterface, ParserResultInterface } from "@/types/shared.types";
+import { ValidationType, ParserResultType } from "@/types/shared.types";
 import parseCVDSystmOneReport from "./reportParsers/parseCVDSystmOneReport";
 import parseCVDEMISReport from "./reportParsers/parseCVDEMISReport"
 import { cvdConfig } from "./utils/cvdConfig";
@@ -20,12 +20,12 @@ import { cvdConfig } from "./utils/cvdConfig";
 export default async function cvdToolModule(payload:ImportPayload){
    // console.log(payload)
    //VALIDATE PAYLOAD
-   const validateHandlers: Partial<Record< ClinicalSystems, (payload:FileList ) => Promise<ValidationInterface>>> ={
+   const validateHandlers: Partial<Record< ClinicalSystems, (payload:FileList ) => Promise<ValidationType>>> ={
       [ClinicalSystems.EMIS] : validateCVDEMISReport,
       [ClinicalSystems.SystmOne] : validateCVDSystmOneReport
    }
 
-   const parseHandlers: Partial<Record< ClinicalSystems, (payload: FileList) => Promise<ParserResultInterface>>> = {
+   const parseHandlers: Partial<Record< ClinicalSystems, (payload: FileList) => Promise<ParserResultType>>> = {
       [ClinicalSystems.SystmOne] : parseCVDSystmOneReport,
       [ClinicalSystems.EMIS] : parseCVDEMISReport
    }
@@ -34,8 +34,8 @@ export default async function cvdToolModule(payload:ImportPayload){
    const validateReport = validateHandlers[payload.clinicalSystem]
    const parseReport = parseHandlers[payload.clinicalSystem]
    
-   let validationResult: ValidationInterface = {status: "", info: ""}
-   let parserResult: ParserResultInterface = {status: "", info: "", masterReport: {}}
+   let validationResult: ValidationType = {status: "", info: ""}
+   let parserResult: ParserResultType = {status: "", info: "", masterReport: {}}
 
    if (validateReport){
       validationResult = await validateReport(payload.file)

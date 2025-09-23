@@ -1,13 +1,36 @@
 "use client"
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { createContext } from 'react'
 import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
+import { ParserResultType } from '@/types/shared.types'
 
-type Filters = {
-   name: string;
-   age: string
-}
+
+type FilterStates = {
+  antihypertensiveFilter: string;
+  bloodPressureFilter: string;
+  houseboundCarehomeFilter: string;
+  lipidMedicationsFilter: string;
+  comorbiditiesFilter: string;
+  cholestrolFilter: string;
+  qRiskFilter: string;
+  vulnerabilitiesFilter: string;
+  ethnicityFilter: string;
+  ageFilter: string[];
+  adverseMedsFilter: string;
+};
+
+
+
+
+
 type Data = {
+
+   importedData : ParserResultType | undefined;
+   setImportedData : React.Dispatch<React.SetStateAction<ParserResultType | undefined>>
+
+
+
+
    toolName: string;
    setToolName: React.Dispatch<React.SetStateAction<string>>;
 
@@ -32,8 +55,8 @@ type Data = {
    selectedFilter: string;
    setSelectedFilter: React.Dispatch<React.SetStateAction<string>>
 
-   filterStates: Filters;
-   setFilterStates: React.Dispatch<React.SetStateAction<Filters>>
+   filterStates: FilterStates;
+   setFilterStates: React.Dispatch<React.SetStateAction<FilterStates>>
    // toolEventHandlers: object;
    // setToolEventHandlers: React.Dispatch<React.SetStateAction<object>>
 
@@ -43,6 +66,23 @@ type Data = {
 export const DisplayContext = createContext<Data | null>(null);
 
 export default function DisplayProvider ({children} : {children : React.ReactNode }){
+
+   const [importedData, setImportedData] = useState<ParserResultType | undefined>(undefined)
+
+
+   useEffect(() => {
+      console.log(importedData)
+
+   }, [importedData])
+
+
+
+
+
+
+
+
+
    const [toolName, setToolName] = useState("")
    const [filterItems, setFilterItems] = useState<Object>({})
    const [quickFilters, setQuickFilters] = useState<string[]>([])
@@ -51,13 +91,26 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    const [tableData, setTableData] = useState<string[][]>([])
    const [age, setAge] = useState<string[]>([])
    const [selectedFilter, setSelectedFilter] = useState<string>("")
-   const [filterStates, setFilterStates] = useState<Filters>({name: "", age: ""})
+   const [filterStates, setFilterStates] = useState<FilterStates>({
+            antihypertensiveFilter : '',
+            bloodPressureFilter: '',
+            houseboundCarehomeFilter : '',
+            lipidMedicationsFilter: '',
+            comorbiditiesFilter: '',
+            cholestrolFilter: '',
+            qRiskFilter: '',
+            vulnerabilitiesFilter: '',
+            ethnicityFilter: '',
+            ageFilter: [],
+            adverseMedsFilter: '',
+            
+         })
    
 
    return (
       <DisplayContext.Provider value = {{ toolName, setToolName, filterItems, setFilterItems, 
          quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader,
-          setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates  }}>
+          setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates, importedData,  setImportedData  }}>
          {children}
 
       </DisplayContext.Provider>

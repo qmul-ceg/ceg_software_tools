@@ -22,7 +22,7 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
 
    const router = useRouter();
 
-   const { toolName, setToolName, setFilterItems, setQuickFilters, setSummaryTable, summaryTable, setTableHeader, setTableData, setFilterStates } = useDisplay();
+   const { toolName, setToolName, setFilterItems, setQuickFilters, setSummaryTable, summaryTable, setTableHeader, setTableData, setFilterStates, setImportedData } = useDisplay();
 
    const handleImportButtonClick = () => {
       setImportError(ErrorMessages.None)
@@ -68,9 +68,12 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       const parserResultArray:any[] = Object.values(parserResult)
       
       console.log(parserResultArray)
+      console.log(validationResultArray)
       // const resultDetails = Object.values(routerResult.validationResult)[0]
 
       if (validationResultArray[0] === "success" && parserResultArray[0] === "success"){
+         setImportedData(parserResult)
+         
          setToolName(parserResultArray[3].toolName)
          setFilterItems(parserResultArray[3].filters)
          setQuickFilters(parserResultArray[3].quickFilters)
@@ -83,30 +86,6 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
        
          setTableData(Object.values(parserResultArray[2]))
 
-         const sampleFilters = {
-            name: "",
-            age : "",
-
-         }
-         setFilterStates(sampleFilters)
-         
-         
-         
-         
-         // setTableData(dummy_data)
-         // const patientDataArray:string[][] = []
-         // patientDataArray.push(Object.values(parserResultArray[2]))
-         // // console.log(patientDataArray)
-         
-         // setTableData((prev)=> {
-         //       let patientDataArray = []
-         //       // for (const [key, value] of Object.entries(parserResultArray[2])){
-         //       //    patientDataArray.push(value)
-         //       // }
-         //       return [...prev, Object.values(parserResultArray[2])]
-               
-         //    }
-         // )
 
 
 
@@ -145,6 +124,9 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
 
    return { fileInputRef, handleImportButtonClick, importError, setImportError, handleFileChange, importedFile, displayScreen }
 };    
+
+
+
 
 
 
@@ -207,4 +189,50 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
    //       "Adverse meds":
    //          [ ["", "NSAIDs (excl. aspirin)"]],
 
-   // });
+   // });    
+   // 
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   // const toolFilterStateObject = {
+         //    antihypertensiveFilter : '',
+         //    bloodPressureFilter: '',
+         //    houseboundCarehomeFilter : '',
+         //    lipidMedicationsFilter: '',
+         //    comorbiditiesFilter: '',
+         //    cholestrolFilter: '',
+         //    qRiskFilter: '',
+         //    vulnerabilitiesFilter: '',
+         //    ethnicityFilter: '',
+         //    ageFilter: [],
+         //    adverseMedsFilter: '',
+            
+         // }
+         // setFilterStates(toolFilterStateObject)
+         
+         
+         
+         
+         // setTableData(dummy_data)
+         // const patientDataArray:string[][] = []
+         // patientDataArray.push(Object.values(parserResultArray[2]))
+         // // console.log(patientDataArray)
+         
+         // setTableData((prev)=> {
+         //       let patientDataArray = []
+         //       // for (const [key, value] of Object.entries(parserResultArray[2])){
+         //       //    patientDataArray.push(value)
+         //       // }
+         //       return [...prev, Object.values(parserResultArray[2])]
+               
+         //    }
+         // )

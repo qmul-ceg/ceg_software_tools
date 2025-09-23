@@ -1,4 +1,4 @@
-import { ParserResultInterface } from "@/types/shared.types";
+import { ParserResultType } from "@/types/shared.types";
 import Papa from 'papaparse';
 import { parse } from "path";
 
@@ -55,7 +55,7 @@ import { parse } from "path";
 
 
 
-const parseSystmOneReport = async(files: Object): Promise<ParserResultInterface> => {
+const parseSystmOneReport = async(files: Object): Promise<ParserResultType> => {
       console.log(files)
       const parsedFilesPromises: Array<Promise<object>> = []
 
@@ -141,7 +141,7 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResultInterface>
 
 
 
-      let parserResult: ParserResultInterface = {
+      let parserResult: ParserResultType = {
          status : "success",
          info : "Reports successfully parsed",
          masterReport: masterReport
