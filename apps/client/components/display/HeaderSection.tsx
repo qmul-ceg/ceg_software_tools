@@ -3,8 +3,8 @@ import React, { useContext } from 'react'
 import { Source_Sans_3 } from 'next/font/google'
 import { useState } from 'react'
 import Menu from './Menu'
-import { DisplayContext } from '@/contexts/DispayContext'
-import { useDisplay } from '@/contexts/DispayContext'
+import { DisplayContext } from '@/context/DispayContext'
+import { useDisplay } from '@/context/DispayContext'
 
 const sourceFont = Source_Sans_3({
    subsets:['latin'],

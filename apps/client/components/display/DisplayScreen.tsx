@@ -4,7 +4,7 @@ import HeaderSection from './HeaderSection'
 import FilterSection from './FilterSection'
 import TableSection from './TableSection'
 import FooterSection from './FooterSection'
-import DisplayProvider, { DisplayContext } from '@/contexts/DispayContext'
+import DisplayProvider, { DisplayContext } from '@/context/DispayContext'
 import Modal from './Modal'
 
 const DisplayScreen = () => {

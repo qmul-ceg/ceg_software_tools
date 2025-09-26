@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDisplay } from '@/contexts/DispayContext'
+import { useDisplay } from '@/context/DispayContext'
 import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 import { table } from 'console'
 
@@ -15,47 +15,41 @@ const TableSection = ({setIsModalOpen} : ChildProps) => {
    const { tableHeader, tableData,selectedFilter, filterStates, age} = useDisplay()
    const [ filteredData, setFilteredData] = useState<string[][]>(tableData)
 
-   useEffect(()=> {
+//    useEffect(()=> {
 
-      const filterConfig = tableData.filter((row) => {
-         const ageIndex = parseInt(row[SystmOneReportKeys.Age])
-         const houseboundIndex = row[SystmOneReportKeys.Housebound_Code_Term].trim()
+//       const filterConfig = tableData.filter((row) => {
+//          const ageIndex = parseInt(row[SystmOneReportKeys.Age])
+//          const houseboundIndex = row[SystmOneReportKeys.Housebound_Code_Term].trim()
       
-         const filterByAge = 
-            filterStates.ageFilter.some(value => value === "65 or under") && ageIndex <= 65 ||
-            filterStates.ageFilter.some(value => value === "65 - 79") && (ageIndex > 65 && ageIndex <= 79) ||
-            filterStates.ageFilter.some(value => value === "above 80") && ageIndex > 80 ||
-            filterStates.ageFilter.length === 0 
+//          const filterByAge = 
+//             filterStates.ageFilter.some(value => value === "65 or under") && ageIndex <= 65 ||
+//             filterStates.ageFilter.some(value => value === "65 - 79") && (ageIndex > 65 && ageIndex <= 79) ||
+//             filterStates.ageFilter.some(value => value === "above 80") && ageIndex > 80 ||
+//             filterStates.ageFilter.length === 0 
 
-         const filterByHousebound = 
-            filterStates.houseboundCarehomeFilter === "" ||
-            filterStates.houseboundCarehomeFilter === "Housebound"  && houseboundIndex === "13CA."
+//          // const filterByHousebound = 
+//          //    filterStates.houseboundCarehomeFilter === "" ||
+//          //    filterStates.houseboundCarehomeFilter === "Housebound"  && houseboundIndex === "13CA."
 
          
-         return filterByAge && filterByHousebound
+//          return filterByAge 
+// // && filterByHousebound
+//       })
 
-      })
+//       // const filteredAge = tableData.filter((row) => {
+//       //    const rowAge = parseInt(row[SystmOneReportKeys.Age])
 
+//       //    const sixtyFiveOrUnderGroup = filterStates.ageFilter.some(value => value === "65 or under") && rowAge <= 65;
+//       //    const sixtyFiveToSeventyNineGroup = filterStates.ageFilter.some(value => value === "65 - 79") && (rowAge > 65 && rowAge <= 79);
+//       //    const aboveEightyGroup = filterStates.ageFilter.some(value => value === "above 80") && rowAge > 80;
+//       //    const noAge = filterStates.ageFilter.length === 0 
 
+//       //    return sixtyFiveOrUnderGroup || sixtyFiveToSeventyNineGroup || aboveEightyGroup || noAge
+//       // })
 
-
-
-
-
-      // const filteredAge = tableData.filter((row) => {
-      //    const rowAge = parseInt(row[SystmOneReportKeys.Age])
-
-      //    const sixtyFiveOrUnderGroup = filterStates.ageFilter.some(value => value === "65 or under") && rowAge <= 65;
-      //    const sixtyFiveToSeventyNineGroup = filterStates.ageFilter.some(value => value === "65 - 79") && (rowAge > 65 && rowAge <= 79);
-      //    const aboveEightyGroup = filterStates.ageFilter.some(value => value === "above 80") && rowAge > 80;
-      //    const noAge = filterStates.ageFilter.length === 0 
-
-      //    return sixtyFiveOrUnderGroup || sixtyFiveToSeventyNineGroup || aboveEightyGroup || noAge
-      // })
-
-      setFilteredData(filterConfig)
+//       setFilteredData(filterConfig)
    
-   }, [filterStates])
+//    }, [filterStates])
 
    
 
@@ -82,6 +76,8 @@ const TableSection = ({setIsModalOpen} : ChildProps) => {
    
    
    
+   // console.log('tableData isArray?', Array.isArray(tableData), tableData);
+   // console.log('filteredData isArray?', Array.isArray(filteredData), filteredData);
 
 
 

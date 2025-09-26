@@ -7,8 +7,8 @@ import toolRouter from "@/services/toolRouter";
 import { ImportPayload } from "@/types/importPayload";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
-import { DisplayContext } from "@/contexts/DispayContext";
-import { useDisplay } from "@/contexts/DispayContext";
+import { DisplayContext } from "@/context/DispayContext";
+import { useDisplay } from "@/context/DispayContext";
 import { dummy_data } from "./dummy_data";
 
 
@@ -22,7 +22,7 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
 
    const router = useRouter();
 
-   const { toolName, setToolName, setFilterItems, setQuickFilters, setSummaryTable, summaryTable, setTableHeader, setTableData, setFilterStates, setImportedData } = useDisplay();
+   const { toolName, test, setToolName, setFilterItems, setQuickFilters, setSummaryTable, summaryTable, setTableHeader, setTableData, setFilterStates, setImportedData } = useDisplay();
 
    const handleImportButtonClick = () => {
       setImportError(ErrorMessages.None)
@@ -61,40 +61,15 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       const routerResult = await toolRouter(newPayload);
       const validationResult = Object.values(routerResult)[0]
       const parserResult = Object.values(routerResult)[1]
-      // const validation
-      // console.log(Object.values(parserResult))
 
       const validationResultArray = Object.values(validationResult)
       const parserResultArray:any[] = Object.values(parserResult)
       
-      console.log(parserResultArray)
-      console.log(validationResultArray)
-      // const resultDetails = Object.values(routerResult.validationResult)[0]
+ 
 
       if (validationResultArray[0] === "success" && parserResultArray[0] === "success"){
          setImportedData(parserResult)
          
-         setToolName(parserResultArray[3].toolName)
-         setFilterItems(parserResultArray[3].filters)
-         setQuickFilters(parserResultArray[3].quickFilters)
-         
-         setSummaryTable (parserResultArray[3].summaryTable)
-
-         setTableHeader(parserResultArray[3].tableHeader)
-
-         console.log(parserResultArray[2])
-       
-         setTableData(Object.values(parserResultArray[2]))
-
-
-
-
-         setDisplayScreen("/display")
-         // console.log(displayScreen)
-         //Check if the parser is also successful 
-         //we want to alert 
-         console.log("confirming validation & parsing")
-
       }
 
       if(validationResultArray[0] === "failure"){
@@ -103,13 +78,25 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       }
    }
 
+
    useEffect(()=> {
-      console.log(toolName, displayScreen)
-      if(toolName){
+      
+      if (test){
          setDisplayScreen("/display")
       }
       router.push(displayScreen)
-   }, [toolName])
+   }, [test])
+
+
+   
+   useEffect(() => {
+      if(displayScreen){
+         router.push(displayScreen)
+      }
+   }, [displayScreen])
+
+
+
 
 
    useEffect(() => {
@@ -236,3 +223,48 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
                
          //    }
          // )
+
+
+ // setToolName(parserResultArray[3].toolName)
+         // setFilterItems(parserResultArray[3].filters)
+         // setQuickFilters(parserResultArray[3].quickFilters)
+         
+         // setSummaryTable (parserResultArray[3].summaryTable)
+
+         // setTableHeader(parserResultArray[3].tableHeader)
+
+         // // console.log(parserResultArray[2])
+       
+         // setTableData(Object.values(parserResultArray[2]))
+
+
+
+
+
+         // setDisplayScreen("/display")
+
+
+         // console.log(displayScreen)
+         // Check if the parser is also successful 
+         // we want to alert 
+         // console.log("confirming validation & parsing")
+     // console.log(parserResultArray)
+      // console.log(validationResultArray)
+      // const resultDetails = Object.values(routerResult.validationResult)[0]  
+      // 
+      
+      
+      // const validation
+      // console.log(Object.values(parserResult))   
+      // 
+      
+      
+   // console.log(displayScreen)
+
+   // useEffect(()=> {
+   //    // console.log(toolName, displayScreen)
+   //    if(toolName){
+   //       setDisplayScreen("/display")
+   //    }
+   //    router.push(displayScreen)
+   // }, [toolName])

@@ -1,6 +1,8 @@
-import { ParserResultType } from "@/types/shared.types";
+import { ParserResultType, ParserResult } from "@/types/shared.types";
 import Papa from 'papaparse';
 import { parse } from "path";
+import { cvdConfig } from "./cvdConfig";
+
 
 //CREATED TO SORT FILES IN A SPECIFIC STRUCTURE BUT NOT WORKING AS EXEPECTED DUE TO THE ASYNCHRONOUS NATURE 
 //Check with Zaheer
@@ -55,8 +57,8 @@ import { parse } from "path";
 
 
 
-const parseSystmOneReport = async(files: Object): Promise<ParserResultType> => {
-      console.log(files)
+const parseSystmOneReport = async(files: Object): Promise<ParserResult> => {
+      // console.log(files)
       const parsedFilesPromises: Array<Promise<object>> = []
 
       let fileArray: Array<File> = []
@@ -141,10 +143,25 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResultType> => {
 
 
 
-      let parserResult: ParserResultType = {
+      // let parserResult: ParserResultType = {
+      //    status : "success",
+      //    info : "Reports successfully parsed",
+      //    masterReport: masterReport
+      // };
+
+      let parserResult: ParserResult = {
          status : "success",
          info : "Reports successfully parsed",
-         masterReport: masterReport
+         config : {
+            filters : cvdConfig.filters,
+            quickFilters : cvdConfig.quickFilters
+         },
+         data : {
+            toolName : cvdConfig.toolName,
+            masterReport : masterReport,
+            summaryTable : cvdConfig.summaryTable,
+            tableHeader : cvdConfig.tableHeader
+         }
       };
       return parserResult
    }

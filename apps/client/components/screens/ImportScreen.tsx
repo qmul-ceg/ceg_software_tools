@@ -8,8 +8,8 @@ import { Card, CardContent} from "@/components/ui/card"
 import { Source_Sans_3 } from 'next/font/google'
 import getFileInputProps from './importScreen.helpers'
 import { useRouter } from 'next/navigation'
-import DisplayProvider from '@/contexts/DispayContext'
-import { useDisplay } from '@/contexts/DispayContext'
+import DisplayProvider from '@/context/DispayContext'
+import { useDisplay } from '@/context/DispayContext'
 
 const sourceFont = Source_Sans_3({
    subsets:['latin'],

@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
-import DisplayProvider from "@/contexts/DispayContext";
+import DisplayProvider from "@/context/DispayContext";
 config.autoAddCss = false
 
 const geistSans = Geist({

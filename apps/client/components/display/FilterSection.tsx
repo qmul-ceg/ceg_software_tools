@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons'
-import { useDisplay } from '@/contexts/DispayContext'
+import { useDisplay } from '@/context/DispayContext'
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { FilterStates } from '@/types/shared.types'
 
 const FilterSection = () => {
 
@@ -11,42 +12,75 @@ const FilterSection = () => {
    const { filterItems, setFilterItems, quickFilters, summaryTable, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates} = useDisplay()
   
 
-   const handleFilterChange = (filterName: string, value:string)=>{
-      console.log(filterName)
-
-      //TURN THIS INTO SWITCH CASE ... POSSIBLY 
-      if (filterName === "Age"){
-         setFilterStates(prev => {
-            if(prev.ageFilter.includes(value)){
+   const handleFilterChange = (filterName: string, valueSelected:string)=>{
+      
+      if(filterName.trim() === "Housebound/Care home"){
+         // console.log(filterStates.houseboundCarehomeFilter)filterToSet: { kind: "single", value: string} 
+         // const filterStateToSet = filterStates.houseboundCarehomeFilter;
+         const setSingleFilterState = (setter:React.Dispatch<React.SetStateAction<FilterStates>>, filterToSet:keyof FilterStates) => {
+            setter(prev => {
+               if (prev[filterToSet].value === valueSelected) {
+                  return {
+                     ...prev,
+                     [filterToSet]: {kind: "single", value : ""}
+                  }
+               }
                return {
                   ...prev,
-                  ageFilter: prev.ageFilter.filter((item) => item !== value)
+                  [filterToSet] : {kind : "single", value : valueSelected}
                }
-            }
-
-            return {
-               ...prev,
-               ageFilter: [...prev.ageFilter, value]
-            }
-         })
+            })
+         }
+         // if(filterStateToSet.kind === "single"){
+            setSingleFilterState(setFilterStates, "houseboundCarehomeFilter")
+         // }
       }
 
-      else if (filterName === "Housebound/Care home"){
-         setFilterStates(prev => {
-            if(prev.houseboundCarehomeFilter === value){
-               return {
-                  ...prev,
-                  houseboundCarehomeFilter : ""
-               }
-            }
-            return {
-               ...prev,
-               houseboundCarehomeFilter : value
-            }
-         })
+      
+      if (filterName.trim() === "Age"){
+         const setMultiFilterState = (setter:React.Dispatch<React.SetStateAction<FilterStates>>, filterToSet: keyof FilterStates) =>{
+            setter(prev => {
+               if(prev[filterToSet].kind === "multi"){
+                  if((prev[filterToSet].value as string[]).includes(valueSelected)){
+                  return {
+                     ...prev,
+                     [filterToSet] : {kind : "multi" , value : (prev[filterToSet].value as string[]).filter(value => value !== valueSelected)}
+                     }
 
+                  }
+                  return {
+                     ...prev,
+                     [filterToSet] : {kind : "multi", value : [...prev[filterToSet].value, valueSelected]}
+                     }
+               }
+               return prev
+               
+            })
+         }
+         setMultiFilterState(setFilterStates, "ageFilter")
       }
+
+
+
+
+
+
+
    }
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
 
    useEffect(()=>{
       console.log(filterStates)
@@ -104,8 +138,8 @@ const FilterSection = () => {
                   <p className ="font-semibold text-md text-left ">Quick filters</p>
                </header>
                <div className="flex flex-col border-[0.1em] text-left border-[#21376A]  border-t-0 p-2 font-semibold ">
-                  {quickFilters.map((item) => (
-                     <label>
+                  {quickFilters.map((item, id) => (
+                     <label key={id}>
                         <input type="checkbox" className="mr-2"></input>
                         <span>{item}</span>
                      </label>
@@ -117,18 +151,18 @@ const FilterSection = () => {
             <div className="border border-black border-dotted w-[800px] grid grid-rows-3 grid-flow-col h-50">
 
                {Object.entries(filterItems).map(([key, value]) => (
-                  <Select >
+                  <Select key={key}>
                      <SelectTrigger className={`  ${ key == "Adverse meds" ? "bg-red-700 text-white" : "bg-[#21376A] text-white"} cursor-pointer `}>
                         <p className="text-white font-bold">{key}</p>
                      </SelectTrigger>
                      <SelectContent >
                         {
-                           value.map((innerList:[]) => (
-                              <ul className="border-b-2">{
+                           value.map((innerList:[], innerIndex:number) => (
+                              <ul key ={innerIndex}className="border-b-2">{
                                  innerList.slice(1).map((item, index) => 
                                  (
                                     
-                                    <label className=" flex space-x-2 cursor-pointer">
+                                    <label key = {index}className=" flex space-x-2 cursor-pointer">
                                        <input 
                                           type="checkbox" 
                                           className='mr-2 cursor-pointer'
@@ -137,11 +171,8 @@ const FilterSection = () => {
                                           checked = {filterStates.houseboundCarehomeFilter === item}
                                           
                                        />
-                                       
                                        <span>{item}</span>
-
                                     </label>
-                                    
                                  ))
                            }
                               
@@ -174,8 +205,8 @@ const FilterSection = () => {
                   </div>
                </header>
                <div className="border-[0.1em] border-[#21376A] border-t-0  p-2 font-semibold ">
-                  {summaryTable.map((item)=> (
-                     <div className="text-sm flex  justify-between">
+                  {summaryTable.map((item, index)=> (
+                     <div key = {index} className="text-sm flex  justify-between">
                         <p>{item[0]}</p>
                         <div className="flex gap-16 mr-12">
                            <p>0</p>
@@ -252,10 +283,6 @@ export default FilterSection
    
    
    
-   
-   
-   
-   
    // console.log(filterName, value)
       // setSelectedFilter((prev) => prev === value ? "" : value)
       // setFilterStates({...filterStates, age: value})
@@ -268,4 +295,85 @@ export default FilterSection
       //       return {...prev, age: ""}
       //    }
       //    return {...prev, age: value}
-      // })
+      // }) 
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      // if(filterName.trim() === "Housebound/Care home"){
+      //    // console.log(filterStates.houseboundCarehomeFilter)
+      //    setFilterStates((prev)=> {
+      //       const filterToUpdate = prev[filterName]
+      //       if(filterToUpdate.kind === "single"){
+      //          if(value === filterToUpdate.value){
+      //             return {
+      //                ...prev,
+      //                filterToUpdate : {kind: "single", value : ""}
+      //             }
+      //          }else {
+      //          return {
+      //             ...prev,
+      //             filterTopUpdate: {kind: "single", value : value}
+      //          }
+      //       }
+      //       }
+      //       return{
+
+      //       }
+            
+      //    })
+      // }
+      // const setSingleState = (setter:React.Dispatch<React.SetStateAction<string>>, filterName:string, value:string) =>{
+         
+      // }
+
+      //If the Filter name = age we know the age filter has been clicked
+      // need to to update the state of our ageFilter by using the function
+      //check if the current value == to the value we pass in if it is set out value to "" else set to  value
+
+
+
+      //TURN THIS INTO SWITCH CASE ... POSSIBLY 
+      // if (filterName === "Age"){
+      //    setFilterStates(prev => {
+            
+      //          if(prev.ageFilter.includes(value)){
+      //             return {
+      //                ...prev,
+      //                ageFilter: prev.ageFilter.filter((item) => item !== value)
+      //             }
+      //          }
+
+      //          return {
+      //             ...prev,
+      //             ageFilter: [...prev.ageFilter, value]
+      //          }
+            
+
+      //    })
+      // }
+
+      // else if (filterName === "Housebound/Care home"){
+      //    setFilterStates(prev => {
+      //       if(prev.houseboundCarehomeFilter === value){
+      //          return {
+      //             ...prev,
+      //             houseboundCarehomeFilter : ""
+      //          }
+      //       }
+      //       return {
+      //          ...prev,
+      //          houseboundCarehomeFilter : value
+      //       }
+      //    })
+
+      // }
