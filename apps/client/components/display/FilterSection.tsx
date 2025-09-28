@@ -13,7 +13,7 @@ const FilterSection = () => {
   
 
    const handleFilterChange = (filterName: string, valueSelected:string)=>{
-      
+
       if(filterName.trim() === "Housebound/Care home"){
          // console.log(filterStates.houseboundCarehomeFilter)filterToSet: { kind: "single", value: string} 
          // const filterStateToSet = filterStates.houseboundCarehomeFilter;
@@ -60,22 +60,48 @@ const FilterSection = () => {
          setMultiFilterState(setFilterStates, "ageFilter")
       }
 
-
-
-
-
-
-
+      if (filterName.trim() === "QRisk score"){
+         const setGroupFilterState = (setter:React.Dispatch<React.SetStateAction<FilterStates>>, filterToSet: keyof FilterStates) => {
+            setter(prev => {
+               if(prev[filterToSet].kind === "group"){
+                  if(valueSelected === "10% or more" || valueSelected === "20% or more"){
+                     if ((prev[filterToSet].value[0] as string[]).includes(valueSelected)){
+                        return {
+                           ...prev,
+                           [filterToSet] : {kind : "group", value : [[""], prev[filterToSet].value[1]]}
+                        }
+                     }
+                     else {
+                        return {
+                           ...prev,
+                           [filterToSet] : {kind : "group", value : [[valueSelected], prev[filterToSet].value[1]]}
+                        }
+                     }
+                  }
+                  else {
+                     if((prev[filterToSet].value[1] as string[]).includes(valueSelected)){
+                        return {
+                           ...prev,
+                           [filterToSet] : {kind : "group", value : [prev[filterToSet].value[0], [""]]}
+                        }
+                     }
+                     else {
+                        return {
+                           ...prev,
+                           [filterToSet] : {kind : "group", value : [prev[filterToSet].value[0], [valueSelected]]}
+                        }
+                     }
+                  }
+               }
+               return prev
+            })
+         }
+         setGroupFilterState(setFilterStates, "qRiskFilter")
+               // console.log(valueSelected)
+      }
    }
 
    
-
-
-
-
-
-
-
 
 
 

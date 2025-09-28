@@ -106,9 +106,6 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
          isMounted.current = true
       }
    }, [importedFile])
-
-   
-
    return { fileInputRef, handleImportButtonClick, importError, setImportError, handleFileChange, importedFile, displayScreen }
 };    
 

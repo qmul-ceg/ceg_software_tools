@@ -63,8 +63,10 @@ type Data = {
 
    filterStates: FilterStates;
    setFilterStates: React.Dispatch<React.SetStateAction<FilterStates>>
+
    // toolEventHandlers: object;
    // setToolEventHandlers: React.Dispatch<React.SetStateAction<object>>
+
    test: boolean;
    setTest: React.Dispatch<React.SetStateAction<boolean>>
 
@@ -114,7 +116,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
          }
       }  
    }, [importedData])
-   // console.log(filterStates)
+
 
    return (
       <DisplayContext.Provider value = {{ toolName, setToolName, filterItems, setFilterItems, 
@@ -125,6 +127,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
       </DisplayContext.Provider>
    )
 }
+
 
 export function useDisplay() {
   const ctx = useContext(DisplayContext);
