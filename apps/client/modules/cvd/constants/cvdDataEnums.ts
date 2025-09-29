@@ -1,4 +1,4 @@
-enum EMISReportKeys{
+export enum EMISReportKeys{
    Full_Name,
    GP_GMC_Number,
    Age,
@@ -11,7 +11,7 @@ enum EMISReportKeys{
    IHD_Code_Term,
    Stroke_TIA_Code_Term,
    PAD_Code_Term,
-   Heart_Failure_Code_Term,
+   //Heart_Failure_Code_Term,
    Hypertension_Code_Term,
    Diabetes_Code_Term,
    CKD_Code_Term,
@@ -113,8 +113,21 @@ enum EMISReportKeys{
    Systolic_BP_Value_5,
    Systolic_BP_ConceptID_6,
    Systolic_BP_Date_6,
-   Systolic_BP_Value_6
+   Systolic_BP_Value_6,
    
+   //Calculated fields
+   CVD,
+   CKD3_5,
+   Diabetes,
+   Hypertension,
+   BloodPressure,
+   Statin_Intensity,
+   Statin_Exclusion,
+
+   Inclisiran,
+
+   AntiHptnMedicationCount
+
 }
 
 export enum SystmOneReportKeys{
@@ -127,7 +140,7 @@ export enum SystmOneReportKeys{
    AF_Code_Term,
    IHD_Code_Term,
    Stroke_TIA_Code_Term,
-   PAD_Code_Term,	Heart_Failure_Code_Term,
+   PAD_Code_Term,	            //Heart_Failure_Code_Term,
    Hypertension_Code_Term,
    Diabetes_Code_Term,
    CKD_Code_Term,
@@ -228,5 +241,18 @@ export enum SystmOneReportKeys{
    ACEi_ARB_Name_Dosage_Quantity,
    ACEi_ARB_Issue_Date,
    Medication_Review_Code_Term,
-   Medication_Review_Date
+   Medication_Review_Date,
+
+   //Calculated fields
+   CVD,
+   CKD3_5,
+   Diabetes,
+   Hypertension,
+   BloodPressure,
+   Statin_Intensity,
+   Statin_Exclusion,
+
+   Inclisiran,
+   AntiHptnMedicationCount
+
 }
