@@ -124,7 +124,7 @@ const FilterSection = () => {
 
 
    return (
-      <div className="">
+      <div >
          <div className = " flex px-4 min-h-16 items-center  rounded-t-lg bg-[#21376A]">
             <div className=" items-center">
                <p className="text-xl font-bold text-white">

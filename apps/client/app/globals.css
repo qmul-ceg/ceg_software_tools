@@ -117,6 +117,29 @@
 
 }
 
+/* 
+::-webkit-scrollbar{
+   width:0.7em;
+}
+
+::-webkit-scrollbar-track{
+   background: 	#f5f5f5;
+   border-left: none;
+   border-bottom: none;
+   border-bottom-left-radius: 100vw; 
+   border-bottom-right-radius: 100vw;
+   
+   margin-block-start: 3em;
+   border-top: 0.4em solid #21376A; 
+}
+/* margin-block-start: var(--header-height); */
+/* ::-webkit-scrollbar-thumb{
+   background: #21376A;
+   border-radius: 100vw;
+
+}  */
+
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

@@ -6,13 +6,16 @@ import TableSection from './TableSection'
 import FooterSection from './FooterSection'
 import DisplayProvider, { DisplayContext } from '@/context/DispayContext'
 import Modal from './Modal'
+import TableBody from './TableBody'
+import TableHeader from './TableHeader'
+
 
 const DisplayScreen = () => {
    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
    return (
 
-      <div className = "flex flex-col border h-screen">
+      <div className = "flex flex-col  h-screen w-full ">
          <div>
             <HeaderSection />
 
@@ -26,9 +29,15 @@ const DisplayScreen = () => {
             Patient data ....
 
          </div>
-         
-         <div className=' border rounded-t-lg  overflow-y-auto'>
-            <TableSection setIsModalOpen={setIsModalOpen}/>
+            {/* overflow-y-auto */}
+         <div className='flex flex-col flex-1 min-h-0 border border-[#21376A] rounded-t-lg dataTable'>
+            <TableHeader />
+            <div className="overflow-y-auto flex-1 min-h-0">
+               <TableBody setIsModalOpen={setIsModalOpen}/>
+            </div>
+            
+            
+            {/* <TableSection setIsModalOpen={setIsModalOpen}/> */}
          </div>
 
          <div className="  mt-auto">

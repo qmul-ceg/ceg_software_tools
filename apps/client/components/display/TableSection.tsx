@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDisplay } from '@/context/DispayContext'
 import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 import { table } from 'console'
+import TableHeader from './TableHeader'
+import TableBody from './TableBody'
+import { Table } from 'lucide-react'
 
 type ChildProps = {
    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -12,7 +15,7 @@ type Filters = {
 }
 const TableSection = ({setIsModalOpen} : ChildProps) => {
    // const { tableHeader, tableData, age  , selectedFilter, filterStates} = useDisplay()
-   const { tableHeader, tableData,selectedFilter, filterStates, age} = useDisplay()
+   const { tableHeader, tableData, } = useDisplay()
    const [ filteredData, setFilteredData] = useState<string[][]>(tableData)
 
 //    useEffect(()=> {
@@ -84,50 +87,107 @@ const TableSection = ({setIsModalOpen} : ChildProps) => {
    
 
   return (
-      <div className="border border-dashed min-h-0 flex flex-col ">
-         <table>
-            <thead className='text-sm'>
-               
-                  <tr className=' '>
-                     {tableHeader.map((item)=> (
-                        <th className=' border-2'>{item}</th>
-                     ))}
-                  </tr>
-            </thead> 
-            <tbody >
-               
-                     {
-                        filteredData.map((item, index)=> ( 
-                           <tr className="border text-xs hover:bg-gray-100">
-                              <td className="text-left w-[14em] px-2 cursor-pointer" onClick={()=>setIsModalOpen(true)}>{item[SystmOneReportKeys.Full_Name]}</td>
-                              <td className="text-center">{item[SystmOneReportKeys.Age]}</td>
-                              <td className="text-center">{item[SystmOneReportKeys.Gender]}</td>
-                              <td className="text-center">0000</td>
-                              <td className="text-center w-[2em]">{item[SystmOneReportKeys.Statin_Contra_Code_Term]}</td>
-                              <td className="text-center">-</td>
-                              <td className="text-center">-</td>
-                              <td className="text-center">-</td>
-                              <td className="text-center">140/80</td>
-                              <td className="text-center">-</td>
-                              <td className="text-center w-[4em]">{item[SystmOneReportKeys.CKD_Code_Term]}</td>
-                              <td className="text-center">{item[SystmOneReportKeys.Hypertension_Code_Term]}</td>
-                              <td className="text-center">{item[SystmOneReportKeys.Diabetes_Code_Term]}</td>
-                              <td className="text-center">{item[SystmOneReportKeys.Total_Cholestrol_Value]}</td>
-                              <td className="text-center">{item[SystmOneReportKeys.LDL_Cholestrol_Value]}</td>
-                              <td className="text-center">{item[SystmOneReportKeys.EGFR_Value]}</td>
-                              <td className="text-center">{item[SystmOneReportKeys.Hypertension_Code_Term]}</td>
-                              <td className="text-center">{item[SystmOneReportKeys.Medication_Review_Date]}</td>
+      <div className=" flex flex-col min-h-0">
+         <TableHeader />
+         {/* SECOND TRY */}
+         <div className="flex-1 min-h-0 overflow-y-auto border ">
+            <TableBody setIsModalOpen={setIsModalOpen}/>
+         </div>
 
-                           </tr>                           
-                        ))
-                     } 
-            </tbody>  
-         </table>
       </div>
   )
 }
 
 export default TableSection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -333,3 +393,115 @@ export default TableSection
    //    setFilteredData(filteredAge)
    
    // }, [age])
+   // 
+   
+   
+   
+   {/* <table>
+            <thead>
+               <tr className=''>
+                     <th className='  border-r-2 bg-white sticky top-0 border-b-6 z- border-[#21376A]'>
+                        <input
+                           type="checkbox"
+                        />
+                        
+                     </th>
+                     {tableHeader.map((item)=> (
+                        
+                        <th className=' px-2 py-1 border-r-2 bg-white sticky top-0 border-b-6  border-[#21376A]'>{item}</th>
+                     ))}
+                  </tr>
+
+            </thead>
+         </table> */}
+         //  <table>
+         //       <tbody className="">
+                     
+         //             {
+         //                filteredData.map((item, index)=> ( 
+         //                   <tr className=" text-xs hover:bg-gray-100">
+         //                      <td className="w-[4em] text-center">
+         //                         <input 
+         //                            type="checkbox"
+         //                         />
+         //                      </td>
+         //                      <td className="text-left w-[14em] px-2 cursor-pointer" onClick={()=>setIsModalOpen(true)}>{item[SystmOneReportKeys.Full_Name]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.Age]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.Gender]}</td>
+         //                      <td className="text-center">0000</td>
+         //                      <td className="text-center w-[2em]">{item[SystmOneReportKeys.Statin_Contra_Code_Term]}</td>
+         //                      <td className="text-center">-</td>
+         //                      <td className="text-center">-</td>
+         //                      <td className="text-center">-</td>
+         //                      <td className="text-center">140/80</td>
+         //                      <td className="text-center">-</td>
+         //                      <td className="text-center w-[4em]">{item[SystmOneReportKeys.CKD_Code_Term]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.Hypertension_Code_Term]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.Diabetes_Code_Term]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.Total_Cholestrol_Value]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.LDL_Cholestrol_Value]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.EGFR_Value]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.Hypertension_Code_Term]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.Medication_Review_Date]}</td>
+
+         //                   </tr>                           
+         //                ))
+         //             } 
+         //    </tbody>  
+         //    </table>         
+         //  {/* <table className="border-separate border-spacing-0 ">
+         //    <thead className='text-sm '>
+               
+         //          <tr className=''>
+         //             <th className='  border-r-2 bg-white sticky top-0 border-b-6 z- border-[#21376A]'>
+         //                <input
+         //                   type="checkbox"
+         //                />
+                        
+         //             </th>
+         //             {tableHeader.map((item)=> (
+                        
+         //                <th className=' px-2 py-1 border-r-2 bg-white sticky top-0 border-b-6  border-[#21376A]'>{item}</th>
+         //             ))}
+         //          </tr>
+                  
+         //    </thead> 
+               
+
+         //    <div>
+               
+         //    </div>
+         //    <tbody className="">
+                     
+         //             {
+         //                filteredData.map((item, index)=> ( 
+         //                   <tr className=" text-xs hover:bg-gray-100">
+         //                      <td className="w-[4em] text-center">
+         //                         <input 
+         //                            type="checkbox"
+         //                         />
+         //                      </td>
+         //                      <td className="text-left w-[14em] px-2 cursor-pointer" onClick={()=>setIsModalOpen(true)}>{item[SystmOneReportKeys.Full_Name]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.Age]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.Gender]}</td>
+         //                      <td className="text-center">0000</td>
+         //                      <td className="text-center w-[2em]">{item[SystmOneReportKeys.Statin_Contra_Code_Term]}</td>
+         //                      <td className="text-center">-</td>
+         //                      <td className="text-center">-</td>
+         //                      <td className="text-center">-</td>
+         //                      <td className="text-center">140/80</td>
+         //                      <td className="text-center">-</td>
+         //                      <td className="text-center w-[4em]">{item[SystmOneReportKeys.CKD_Code_Term]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.Hypertension_Code_Term]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.Diabetes_Code_Term]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.Total_Cholestrol_Value]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.LDL_Cholestrol_Value]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.EGFR_Value]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.Hypertension_Code_Term]}</td>
+         //                      <td className="text-center">{item[SystmOneReportKeys.Medication_Review_Date]}</td>
+
+         //                   </tr>                           
+         //                ))
+         //             } 
+         //    </tbody>  
+         // </table> 
