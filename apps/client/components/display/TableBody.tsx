@@ -13,7 +13,7 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
    const [ filteredData, setFilteredData] = useState<string[][]>(tableData)
 
    return (
-               <div className=" border">
+               <div className=" ">
                   <table>
                      <tbody className="">
                            

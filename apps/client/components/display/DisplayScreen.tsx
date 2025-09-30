@@ -15,7 +15,7 @@ const DisplayScreen = () => {
 
    return (
 
-      <div className = "flex flex-col  h-screen w-full ">
+      <div className = "flex flex-col  h-screen w-full overflow-hidden">
          <div>
             <HeaderSection />
 
@@ -25,14 +25,14 @@ const DisplayScreen = () => {
             <FilterSection /> 
          </div>
 
-         <div className = "border mt-6 ">
+         <div className = " border mt-4 mb-2 ">
             Patient data ....
 
          </div>
             {/* overflow-y-auto */}
-         <div className='flex flex-col flex-1 min-h-0 border border-[#21376A] rounded-t-lg dataTable'>
+         <div className='flex flex-col flex-1 min-h-0 border border-[#21376A] rounded-t-lg '>
             <TableHeader />
-            <div className="overflow-y-auto flex-1 min-h-0">
+            <div className="overflow-y-auto ">
                <TableBody setIsModalOpen={setIsModalOpen}/>
             </div>
             

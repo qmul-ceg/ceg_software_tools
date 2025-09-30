@@ -5,11 +5,11 @@ import { useDisplay } from '@/context/DispayContext'
 const TableHeader = () => {
    const { tableHeader } = useDisplay()
    return (
-      <div className="border">
+      <div className="  sticky border-b-6 border-[#21376A] rounded-t-lg">
          <table>
             <thead>
                <tr className=''>
-                     <th className='  border-r-2 bg-white sticky top-0 border-b-6 z- border-[#21376A] w-10'>
+                     <th className='  border-r-1   top-0   border-[#21376A] w-10'>
                         <input
                            type="checkbox"
                            
@@ -17,7 +17,7 @@ const TableHeader = () => {
                         
                      </th>
                      {tableHeader.map((item)=> (
-                        <th className=' px-4 py-1 border-r-2 bg-white sticky top-0 border-b-6  border-[#21376A]'>{item}</th>
+                        <th className={` px-3 py-1 ${item !== "Medication review latest date" ? "border-r-1" : "" }  top-0   border-[#21376A]`}>{item}</th>
                      ))}
                   </tr>
 
