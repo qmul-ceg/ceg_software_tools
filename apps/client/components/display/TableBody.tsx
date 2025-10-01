@@ -29,19 +29,19 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
                                     <td className="text-center px-2">{item[SystmOneReportKeys.Age]}</td>
                                     <td className="text-center px-6">{item[SystmOneReportKeys.Gender]}</td>
                                     <td className="text-center px-6">0000</td>
-                                    <td className="text-center w-[2em]">{item[SystmOneReportKeys.Statin_Contra_Code_Term]}</td>
-                                    <td className="text-center">-</td>
-                                    <td className="text-center">-</td>
-                                    <td className="text-center">-</td>
-                                    <td className="text-center">140/80</td>
-                                    <td className="text-center">-</td>
-                                    <td className="text-center w-[4em]">{item[SystmOneReportKeys.CKD_Code_Term]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.Hypertension_Code_Term]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.Diabetes_Code_Term]}</td>
+                                    <td className="text-center w-[2em]">{item[SystmOneReportKeys.Statin_Name_Dosage_Quantity]}</td>
+                                    <td className="text-center">{item[SystmOneReportKeys.Statin_Intensity]}</td>
+                                    <td className="text-center">{item[SystmOneReportKeys.Statin_Exclusion]}</td>
+                                    <td className="text-center">{item[SystmOneReportKeys.Inclisiran]}</td>
+                                    <td className="text-center">{item[SystmOneReportKeys.BloodPressure]}</td>
+                                    <td className="text-center">{item[SystmOneReportKeys.CVD]}</td>
+                                    <td className="text-center w-[4em]">{item[SystmOneReportKeys.CKD3_5]}</td>
+                                    <td className="text-center">{item[SystmOneReportKeys.Hypertension]}</td>
+                                    <td className="text-center">{item[SystmOneReportKeys.Diabetes]}</td>
                                     <td className="text-center">{item[SystmOneReportKeys.Total_Cholestrol_Value]}</td>
                                     <td className="text-center">{item[SystmOneReportKeys.LDL_Cholestrol_Value]}</td>
                                     <td className="text-center">{item[SystmOneReportKeys.EGFR_Value]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.Hypertension_Code_Term]}</td>
+                                    <td className="text-center">{item[SystmOneReportKeys.AntiHptnMedicationCount]}</td>
                                     <td className="text-center">{item[SystmOneReportKeys.Medication_Review_Date]}</td>
       
                                  </tr>                           

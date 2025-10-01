@@ -6,6 +6,9 @@ import { ValidationType, ParserResultType, ParserResult } from "@/types/shared.t
 import parseCVDSystmOneReport from "./reportParsers/parseCVDSystmOneReport";
 import parseCVDEMISReport from "./reportParsers/parseCVDEMISReport"
 import { cvdConfig } from "./utils/cvdConfig";
+import { EMISReportKeys, SystmOneReportKeys } from "./constants/cvdDataEnums";
+import { CVDaddCalculatedFields } from "./utils/cvdAddCalculatedFields";
+import { TransformCVDS1Data } from "./utils/cvdS1DataTransform";
 
 
 
@@ -47,6 +50,22 @@ export default async function cvdToolModule(payload:ImportPayload){
             parserResult = await parseReport(payload.file)
 
             if (parserResult.status === "success"){
+               let parsedDataObject = Object.values(parserResult.data.masterReport as object);
+               if (parsedDataObject.length > 0) {
+
+                  let reportKeys : typeof EMISReportKeys | typeof SystmOneReportKeys;
+
+                  if (payload.clinicalSystem === ClinicalSystems.EMIS) {
+                     reportKeys = EMISReportKeys;
+                  }
+                  else if (payload.clinicalSystem === ClinicalSystems.SystmOne) {
+                     reportKeys = SystmOneReportKeys;
+                     TransformCVDS1Data(parsedDataObject); //Transform S1 data
+                  }
+                  //Add calculated properties/fields
+                  CVDaddCalculatedFields(parsedDataObject, reportKeys)
+               } 
+               
                return { validationResult, parserResult}
           
             }
