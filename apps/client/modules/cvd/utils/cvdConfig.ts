@@ -7,6 +7,24 @@ export const cvdConfig = {
 
    filters : 
       {
+
+         HouseboundCarehome : {
+            id : "houseboundCarehomeFilter",
+            label : "Housebound/Carehome",
+            ui : {
+               width : 2,
+               bgColour : ""
+            },
+            kind : "multi", 
+
+            options : [
+               {value : "housebound", label: "Housebound"},
+               {value : "carehome", label: "Carehome"},
+
+            ], 
+            emptyBehaviour : []
+         },
+
          Age : {
             id : "ageFilter",
             label : "Age",
@@ -23,6 +41,33 @@ export const cvdConfig = {
             ], 
             emptyBehaviour : []
          },
+
+         Vulnerabilities : {
+            id : "vulnerabilitiesFilter",
+            label : "Vulnerabilities",
+            ui : {
+               width : 2,
+               bgColour : ""
+            },
+            kind : "multi", 
+
+            options : [
+               {value : "smi", label: "Severe mental illness"},
+               {value : "learning", label: "Learning disability"},
+               {value : "dementia", label: "Dementia"},
+            ], 
+            emptyBehaviour : []
+         },
+         // AdverseMeds : {
+         //    id : "adverseMedsFilter",
+         //    label : "Adverse meds",
+         //    ui : {
+         //       width : 2,
+         //       bgColour : ""
+         //    },
+         // }
+
+         
 
          
           

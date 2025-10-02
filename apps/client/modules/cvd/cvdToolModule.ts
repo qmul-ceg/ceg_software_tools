@@ -18,8 +18,8 @@ import { TransformCVDS1Data } from "./utils/cvdS1DataTransform";
 // // Validate file based on clinical system in the payload - We can call separate functionalities one for sytmOne clinical systems and one for EMIS
    // If report is valid we process file to create a master report 
    // Master report is processed and we write functionlities to draw our specific data from master reposrt
-   // These functionalities can be packed and sent to our display screen. 
-   // We call the display screen with our packed results. 
+   // These functionalities can be packaged and sent to our display screen. 
+   // We call the display screen with our packaged results. 
 
 export default async function cvdToolModule(payload:ImportPayload){
    // console.log(payload)

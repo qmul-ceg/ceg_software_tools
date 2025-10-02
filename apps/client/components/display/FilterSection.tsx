@@ -129,7 +129,7 @@ const FilterSection = () => {
                {
                   Object.entries(filterItems).map(([key, value])=> {
                      return (
-                        <Select>
+                        <Select key = {key}>
                            <SelectTrigger>
                               {value.label}
                            </SelectTrigger>

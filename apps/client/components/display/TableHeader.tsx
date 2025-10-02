@@ -16,8 +16,8 @@ const TableHeader = () => {
                         />
                         
                      </th>
-                     {tableHeader.map((item)=> (
-                        <th className={` px-3 py-1 ${item !== "Medication review latest date" ? "border-r-1" : "" }  top-0   border-[#21376A]`}>{item}</th>
+                     {tableHeader.map((item, index)=> (
+                        <th key = {index} className={` px-3 py-1 ${item !== "Medication review latest date" ? "border-r-1" : "" }  top-0   border-[#21376A]`}>{item}</th>
                      ))}
                   </tr>
 

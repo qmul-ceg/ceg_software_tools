@@ -5,6 +5,7 @@ import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 
 
 
+
 type ChildProps = {
    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -15,21 +16,40 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
    const [ filteredData, setFilteredData] = useState<string[][]>(tableData ?? [])
 
    useEffect(()=> {
-      console.log(filterStates)
+      // console.log(tableData)
       
       const filterConfig = tableData?.filter((row) => {
          const ageIndex = parseInt(row[SystmOneReportKeys.Age])
+         const houseboundIndex = row[SystmOneReportKeys.Housebound_Code_Term].trim()
+         const smiIndex = row[SystmOneReportKeys.SMI_Code_Term].trim()
+         const learningDisabilityIndex = row[SystmOneReportKeys.Learning_Difficulties_Code_Term].trim()
+         const dementiaIndex = row[SystmOneReportKeys.Dementia_Code_Term].trim()
 
          const filterByAge = 
             (filterStates.ageFilter.value as string[]).some(value => value === "lte65") && ageIndex <= 65 ||
             (filterStates.ageFilter.value as string[]).some(value => value === "65-79") && (ageIndex > 65 && ageIndex <= 79) ||
             (filterStates.ageFilter.value as string[]).some(value => value === "gte80") && (ageIndex >= 80) ||
             filterStates.ageFilter.value.length === 0
-            
-         return filterByAge
 
 
-      })
+         const filterByHousebound = 
+            filterStates.houseboundCarehomeFilter.value.length === 0 ||
+            filterStates.houseboundCarehomeFilter.value  === "Housebound"  && houseboundIndex === "13CA." ||
+            filterStates.houseboundCarehomeFilter.value  === "Carehome"  && houseboundIndex === "13CA."
+
+         const vulnerabilitiesFilter = 
+            (filterStates.vulnerabilitiesFilter.value as string[]).some(value => value === "smi") && smiIndex ||
+            (filterStates.vulnerabilitiesFilter.value as string[]).some(value => value === "learning") && learningDisabilityIndex ||
+            (filterStates.vulnerabilitiesFilter.value as string[]).some(value => value === "dementia") && dementiaIndex ||
+            filterStates.vulnerabilitiesFilter.value.length === 0 
+
+
+         return filterByAge && filterByHousebound && vulnerabilitiesFilter
+      })   
+        
+
+
+      
 
       setFilteredData(filterConfig ?? [])
 
