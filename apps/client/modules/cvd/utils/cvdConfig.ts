@@ -58,6 +58,31 @@ export const cvdConfig = {
             ], 
             emptyBehaviour : []
          },
+
+         CoMorbidities : {
+            id : "comorbiditiesFilter",
+            label : "Co-morbidities",
+            ui : {
+               width : 2,
+               bgColour : ""
+            },
+            kind : "multi", 
+
+            options : [
+               {value : "cvd", label: "CVD (IHD/Stroke/TIA/PAD)"},
+               {value : "hypertension", label: "Hypertension"},
+               {value : "diabetes", label: "Diabetes"},
+               {value : "ckd", label: "CKD 3-5"},
+               {value : "af", label: "Atrial Fibrillation"},
+               {value : "cancer", label: "Cancer"},
+
+
+
+            ], 
+            emptyBehaviour : []
+         },
+
+         
          // AdverseMeds : {
          //    id : "adverseMedsFilter",
          //    label : "Adverse meds",

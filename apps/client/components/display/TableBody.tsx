@@ -25,6 +25,14 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
          const learningDisabilityIndex = row[SystmOneReportKeys.Learning_Difficulties_Code_Term].trim()
          const dementiaIndex = row[SystmOneReportKeys.Dementia_Code_Term].trim()
 
+         //Comorbidities indexes
+         const cvdIndex = row[SystmOneReportKeys.CVD]
+         const hypertensionIndex = row[SystmOneReportKeys.Hypertension]
+         const diabetesIndex = row[SystmOneReportKeys.Diabetes]
+         const ckdIndex = row[SystmOneReportKeys.CKD_Code_Term]
+         const afIndex = row[SystmOneReportKeys.AF_Code_Term]
+         const cancerIndex = row[SystmOneReportKeys.Cancer_Code_Term]
+
          const filterByAge = 
             (filterStates.ageFilter.value as string[]).some(value => value === "lte65") && ageIndex <= 65 ||
             (filterStates.ageFilter.value as string[]).some(value => value === "65-79") && (ageIndex > 65 && ageIndex <= 79) ||
@@ -43,8 +51,17 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
             (filterStates.vulnerabilitiesFilter.value as string[]).some(value => value === "dementia") && dementiaIndex ||
             filterStates.vulnerabilitiesFilter.value.length === 0 
 
+         const comorbiditiesFilter = 
+            (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "cvd") && cvdIndex === "YES" ||
+            (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "hypertension") && hypertensionIndex === "YES" ||
+            (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "diabetes") && diabetesIndex === "YES" ||
+            (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "ckd") && ckdIndex  ||
+            (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "af") && afIndex  ||
+            (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "cancer") && cancerIndex  ||
 
-         return filterByAge && filterByHousebound && vulnerabilitiesFilter
+            filterStates.comorbiditiesFilter.value.length === 0
+
+         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter
       })   
         
 

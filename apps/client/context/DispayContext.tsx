@@ -12,7 +12,7 @@ const cvdFilterStates:FilterStates ={
    bloodPressureFilter: {kind: "single", value: ""},
    houseboundCarehomeFilter : {kind: "multi", value: []},
    lipidMedicationsFilter: {kind: "single", value: ""},
-   comorbiditiesFilter: {kind: "single", value: ""},
+   comorbiditiesFilter: {kind: "multi", value: []},
    cholestrolFilter: {kind: "single", value: ""},
    qRiskFilter: {kind: "group", value: [[],[]]},
    vulnerabilitiesFilter: {kind: "multi", value: []},
