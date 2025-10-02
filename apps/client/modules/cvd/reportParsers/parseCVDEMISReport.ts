@@ -1,15 +1,15 @@
-import { ParserResultInterface } from "@/types/shared.types";
+import { ParserResult } from "@/types/shared.types";
 import Papa from 'papaparse';
 
-export default async function parseCVDEMISReport(report: FileList):Promise<ParserResultInterface>{
+export default async function parseCVDEMISReport(report: FileList):Promise<ParserResult>{
    // let parsedFile:ParserResultInterface = {
    //    status : "",
    //    info : "",
    //    masterReport : {}
    // }
 
-   const parseFile = async (file: File): Promise<ParserResultInterface> => {
-      return new Promise<ParserResultInterface>((resolve, reject) => {
+   const parseFile = async (file: File): Promise<ParserResult> => {
+      return new Promise<ParserResult>((resolve, reject) => {
          Papa.parse(file, {
             header : false,
             skipEmptyLines : true,
@@ -59,10 +59,12 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
                   }
                }
                
-               let parsedFileResult:ParserResultInterface = {
+               let parsedFileResult:ParserResult = {
                   status : "success",
                   info : "Report successfully parsed",
-                  masterReport : masterReport
+                  data : {
+                     masterReport : masterReport
+                  }
                }
 
                resolve(parsedFileResult)

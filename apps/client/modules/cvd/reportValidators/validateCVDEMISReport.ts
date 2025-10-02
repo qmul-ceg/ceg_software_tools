@@ -1,7 +1,7 @@
-import { ValidationInterface } from "@/types/shared.types"
+import { ValidationType } from "@/types/shared.types"
 export default async function validateCVDEMISReport(file:FileList) {
 
-   const validationResult: ValidationInterface={
+   const validationResult: ValidationType={
       status : "",
       info : ""
    }

@@ -10,7 +10,7 @@ type ChildProps = {
 
 const TableBody = ({setIsModalOpen} : ChildProps) => {
    const { tableHeader, tableData, } = useDisplay()
-   const [ filteredData, setFilteredData] = useState<string[][]>(tableData)
+   const [ filteredData, setFilteredData] = useState<string[][]>(tableData ?? [])
 
    return (
                <div className=" ">

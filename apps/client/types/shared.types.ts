@@ -26,10 +26,10 @@ export type ParserResult = {
    //outputs for rendering and analysis
 
    data? : {
-      toolName: string;
-      tableHeader: string[];
-      summaryTable: string[][];
-      masterReport: string[][];
+      toolName?: string ;
+      tableHeader?: string[] ;
+      summaryTable?: string[][];
+      masterReport?: Record<string, string[]>;
    }
 }
 

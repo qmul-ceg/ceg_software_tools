@@ -1,38 +1,78 @@
+
+
+//CREATE TYPE FOR THE CONFIGURATIONS SO THAT OTHER TOOLS WILL BE ABLE TO USE IT 
+
 export const cvdConfig = {
    toolName : "CVD Prevention tool",
 
    filters : 
       {
-         "Antihypertensive meds" : 
-            [  ["", "ACEi/ARB", "Ca-Channel", "Thiazides", "Beta-blockers","Others"], 
-               ["No.of Antihypertensives", "0", "1", "2 or more"], 
-               ["", "Max tolerated dose"], 
-               ["", "Antihypertensives declined (12m)"]],
-         "Blood pressure readings":
-            [  ["", "Under 140/90", "Over 140/90", "Over 150/90"], 
-               ["", "Not in last 12m", "Not in financial year"]],
-         "Housebound/Care home":
-            [  ["", "Housebound", "Care home"]],
-         "Lipid medications":
-            [  ["Statin", "High intensity Statin", "medium or low intensity", "Not on Statin"], 
-               ["", "On inclisiran"],
-               ["", "Max tolerated dose"],
-               ["", "Statin exlusions (Valid* contraindicated/declined"]],
-         "Co-morbidities":
-            [  ["", "CVD (IHD/Stroke/TIA/PAD)", "Hypertension", "Diabetes", "CKD 3-5", "Atrial Fibrillation", "Cancer"]],
-         "Cholestrol readings":
-            [  ["LDL", "> 2.0"], ["", "Not in last 12m", "Not in financial year"]],
-         "QRisk score":
-            [  ["", "10% or more", "20% or more"], ["", "Not recorded in last 12m"]],
-         "Vulnerabilities":
-            [ ["", "Severe mental illness", "Learning disability", "Dementia"]],
-         "Ethnicity":
-            [ ["", "Asian/Asian British", "Black/Black British", "Mixed or multiple ethnic groups", "White", "Other/Not specified"]],
-         "Age":
-            [  ["", "65 or under", "65 - 79", "above 80"]],
-         "Adverse meds":
-            [ ["", "NSAIDs (excl. aspirin)"]]
+         Age : {
+            id : "ageFilter",
+            label : "Age",
+            ui : {
+               width : 2,
+               bgColour : ""
+            },
+            kind : "multi", 
+
+            options : [
+               {value : "lte65", label: "65 or under"},
+               {value : "65-79", label: "65 - 79"},
+               {value : "gte80", label: "above 80"},
+            ], 
+            emptyBehaviour : []
          },
+
+         
+          
+         
+         
+         
+         
+         // selections : {
+            //    option_1 : {
+            //       title : "",
+                  
+                  // "65 or under", "65 - 79", "above 80"
+
+
+
+
+
+
+
+
+         // "Antihypertensive meds" : 
+         //    [  ["", "ACEi/ARB", "Ca-Channel", "Thiazides", "Beta-blockers","Others"], 
+         //       ["No.of Antihypertensives", "0", "1", "2 or more"], 
+         //       ["", "Max tolerated dose"], 
+         //       ["", "Antihypertensives declined (12m)"]],
+         // "Blood pressure readings":
+         //    [  ["", "Under 140/90", "Over 140/90", "Over 150/90"], 
+         //       ["", "Not in last 12m", "Not in financial year"]],
+         // "Housebound/Care home":
+         //    [  ["", "Housebound", "Care home"]],
+         // "Lipid medications":
+         //    [  ["Statin", "High intensity Statin", "medium or low intensity", "Not on Statin"], 
+         //       ["", "On inclisiran"],
+         //       ["", "Max tolerated dose"],
+         //       ["", "Statin exlusions (Valid* contraindicated/declined"]],
+         // "Co-morbidities":
+         //    [  ["", "CVD (IHD/Stroke/TIA/PAD)", "Hypertension", "Diabetes", "CKD 3-5", "Atrial Fibrillation", "Cancer"]],
+         // "Cholestrol readings":
+         //    [  ["LDL", "> 2.0"], ["", "Not in last 12m", "Not in financial year"]],
+         // "QRisk score":
+         //    [  ["", "10% or more", "20% or more"], ["", "Not recorded in last 12m"]],
+         // "Vulnerabilities":
+         //    [ ["", "Severe mental illness", "Learning disability", "Dementia"]],
+         // "Ethnicity":
+         //    [ ["", "Asian/Asian British", "Black/Black British", "Mixed or multiple ethnic groups", "White", "Other/Not specified"]],
+         // "Age":
+         //    [  ["", "65 or under", "65 - 79", "above 80"]],
+         // "Adverse meds":
+         //    [ ["", "NSAIDs (excl. aspirin)"]]
+      },
 
    quickFilters : 
       [  "BP > 140/90, no hypertension diagnosis", 
@@ -61,7 +101,8 @@ export const cvdConfig = {
       [  "Full name", "Age", "Gender", "Patient reference no.", "Statin prescription", "Statin intensity", 
          "Statin exclusion", "Inclisiran", "Blood pressure", "CVD", "CKD 3 - 5", "HTN", "Diabetes", "Total cholestrol", 
          "LDL cholestrol", "eGFR", "No. of anti-hptn meds", "Medication review latest date"
-      ]
-   
+      ],
+
    
 }
+

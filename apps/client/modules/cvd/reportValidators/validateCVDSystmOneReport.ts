@@ -1,10 +1,10 @@
-import { ValidationInterface } from "@/types/shared.types"
+import { ValidationType } from "@/types/shared.types"
 import { readFileHeaders, filterCSVFiles, validateCVDReportHeaders } from "../utils/cvdValidateHelpers"
 
 
 export default async function validateCVDSystmOneReport(files:FileList){
 
-   const validationResult: ValidationInterface ={
+   const validationResult: ValidationType ={
       status: "",
       info:""
    }

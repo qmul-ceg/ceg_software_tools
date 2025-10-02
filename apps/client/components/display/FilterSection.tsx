@@ -9,8 +9,10 @@ import { FilterStates } from '@/types/shared.types'
 const FilterSection = () => {
 
    const [showFilter, setShowFilter] = useState<boolean>(true)
-   const { filterItems, setFilterItems, quickFilters, summaryTable, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates} = useDisplay()
+   const {  filterItems, setFilterItems, quickFilters, summaryTable, filterStates, setFilterStates} = useDisplay()
   
+   // console.log(filterItems)
+
 
    const handleFilterChange = (filterName: string, valueSelected:string)=>{
 
@@ -133,10 +135,7 @@ const FilterSection = () => {
             </div>
             
             {/* FILTER ADD OR DELETE FILTERS */}
-            <div>
-
-            </div>
-
+            
             <div className="ml-auto mr-8 text-center min-w-[140px] ">
                <button
                   className='bg-white text-[#21376A] rounded-md 
@@ -174,7 +173,44 @@ const FilterSection = () => {
                </div>
             </div>
 
-            <div className="border border-black border-dotted w-[800px] grid grid-rows-3 grid-flow-col h-50">
+
+            {/* FILTERS */}
+            <div className="border border-dashed">
+               {
+                  Object.entries(filterItems).map(([key, value])=> {
+                     return (
+                        <Select>
+                           <SelectTrigger>
+                              {value.label}
+                           </SelectTrigger>
+                           <SelectContent>
+                              {
+                                 value.options.map((option: {value: string, label: string}) => (
+                                    <ul>
+                                       {/* <li>{option.label}</li> */}
+                                       <label>
+                                          <input 
+                                             type = "checkbox"
+                                             className=" cursor-pointer mr-2"
+                                             value = {option.value} 
+                                          />
+                                          {option.label}
+                                       </label>
+                                       
+                                    </ul>
+                                 ))
+
+                              }
+                           </SelectContent>
+                        </Select>
+                     )
+                  })
+                  
+               }
+
+            </div>
+
+            {/* <div className="border border-black border-dotted w-[800px] grid grid-rows-3 grid-flow-col h-50">
 
                {Object.entries(filterItems).map(([key, value]) => (
                   <Select key={key}>
@@ -206,10 +242,6 @@ const FilterSection = () => {
                               
                            ))
                         }
-                        
-                        {/* <ul >
-                           <li>{value}</li>
-                        </ul> */}
                      </SelectContent>
                   </Select>
 
@@ -217,7 +249,7 @@ const FilterSection = () => {
                }
                   
                   
-            </div>
+            </div> */}
             
             
             {/* SUMMARY BOX */}

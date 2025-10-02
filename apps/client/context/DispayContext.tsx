@@ -52,7 +52,7 @@ type Data = {
    tableHeader: string[];
    setTableHeader: React.Dispatch<React.SetStateAction<string[]>>
 
-   tableData: string[][];
+   tableData: string[][] | undefined;
    setTableData: React.Dispatch<React.SetStateAction<string[][]>>
 
    age : string[];
@@ -81,7 +81,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
 
    const [importedData, setImportedData] = useState<ParserResult>({status : "", info: ""})
    const [test, setTest] = useState<boolean>(false)
-   const [toolName, setToolName] = useState("")
+   const [toolName, setToolName] = useState<string>("")
    const [filterItems, setFilterItems] = useState<Object>({})
    const [quickFilters, setQuickFilters] = useState<string[]>([])
    const [summaryTable, setSummaryTable] = useState<string[][]>([])
@@ -101,10 +101,10 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
       if (importedData){
          console.log(importedData)
          if (importedData){
-            if (importedData.data && importedData.config){
-               setToolName(importedData.data.toolName)
-               setTableHeader(importedData.data.tableHeader)
-               setSummaryTable(importedData.data.summaryTable)
+            if (importedData.data && importedData.config && importedData.data?.masterReport){
+               setToolName(importedData.data.toolName ?? "")
+               setTableHeader(importedData.data.tableHeader ?? [])
+               setSummaryTable(importedData.data.summaryTable ?? [])
                setTableData(Object.values(importedData.data.masterReport))
                setFilterItems(importedData.config.filters)
                setQuickFilters(importedData.config.quickFilters)
@@ -119,8 +119,8 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
 
 
    return (
-      <DisplayContext.Provider value = {{ toolName, setToolName, filterItems, setFilterItems, 
-         quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader,
+      <DisplayContext.Provider value = {{ toolName, setToolName,  
+         quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader, filterItems, setFilterItems,
           setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates, importedData,  setImportedData, test, setTest  }}>
          {children}
 
@@ -130,12 +130,14 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
 
 
 export function useDisplay() {
+
+   // COME BACK TO THIS 
   const ctx = useContext(DisplayContext);
   if (!ctx) throw new Error("useDisplay must be used within DisplayProvider");
   return ctx; // now ctx is Data, not Data | null
 }
 
-
+// ADD THIS BACK WHEN DIFINING FILTERS
 
 
 
