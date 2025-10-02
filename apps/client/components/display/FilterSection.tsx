@@ -11,97 +11,52 @@ const FilterSection = () => {
    const [showFilter, setShowFilter] = useState<boolean>(true)
    const {  filterItems, setFilterItems, quickFilters, summaryTable, filterStates, setFilterStates} = useDisplay()
   
+   type FilterSelectionPayload = {
+      selectedFilterName : string,
+      selectedValue : string,
+      selectedFilterKind : string
+   }
+
+
+
+
    // console.log(filterItems)
+   const handleFilterSelection = (filterPayload : FilterSelectionPayload) => {
+      // console.log(filterPayload.selectedFilterName)
 
-
-   const handleFilterChange = (filterName: string, valueSelected:string)=>{
-
-      if(filterName.trim() === "Housebound/Care home"){
-         // console.log(filterStates.houseboundCarehomeFilter)filterToSet: { kind: "single", value: string} 
-         // const filterStateToSet = filterStates.houseboundCarehomeFilter;
-         const setSingleFilterState = (setter:React.Dispatch<React.SetStateAction<FilterStates>>, filterToSet:keyof FilterStates) => {
-            setter(prev => {
-               if (prev[filterToSet].value === valueSelected) {
+      if(filterPayload.selectedFilterKind === "multi"){
+         const updateMultiFilter = () => {
+            
+            const filterKeyToUpdate = filterPayload.selectedFilterName
+            setFilterStates((prev) => {
+               if((prev[filterKeyToUpdate].value as string[]).includes(filterPayload.selectedValue)){
+                  
                   return {
                      ...prev,
-                     [filterToSet]: {kind: "single", value : ""}
+                     [filterKeyToUpdate] : {
+                        kind: "multi", 
+                        value :(prev[filterKeyToUpdate].value as string[]).filter(value => value !== filterPayload.selectedValue)
+
+                     }
                   }
                }
                return {
                   ...prev,
-                  [filterToSet] : {kind : "single", value : valueSelected}
-               }
-            })
-         }
-         // if(filterStateToSet.kind === "single"){
-            setSingleFilterState(setFilterStates, "houseboundCarehomeFilter")
-         // }
-      }
-
-      
-      if (filterName.trim() === "Age"){
-         const setMultiFilterState = (setter:React.Dispatch<React.SetStateAction<FilterStates>>, filterToSet: keyof FilterStates) =>{
-            setter(prev => {
-               if(prev[filterToSet].kind === "multi"){
-                  if((prev[filterToSet].value as string[]).includes(valueSelected)){
-                  return {
-                     ...prev,
-                     [filterToSet] : {kind : "multi" , value : (prev[filterToSet].value as string[]).filter(value => value !== valueSelected)}
-                     }
-
-                  }
-                  return {
-                     ...prev,
-                     [filterToSet] : {kind : "multi", value : [...prev[filterToSet].value, valueSelected]}
-                     }
-               }
-               return prev
+                  [filterKeyToUpdate] : { kind : "multi", value : [...prev[filterKeyToUpdate].value as string[], filterPayload.selectedValue]
                
-            })
-         }
-         setMultiFilterState(setFilterStates, "ageFilter")
-      }
-
-      if (filterName.trim() === "QRisk score"){
-         const setGroupFilterState = (setter:React.Dispatch<React.SetStateAction<FilterStates>>, filterToSet: keyof FilterStates) => {
-            setter(prev => {
-               if(prev[filterToSet].kind === "group"){
-                  if(valueSelected === "10% or more" || valueSelected === "20% or more"){
-                     if ((prev[filterToSet].value[0] as string[]).includes(valueSelected)){
-                        return {
-                           ...prev,
-                           [filterToSet] : {kind : "group", value : [[""], prev[filterToSet].value[1]]}
-                        }
-                     }
-                     else {
-                        return {
-                           ...prev,
-                           [filterToSet] : {kind : "group", value : [[valueSelected], prev[filterToSet].value[1]]}
-                        }
-                     }
-                  }
-                  else {
-                     if((prev[filterToSet].value[1] as string[]).includes(valueSelected)){
-                        return {
-                           ...prev,
-                           [filterToSet] : {kind : "group", value : [prev[filterToSet].value[0], [""]]}
-                        }
-                     }
-                     else {
-                        return {
-                           ...prev,
-                           [filterToSet] : {kind : "group", value : [prev[filterToSet].value[0], [valueSelected]]}
-                        }
-                     }
                   }
                }
-               return prev
+              
             })
          }
-         setGroupFilterState(setFilterStates, "qRiskFilter")
-               // console.log(valueSelected)
+         updateMultiFilter()
       }
    }
+
+//  [filterToSet] : {kind : "multi" , value : (prev[filterToSet].value as string[]).filter(value => value !== valueSelected)}
+//                   [filterToSet] : {kind : "multi", value : [...prev[filterToSet].value, valueSelected]}
+
+   // 
 
    
 
@@ -116,12 +71,7 @@ const FilterSection = () => {
    }, [filterStates])
 
 
-      // if(age.includes(value)){
-      //    setAge((prev) => prev.filter((item)=> item !== value) )
-      // }
-      // else {
-      //    setAge([...age, value])
-      // }
+
 
 
 
@@ -188,13 +138,23 @@ const FilterSection = () => {
                                  value.options.map((option: {value: string, label: string}) => (
                                     <ul>
                                        {/* <li>{option.label}</li> */}
-                                       <label>
+                                       <label key = {option.value}>
                                           <input 
                                              type = "checkbox"
                                              className=" cursor-pointer mr-2"
+                                             checked = {
+                                                value.kind === "multi" && (filterStates[value.id].value as string[]).includes(option.value) 
+
+                                             }
                                              value = {option.value} 
+                                             onChange = {()=>handleFilterSelection(
+                                                {  selectedFilterName : value.id, 
+                                                   selectedValue: option.value, 
+                                                   selectedFilterKind : value.kind 
+                                                }
+                                             )}
                                           />
-                                          {option.label}
+                                             {option.label}
                                        </label>
                                        
                                     </ul>
@@ -434,4 +394,112 @@ export default FilterSection
       //       }
       //    })
 
+      // } 
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      // if(age.includes(value)){
+      //    setAge((prev) => prev.filter((item)=> item !== value) )
       // }
+      // else {
+      //    setAge([...age, value])
+      // }
+      
+      
+      
+      
+      
+      // const handleFilterChange = (filterName: string, valueSelected:string)=>{
+
+   //    if(filterName.trim() === "Housebound/Care home"){
+   //       // console.log(filterStates.houseboundCarehomeFilter)filterToSet: { kind: "single", value: string} 
+   //       // const filterStateToSet = filterStates.houseboundCarehomeFilter;
+   //       const setSingleFilterState = (setter:React.Dispatch<React.SetStateAction<FilterStates>>, filterToSet:keyof FilterStates) => {
+   //          setter(prev => {
+   //             if (prev[filterToSet].value === valueSelected) {
+   //                return {
+   //                   ...prev,
+   //                   [filterToSet]: {kind: "single", value : ""}
+   //                }
+   //             }
+   //             return {
+   //                ...prev,
+   //                [filterToSet] : {kind : "single", value : valueSelected}
+   //             }
+   //          })
+   //       }
+   //       // if(filterStateToSet.kind === "single"){
+   //          setSingleFilterState(setFilterStates, "houseboundCarehomeFilter")
+   //       // }
+   //    }
+
+      
+   //    if (filterName.trim() === "Age"){
+   //       const setMultiFilterState = (setter:React.Dispatch<React.SetStateAction<FilterStates>>, filterToSet: keyof FilterStates) =>{
+   //          setter(prev => {
+   //             if(prev[filterToSet].kind === "multi"){
+   //                if((prev[filterToSet].value as string[]).includes(valueSelected)){
+   //                return {
+   //                   ...prev,
+   //                   [filterToSet] : {kind : "multi" , value : (prev[filterToSet].value as string[]).filter(value => value !== valueSelected)}
+   //                   }
+
+   //                }
+   //                return {
+   //                   ...prev,
+   //                   [filterToSet] : {kind : "multi", value : [...prev[filterToSet].value, valueSelected]}
+   //                   }
+   //             }
+   //             return prev
+               
+   //          })
+   //       }
+   //       setMultiFilterState(setFilterStates, "ageFilter")
+   //    }
+
+   //    if (filterName.trim() === "QRisk score"){
+   //       const setGroupFilterState = (setter:React.Dispatch<React.SetStateAction<FilterStates>>, filterToSet: keyof FilterStates) => {
+   //          setter(prev => {
+   //             if(prev[filterToSet].kind === "group"){
+   //                if(valueSelected === "10% or more" || valueSelected === "20% or more"){
+   //                   if ((prev[filterToSet].value[0] as string[]).includes(valueSelected)){
+   //                      return {
+   //                         ...prev,
+   //                         [filterToSet] : {kind : "group", value : [[""], prev[filterToSet].value[1]]}
+   //                      }
+   //                   }
+   //                   else {
+   //                      return {
+   //                         ...prev,
+   //                         [filterToSet] : {kind : "group", value : [[valueSelected], prev[filterToSet].value[1]]}
+   //                      }
+   //                   }
+   //                }
+   //                else {
+   //                   if((prev[filterToSet].value[1] as string[]).includes(valueSelected)){
+   //                      return {
+   //                         ...prev,
+   //                         [filterToSet] : {kind : "group", value : [prev[filterToSet].value[0], [""]]}
+   //                      }
+   //                   }
+   //                   else {
+   //                      return {
+   //                         ...prev,
+   //                         [filterToSet] : {kind : "group", value : [prev[filterToSet].value[0], [valueSelected]]}
+   //                      }
+   //                   }
+   //                }
+   //             }
+   //             return prev
+   //          })
+   //       }
+   //       setGroupFilterState(setFilterStates, "qRiskFilter")
+   //             // console.log(valueSelected)
+   //    }
+   // }

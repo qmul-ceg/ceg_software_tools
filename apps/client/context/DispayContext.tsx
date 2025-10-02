@@ -105,7 +105,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
                setToolName(importedData.data.toolName ?? "")
                setTableHeader(importedData.data.tableHeader ?? [])
                setSummaryTable(importedData.data.summaryTable ?? [])
-               setTableData(Object.values(importedData.data.masterReport))
+               setTableData(Object.values(importedData.data.masterReport) ?? [])
                setFilterItems(importedData.config.filters)
                setQuickFilters(importedData.config.quickFilters)
                setFilterStates(cvdFilterStates)

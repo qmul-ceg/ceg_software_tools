@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDisplay } from '@/context/DispayContext'
 import { useState } from 'react'
 import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
+
+
 
 type ChildProps = {
    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -9,8 +11,42 @@ type ChildProps = {
 
 
 const TableBody = ({setIsModalOpen} : ChildProps) => {
-   const { tableHeader, tableData, } = useDisplay()
+   const { tableData, filterStates} = useDisplay()
    const [ filteredData, setFilteredData] = useState<string[][]>(tableData ?? [])
+
+   useEffect(()=> {
+      console.log(filterStates)
+      
+      const filterConfig = tableData?.filter((row) => {
+         const ageIndex = parseInt(row[SystmOneReportKeys.Age])
+
+         const filterByAge = 
+            (filterStates.ageFilter.value as string[]).some(value => value === "lte65") && ageIndex <= 65 ||
+            (filterStates.ageFilter.value as string[]).some(value => value === "65-79") && (ageIndex > 65 && ageIndex <= 79) ||
+            (filterStates.ageFilter.value as string[]).some(value => value === "gte80") && (ageIndex >= 80) ||
+            filterStates.ageFilter.value.length === 0
+
+
+
+         return filterByAge
+
+
+      })
+
+      setFilteredData(filterConfig ?? [])
+
+
+
+
+
+   }, [filterStates])
+   
+
+
+
+
+
+
 
    return (
                <div className=" ">

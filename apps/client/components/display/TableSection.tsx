@@ -16,7 +16,7 @@ type Filters = {
 const TableSection = ({setIsModalOpen} : ChildProps) => {
    // const { tableHeader, tableData, age  , selectedFilter, filterStates} = useDisplay()
    const { tableHeader, tableData, } = useDisplay()
-   const [ filteredData, setFilteredData] = useState<string[][]>(tableData)
+   // const [ filteredData, setFilteredData] = useState<string[][]>()
 
 //    useEffect(()=> {
 
