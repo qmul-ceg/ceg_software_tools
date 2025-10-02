@@ -25,9 +25,7 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
             (filterStates.ageFilter.value as string[]).some(value => value === "65-79") && (ageIndex > 65 && ageIndex <= 79) ||
             (filterStates.ageFilter.value as string[]).some(value => value === "gte80") && (ageIndex >= 80) ||
             filterStates.ageFilter.value.length === 0
-
-
-
+            
          return filterByAge
 
 
