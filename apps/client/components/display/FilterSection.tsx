@@ -20,6 +20,8 @@ const FilterSection = () => {
 
 
 
+
+
    // console.log(filterItems)
    const handleFilterSelection = (filterPayload : FilterSelectionPayload) => {
       // console.log(filterPayload.selectedFilterName)
@@ -135,31 +137,57 @@ const FilterSection = () => {
                            </SelectTrigger>
                            <SelectContent>
                               {
-                                 value.options.map((option: {value: string, label: string}) => (
-                                    <ul>
-                                       {/* <li>{option.label}</li> */}
-                                       <label key = {option.value}>
-                                          <input 
-                                             type = "checkbox"
-                                             className=" cursor-pointer mr-2"
-                                             checked = {
-                                                value.kind === "multi" && (filterStates[value.id].value as string[]).includes(option.value) 
+                                 value.kind === "multi" ?
+                                    value.options.map((option:{value: string, label: string} ) => (
+                                       <ul>
+                                          
+                                          <label key = {option.value}>
+                                             <input 
+                                                type = "checkbox"
+                                                className=" cursor-pointer mr-2"
+                                                checked = {
+                                                   value.kind === "multi" && (filterStates[value.id].value as string[]).includes(option.value) 
 
-                                             }
-                                             value = {option.value} 
-                                             onChange = {()=>handleFilterSelection(
-                                                {  selectedFilterName : value.id, 
-                                                   selectedValue: option.value, 
-                                                   selectedFilterKind : value.kind 
                                                 }
-                                             )}
-                                          />
-                                             {option.label}
-                                       </label>
+                                                value = {option.value} 
+                                                onChange = {()=>handleFilterSelection(
+                                                   {  
+                                                      selectedFilterName : value.id, 
+                                                      selectedValue: option.value, 
+                                                      selectedFilterKind : value.kind 
+                                                   }
+                                                )}
+                                             />
+                                                {option.label}
+                                          </label>
+                                          
+                                       </ul>
+                                    )) : 
+                                    Object.entries(value.options).map(([group, inner]) => {
+                                       // Object.entries((inner).map(())=> {
+                                       console.log(inner)
+                                       if (inner.groupName === "groupName"){
+                                          return <p>{inner.groupName}</p>
+                                       }
                                        
-                                    </ul>
-                                 ))
-
+                                       if(group === "groupOptions"){
+                                          return (
+                                             <>
+                                                {inner.groupOptions.map((option)=> {
+                                                   <ul>
+                                                      <label>
+                                                         <input
+                                                            type="checkbox" 
+                                                         />
+                                                            {option.label}
+                                                      </label>
+                                                   </ul>
+                                                })}
+                                             </>
+                                          )
+                                       }
+                                    })
+    
                               }
                            </SelectContent>
                         </Select>
@@ -169,6 +197,8 @@ const FilterSection = () => {
                }
 
             </div>
+
+
 
             {/* <div className="border border-black border-dotted w-[800px] grid grid-rows-3 grid-flow-col h-50">
 

@@ -33,6 +33,8 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
          const afIndex = row[SystmOneReportKeys.AF_Code_Term]
          const cancerIndex = row[SystmOneReportKeys.Cancer_Code_Term]
 
+         const adverseMedsIndex = row[SystmOneReportKeys.NSAID_Name_Dosage_Quantity]
+
          const filterByAge = 
             (filterStates.ageFilter.value as string[]).some(value => value === "lte65") && ageIndex <= 65 ||
             (filterStates.ageFilter.value as string[]).some(value => value === "65-79") && (ageIndex > 65 && ageIndex <= 79) ||
@@ -58,10 +60,14 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
             (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "ckd") && ckdIndex  ||
             (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "af") && afIndex  ||
             (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "cancer") && cancerIndex  ||
-
             filterStates.comorbiditiesFilter.value.length === 0
+         
+         const adverseMedsFilter = 
+            (filterStates.adverseMedsFilter.value as string[]).some(value => value === "nsaids") && adverseMedsIndex ||
+            filterStates.adverseMedsFilter.value.length === 0
+         
 
-         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter
+         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter
       })   
         
 

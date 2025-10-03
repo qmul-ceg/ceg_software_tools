@@ -5,7 +5,25 @@ import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 import { ParserResult, FilterStates } from '@/types/shared.types'
 
 
+type Options = Record<string, { groupName : string; groupOptions: { value: string; label: string }[]}>
 
+type MultiFilter = {
+   id : string,
+   label : string,
+   ui : { width : number, bgColour: string},
+   kind : "multi",
+   options : {value : string, label : string}[],
+   emptyBehaviour : []
+}
+
+type GroupedFilter = {
+   id : string,
+   label : string,
+    ui : { width : number, bgColour: string},
+   kind : "grouped",
+   options : Options,
+   emptyBehaviour : [][]
+}
 
 const cvdFilterStates:FilterStates ={
    antihypertensiveFilter : {kind: "single", value: ""},
@@ -18,7 +36,7 @@ const cvdFilterStates:FilterStates ={
    vulnerabilitiesFilter: {kind: "multi", value: []},
    ethnicityFilter: {kind: "single", value: ""},
    ageFilter: {kind: "multi", value: []},
-   adverseMedsFilter: {kind: "single", value: ""},
+   adverseMedsFilter: {kind: "multi", value: []},
 }
 
 
@@ -26,22 +44,16 @@ type toolConfig = {
 
 }
 
-
-
-
 type Data = {
 
    importedData : ParserResult;
    setImportedData : React.Dispatch<React.SetStateAction<ParserResult>>
 
-
-
-
    toolName: string;
    setToolName: React.Dispatch<React.SetStateAction<string>>;
 
-   filterItems: Object;
-   setFilterItems: React.Dispatch<React.SetStateAction<Object>>;
+   filterItems: Record <string, MultiFilter | GroupedFilter>;
+   setFilterItems: React.Dispatch<React.SetStateAction<Record <string, MultiFilter | GroupedFilter>>>;
 
    quickFilters: string[];
    setQuickFilters: React.Dispatch<React.SetStateAction<string[]>>
@@ -69,10 +81,11 @@ type Data = {
 
    test: boolean;
    setTest: React.Dispatch<React.SetStateAction<boolean>>
-
-
-
 }
+
+
+
+
 
 
 export const DisplayContext = createContext<Data | null>(null);
@@ -82,7 +95,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    const [importedData, setImportedData] = useState<ParserResult>({status : "", info: ""})
    const [test, setTest] = useState<boolean>(false)
    const [toolName, setToolName] = useState<string>("")
-   const [filterItems, setFilterItems] = useState<Object>({})
+   const [filterItems, setFilterItems] = useState<Record <string, MultiFilter | GroupedFilter>>({})
    const [quickFilters, setQuickFilters] = useState<string[]>([])
    const [summaryTable, setSummaryTable] = useState<string[][]>([])
    const [tableHeader, setTableHeader] = useState<string[]>([])

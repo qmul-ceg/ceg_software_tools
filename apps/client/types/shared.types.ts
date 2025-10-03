@@ -10,6 +10,32 @@ export type ParserResultType = {
    toolConfig ? : Object
 }
 
+
+
+
+
+//TYPES FOR PARSER RESULT
+type Options = Record<string, { groupName : string; groupOptions: { value: string; label: string }[]}>
+type MultiFilter = {
+   id : string,
+   label : string,
+   ui : { width : number, bgColour: string},
+   kind : "multi",
+   options : {value : string, label : string}[],
+   emptyBehaviour : []
+} 
+
+type GroupedFilter = {
+   id : string,
+   label : string,
+    ui : { width : number, bgColour: string},
+   kind : "grouped",
+   options : Options,
+   emptyBehaviour : [][]
+}  
+
+
+
 export type ParserResult = {
 
    //Parsing error messages
@@ -19,7 +45,8 @@ export type ParserResult = {
 
    //Settings that control UI / behaviour
    config?: {
-      filters: Record<string, string[][]> ;
+      // filters: Record<string, string[][]> ;
+      filters: Record <string, MultiFilter | GroupedFilter >
       quickFilters: string[];
    }
 

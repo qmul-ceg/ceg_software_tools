@@ -2,12 +2,31 @@
 
 //CREATE TYPE FOR THE CONFIGURATIONS SO THAT OTHER TOOLS WILL BE ABLE TO USE IT 
 
+
+type Options = Record<string, { groupName : string; groupOptions: { value: string; label: string }[]}>
+type MultiFilter = {
+   id : string,
+   label : string,
+   ui : { width : number, bgColour: string},
+   kind : "multi",
+   options : {value : string, label : string}[],
+   emptyBehaviour : []
+} 
+
+type GroupedFilter = {
+   id : string,
+   label : string,
+    ui : { width : number, bgColour: string},
+   kind : "grouped",
+   options : Options,
+   emptyBehaviour : [][]
+} 
+
 export const cvdConfig = {
    toolName : "CVD Prevention tool",
 
    filters : 
       {
-
          HouseboundCarehome : {
             id : "houseboundCarehomeFilter",
             label : "Housebound/Carehome",
@@ -76,30 +95,109 @@ export const cvdConfig = {
                {value : "af", label: "Atrial Fibrillation"},
                {value : "cancer", label: "Cancer"},
 
-
-
             ], 
             emptyBehaviour : []
          },
 
-         
-         // AdverseMeds : {
-         //    id : "adverseMedsFilter",
-         //    label : "Adverse meds",
-         //    ui : {
-         //       width : 2,
-         //       bgColour : ""
-         //    },
-         // }
 
-         
+         AdverseMeds : {
+            id : "adverseMedsFilter",
+            label : "Adverse meds",
+            ui : {
+               width : 2,
+               bgColour : ""
+            },
+            kind : "multi", 
 
-         
-          
-         
-         
-         
-         
+            options : [
+               {value : "nsaids", label: "NSAIDs (excl. aspirin)"},
+            ], 
+            emptyBehaviour : []
+         },
+
+         // type GroupDetails = { value : string, label : string}
+
+         // tyype Inner = Record<string: string, string  : groupDetails[]> 
+         // Record<string, Inner>
+
+         AntihypertensiveMeds : {
+            id: "antihypertensiveMeds",
+            label : "Antihypertensive meds",
+            ui : {
+               width : 2,
+               bgColour : ""
+            },
+            kind : "grouped",
+
+            options : {
+               groupOne : {
+                  groupName : "",
+                  groupOptions: [
+                     {  value: "acei/arb", label : "ACEi/ARB"  },
+                     {  value: "cachannel", label : "Ca-Channel"  },
+                     {  value: "thiazides", label : "Thiazides"  },
+                     {  value: "betablockers", label : "Beta-blockers"  },
+                     {  value: "others", label : "Others"  }
+                  ]
+               },
+               groupTwo: {
+                  groupName : "No. of Antihypertensives",
+                  groupOptions : [
+                     {  value: "0", label : "0"  },
+                     {  value: "1", label : "1"  },
+                     {  value: "gte2", label : "2 or more"  },
+                  ]
+               },
+               groupThree: {
+                  groupName : "",
+                  groupOptions : [
+                     {  value: "dose", label : "Max tolerated dose"  },
+                  ]
+               },
+               groupFour : {
+                  groupName : "",
+                  groupOptions : [
+                        {  value: "declined", label : "Antihypertensives declined (12m)"  },
+                  ]
+               }
+            },
+
+            emptyBehaviour : [[],[], [], []]
+         }
+      } satisfies Record<string, MultiFilter | GroupedFilter>,
+
+   quickFilters : 
+      [  "BP > 140/90, no hypertension diagnosis", 
+         "CVD and not on statin", 
+         "CKD 3-5 and diabetes, not on ACEi/ARB",
+         "Raised QRISK and not on statin",
+         "CKD on NSAID",
+         "Hypertension, no antihypertensive and BP > 140/90 ",
+         "Hypertension with last BP > 12m ago"
+      ],
+   
+   summaryTable : 
+      [
+         ["CVD:- prescribed high intensity statin", "0", "0", "0%"],
+         ["CVD with LDL ≥ 2.6 and NOT on inclisiran"],
+         ["CVD with LDL <= 2 (QoF)"],
+         ["CVD:- NOT on statin"],
+         ["QRisk 2/3 10% - 19%:- prescribed statin"],
+         ["QRisk 2/3 ≥ 20%:- prescribed statin"],
+         ["Hypertension:- BP ≤ 140/90 (age < 80) (QoF)"],
+         ["Hypertension:- BP ≤ 150/90 (age ≥ 80) (QoF)"],
+         ["CKD 3-5 prescribed any statin"]
+      ],
+
+   tableHeader : 
+      [  "Full name", "Age", "Gender", "Patient reference no.", "Statin prescription", "Statin intensity", 
+         "Statin exclusion", "Inclisiran", "Blood pressure", "CVD", "CKD 3 - 5", "HTN", "Diabetes", "Total cholestrol", 
+         "LDL cholestrol", "eGFR", "No. of anti-hptn meds", "Medication review latest date"
+      ],
+
+   
+}
+
          // selections : {
             //    option_1 : {
             //       title : "",
@@ -142,37 +240,3 @@ export const cvdConfig = {
          //    [  ["", "65 or under", "65 - 79", "above 80"]],
          // "Adverse meds":
          //    [ ["", "NSAIDs (excl. aspirin)"]]
-      },
-
-   quickFilters : 
-      [  "BP > 140/90, no hypertension diagnosis", 
-         "CVD and not on statin", 
-         "CKD 3-5 and diabetes, not on ACEi/ARB",
-         "Raised QRISK and not on statin",
-         "CKD on NSAID",
-         "Hypertension, no antihypertensive and BP > 140/90 ",
-         "Hypertension with last BP > 12m ago"
-      ],
-   
-   summaryTable : 
-      [
-         ["CVD:- prescribed high intensity statin", "0", "0", "0%"],
-         ["CVD with LDL ≥ 2.6 and NOT on inclisiran"],
-         ["CVD with LDL <= 2 (QoF)"],
-         ["CVD:- NOT on statin"],
-         ["QRisk 2/3 10% - 19%:- prescribed statin"],
-         ["QRisk 2/3 ≥ 20%:- prescribed statin"],
-         ["Hypertension:- BP ≤ 140/90 (age < 80) (QoF)"],
-         ["Hypertension:- BP ≤ 150/90 (age ≥ 80) (QoF)"],
-         ["CKD 3-5 prescribed any statin"]
-      ],
-
-   tableHeader : 
-      [  "Full name", "Age", "Gender", "Patient reference no.", "Statin prescription", "Statin intensity", 
-         "Statin exclusion", "Inclisiran", "Blood pressure", "CVD", "CKD 3 - 5", "HTN", "Diabetes", "Total cholestrol", 
-         "LDL cholestrol", "eGFR", "No. of anti-hptn meds", "Medication review latest date"
-      ],
-
-   
-}
-
