@@ -204,6 +204,9 @@ const FilterSection = () => {
                                                             type = "checkbox"
                                                             className = "cursor-pointer mr-2 "
                                                             value = {option.value}
+                                                            checked = {
+                                                               value.kind === "grouped" && (filterStates[value.id].value[groupIndex].includes(option.value))
+                                                            }
                                                             onChange = {()=>handleFilterSelection(
                                                                {
                                                                   selectedFilterName : value.id,
