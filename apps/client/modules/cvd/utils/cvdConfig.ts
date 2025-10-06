@@ -121,7 +121,7 @@ export const cvdConfig = {
          // Record<string, Inner>
 
          AntihypertensiveMeds : {
-            id: "antihypertensiveMeds",
+            id: "antihypertensiveMedsFilter",
             label : "Antihypertensive meds",
             ui : {
                width : 2,

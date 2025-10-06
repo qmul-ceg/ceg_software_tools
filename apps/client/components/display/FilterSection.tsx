@@ -11,10 +11,12 @@ const FilterSection = () => {
    const [showFilter, setShowFilter] = useState<boolean>(true)
    const {  filterItems, setFilterItems, quickFilters, summaryTable, filterStates, setFilterStates} = useDisplay()
   
+   type FilterKind = "multi" | "grouped"
    type FilterSelectionPayload = {
       selectedFilterName : string,
       selectedValue : string,
-      selectedFilterKind : string
+      selectedFilterKind : FilterKind,
+      selectedIndex? : number
    }
 
 
@@ -24,10 +26,10 @@ const FilterSection = () => {
 
    // console.log(filterItems)
    const handleFilterSelection = (filterPayload : FilterSelectionPayload) => {
-      // console.log(filterPayload.selectedFilterName)
+      // console.log(filterPayload)
 
       if(filterPayload.selectedFilterKind === "multi"){
-         const updateMultiFilter = () => {
+         const updateMultiFilterState = () => {
             
             const filterKeyToUpdate = filterPayload.selectedFilterName
             setFilterStates((prev) => {
@@ -51,7 +53,45 @@ const FilterSection = () => {
               
             })
          }
-         updateMultiFilter()
+         updateMultiFilterState()
+      }
+
+      if (filterPayload.selectedFilterKind === "grouped"){
+         console.log(filterPayload.selectedIndex)
+         const updateGroupedFilterState = () => {
+            const filterToUpdate = filterPayload.selectedFilterName;
+            // console.log(filterStates[filterToUpdate].value[filterPayload.selectedIndex as number])
+            setFilterStates((prev) => {
+               const arrayToUpdate = prev[filterToUpdate].value[filterPayload.selectedIndex as number]
+
+               if(arrayToUpdate.includes(filterPayload.selectedValue)){
+                  return {
+                     ...prev,
+                     [filterToUpdate] : { 
+                        kind : "grouped",
+                        value : (prev[filterToUpdate].value as [][]).map((item: string[], index:number) => 
+                           index === filterPayload.selectedIndex ? item.filter(value => value !== filterPayload.selectedValue) : item 
+                        )
+                       
+                     }
+                  }
+                  
+               }
+               return {
+                  ...prev,
+                  [filterToUpdate] : {
+                     kind : "grouped",
+                     value : (prev[filterToUpdate].value as [][]).map((item: string[], index:number) => 
+                           index === filterPayload.selectedIndex ? [...item, filterPayload.selectedValue] : item
+                     )
+                  }
+               }
+            })
+
+          
+         }
+
+         updateGroupedFilterState()
       }
    }
 
@@ -150,8 +190,9 @@ const FilterSection = () => {
                                           </label>
                                           
                                        </ul>
-                                    )) : 
-                                    Object.entries(value.options).map(([group, inner]) => {
+                                    ))     
+                                    : 
+                                    Object.entries(value.options).map(([group, inner], groupIndex) => {
                                        return (
                                           <div className="">
                                              <p className="font-bold">{inner.groupName}</p>
@@ -162,6 +203,15 @@ const FilterSection = () => {
                                                          <input 
                                                             type = "checkbox"
                                                             className = "cursor-pointer mr-2 "
+                                                            value = {option.value}
+                                                            onChange = {()=>handleFilterSelection(
+                                                               {
+                                                                  selectedFilterName : value.id,
+                                                                  selectedValue : option.value,
+                                                                  selectedFilterKind : value.kind,
+                                                                  selectedIndex : groupIndex
+                                                               }
+                                                            )}
                                                          />
                                                          {option.label}
                                                       </label>
@@ -172,10 +222,7 @@ const FilterSection = () => {
 
                                        )
 
-                                    })
-                                   
-                                       
-                                    
+                                    }) 
                               }
                            </SelectContent>
                         </Select>
@@ -185,6 +232,127 @@ const FilterSection = () => {
                }
 
             </div>
+
+
+
+
+            
+            
+            {/* SUMMARY BOX */}
+            <div className="max-w-[650px] w-[600px] ml-0">
+               <header className="flex  rounded-t-lg px-2 py-2 bg-[#21376A] text-white justify-between">
+                  <p className ="font-semibold text-md text-left ">Summary</p>
+                  <div className= "flex gap-6 text-sm font-bold  mr-14">
+                     <p>Numerator</p>
+                     <p>Denominator</p>
+                     <p>%</p>
+                  </div>
+               </header>
+               <div className="border-[0.1em] border-[#21376A] border-t-0  p-2 font-semibold ">
+                  {summaryTable.map((item, index)=> (
+                     <div key = {index} className="text-sm flex  justify-between">
+                        <p>{item[0]}</p>
+                        <div className="flex gap-16 mr-12">
+                           <p>0</p>
+                           <p>0</p>
+                           <p>0%</p>
+                        </div>
+                     </div>
+                  ))}
+               </div>
+
+            </div>
+         </div>
+
+
+         
+   </div>
+  )
+}
+
+export default FilterSection
+
+  // setFilterStates((prev) => {
+            //    // prev[filterToUpdate].value.map((item, index) => {
+
+            //       if()
+            //       // if(filterPayload.selectedIndex === index){
+            //       //    return {
+            //       //       ...prev,
+            //       //       [filterToUpdate] : { kind : "grouped",
+            //       //          value : (prev[filterToUpdate].value).map(inner, index) => {
+
+            //       //          }
+
+            //       //       }
+            //       //    }
+            //       }
+            //    })
+               
+            //    // (prev[filterToUpdate].value as [][]).map((item: string[], index:number) => {
+            //    //    if(index === filterPayload.selectedIndex){
+            //    //       if(item.includes(filterPayload.selectedValue)){
+                        
+            //    //          return {
+            //    //             ...prev,
+            //    //             [filterToUpdate] : { kind : "grouped",
+            //    //                value : (prev[filterToUpdate].value as string[][]).map((inner, index) => {
+            //    //                   if(index === filterPayload.selectedIndex){
+            //    //                      if(inner.includes(filterPayload.selectedValue)){
+            //    //                         inner.filter(value => value !== filterPayload.selectedValue)
+            //    //                      }
+            //    //                   }
+            //    //                })
+            //    //          }
+            //    //       }
+            //    //    }
+            //    // })
+            // })
+           
+
+
+
+ // const indexArrayToUpdate = filterStates[filterToUpdate].value[filterPayload.selectedIndex as number] as string[];
+            // console.log(indexArrayToUpdate)
+            // setFilterStates((prev) => {
+            //    const arrayToUpdate = prev[filterToUpdate].value[filterPayload.selectedIndex as number] as string[]
+            //    console.log(arrayToUpdate)
+            //    // return prev
+
+            //    if(arrayToUpdate.includes(filterPayload.selectedValue)){
+            //       return {
+            //          ...prev,
+            //          [filterToUpdate] : {kind : "grouped", value : [...prev[filterToUpdate].value, arrayToUpdate.filter(value => value !== filterPayload.selectedValue)]}
+            //       }
+            //    }
+               
+            //    return {
+            //       ...prev,
+            //       [filterToUpdate] : {kind : "grouped", value : [...prev[filterToUpdate].value, arrayToUpdate.concat([filterPayload.selectedValue])]}
+            //    }
+            //  })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -228,44 +396,6 @@ const FilterSection = () => {
                   
                   
             </div> */}
-            
-            
-            {/* SUMMARY BOX */}
-            <div className="max-w-[650px] w-[600px] ml-0">
-               <header className="flex  rounded-t-lg px-2 py-2 bg-[#21376A] text-white justify-between">
-                  <p className ="font-semibold text-md text-left ">Summary</p>
-                  <div className= "flex gap-6 text-sm font-bold  mr-14">
-                     <p>Numerator</p>
-                     <p>Denominator</p>
-                     <p>%</p>
-                  </div>
-               </header>
-               <div className="border-[0.1em] border-[#21376A] border-t-0  p-2 font-semibold ">
-                  {summaryTable.map((item, index)=> (
-                     <div key = {index} className="text-sm flex  justify-between">
-                        <p>{item[0]}</p>
-                        <div className="flex gap-16 mr-12">
-                           <p>0</p>
-                           <p>0</p>
-                           <p>0%</p>
-                        </div>
-                     </div>
-                  ))}
-               </div>
-
-            </div>
-         </div>
-
-
-         
-   </div>
-  )
-}
-
-export default FilterSection
-
-
-
 
 
  {/* <DropdownMenu>

@@ -19,20 +19,20 @@ type MultiFilter = {
 type GroupedFilter = {
    id : string,
    label : string,
-    ui : { width : number, bgColour: string},
+   ui : { width : number, bgColour: string},
    kind : "grouped",
    options : Options,
    emptyBehaviour : [][]
 }
 
 const cvdFilterStates:FilterStates ={
-   antihypertensiveFilter : {kind: "single", value: ""},
+   antihypertensiveMedsFilter : {kind: "grouped", value: [[],[], [], []]},
    bloodPressureFilter: {kind: "single", value: ""},
    houseboundCarehomeFilter : {kind: "multi", value: []},
    lipidMedicationsFilter: {kind: "single", value: ""},
    comorbiditiesFilter: {kind: "multi", value: []},
    cholestrolFilter: {kind: "single", value: ""},
-   qRiskFilter: {kind: "group", value: [[],[]]},
+   qRiskFilter: {kind: "grouped", value: [[],[]]},
    vulnerabilitiesFilter: {kind: "multi", value: []},
    ethnicityFilter: {kind: "single", value: ""},
    ageFilter: {kind: "multi", value: []},

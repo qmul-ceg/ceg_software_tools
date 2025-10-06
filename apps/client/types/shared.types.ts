@@ -64,7 +64,7 @@ export type ParserResult = {
 type FilterStateEntries =  
    | {kind : "single", value: string } 
    | {kind : "multi", value : string[] }
-   | {kind : "group", value : string [][]}
+   | {kind : "grouped", value : string [][]}
 
 
 export type FilterStates = Record <string, FilterStateEntries>
