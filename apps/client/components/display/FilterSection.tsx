@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import { useDisplay } from '@/context/DispayContext'
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { FilterStates } from '@/types/shared.types'
 
 const FilterSection = () => {
@@ -54,18 +54,6 @@ const FilterSection = () => {
          updateMultiFilter()
       }
    }
-
-//  [filterToSet] : {kind : "multi" , value : (prev[filterToSet].value as string[]).filter(value => value !== valueSelected)}
-//                   [filterToSet] : {kind : "multi", value : [...prev[filterToSet].value, valueSelected]}
-
-   // 
-
-   
-
-
-
-
-
 
    useEffect(()=>{
       console.log(filterStates)
@@ -138,7 +126,7 @@ const FilterSection = () => {
                            <SelectContent>
                               {
                                  value.kind === "multi" ?
-                                    value.options.map((option:{value: string, label: string} ) => (
+                                    value.options.map((option: {value: string, label: string} ) => (
                                        <ul>
                                           
                                           <label key = {option.value}>
@@ -164,30 +152,30 @@ const FilterSection = () => {
                                        </ul>
                                     )) : 
                                     Object.entries(value.options).map(([group, inner]) => {
-                                       // Object.entries((inner).map(())=> {
-                                       console.log(inner)
-                                       if (inner.groupName === "groupName"){
-                                          return <p>{inner.groupName}</p>
-                                       }
-                                       
-                                       if(group === "groupOptions"){
-                                          return (
-                                             <>
-                                                {inner.groupOptions.map((option)=> {
-                                                   <ul>
+                                       return (
+                                          <div className="">
+                                             <p className="font-bold">{inner.groupName}</p>
+                                             <ul>
+                                                {inner.groupOptions.map((option) => (
+                                                   <li >
                                                       <label>
-                                                         <input
-                                                            type="checkbox" 
+                                                         <input 
+                                                            type = "checkbox"
+                                                            className = "cursor-pointer mr-2 "
                                                          />
-                                                            {option.label}
+                                                         {option.label}
                                                       </label>
-                                                   </ul>
-                                                })}
-                                             </>
-                                          )
-                                       }
+                                                   </li>
+                                                ))}
+                                             </ul>
+                                          </div>
+
+                                       )
+
                                     })
-    
+                                   
+                                       
+                                    
                               }
                            </SelectContent>
                         </Select>
@@ -533,3 +521,58 @@ export default FilterSection
    //             // console.log(valueSelected)
    //    }
    // }
+   
+   
+   
+   
+   
+   // if (inner.groupName){
+                                       //    return (
+                                       //       <p>{inner.groupName}</p>
+                                             
+                                       //    )
+                                       // }
+                                       // if (inner.groupOptions){
+
+                                       //    return (
+                                       //          inner.groupOptions.map((option) => (
+                                       //             <>
+                                       //                <p>{inner.groupName}</p>
+                                       //                <ul>
+                                       //                   <label>
+                                       //                      <input 
+                                       //                         type = "checkbox"
+                                       //                         className=" cursor-pointer mr-2"
+
+                                       //                      />
+                                       //                         {option.label}
+                                       //                   </label>
+                                                      
+                                       //                {/* <li>{option.label}</li> */}
+                                       //                </ul>
+                                       //             </>
+                                                   
+                                       //    ))
+                                       //    )
+                                       // }
+                                       
+                                       // if (inner.groupName === "groupName"){
+                                       //    return <p>{inner.groupName}</p>
+                                       // }
+                                       
+                                       // if(group === "groupOptions"){
+                                       //    return (
+                                       //       <>
+                                       //          {inner.groupOptions.map((option)=> {
+                                       //             <ul>
+                                       //                <label>
+                                       //                   <input
+                                       //                      type="checkbox" 
+                                       //                   />
+                                       //                      {option.label}
+                                       //                </label>
+                                       //             </ul>
+                                       //          })}
+                                       //       </>
+                                       //    )
+                                       // }
