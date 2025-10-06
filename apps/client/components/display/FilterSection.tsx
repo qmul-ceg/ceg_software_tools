@@ -60,7 +60,6 @@ const FilterSection = () => {
          console.log(filterPayload.selectedIndex)
          const updateGroupedFilterState = () => {
             const filterToUpdate = filterPayload.selectedFilterName;
-            // console.log(filterStates[filterToUpdate].value[filterPayload.selectedIndex as number])
             setFilterStates((prev) => {
                const arrayToUpdate = prev[filterToUpdate].value[filterPayload.selectedIndex as number]
 
@@ -86,11 +85,8 @@ const FilterSection = () => {
                      )
                   }
                }
-            })
-
-          
+            })          
          }
-
          updateGroupedFilterState()
       }
    }

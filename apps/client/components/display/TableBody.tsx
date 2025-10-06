@@ -36,22 +36,22 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
          const adverseMedsIndex = row[SystmOneReportKeys.NSAID_Name_Dosage_Quantity]
 
          const filterByAge = 
-            (filterStates.ageFilter.value as string[]).some(value => value === "lte65") && ageIndex <= 65 ||
-            (filterStates.ageFilter.value as string[]).some(value => value === "65-79") && (ageIndex > 65 && ageIndex <= 79) ||
-            (filterStates.ageFilter.value as string[]).some(value => value === "gte80") && (ageIndex >= 80) ||
-            filterStates.ageFilter.value.length === 0
+            (filterStates.ageFilter.value as string[]).includes("lte65") && ageIndex <= 65 ||
+            (filterStates.ageFilter.value as string[]).includes("65-79") && (ageIndex > 65 && ageIndex <= 79) ||
+            (filterStates.ageFilter.value as string[]).includes("gte80") && (ageIndex >= 80) ||
+            filterStates.ageFilter.value.length === 0 ;
 
 
          const filterByHousebound = 
             filterStates.houseboundCarehomeFilter.value.length === 0 ||
             filterStates.houseboundCarehomeFilter.value  === "Housebound"  && houseboundIndex === "13CA." ||
-            filterStates.houseboundCarehomeFilter.value  === "Carehome"  && houseboundIndex === "13CA."
+            filterStates.houseboundCarehomeFilter.value  === "Carehome"  && houseboundIndex === "13CA." ;
 
          const vulnerabilitiesFilter = 
-            (filterStates.vulnerabilitiesFilter.value as string[]).some(value => value === "smi") && smiIndex ||
-            (filterStates.vulnerabilitiesFilter.value as string[]).some(value => value === "learning") && learningDisabilityIndex ||
-            (filterStates.vulnerabilitiesFilter.value as string[]).some(value => value === "dementia") && dementiaIndex ||
-            filterStates.vulnerabilitiesFilter.value.length === 0 
+            (filterStates.vulnerabilitiesFilter.value as string[]).includes("smi") && smiIndex ||
+            (filterStates.vulnerabilitiesFilter.value as string[]).includes("learning") && learningDisabilityIndex ||
+            (filterStates.vulnerabilitiesFilter.value as string[]).includes("dementia") && dementiaIndex ||
+            filterStates.vulnerabilitiesFilter.value.length === 0 ;
 
          const comorbiditiesFilter = 
             (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "cvd") && cvdIndex === "YES" ||
@@ -60,11 +60,30 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
             (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "ckd") && ckdIndex  ||
             (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "af") && afIndex  ||
             (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "cancer") && cancerIndex  ||
-            filterStates.comorbiditiesFilter.value.length === 0
+            filterStates.comorbiditiesFilter.value.length === 0;
          
          const adverseMedsFilter = 
             (filterStates.adverseMedsFilter.value as string[]).some(value => value === "nsaids") && adverseMedsIndex ||
-            filterStates.adverseMedsFilter.value.length === 0
+            filterStates.adverseMedsFilter.value.length === 0;
+
+
+         //Antihypertensive Medication Filter
+         //Antihypernsives( Group 1)
+
+         
+         const antihypertensiveFilterGroupOne = () => {
+            const aceiArb = filterStates.antihypertensiveFilters.value[0].includes("acei/arb") && row[SystmOneReportKeys.ACEi_ARB_Name_Dosage_Quantity].trim();
+            const caChannel = filterStates.antihypertensiveFilters.value[0].includes("cachannel") && row[SystmOneReportKeys.Ca_Channel_Name_Dosage_Quantity].trim();
+            const thiazides = filterStates.antihypertensiveFilters.value[0].includes("thiazides") && row[SystmOneReportKeys.Thiazides_Name_Dosage_Quantity].trim();
+            const betaBlockers = filterStates.antihypertensiveFilters.value[0].includes("betablockers") && row[SystmOneReportKeys.Beta_Blocker_Name_Dosage_Quantity].trim()
+            const others = filterStates.antihypertensiveFilters.value[0].includes("others") && 
+               (row[SystmOneReportKeys.Other_Diuretic_Name_Dosage_Quantity].trim() || row[SystmOneReportKeys.Other_Lipid_Lowering_Name_Dosage_Quantity].trim() || row[SystmOneReportKeys.Alpha_Blocker_Name_Dosage_Quantity].trim())
+
+            return { aceiArb, caChannel, thiazides, betaBlockers, others }
+         }
+
+
+
          
 
          return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter
