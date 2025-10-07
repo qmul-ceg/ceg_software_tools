@@ -26,95 +26,7 @@ export const cvdConfig = {
    toolName : "CVD Prevention tool",
 
    filters : {
-      HouseboundCarehome : {
-         id : "houseboundCarehomeFilter",
-         label : "Housebound/Carehome",
-         ui : {
-            width : 2,
-            bgColour : ""
-         },
-         kind : "multi", 
 
-         options : [
-            {value : "housebound", label: "Housebound"},
-            {value : "carehome", label: "Carehome"},
-
-         ], 
-         emptyBehaviour : []
-      },
-
-      Age : {
-         id : "ageFilter",
-         label : "Age",
-         ui : {
-            width : 2,
-            bgColour : ""
-         },
-         kind : "multi", 
-
-         options : [
-            {value : "lte65", label: "65 or under"},
-            {value : "65-79", label: "65 - 79"},
-            {value : "gte80", label: "above 80"},
-         ], 
-         emptyBehaviour : []
-      },
-
-      Vulnerabilities : {
-         id : "vulnerabilitiesFilter",
-         label : "Vulnerabilities",
-         ui : {
-            width : 2,
-            bgColour : ""
-         },
-         kind : "multi", 
-
-         options : [
-            {value : "smi", label: "Severe mental illness"},
-            {value : "learning", label: "Learning disability"},
-            {value : "dementia", label: "Dementia"},
-         ], 
-         emptyBehaviour : []
-      },
-
-      CoMorbidities : {
-         id : "comorbiditiesFilter",
-         label : "Co-morbidities",
-         ui : {
-            width : 2,
-            bgColour : ""
-         },
-         kind : "multi", 
-
-         options : [
-            {value : "cvd", label: "CVD (IHD/Stroke/TIA/PAD)"},
-            {value : "hypertension", label: "Hypertension"},
-            {value : "diabetes", label: "Diabetes"},
-            {value : "ckd", label: "CKD 3-5"},
-            {value : "af", label: "Atrial Fibrillation"},
-            {value : "cancer", label: "Cancer"},
-
-         ], 
-         emptyBehaviour : []
-      },
-
-
-      AdverseMeds : {
-         id : "adverseMedsFilter",
-         label : "Adverse meds",
-         ui : {
-            width : 2,
-            bgColour : ""
-         },
-         kind : "multi", 
-
-         options : [
-            {value : "nsaids", label: "NSAIDs (excl. aspirin)"},
-         ], 
-         emptyBehaviour : []
-      },
-
-         
       AntihypertensiveMeds : {
          id: "antihypertensiveMedsFilter",
          label : "Antihypertensive meds",
@@ -160,6 +72,56 @@ export const cvdConfig = {
          emptyBehaviour : [[],[], [], []]
       },
 
+      BloodPressureReadings : {
+         id: "bloodPressureFilter",
+         label : "Blood pressure readings",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+         kind : "grouped",
+
+         options : {
+            groupOne : {
+               groupName: "",
+               groupOptions : [
+                  {  value : "<140/90", label : "Under 140/90" },
+                  {  value : ">140/90", label : "Over 140/90" },
+                  {  value : ">150/90", label : "Over 150/90" },       
+               ]
+            },
+            groupTwo : {
+               groupName: "",
+               groupOptions : [
+                  {  value : "<12m", label : "Not recorded in last 12m" },
+                  {  value : "notInFinancialYear", label : "Not in financial year" },
+
+               ]
+            },
+         },
+         
+         emptyBehaviour : [[],[]]
+
+      },
+
+      HouseboundCarehome : {
+         id : "houseboundCarehomeFilter",
+         label : "Housebound/Carehome",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+         kind : "multi", 
+
+         options : [
+            {value : "housebound", label: "Housebound"},
+            {value : "carehome", label: "Carehome"},
+
+         ], 
+         emptyBehaviour : []
+      },
+
+
 
       LipidMeds : {
          id: "lipidMedicationsFilter",
@@ -174,31 +136,209 @@ export const cvdConfig = {
             groupOne : {
                groupName: "Statin",
                groupOptions : [
-                  {  value : "high_intensity", label : "High intensity statin" },
-                  {  value : "medium_low", label : "Medium or low intensity" },
-                  {  value : "no_statin", label : "Not on statin" },       
+                  {  value : "highIntensity", label : "High intensity statin" },
+                  {  value : "mediumLow", label : "Medium or low intensity" },
+                  {  value : "noStatin", label : "Not on statin" },       
                ]
             },
             groupTwo : {
                groupName: "",
                groupOptions : [
-                  {  value : "on_inclisiran", label : "On inclisiran" },
+                  {  value : "onInclisiran", label : "On inclisiran" },
                ]
             },
             groupThree : {
                groupName: "",
-               groupOptions : [ {  value : "max_tolerated", label : "Max tolerated dose" } ]
+               groupOptions : [ {  value : "maxTolerated", label : "Max tolerated dose" } ]
             },
             
             groupFour : {
                groupName: "",
-               groupOptions : [ {  value : "statin_exclusions", label : "Statin exclusions (Valid* contraindicated/declined)" } ]
+               groupOptions : [ {  value : "statinExclusions", label : "Statin exclusions (Valid* contraindicated/declined)" } ]
             },
          },
          
          emptyBehaviour : [[],[], [], []]
 
-      }
+      },
+
+      CoMorbidities : {
+         id : "comorbiditiesFilter",
+         label : "Co-morbidities",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+         kind : "multi", 
+
+         options : [
+            {value : "cvd", label: "CVD (IHD/Stroke/TIA/PAD)"},
+            {value : "hypertension", label: "Hypertension"},
+            {value : "diabetes", label: "Diabetes"},
+            {value : "ckd", label: "CKD 3-5"},
+            {value : "af", label: "Atrial Fibrillation"},
+            {value : "cancer", label: "Cancer"},
+
+         ], 
+         emptyBehaviour : []
+      },
+
+      CholestrolReadings : {
+         id: "cholestrolFilter",
+         label : "Cholestrol readings",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+         kind : "grouped",
+
+         options : {
+            groupOne : {
+               groupName: "",
+               groupOptions : [
+                  {  value : "ldl", label : "LDL" },
+                  {  value : ">2.0", label : "> 2.0" },
+                        
+               ]
+            },
+            groupTwo : {
+               groupName: "",
+               groupOptions : [
+                  {  value : "<12m", label : "Not recorded in last 12m" },
+                  {  value : "notInFinancialYear", label : "Not in financial year" },
+               ]
+            },
+         },
+         
+         emptyBehaviour : [[],[]]
+
+      },
+
+
+
+
+      QRiskScore : {
+         id: "qRiskFilter",
+         label : "QRisk score",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+         kind : "grouped",
+
+         options : {
+            groupOne : {
+               groupName: "",
+               groupOptions : [
+                  {  value : ">10", label : "10% or more" },
+                  {  value : ">20", label : "20% or more" },
+                        
+               ]
+            },
+            groupTwo : {
+               groupName: "",
+               groupOptions : [
+                  {  value : "<12m", label : "Not recorded in last 12m" },
+               ]
+            },
+         },
+         
+         emptyBehaviour : [[],[]]
+
+      },
+
+      Vulnerabilities : {
+         id : "vulnerabilitiesFilter",
+         label : "Vulnerabilities",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+         kind : "multi", 
+
+         options : [
+            {value : "smi", label: "Severe mental illness"},
+            {value : "learning", label: "Learning disability"},
+            {value : "dementia", label: "Dementia"},
+         ], 
+         emptyBehaviour : []
+      },
+
+      Ethniciy : {
+         id: "ethnicityFilter",
+         label : "Ethnicity",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+            kind : "multi", 
+
+         options : [
+            {value : "asianBritish", label: "Asian/Asian British"},
+            {value : "blackBritish", label: "Black/Black British"},
+            {value : "mixed", label: "Mixed or multiple ethnic groups"},
+            {value : "white", label: "White"},
+            {value : "other", label: "Other/Not specified"},
+         ], 
+         emptyBehaviour : []
+
+      },
+     
+
+      Age : {
+         id : "ageFilter",
+         label : "Age",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+         kind : "multi", 
+
+         options : [
+            {value : "lte65", label: "65 or under"},
+            {value : "65-79", label: "65 - 79"},
+            {value : "gte80", label: "above 80"},
+         ], 
+         emptyBehaviour : []
+      },
+      AdverseMeds : {
+         id : "adverseMedsFilter",
+         label : "Adverse meds",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+         kind : "multi", 
+
+         options : [
+            {value : "nsaids", label: "NSAIDs (excl. aspirin)"},
+         ], 
+         emptyBehaviour : []
+      },
+
+         
+      
+
+     
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -259,6 +399,9 @@ export const cvdConfig = {
          //       ["", "Not in last 12m", "Not in financial year"]],
          // "Housebound/Care home":
          //    [  ["", "Housebound", "Care home"]],
+
+
+
          // "Lipid medications":
          //    [  ["Statin", "High intensity Statin", "medium or low intensity", "Not on Statin"], 
          //       ["", "On inclisiran"],
@@ -268,13 +411,18 @@ export const cvdConfig = {
          //    [  ["", "CVD (IHD/Stroke/TIA/PAD)", "Hypertension", "Diabetes", "CKD 3-5", "Atrial Fibrillation", "Cancer"]],
          // "Cholestrol readings":
          //    [  ["LDL", "> 2.0"], ["", "Not in last 12m", "Not in financial year"]],
+
+
          // "QRisk score":
          //    [  ["", "10% or more", "20% or more"], ["", "Not recorded in last 12m"]],
          // "Vulnerabilities":
          //    [ ["", "Severe mental illness", "Learning disability", "Dementia"]],
          // "Ethnicity":
          //    [ ["", "Asian/Asian British", "Black/Black British", "Mixed or multiple ethnic groups", "White", "Other/Not specified"]],
+
+
          // "Age":
          //    [  ["", "65 or under", "65 - 79", "above 80"]],
+         
          // "Adverse meds":
          //    [ ["", "NSAIDs (excl. aspirin)"]]

@@ -22,7 +22,7 @@ const HighIntensityStatins : string[] = [
 export enum StatinIntensity {
     
     High = "High",
-    ModiumLow = "Mod/Low",     
+    MediumLow = "Med/Low",     
     //Any = "Any",
     NotOnStatin = "None"
 }
@@ -37,7 +37,7 @@ export function StatinsIntensity (statinsMed : string) : StatinIntensity  {
     let statinInt: StatinIntensity;
     
     if (statinsMed.trim().length > 0) {
-        statinInt = HighIntensityStatins.includes(statinsMed.trim()) ? StatinIntensity.High : StatinIntensity.ModiumLow;     
+        statinInt = HighIntensityStatins.includes(statinsMed.trim()) ? StatinIntensity.High : StatinIntensity.MediumLow;     
     }
     else {
         statinInt = StatinIntensity.NotOnStatin;

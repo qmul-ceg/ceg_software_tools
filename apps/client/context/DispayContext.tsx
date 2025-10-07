@@ -27,14 +27,14 @@ type GroupedFilter = {
 
 const cvdFilterStates:FilterStates ={
    antihypertensiveMedsFilter : {kind: "grouped", value: [[],[], [], []]},
-   bloodPressureFilter: {kind: "single", value: ""},
+   bloodPressureFilter: {kind: "grouped", value: [[],[]]},
    houseboundCarehomeFilter : {kind: "multi", value: []},
    lipidMedicationsFilter: {kind: "grouped", value: [[],[],[],[]]},
    comorbiditiesFilter: {kind: "multi", value: []},
-   cholestrolFilter: {kind: "single", value: ""},
+   cholestrolFilter: {kind: "grouped", value: [[], []]},
    qRiskFilter: {kind: "grouped", value: [[],[]]},
    vulnerabilitiesFilter: {kind: "multi", value: []},
-   ethnicityFilter: {kind: "single", value: ""},
+   ethnicityFilter: {kind: "multi", value: []},
    ageFilter: {kind: "multi", value: []},
    adverseMedsFilter: {kind: "multi", value: []},
 }

@@ -140,7 +140,8 @@ export enum SystmOneReportKeys{
    AF_Code_Term,
    IHD_Code_Term,
    Stroke_TIA_Code_Term,
-   PAD_Code_Term,	            //Heart_Failure_Code_Term,
+   PAD_Code_Term,	            
+   // Heart_Failure_Code_Term,
    Hypertension_Code_Term,
    Diabetes_Code_Term,
    CKD_Code_Term,
@@ -150,6 +151,7 @@ export enum SystmOneReportKeys{
    Cancer_2_Code_Term,	
    Cancer_3_Code_Term,
    RA_SLE_Code_Term,
+
    Frailty_Score_Code_Term,
    Frailty_Score_Date,
    Frailty_Score_Value,

@@ -151,7 +151,7 @@ const FilterSection = () => {
 
 
             {/* FILTERS */}
-            <div className="border border-dashed">
+            <div className="border border-black border-dotted w-[800px] grid grid-rows-3 grid-flow-col h-50">
                {
                   Object.entries(filterItems).map(([key, value])=> {
                      return (

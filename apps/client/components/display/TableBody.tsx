@@ -17,9 +17,13 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
    const [ filteredData, setFilteredData] = useState<string[][]>(tableData ?? [])
 
    useEffect(()=> {
-      // console.log(filterStates.antihypertensiveMedsFilter.value)
+    
+      
    
       const filterConfig = tableData?.filter((row) => {
+         console.log(row[SystmOneReportKeys.Systolic_BP_Value_1])
+
+
          const ageIndex = parseInt(row[SystmOneReportKeys.Age])
          const houseboundIndex = row[SystmOneReportKeys.Housebound_Code_Term].trim()
          const smiIndex = row[SystmOneReportKeys.SMI_Code_Term].trim()
@@ -86,7 +90,7 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
          const antihypertensiveMedsFilterGroupTwo = () => {
             const equalToZero = filterStates.antihypertensiveMedsFilter.value[1].includes("0") && parseInt(row[SystmOneReportKeys.AntiHptnMedicationCount]) === 0;
             const equalToOne = filterStates.antihypertensiveMedsFilter.value[1].includes("1") && parseInt(row[SystmOneReportKeys.AntiHptnMedicationCount]) === 1;
-            const gteTwo = filterStates.antihypertensiveMedsFilter.value[1].includes("2") && parseInt(row[SystmOneReportKeys.AntiHptnMedicationCount]) >= 2;
+            const gteTwo = filterStates.antihypertensiveMedsFilter.value[1].includes("gte2") && parseInt(row[SystmOneReportKeys.AntiHptnMedicationCount]) >= 2;
 
             return { equalToZero, equalToOne, gteTwo }
          }
@@ -122,10 +126,76 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
 
          
          //LIPID MEDICATIONS FILTER
+         const lipidMedicationsFilterGroupOne = () => {
+      
+            const highStatinIntensity = filterStates.lipidMedicationsFilter.value[0].includes("highIntensity") && row[SystmOneReportKeys.Statin_Intensity] === "High";
+            const mediumLowStatinIntensity = filterStates.lipidMedicationsFilter.value[0].includes("mediumLow") && row[SystmOneReportKeys.Statin_Intensity] === "Med/Low";
+            const notOnStatin = filterStates.lipidMedicationsFilter.value[0].includes("noStatin") && row[SystmOneReportKeys.Statin_Intensity] === "None"
+
+            return { highStatinIntensity, mediumLowStatinIntensity, notOnStatin }
+         }
+
+         const onInclisiran = filterStates.lipidMedicationsFilter.value[1].includes("onInclisiran") && row[SystmOneReportKeys.Inclisiran] === "YES"
+         const statinExclusions = filterStates.lipidMedicationsFilter.value[3].includes("statinExclusions") && (row[SystmOneReportKeys.Statin_Exclusion] === "Contra" || row[SystmOneReportKeys.Statin_Exclusion] === "Declined")
 
 
-         
-         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter && applyAntihypertensiveMedsFilter()
+         const applyLipidMedicationsFilter = () => {
+            const { highStatinIntensity, mediumLowStatinIntensity, notOnStatin } = lipidMedicationsFilterGroupOne()
+
+            const lipidMedicationsFilterCombinations =
+               //When nothing is selected
+               (  
+                  filterStates.lipidMedicationsFilter.value[0].length === 0  
+                  && filterStates.lipidMedicationsFilter.value[1].length === 0  
+                  && filterStates.lipidMedicationsFilter.value[2].length === 0   
+                  && filterStates.lipidMedicationsFilter.value[3].length === 0  
+               )  ||
+
+               //Value selected in first group only 
+               (
+                  filterStates.lipidMedicationsFilter.value[0].length > 0 
+                  && ( highStatinIntensity || mediumLowStatinIntensity || notOnStatin ) 
+                  && filterStates.lipidMedicationsFilter.value[1].length === 0  
+                  && filterStates.lipidMedicationsFilter.value[2].length === 0
+                  && filterStates.lipidMedicationsFilter.value[3].length === 0 ) ||
+
+               //Value selected in second group only (onInclisiran)
+               
+               (
+                  filterStates.lipidMedicationsFilter.value[0].length === 0 
+                  && (filterStates.lipidMedicationsFilter.value[1].length > 0 && onInclisiran) 
+                  && (filterStates.lipidMedicationsFilter.value[2].length === 0 ) 
+                  && (filterStates.lipidMedicationsFilter.value[3].length === 0 )  
+               )  ||
+
+               //Value selected in fourth group ONLY (statin exclusions)
+               (
+                  filterStates.lipidMedicationsFilter.value[0].length === 0 
+                  && (filterStates.lipidMedicationsFilter.value[1].length === 0) 
+                  && (filterStates.lipidMedicationsFilter.value[2].length === 0 ) 
+                  && (filterStates.lipidMedicationsFilter.value[3].length > 0 && statinExclusions)  
+               )  ||
+
+               //Value combinationations
+
+               (
+                  (filterStates.lipidMedicationsFilter.value[0].length > 0 && (highStatinIntensity || mediumLowStatinIntensity || notOnStatin)) ||
+                  (filterStates.lipidMedicationsFilter.value[1].length > 0 && onInclisiran) ||
+                  (filterStates.lipidMedicationsFilter.value[3].length > 0 && statinExclusions)  
+               )
+               
+
+            return lipidMedicationsFilterCombinations
+               
+         }
+
+         //BLOOD PRESSURE FILTER CONFIGURATIONS
+         const bloodPressureFilterGroupOne = () => {
+           
+            // const lowerBound = filterStates.bloodPressureFilter.value[0].includes("<140/90") && row[SystmOneReportKeys.B]
+         }
+
+         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter && applyAntihypertensiveMedsFilter() && applyLipidMedicationsFilter()
       })   
         
 
