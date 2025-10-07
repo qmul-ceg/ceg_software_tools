@@ -9,6 +9,8 @@ import { cvdConfig } from "./utils/cvdConfig";
 import { EMISReportKeys, SystmOneReportKeys } from "./constants/cvdDataEnums";
 import { CVDaddCalculatedFields } from "./utils/cvdAddCalculatedFields";
 import { TransformCVDS1Data } from "./utils/cvdS1DataTransform";
+import { CVD_Measures } from "./utils/cvdMeasures";
+import { CVD_Metrics } from "./types/cvdMetrics";
 
 
 
@@ -53,19 +55,29 @@ export default async function cvdToolModule(payload:ImportPayload){
                let parsedDataObject = Object.values(parserResult.data.masterReport as object);
                if (parsedDataObject.length > 0) {
 
-                  let reportKeys : typeof EMISReportKeys | typeof SystmOneReportKeys;
+                  let reportKeys : typeof EMISReportKeys | typeof SystmOneReportKeys = EMISReportKeys;
 
-                  if (payload.clinicalSystem === ClinicalSystems.EMIS) {
-                     reportKeys = EMISReportKeys;
-                  }
-                  else if (payload.clinicalSystem === ClinicalSystems.SystmOne) {
+                  if (payload.clinicalSystem === ClinicalSystems.SystmOne) {
                      reportKeys = SystmOneReportKeys;
                      TransformCVDS1Data(parsedDataObject); //Transform S1 data
                   }
                   //Add calculated properties/fields
-                  CVDaddCalculatedFields(parsedDataObject, reportKeys)
+                  CVDaddCalculatedFields(parsedDataObject, reportKeys);
+
+                  //Calculate CVD KPI/metrices
+                  let CVD_summary_data: CVD_Metrics =  CVD_Measures(parsedDataObject, reportKeys);                  
+
+                  cvdConfig.summaryTable.forEach((summaryMetric : any[], index) => {
+
+                     if (Object.entries(CVD_summary_data)[index]) {
+
+                        summaryMetric[1] = Object.entries(CVD_summary_data)[index][1].Denominator;
+                        summaryMetric[2] = Object.entries(CVD_summary_data)[index][1].Numerator;
+                        summaryMetric[3] = Object.entries(CVD_summary_data)[index][1].Percentage;
+                     }
+                  });
                } 
-               
+
                return { validationResult, parserResult}
           
             }

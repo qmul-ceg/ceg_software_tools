@@ -242,8 +242,8 @@ const FilterSection = () => {
                <header className="flex  rounded-t-lg px-2 py-2 bg-[#21376A] text-white justify-between">
                   <p className ="font-semibold text-md text-left ">Summary</p>
                   <div className= "flex gap-6 text-sm font-bold  mr-14">
-                     <p>Numerator</p>
                      <p>Denominator</p>
+                     <p>Numerator</p>
                      <p>%</p>
                   </div>
                </header>
@@ -252,9 +252,9 @@ const FilterSection = () => {
                      <div key = {index} className="text-sm flex  justify-between">
                         <p>{item[0]}</p>
                         <div className="flex gap-16 mr-12">
-                           <p>0</p>
-                           <p>0</p>
-                           <p>0%</p>
+                           {item.map((subItem, subIndex)=> (
+                             subIndex ? <p>{subItem}</p> : ""
+                           ))}
                         </div>
                      </div>
                   ))}

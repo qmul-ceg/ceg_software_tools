@@ -12,8 +12,9 @@ export function TransformCVDS1Data(dataTable: any[]) {
       
         removeUnits(dataTable[rowIndex]);
 
-        checkMedicaitonsIssuedDate(dataTable[rowIndex], runDate)
+        checkMedicaitonsIssuedDate(dataTable[rowIndex], runDate);
 
+        mergeCancerDiagnosis(dataTable[rowIndex]);
     }
 
 }
@@ -75,3 +76,15 @@ function removePrescriptionsOver6m(dRow: any[], prescripName: SystmOneReportKeys
     }    
 }
 
+function mergeCancerDiagnosis(dRow: any[]) {
+
+    if (dRow[SystmOneReportKeys.Cancer_Code_Term].trim() === "") {
+
+        if (dRow[SystmOneReportKeys.Cancer_2_Code_Term].trim() !== "") {
+            dRow[SystmOneReportKeys.Cancer_Code_Term] = dRow[SystmOneReportKeys.Cancer_2_Code_Term];
+        }
+        else if (dRow[SystmOneReportKeys.Cancer_3_Code_Term].trim() !== "") {
+            dRow[SystmOneReportKeys.Cancer_Code_Term] = dRow[SystmOneReportKeys.Cancer_3_Code_Term];
+        }
+    }
+}

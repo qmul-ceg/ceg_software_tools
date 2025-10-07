@@ -217,14 +217,14 @@ export const cvdConfig = {
    summaryTable : 
       [
          ["CVD:- prescribed high intensity statin", "0", "0", "0%"],
-         ["CVD with LDL ≥ 2.6 and NOT on inclisiran"],
-         ["CVD with LDL <= 2 (QoF)"],
-         ["CVD:- NOT on statin"],
-         ["QRisk 2/3 10% - 19%:- prescribed statin"],
-         ["QRisk 2/3 ≥ 20%:- prescribed statin"],
-         ["Hypertension:- BP ≤ 140/90 (age < 80) (QoF)"],
-         ["Hypertension:- BP ≤ 150/90 (age ≥ 80) (QoF)"],
-         ["CKD 3-5 prescribed any statin"]
+         ["CVD with LDL ≥ 2.6 and NOT on inclisiran", "0", "0", "0%"],
+         ["CVD with LDL <= 2 (QoF)", "0", "0", "0%"],
+         ["CVD:- NOT on statin", "0", "0", "0%"],
+         ["QRisk 2/3 10% - 19%:- prescribed statin", "0", "0", "0%"],
+         ["QRisk 2/3 ≥ 20%:- prescribed statin", "0", "0", "0%"],
+         ["Hypertension:- BP ≤ 140/90 (age < 80) (QoF)", "0", "0", "0%"],
+         ["Hypertension:- BP ≤ 150/90 (age ≥ 80) (QoF)", "0", "0", "0%"],
+         ["CKD 3-5 prescribed any statin", "0", "0", "0%"]
       ],
 
    tableHeader : 
