@@ -12,12 +12,13 @@ type ChildProps = {
 
 
 const TableBody = ({setIsModalOpen} : ChildProps) => {
+
    const { tableData, filterStates} = useDisplay()
    const [ filteredData, setFilteredData] = useState<string[][]>(tableData ?? [])
 
    useEffect(()=> {
-      // console.log(tableData)
-      
+      // console.log(filterStates.antihypertensiveMedsFilter.value)
+   
       const filterConfig = tableData?.filter((row) => {
          const ageIndex = parseInt(row[SystmOneReportKeys.Age])
          const houseboundIndex = row[SystmOneReportKeys.Housebound_Code_Term].trim()
@@ -71,22 +72,57 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
          //Antihypernsives( Group 1)
 
          
-         const antihypertensiveFilterGroupOne = () => {
-            const aceiArb = filterStates.antihypertensiveFilters.value[0].includes("acei/arb") && row[SystmOneReportKeys.ACEi_ARB_Name_Dosage_Quantity].trim();
-            const caChannel = filterStates.antihypertensiveFilters.value[0].includes("cachannel") && row[SystmOneReportKeys.Ca_Channel_Name_Dosage_Quantity].trim();
-            const thiazides = filterStates.antihypertensiveFilters.value[0].includes("thiazides") && row[SystmOneReportKeys.Thiazides_Name_Dosage_Quantity].trim();
-            const betaBlockers = filterStates.antihypertensiveFilters.value[0].includes("betablockers") && row[SystmOneReportKeys.Beta_Blocker_Name_Dosage_Quantity].trim()
-            const others = filterStates.antihypertensiveFilters.value[0].includes("others") && 
+         const antihypertensiveMedsFilterGroupOne = () => {
+            const aceiArb = filterStates.antihypertensiveMedsFilter.value[0].includes("acei/arb") && row[SystmOneReportKeys.ACEi_ARB_Name_Dosage_Quantity].trim();
+            const caChannel = filterStates.antihypertensiveMedsFilter.value[0].includes("cachannel") && row[SystmOneReportKeys.Ca_Channel_Name_Dosage_Quantity].trim();
+            const thiazides = filterStates.antihypertensiveMedsFilter.value[0].includes("thiazides") && row[SystmOneReportKeys.Thiazides_Name_Dosage_Quantity].trim();
+            const betaBlockers = filterStates.antihypertensiveMedsFilter.value[0].includes("betablockers") && row[SystmOneReportKeys.Beta_Blocker_Name_Dosage_Quantity].trim()
+            const others = filterStates.antihypertensiveMedsFilter.value[0].includes("others") && 
                (row[SystmOneReportKeys.Other_Diuretic_Name_Dosage_Quantity].trim() || row[SystmOneReportKeys.Other_Lipid_Lowering_Name_Dosage_Quantity].trim() || row[SystmOneReportKeys.Alpha_Blocker_Name_Dosage_Quantity].trim())
 
             return { aceiArb, caChannel, thiazides, betaBlockers, others }
          }
 
+         const antihypertensiveMedsFilterGroupTwo = () => {
+            const equalToZero = filterStates.antihypertensiveMedsFilter.value[1].includes("0") && parseInt(row[SystmOneReportKeys.AntiHptnMedicationCount]) === 0;
+            const equalToOne = filterStates.antihypertensiveMedsFilter.value[1].includes("1") && parseInt(row[SystmOneReportKeys.AntiHptnMedicationCount]) === 1;
+            const gteTwo = filterStates.antihypertensiveMedsFilter.value[1].includes("2") && parseInt(row[SystmOneReportKeys.AntiHptnMedicationCount]) >= 2;
 
+            return { equalToZero, equalToOne, gteTwo }
+         }
+
+         
+         const applyAntihypertensiveMedsFilter = () => {
+            const { aceiArb, caChannel, thiazides, betaBlockers, others} = antihypertensiveMedsFilterGroupOne();
+            const { equalToZero, equalToOne, gteTwo } = antihypertensiveMedsFilterGroupTwo();
+
+            const antiHypertensiveMedsFilterCombinations = 
+            //When nothing is selected
+               (filterStates.antihypertensiveMedsFilter.value[0].length === 0 && filterStates.antihypertensiveMedsFilter.value[1].length === 0 ) ||
+
+            //Value selected in first group ONLY
+               (filterStates.antihypertensiveMedsFilter.value[0].length > 0
+                  && (aceiArb || caChannel || thiazides || betaBlockers || others) 
+                  && filterStates.antihypertensiveMedsFilter.value[1].length === 0) ||
+
+            // Value selected in second group ONLY
+               (filterStates.antihypertensiveMedsFilter.value[1].length > 0 
+                  && (equalToZero || equalToOne || gteTwo)
+                  && filterStates.antihypertensiveMedsFilter.value[0].length === 0
+               ) ||
+
+            //Values from both groups are selected
+               (filterStates.antihypertensiveMedsFilter.value[0].length > 0
+                  && (aceiArb || caChannel || thiazides || betaBlockers || others) ||
+                  filterStates.antihypertensiveMedsFilter.value[1].length > 0 
+                  && (equalToZero || equalToOne || gteTwo)
+               )
+            return antiHypertensiveMedsFilterCombinations
+         }
 
          
 
-         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter
+         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter && applyAntihypertensiveMedsFilter()
       })   
         
 
