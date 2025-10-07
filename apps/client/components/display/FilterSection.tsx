@@ -57,7 +57,7 @@ const FilterSection = () => {
       }
 
       if (filterPayload.selectedFilterKind === "grouped"){
-         console.log(filterPayload.selectedIndex)
+   
          const updateGroupedFilterState = () => {
             const filterToUpdate = filterPayload.selectedFilterName;
             setFilterStates((prev) => {

@@ -25,146 +25,184 @@ type GroupedFilter = {
 export const cvdConfig = {
    toolName : "CVD Prevention tool",
 
-   filters : 
-      {
-         HouseboundCarehome : {
-            id : "houseboundCarehomeFilter",
-            label : "Housebound/Carehome",
-            ui : {
-               width : 2,
-               bgColour : ""
+   filters : {
+      HouseboundCarehome : {
+         id : "houseboundCarehomeFilter",
+         label : "Housebound/Carehome",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+         kind : "multi", 
+
+         options : [
+            {value : "housebound", label: "Housebound"},
+            {value : "carehome", label: "Carehome"},
+
+         ], 
+         emptyBehaviour : []
+      },
+
+      Age : {
+         id : "ageFilter",
+         label : "Age",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+         kind : "multi", 
+
+         options : [
+            {value : "lte65", label: "65 or under"},
+            {value : "65-79", label: "65 - 79"},
+            {value : "gte80", label: "above 80"},
+         ], 
+         emptyBehaviour : []
+      },
+
+      Vulnerabilities : {
+         id : "vulnerabilitiesFilter",
+         label : "Vulnerabilities",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+         kind : "multi", 
+
+         options : [
+            {value : "smi", label: "Severe mental illness"},
+            {value : "learning", label: "Learning disability"},
+            {value : "dementia", label: "Dementia"},
+         ], 
+         emptyBehaviour : []
+      },
+
+      CoMorbidities : {
+         id : "comorbiditiesFilter",
+         label : "Co-morbidities",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+         kind : "multi", 
+
+         options : [
+            {value : "cvd", label: "CVD (IHD/Stroke/TIA/PAD)"},
+            {value : "hypertension", label: "Hypertension"},
+            {value : "diabetes", label: "Diabetes"},
+            {value : "ckd", label: "CKD 3-5"},
+            {value : "af", label: "Atrial Fibrillation"},
+            {value : "cancer", label: "Cancer"},
+
+         ], 
+         emptyBehaviour : []
+      },
+
+
+      AdverseMeds : {
+         id : "adverseMedsFilter",
+         label : "Adverse meds",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+         kind : "multi", 
+
+         options : [
+            {value : "nsaids", label: "NSAIDs (excl. aspirin)"},
+         ], 
+         emptyBehaviour : []
+      },
+
+         
+      AntihypertensiveMeds : {
+         id: "antihypertensiveMedsFilter",
+         label : "Antihypertensive meds",
+         ui : {
+            width : 2,
+            bgColour : ""
+         },
+         kind : "grouped",
+
+         options : {
+            groupOne : {
+               groupName : "",
+               groupOptions: [
+                  {  value: "acei/arb", label : "ACEi/ARB"  },
+                  {  value: "cachannel", label : "Ca-Channel"  },
+                  {  value: "thiazides", label : "Thiazides"  },
+                  {  value: "betablockers", label : "Beta-blockers"  },
+                  {  value: "others", label : "Others"  }
+               ]
             },
-            kind : "multi", 
-
-            options : [
-               {value : "housebound", label: "Housebound"},
-               {value : "carehome", label: "Carehome"},
-
-            ], 
-            emptyBehaviour : []
+            groupTwo: {
+               groupName : "No. of Antihypertensives",
+               groupOptions : [
+                  {  value: "0", label : "0"  },
+                  {  value: "1", label : "1"  },
+                  {  value: "gte2", label : "2 or more"  },
+               ]
+            },
+            groupThree: {
+               groupName : "",
+               groupOptions : [
+                  {  value: "dose", label : "Max tolerated dose"  },
+               ]
+            },
+            groupFour : {
+               groupName : "",
+               groupOptions : [
+                     {  value: "declined", label : "Antihypertensives declined (12m)"  },
+               ]
+            }
          },
 
-         Age : {
-            id : "ageFilter",
-            label : "Age",
-            ui : {
-               width : 2,
-               bgColour : ""
-            },
-            kind : "multi", 
+         emptyBehaviour : [[],[], [], []]
+      },
 
-            options : [
-               {value : "lte65", label: "65 or under"},
-               {value : "65-79", label: "65 - 79"},
-               {value : "gte80", label: "above 80"},
-            ], 
-            emptyBehaviour : []
+
+      LipidMeds : {
+         id: "lipidMedicationsFilter",
+         label : "Lipid medications",
+         ui : {
+            width : 2,
+            bgColour : ""
          },
+         kind : "grouped",
 
-         Vulnerabilities : {
-            id : "vulnerabilitiesFilter",
-            label : "Vulnerabilities",
-            ui : {
-               width : 2,
-               bgColour : ""
+         options : {
+            groupOne : {
+               groupName: "Statin",
+               groupOptions : [
+                  {  value : "high_intensity", label : "High intensity statin" },
+                  {  value : "medium_low", label : "Medium or low intensity" },
+                  {  value : "no_statin", label : "Not on statin" },       
+               ]
             },
-            kind : "multi", 
-
-            options : [
-               {value : "smi", label: "Severe mental illness"},
-               {value : "learning", label: "Learning disability"},
-               {value : "dementia", label: "Dementia"},
-            ], 
-            emptyBehaviour : []
+            groupTwo : {
+               groupName: "",
+               groupOptions : [
+                  {  value : "on_inclisiran", label : "On inclisiran" },
+               ]
+            },
+            groupThree : {
+               groupName: "",
+               groupOptions : [ {  value : "max_tolerated", label : "Max tolerated dose" } ]
+            },
+            
+            groupFour : {
+               groupName: "",
+               groupOptions : [ {  value : "statin_exclusions", label : "Statin exclusions (Valid* contraindicated/declined)" } ]
+            },
          },
+         
+         emptyBehaviour : [[],[], [], []]
 
-         CoMorbidities : {
-            id : "comorbiditiesFilter",
-            label : "Co-morbidities",
-            ui : {
-               width : 2,
-               bgColour : ""
-            },
-            kind : "multi", 
-
-            options : [
-               {value : "cvd", label: "CVD (IHD/Stroke/TIA/PAD)"},
-               {value : "hypertension", label: "Hypertension"},
-               {value : "diabetes", label: "Diabetes"},
-               {value : "ckd", label: "CKD 3-5"},
-               {value : "af", label: "Atrial Fibrillation"},
-               {value : "cancer", label: "Cancer"},
-
-            ], 
-            emptyBehaviour : []
-         },
+      }
 
 
-         AdverseMeds : {
-            id : "adverseMedsFilter",
-            label : "Adverse meds",
-            ui : {
-               width : 2,
-               bgColour : ""
-            },
-            kind : "multi", 
 
-            options : [
-               {value : "nsaids", label: "NSAIDs (excl. aspirin)"},
-            ], 
-            emptyBehaviour : []
-         },
-
-         // type GroupDetails = { value : string, label : string}
-
-         // tyype Inner = Record<string: string, string  : groupDetails[]> 
-         // Record<string, Inner>
-
-         AntihypertensiveMeds : {
-            id: "antihypertensiveMedsFilter",
-            label : "Antihypertensive meds",
-            ui : {
-               width : 2,
-               bgColour : ""
-            },
-            kind : "grouped",
-
-            options : {
-               groupOne : {
-                  groupName : "",
-                  groupOptions: [
-                     {  value: "acei/arb", label : "ACEi/ARB"  },
-                     {  value: "cachannel", label : "Ca-Channel"  },
-                     {  value: "thiazides", label : "Thiazides"  },
-                     {  value: "betablockers", label : "Beta-blockers"  },
-                     {  value: "others", label : "Others"  }
-                  ]
-               },
-               groupTwo: {
-                  groupName : "No. of Antihypertensives",
-                  groupOptions : [
-                     {  value: "0", label : "0"  },
-                     {  value: "1", label : "1"  },
-                     {  value: "gte2", label : "2 or more"  },
-                  ]
-               },
-               groupThree: {
-                  groupName : "",
-                  groupOptions : [
-                     {  value: "dose", label : "Max tolerated dose"  },
-                  ]
-               },
-               groupFour : {
-                  groupName : "",
-                  groupOptions : [
-                        {  value: "declined", label : "Antihypertensives declined (12m)"  },
-                  ]
-               }
-            },
-
-            emptyBehaviour : [[],[], [], []]
-         }
-      } satisfies Record<string, MultiFilter | GroupedFilter>,
+   } satisfies Record<string, MultiFilter | GroupedFilter>, // ADD COMMENT
 
    quickFilters : 
       [  "BP > 140/90, no hypertension diagnosis", 

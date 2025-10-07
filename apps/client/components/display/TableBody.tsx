@@ -121,7 +121,10 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
          }
 
          
+         //LIPID MEDICATIONS FILTER
 
+
+         
          return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter && applyAntihypertensiveMedsFilter()
       })   
         

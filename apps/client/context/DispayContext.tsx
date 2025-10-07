@@ -29,7 +29,7 @@ const cvdFilterStates:FilterStates ={
    antihypertensiveMedsFilter : {kind: "grouped", value: [[],[], [], []]},
    bloodPressureFilter: {kind: "single", value: ""},
    houseboundCarehomeFilter : {kind: "multi", value: []},
-   lipidMedicationsFilter: {kind: "single", value: ""},
+   lipidMedicationsFilter: {kind: "grouped", value: [[],[],[],[]]},
    comorbiditiesFilter: {kind: "multi", value: []},
    cholestrolFilter: {kind: "single", value: ""},
    qRiskFilter: {kind: "grouped", value: [[],[]]},
