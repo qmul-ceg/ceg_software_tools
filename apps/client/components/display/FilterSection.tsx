@@ -122,9 +122,10 @@ const FilterSection = () => {
                </button>
             </div>
             <div className = {`icon ${showFilter ? 'open' : 'closed'}`}>
-               <FontAwesomeIcon  icon ={faChevronUp}  
-                                 className="text-white cursor-pointer opacity-80" 
-                                 onClick={()=>setShowFilter(!showFilter)}
+               <FontAwesomeIcon  
+                  icon ={faChevronUp}  
+                  className="text-white cursor-pointer opacity-80" 
+                  onClick={()=>setShowFilter(!showFilter)}
                />
             </div>
          </div>
@@ -151,80 +152,86 @@ const FilterSection = () => {
 
 
             {/* FILTERS */}
-            <div className="border border-black border-dotted w-[800px] grid grid-rows-3 grid-flow-col h-50">
+            <div className="border border-black border-dotted w-[800px] grid grid-rows-3 grid-flow-col h-50 justify-between">
                {
                   Object.entries(filterItems).map(([key, value])=> {
                      return (
-                        <Select key = {key}>
-                           <SelectTrigger>
-                              {value.label}
-                           </SelectTrigger>
-                           <SelectContent>
-                              {
-                                 value.kind === "multi" ?
-                                    value.options.map((option: {value: string, label: string} ) => (
-                                       <ul>
-                                          
-                                          <label key = {option.value}>
-                                             <input 
-                                                type = "checkbox"
-                                                className=" cursor-pointer mr-2"
-                                                checked = {
-                                                   value.kind === "multi" && (filterStates[value.id].value as string[]).includes(option.value) 
+                        <div style={{ width : `${value.ui.width}em`}}>
+                           <Select key = {key} >
+                              <SelectTrigger 
+                                 className="cursor-pointer w-full" 
+                                 // style={{ backgroundColor : value.ui.bgColour , color : 'white', fontWeight : 'bold'}}
+                                 >
 
-                                                }
-                                                value = {option.value} 
-                                                onChange = {()=>handleFilterSelection(
-                                                   {  
-                                                      selectedFilterName : value.id, 
-                                                      selectedValue: option.value, 
-                                                      selectedFilterKind : value.kind 
+                                 {value.label}
+                              </SelectTrigger>
+                              <SelectContent>
+                                 {
+                                    value.kind === "multi" ?
+                                       value.options.map((option: {value: string, label: string} ) => (
+                                          <ul>
+                                             
+                                             <label key = {option.value}>
+                                                <input 
+                                                   type = "checkbox"
+                                                   className=" cursor-pointer mr-2"
+                                                   checked = {
+                                                      value.kind === "multi" && (filterStates[value.id].value as string[]).includes(option.value) 
+
                                                    }
-                                                )}
-                                             />
-                                                {option.label}
-                                          </label>
-                                          
-                                       </ul>
-                                    ))     
-                                    : 
-                                    Object.entries(value.options).map(([group, inner], groupIndex) => {
-                                       return (
-                                          <div className="">
-                                             <p className="font-bold">{inner.groupName}</p>
-                                             <ul>
-                                                {inner.groupOptions.map((option) => (
-                                                   <li >
-                                                      <label>
-                                                         <input 
-                                                            type = "checkbox"
-                                                            className = "cursor-pointer mr-2 "
-                                                            value = {option.value}
-                                                            checked = {
-                                                               value.kind === "grouped" && (filterStates[value.id].value[groupIndex].includes(option.value))
-                                                            }
-                                                            onChange = {()=>handleFilterSelection(
-                                                               {
-                                                                  selectedFilterName : value.id,
-                                                                  selectedValue : option.value,
-                                                                  selectedFilterKind : value.kind,
-                                                                  selectedIndex : groupIndex
+                                                   value = {option.value} 
+                                                   onChange = {()=>handleFilterSelection(
+                                                      {  
+                                                         selectedFilterName : value.id, 
+                                                         selectedValue: option.value, 
+                                                         selectedFilterKind : value.kind 
+                                                      }
+                                                   )}
+                                                />
+                                                   {option.label}
+                                             </label>
+                                             
+                                          </ul>
+                                       ))     
+                                       : 
+                                       Object.entries(value.options).map(([group, inner], groupIndex, groupArray) => {
+                                          return (
+                                             <div>
+                                                <p className="font-bold">{inner.groupName}</p>
+                                                <ul className={`${groupIndex !== groupArray.length -1 ? " border-b-2" : ""} py-1`}>
+                                                   {inner.groupOptions.map((option) => (
+                                                      <li >
+                                                         <label>
+                                                            <input 
+                                                               type = "checkbox"
+                                                               className = "cursor-pointer mr-2 "
+                                                               value = {option.value}
+                                                               checked = {
+                                                                  value.kind === "grouped" && (filterStates[value.id].value[groupIndex].includes(option.value))
                                                                }
-                                                            )}
-                                                         />
-                                                         {option.label}
-                                                      </label>
-                                                   </li>
-                                                ))}
-                                             </ul>
-                                          </div>
+                                                               onChange = {()=>handleFilterSelection(
+                                                                  {
+                                                                     selectedFilterName : value.id,
+                                                                     selectedValue : option.value,
+                                                                     selectedFilterKind : value.kind,
+                                                                     selectedIndex : groupIndex
+                                                                  }
+                                                               )}
+                                                            />
+                                                            {option.label}
+                                                         </label>
+                                                      </li>
+                                                   ))}
+                                                </ul>
+                                             </div>
 
-                                       )
+                                          )
 
-                                    }) 
-                              }
-                           </SelectContent>
-                        </Select>
+                                       }) 
+                                 }
+                              </SelectContent>
+                           </Select>
+                        </div>
                      )
                   })
                   

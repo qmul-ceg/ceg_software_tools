@@ -31,8 +31,8 @@ export const cvdConfig = {
          id: "antihypertensiveMedsFilter",
          label : "Antihypertensive meds",
          ui : {
-            width : 2,
-            bgColour : ""
+            width : 13,
+            bgColour : "#21376A"
          },
          kind : "grouped",
 
@@ -76,7 +76,7 @@ export const cvdConfig = {
          id: "bloodPressureFilter",
          label : "Blood pressure readings",
          ui : {
-            width : 2,
+            width : 13,
             bgColour : ""
          },
          kind : "grouped",
@@ -108,7 +108,7 @@ export const cvdConfig = {
          id : "houseboundCarehomeFilter",
          label : "Housebound/Carehome",
          ui : {
-            width : 2,
+            width : 13,
             bgColour : ""
          },
          kind : "multi", 
@@ -127,7 +127,7 @@ export const cvdConfig = {
          id: "lipidMedicationsFilter",
          label : "Lipid medications",
          ui : {
-            width : 2,
+            width : 11,
             bgColour : ""
          },
          kind : "grouped",
@@ -166,7 +166,7 @@ export const cvdConfig = {
          id : "comorbiditiesFilter",
          label : "Co-morbidities",
          ui : {
-            width : 2,
+            width : 11,
             bgColour : ""
          },
          kind : "multi", 
@@ -187,16 +187,16 @@ export const cvdConfig = {
          id: "cholestrolFilter",
          label : "Cholestrol readings",
          ui : {
-            width : 2,
+            width : 11,
             bgColour : ""
          },
          kind : "grouped",
 
          options : {
             groupOne : {
-               groupName: "",
+               groupName: "LDL",
                groupOptions : [
-                  {  value : "ldl", label : "LDL" },
+                  // {  value : "ldl", label : "LDL" },
                   {  value : ">2.0", label : "> 2.0" },
                         
                ]
@@ -221,7 +221,7 @@ export const cvdConfig = {
          id: "qRiskFilter",
          label : "QRisk score",
          ui : {
-            width : 2,
+            width : 10,
             bgColour : ""
          },
          kind : "grouped",
@@ -251,7 +251,7 @@ export const cvdConfig = {
          id : "vulnerabilitiesFilter",
          label : "Vulnerabilities",
          ui : {
-            width : 2,
+            width : 10,
             bgColour : ""
          },
          kind : "multi", 
@@ -268,7 +268,7 @@ export const cvdConfig = {
          id: "ethnicityFilter",
          label : "Ethnicity",
          ui : {
-            width : 2,
+            width : 10,
             bgColour : ""
          },
             kind : "multi", 
@@ -289,7 +289,7 @@ export const cvdConfig = {
          id : "ageFilter",
          label : "Age",
          ui : {
-            width : 2,
+            width : 10,
             bgColour : ""
          },
          kind : "multi", 
@@ -305,7 +305,7 @@ export const cvdConfig = {
          id : "adverseMedsFilter",
          label : "Adverse meds",
          ui : {
-            width : 2,
+            width : 10,
             bgColour : ""
          },
          kind : "multi", 
