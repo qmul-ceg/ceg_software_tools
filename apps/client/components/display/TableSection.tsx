@@ -87,10 +87,10 @@ const TableSection = ({setIsModalOpen} : ChildProps) => {
    
 
   return (
-      <div className=" flex flex-col min-h-0 border-4">
+      <div className=" flex flex-col min-h-0 border-4 ">
          <TableHeader />
-         {/* SECOND TRY */}
-         <div className="flex-1 min-h-0 overflow-y-auto ">
+         
+         <div className="flex-1 min-h-0  w-full">
             <TableBody setIsModalOpen={setIsModalOpen}/>
          </div>
 

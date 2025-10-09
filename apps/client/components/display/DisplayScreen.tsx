@@ -1,5 +1,5 @@
 "use client"
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import HeaderSection from './HeaderSection'
 import FilterSection from './FilterSection'
 import TableSection from './TableSection'
@@ -12,7 +12,26 @@ import TableHeader from './TableHeader'
 
 const DisplayScreen = () => {
    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+   const [scrollbarWidth, setScrollBarWidth] = useState<number>(0)
 
+   const bodyRef = useRef<HTMLDivElement>(null)
+   
+
+   const getScrollbarWidth = (element : HTMLDivElement | null):number=>{
+      if(element){
+         const width = element.offsetWidth - element.clientWidth
+         return width
+      }
+      return 0
+      
+
+   }
+
+   useEffect(()=>{
+      console.log(getScrollbarWidth(bodyRef.current))
+      setScrollBarWidth(getScrollbarWidth(bodyRef.current))
+   },[])
+   console.log(scrollbarWidth)
    return (
 
       <div className = "flex flex-col  h-screen w-full overflow-hidden">
@@ -29,15 +48,15 @@ const DisplayScreen = () => {
             Patient data ....
 
          </div>
-            {/* overflow-y-auto */}
+           
          <div className='flex flex-col flex-1 min-h-0 border border-[#21376A] rounded-t-lg '>
-            <TableHeader />
-            <div className="overflow-y-auto ">
+            <TableHeader paddingValue={scrollbarWidth}/>
+            <div className="overflow-y-auto " ref={bodyRef}>
                <TableBody setIsModalOpen={setIsModalOpen}/>
             </div>
             
             
-            {/* <TableSection setIsModalOpen={setIsModalOpen}/> */}
+       
          </div>
 
          <div className="  mt-auto">
@@ -51,7 +70,6 @@ const DisplayScreen = () => {
                      <Modal setIsModalOpen = {setIsModalOpen}/>
                   </div>
                ): null
-               // <Modal openModal={isModalOpen} onClose={()=> setIsModalOpen(!isModalOpen)}/>
          }
          
       </div>
@@ -60,4 +78,4 @@ const DisplayScreen = () => {
 }
 
 export default DisplayScreen
-   // const sample = useContext(DisplayContext)
+     {/* <TableSection setIsModalOpen={setIsModalOpen}/> */}

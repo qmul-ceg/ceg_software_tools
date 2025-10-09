@@ -25,7 +25,7 @@ type GroupedFilter = {
    emptyBehaviour : [][]
 }
 
-const cvdFilterStates:FilterStates ={
+const cvdFilterStates:FilterStates = {
    antihypertensiveMedsFilter : {kind: "grouped", value: [[],[], [], []]},
    bloodPressureFilter: {kind: "grouped", value: [[],[]]},
    houseboundCarehomeFilter : {kind: "multi", value: []},

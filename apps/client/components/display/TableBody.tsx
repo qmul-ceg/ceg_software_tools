@@ -2,16 +2,18 @@ import React, { useEffect } from 'react'
 import { useDisplay } from '@/context/DispayContext'
 import { useState } from 'react'
 import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
+import { cvdTableConfig } from './TableHeader'
+import { ColumnGroup } from './TableHeader'
 
 
 
 
-type ChildProps = {
-   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
+// type ChildProps = {
+//    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+// }
 
 
-const TableBody = ({setIsModalOpen} : ChildProps) => {
+const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.SetStateAction<boolean>>}) => {
 
    const { tableData, filterStates} = useDisplay()
    const [ filteredData, setFilteredData] = useState<string[][]>(tableData ?? [])
@@ -21,7 +23,7 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
       
    
       const filterConfig = tableData?.filter((row) => {
-         console.log(row[SystmOneReportKeys.Systolic_BP_Value_1])
+         // console.log(row[SystmOneReportKeys.Systolic_BP_Value_1])
 
 
          const ageIndex = parseInt(row[SystmOneReportKeys.Age])
@@ -194,23 +196,20 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
            
             // const lowerBound = filterStates.bloodPressureFilter.value[0].includes("<140/90") && row[SystmOneReportKeys.B]
          }
-
+ 
          return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter && applyAntihypertensiveMedsFilter() && applyLipidMedicationsFilter()
       })   
         
-
-
-      
-
       setFilteredData(filterConfig ?? [])
-
-
-
-
-
    }, [filterStates])
    
+   const columnGroup = () => {
+      return (
+         {
 
+         }
+      )
+   }
 
 
 
@@ -218,45 +217,111 @@ const TableBody = ({setIsModalOpen} : ChildProps) => {
 
 
    return (
-               <div className=" ">
-                  <table>
-                     <tbody className="">
-                           
+      <div className=" ">
+         <table className="w-full table-fixed">
+            <ColumnGroup />
+            <tbody className=" ">
+               {
+                  filteredData.map((row, index) => {
+                     return (
+                        <tr className= "hover:bg-gray-100">
                            {
-                              filteredData.map((item, index)=> ( 
-                                 <tr className=" text-xs hover:bg-gray-100">
-                                    <td className="w-[4em] text-center">
-                                       <input 
-                                          type="checkbox"
-                                       />
+                           
+                           cvdTableConfig.map((data, index) => {
+                              return(
+                                 data.id === "select"
+                                 ?  <td className= " border text-center"><input type = "checkbox" /></td>
+                                 :  <td className ={`w-[${data.width}]  border px-2 py-1 text-sm text-${data.align}`}>
+                                       { row[data.id] === "Patient reference no." ? "0000" :  row[data.id] }
                                     </td>
-                                    <td className="text-left w-[14em] cursor-pointer" onClick={()=>setIsModalOpen(true)}>{item[SystmOneReportKeys.Full_Name]}</td>
-                                    <td className="text-center px-2">{item[SystmOneReportKeys.Age]}</td>
-                                    <td className="text-center px-6">{item[SystmOneReportKeys.Gender]}</td>
-                                    <td className="text-center px-6">0000</td>
-                                    <td className="text-center w-[2em]">{item[SystmOneReportKeys.Statin_Name_Dosage_Quantity]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.Statin_Intensity]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.Statin_Exclusion]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.Inclisiran]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.BloodPressure]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.CVD]}</td>
-                                    <td className="text-center w-[4em]">{item[SystmOneReportKeys.CKD3_5]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.Hypertension]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.Diabetes]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.Total_Cholestrol_Value]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.LDL_Cholestrol_Value]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.EGFR_Value]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.AntiHptnMedicationCount]}</td>
-                                    <td className="text-center">{item[SystmOneReportKeys.Medication_Review_Date]}</td>
-      
-                                 </tr>                           
-                              ))
-                           } 
-                  </tbody>  
-                  </table>
-      
-               </div>
+
+                              )
+                              })
+                           
+                           }
+                        
+                        </tr>
+                     )
+                  })
+               }
+              
+         </tbody>  
+         </table>
+
+      </div>
    )
 }
 
 export default TableBody
+
+
+
+
+
+
+//  <tr>
+                  {/* {
+                     cvdTableConfig.map((data, index) => (
+                        data.id === "select" 
+                        ? <td><input type="checkbox"/><td/>
+                        :  <td className ={` border px-2 py-1 text-sm `}>
+                                          { row[tableItem.id] === "Patient reference no." ? "0000" :  row[tableItem.id] }
+                           </td>
+                     ))
+                  } */}
+               // </tr>
+                  {/* {
+                     filteredData.map((row, index)=> {
+                        return (
+                           <tr className="hover:bg-gray-100">
+                              <td className="w-10 text-center">
+                                 <input 
+                                    type = "checkbox" 
+                                 />
+                              </td>
+                              {
+                                 cvdTableConfig.map((tableItem, index)=> {
+                                    return (
+                                       <td className ={`w-[${tableItem.width}] border px-2 py-1 text-sm `}>
+                                          { row[tableItem.id] === "Patient reference no." ? "0000" :  row[tableItem.id] }
+                                       </td>
+                                    )
+                                 })
+                              }
+                           </tr>
+         
+                        )
+                     })
+                  } */}
+
+
+                  {/* {
+                     filteredData.map((item, index)=> ( 
+                        <tr className=" text-xs hover:bg-gray-100">
+                           <td className="w-[4em] text-center">
+                              <input 
+                                 type="checkbox"
+                              />
+                           </td>
+                           <td className="text-left border w-[10%] cursor-pointer" onClick={()=>setIsModalOpen(true)}>{item[SystmOneReportKeys.Full_Name]}</td>
+                           <td className="text-center px-2">{item[SystmOneReportKeys.Age]}</td>
+                           <td className="text-center px-6">{item[SystmOneReportKeys.Gender]}</td>
+                           <td className="text-center px-6">0000</td>
+                           <td className="text-center w-[2em]">{item[SystmOneReportKeys.Statin_Name_Dosage_Quantity]}</td>
+                           <td className="text-center">{item[SystmOneReportKeys.Statin_Intensity]}</td>
+                           <td className="text-center">{item[SystmOneReportKeys.Statin_Exclusion]}</td>
+                           <td className="text-center">{item[SystmOneReportKeys.Inclisiran]}</td>
+                           <td className="text-center">{item[SystmOneReportKeys.BloodPressure]}</td>
+                           <td className="text-center">{item[SystmOneReportKeys.CVD]}</td>
+                           <td className="text-center w-[4em]">{item[SystmOneReportKeys.CKD3_5]}</td>
+                           <td className="text-center">{item[SystmOneReportKeys.Hypertension]}</td>
+                           <td className="text-center">{item[SystmOneReportKeys.Diabetes]}</td>
+                           <td className="text-center">{item[SystmOneReportKeys.Total_Cholestrol_Value]}</td>
+                           <td className="text-center">{item[SystmOneReportKeys.LDL_Cholestrol_Value]}</td>
+                           <td className="text-center">{item[SystmOneReportKeys.EGFR_Value]}</td>
+                           <td className="text-center">{item[SystmOneReportKeys.AntiHptnMedicationCount]}</td>
+                           <td className="text-center">{item[SystmOneReportKeys.Medication_Review_Date]}</td>
+
+                        </tr>                           
+                     ))
+                  }  */}
