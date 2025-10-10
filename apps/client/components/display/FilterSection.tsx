@@ -152,20 +152,20 @@ const FilterSection = () => {
 
 
             {/* FILTERS */}
-            <div className="border border-black border-dotted w-[800px] grid grid-rows-3 grid-flow-col h-50 justify-between">
+            <div className=" border-black border-dotted w-[800px] grid grid-rows-3 grid-flow-col h-50 justify-between">
                {
                   Object.entries(filterItems).map(([key, value])=> {
                      return (
                         <div style={{ width : `${value.ui.width}em`}}>
                            <Select key = {key} >
                               <SelectTrigger 
-                                 className="cursor-pointer w-full" 
-                                 // style={{ backgroundColor : value.ui.bgColour , color : 'white', fontWeight : 'bold'}}
+                                 className="cursor-pointer w-full hover:opacity-95" 
+                                 style={{ backgroundColor : value.ui.bgColour , color : 'white', fontWeight : 'bold'}}
                                  >
 
                                  {value.label}
                               </SelectTrigger>
-                              <SelectContent>
+                              <SelectContent className="pl-2">
                                  {
                                     value.kind === "multi" ?
                                        value.options.map((option: {value: string, label: string} ) => (

@@ -31,7 +31,7 @@ export const cvdConfig = {
          id: "antihypertensiveMedsFilter",
          label : "Antihypertensive meds",
          ui : {
-            width : 13,
+            width : 14,
             bgColour : "#21376A"
          },
          kind : "grouped",
@@ -76,8 +76,8 @@ export const cvdConfig = {
          id: "bloodPressureFilter",
          label : "Blood pressure readings",
          ui : {
-            width : 13,
-            bgColour : ""
+            width : 14,
+            bgColour : "#21376A"
          },
          kind : "grouped",
 
@@ -108,8 +108,8 @@ export const cvdConfig = {
          id : "houseboundCarehomeFilter",
          label : "Housebound/Carehome",
          ui : {
-            width : 13,
-            bgColour : ""
+            width : 14,
+            bgColour : "#21376A"
          },
          kind : "multi", 
 
@@ -128,7 +128,7 @@ export const cvdConfig = {
          label : "Lipid medications",
          ui : {
             width : 11,
-            bgColour : ""
+            bgColour : "#21376A"
          },
          kind : "grouped",
 
@@ -167,7 +167,7 @@ export const cvdConfig = {
          label : "Co-morbidities",
          ui : {
             width : 11,
-            bgColour : ""
+            bgColour : "#21376A"
          },
          kind : "multi", 
 
@@ -188,7 +188,7 @@ export const cvdConfig = {
          label : "Cholestrol readings",
          ui : {
             width : 11,
-            bgColour : ""
+            bgColour : "#21376A"
          },
          kind : "grouped",
 
@@ -222,7 +222,7 @@ export const cvdConfig = {
          label : "QRisk score",
          ui : {
             width : 10,
-            bgColour : ""
+            bgColour : "#21376A"
          },
          kind : "grouped",
 
@@ -252,7 +252,7 @@ export const cvdConfig = {
          label : "Vulnerabilities",
          ui : {
             width : 10,
-            bgColour : ""
+            bgColour : "#21376A"
          },
          kind : "multi", 
 
@@ -269,7 +269,7 @@ export const cvdConfig = {
          label : "Ethnicity",
          ui : {
             width : 10,
-            bgColour : ""
+            bgColour : "#21376A"
          },
             kind : "multi", 
 
@@ -290,7 +290,7 @@ export const cvdConfig = {
          label : "Age",
          ui : {
             width : 10,
-            bgColour : ""
+            bgColour : "#21376A"
          },
          kind : "multi", 
 
@@ -306,7 +306,7 @@ export const cvdConfig = {
          label : "Adverse meds",
          ui : {
             width : 10,
-            bgColour : ""
+            bgColour : "#D32F2F"
          },
          kind : "multi", 
 
