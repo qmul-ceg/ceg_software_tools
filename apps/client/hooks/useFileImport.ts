@@ -61,6 +61,7 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       const routerResult = await toolRouter(newPayload);
       const validationResult = Object.values(routerResult)[0]
       const parserResult = Object.values(routerResult)[1]
+      // console.log(routerResult)
 
       const validationResultArray = Object.values(validationResult)
       const parserResultArray:any[] = Object.values(parserResult)

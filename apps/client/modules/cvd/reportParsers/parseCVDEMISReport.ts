@@ -14,7 +14,7 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
             header : false,
             skipEmptyLines : true,
             complete : (result) =>{
-               
+               console.log(result)
                let result_array = result.data
                let patient_data_starting_index: number = 0
 
@@ -73,8 +73,10 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
       })
    }
 
-   let parsedFile = await parseFile(report[0])
    
+
+   let parsedFile = await parseFile(report[0])
+   console.log(parsedFile)
    return parsedFile
 }  
 

@@ -28,10 +28,12 @@ const DisplayScreen = () => {
    }
 
    useEffect(()=>{
-      console.log(getScrollbarWidth(bodyRef.current))
+      // console.log(getScrollbarWidth(bodyRef.current))
       setScrollBarWidth(getScrollbarWidth(bodyRef.current))
    },[])
-   console.log(scrollbarWidth)
+
+   
+   // console.log(scrollbarWidth)
    return (
 
       <div className = "flex flex-col  h-screen w-full overflow-hidden">

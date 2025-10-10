@@ -42,7 +42,7 @@ export default async function cvdToolModule(payload:ImportPayload){
    
    let validationResult: ValidationType = {status: "", info: ""}
    // let parserResult: ParserResultType = {status: "", info: "", masterReport: {}}
-   let parserResult: ParserResult = {status: "", info: ""}
+   let parserResult: ParserResult = {  status: "", info: "" }
 
    if (validateReport){
       validationResult = await validateReport(payload.file)
@@ -50,6 +50,7 @@ export default async function cvdToolModule(payload:ImportPayload){
       if(validationResult.status == "success"){
          if(parseReport){
             parserResult = await parseReport(payload.file)
+            // console.log(parserResult)
 
             if (parserResult.status === "success"){
                let parsedDataObject = Object.values(parserResult.data.masterReport as object);

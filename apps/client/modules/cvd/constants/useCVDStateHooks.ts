@@ -1,3 +1,6 @@
+
+//DELETE THIS FILE
+
 import React from 'react'
 import { useState } from 'react'
 
@@ -6,7 +9,7 @@ export default function useCVDStateHooks (){
       name : string
    }
 
-   const example:toolName  = { name : 'Fola'}
+   const example:toolName  = { name : ''}
 
    return { example }
 }

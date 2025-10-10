@@ -91,10 +91,9 @@ const FilterSection = () => {
       }
    }
 
-   useEffect(()=>{
-      console.log(filterStates)
-
-   }, [filterStates])
+   // useEffect(()=>{
+   //    console.log(filterStates)
+   // }, [filterStates])
 
 
 
@@ -165,7 +164,7 @@ const FilterSection = () => {
 
                                  {value.label}
                               </SelectTrigger>
-                              <SelectContent className="pl-2">
+                              <SelectContent className="px-2">
                                  {
                                     value.kind === "multi" ?
                                        value.options.map((option: {value: string, label: string} ) => (

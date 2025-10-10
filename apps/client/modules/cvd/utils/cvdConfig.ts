@@ -127,7 +127,7 @@ export const cvdConfig = {
          id: "lipidMedicationsFilter",
          label : "Lipid medications",
          ui : {
-            width : 11,
+            width : 12,
             bgColour : "#21376A"
          },
          kind : "grouped",
@@ -166,7 +166,7 @@ export const cvdConfig = {
          id : "comorbiditiesFilter",
          label : "Co-morbidities",
          ui : {
-            width : 11,
+            width : 12,
             bgColour : "#21376A"
          },
          kind : "multi", 
@@ -187,7 +187,7 @@ export const cvdConfig = {
          id: "cholestrolFilter",
          label : "Cholestrol readings",
          ui : {
-            width : 11,
+            width : 12,
             bgColour : "#21376A"
          },
          kind : "grouped",
@@ -289,15 +289,15 @@ export const cvdConfig = {
          id : "ageFilter",
          label : "Age",
          ui : {
-            width : 10,
+            width : 9,
             bgColour : "#21376A"
          },
          kind : "multi", 
 
          options : [
-            {value : "lte65", label: "65 or under"},
+            {value : "lt65", label: " < 65 "},
             {value : "65-79", label: "65 - 79"},
-            {value : "gte80", label: "above 80"},
+            {value : "gte80", label: "> 80"},
          ], 
          emptyBehaviour : []
       },
@@ -305,7 +305,7 @@ export const cvdConfig = {
          id : "adverseMedsFilter",
          label : "Adverse meds",
          ui : {
-            width : 10,
+            width : 9,
             bgColour : "#D32F2F"
          },
          kind : "multi", 

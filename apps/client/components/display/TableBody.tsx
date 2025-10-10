@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 import { cvdTableConfig } from './TableHeader'
 import { ColumnGroup } from './TableHeader'
+import { hadUnsupportedValue } from 'next/dist/build/analysis/get-page-static-info'
 
 
 
@@ -43,8 +44,8 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
          const adverseMedsIndex = row[SystmOneReportKeys.NSAID_Name_Dosage_Quantity]
 
          const filterByAge = 
-            (filterStates.ageFilter.value as string[]).includes("lte65") && ageIndex <= 65 ||
-            (filterStates.ageFilter.value as string[]).includes("65-79") && (ageIndex > 65 && ageIndex <= 79) ||
+            (filterStates.ageFilter.value as string[]).includes("lt65") && ageIndex < 65 ||
+            (filterStates.ageFilter.value as string[]).includes("65-79") && (ageIndex >= 65 && ageIndex <= 79) ||
             (filterStates.ageFilter.value as string[]).includes("gte80") && (ageIndex >= 80) ||
             filterStates.ageFilter.value.length === 0 ;
 
@@ -192,24 +193,60 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
          }
 
          //BLOOD PRESSURE FILTER CONFIGURATIONS
+         //Split the blood pressure values 
+         const splitBloodPressureValue = (value: string) => {
+       
+            const [systolic, diastolic] = value.split("/");
+            return [systolic, diastolic];
+         }
+
          const bloodPressureFilterGroupOne = () => {
-           
-            // const lowerBound = filterStates.bloodPressureFilter.value[0].includes("<140/90") && row[SystmOneReportKeys.B]
+            const [systolic , diastolic ] = splitBloodPressureValue(row[SystmOneReportKeys.BloodPressure]);
+       
+
+            const lowerBound = filterStates.bloodPressureFilter.value[0].includes("<140/90") && (parseInt(systolic) < 140 && parseInt(diastolic) < 90);
+            const midBound = filterStates.bloodPressureFilter.value[0].includes("gte140/90") && (parseInt(systolic) >= 140 || parseInt(diastolic) >= 90);
+            const upperBound = filterStates.bloodPressureFilter.value[0].includes(">150/90") && (parseInt(systolic) >= 150 && parseInt(diastolic) > 0);
+
+            return { lowerBound, midBound, upperBound }
+         }
+
+         const applyBloodPressureFilter = () => {
+            const { lowerBound, midBound, upperBound } = bloodPressureFilterGroupOne();
+
+            // console.log(upperBound)
+            const bloodPressureFilterCombinations = 
+               // When no filter is selected
+               (
+                  filterStates.bloodPressureFilter.value[0].length === 0 
+                  && filterStates.bloodPressureFilter.value[1].length === 0 
+               ) ||
+
+               //When blood pressure value is selected only 
+               (
+                  filterStates.bloodPressureFilter.value[0].length > 0 && (lowerBound || midBound || upperBound) &&
+                  filterStates.bloodPressureFilter.value[1].length === 0
+               )
+               
+               
+
+
+            return bloodPressureFilterCombinations;
          }
  
-         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter && applyAntihypertensiveMedsFilter() && applyLipidMedicationsFilter()
+         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter && applyAntihypertensiveMedsFilter() && applyLipidMedicationsFilter() && applyBloodPressureFilter()
       })   
         
       setFilteredData(filterConfig ?? [])
    }, [filterStates])
    
-   const columnGroup = () => {
-      return (
-         {
+   // const columnGroup = () => {
+   //    return (
+   //       {
 
-         }
-      )
-   }
+   //       }
+   //    )
+   // }
 
 
 
@@ -228,14 +265,16 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
                            {
                            
                            cvdTableConfig.map((data, index) => {
-                              return(
-                                 data.id === "select"
-                                 ?  <td className= " border text-center"><input type = "checkbox" /></td>
-                                 :  <td className ={`w-[${data.width}]  border px-2 py-1 text-sm text-${data.align}`}>
-                                       { row[data.id] === "Patient reference no." ? "0000" :  row[data.id] }
-                                    </td>
+                              return (
+                                       data.id === "select"
+                                       ?  <td className= " border text-center">
+                                             <input type = "checkbox" />
+                                          </td>
+                                       :  <td className ={`w-[${data.width}]  border px-2 py-1 text-sm text-${data.align}`}>
+                                             { row[data.id] === "Patient reference no." ? "0000" :  row[data.id] }
+                                          </td>
 
-                              )
+                                    )
                               })
                            
                            }
@@ -244,8 +283,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
                      )
                   })
                }
-              
-         </tbody>  
+            </tbody>  
          </table>
 
       </div>

@@ -143,7 +143,7 @@ export const cvdTableConfig = [
 
 
 export function ColumnGroup (){
-   //This function allows us to align the table header for the div and align it 
+   //Function allows us to create a column group element that we use to align our table header and table body
    return (
       <colgroup>
          {
@@ -160,9 +160,16 @@ export function ColumnGroup (){
 
 const TableHeader = ({ paddingValue } : { paddingValue : number }) => {
    const { tableHeader } = useDisplay()
-   console.log(paddingValue)
+  
    return (
-      <div className={` border-b-6 border-[#21376A] rounded-t-lg pr-[${paddingValue}px]`}>
+      <div 
+         className={` border-b-6 border-[#21376A] rounded-t-lg pr-[${paddingValue}px]`}
+         style = {{paddingRight : `${paddingValue}px` }}
+      
+      >
+
+
+
          <table className="w-full table-fixed">
             <ColumnGroup />
             <thead>

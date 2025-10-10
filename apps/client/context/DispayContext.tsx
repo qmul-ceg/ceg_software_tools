@@ -112,7 +112,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
 
    useEffect(() => {
       if (importedData){
-         console.log(importedData)
+         // console.log(importedData)
          if (importedData){
             if (importedData.data && importedData.config && importedData.data?.masterReport){
                setToolName(importedData.data.toolName ?? "")
@@ -125,7 +125,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
                setTest(true) //Testing to allow us to move to display screen 
             }
             
-            console.log(importedData.info)
+            // console.log(importedData.info)
          }
       }  
    }, [importedData])
