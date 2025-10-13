@@ -85,7 +85,7 @@ export default async function cvdToolModule(payload:ImportPayload){
          }
       }
    }
-   console.log(parserResult)   
+
    
 
 }     

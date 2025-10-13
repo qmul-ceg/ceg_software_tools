@@ -61,6 +61,9 @@ export type ParserResult = {
 }
 
 
+
+
+//FILTER STATE TYPE
 type FilterStateEntries =  
    | {kind : "single", value: string } 
    | {kind : "multi", value : string[] }

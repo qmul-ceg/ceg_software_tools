@@ -1,61 +1,10 @@
-import { ParserResultType, ParserResult } from "@/types/shared.types";
+import { ParserResult } from "@/types/shared.types";
 import Papa from 'papaparse';
-import { parse } from "path";
 import { cvdConfig } from "./cvdConfig";
 
 
 //CREATED TO SORT FILES IN A SPECIFIC STRUCTURE BUT NOT WORKING AS EXEPECTED DUE TO THE ASYNCHRONOUS NATURE 
 //Check with Zaheer
-// const sortSystmOneFilesByHeader = async (files: Array<File>): Promise<Object> => {
-
-//       const sortedReports: Record<string, File> = {};
-//       const headers: Array<Promise<string[]>> = []
-
-//       const readHeaders = (file:File)=> {
-//          return new Promise<string[]>((resolve, reject)=>{
-//             const headerReader = new FileReader();
-
-//             headerReader.onload = () => {
-//                const result= headerReader.result as string;
-//                const lines = result.split("\n");
-//                const headerArray = lines[0].split(",");
-               
-//                for(let i = 0; i < headerArray.length; i++){
-//                   if(headerArray[0].trim() === "Full Name" && headerArray[1].trim() === "Age" && headerArray[2].trim() === "Gender"){
-//                      sortedReports["report1"] = file;
-//                   }
-//                   else if (headerArray[0].trim() === "NHS number" && headerArray[1].trim() === "Frailty" && headerArray[2].trim() === "Frailty (Date last ever)"){
-//                      sortedReports["report2"] = file;
-//                   }
-//                   else if (headerArray[0].trim() === "NHS number" && headerArray[1].trim() === "Antiplatelet" && headerArray[2].trim() === "Date of issue"){
-//                      sortedReports["report3"] = file;
-//                   }
-
-//                }
-//                resolve(headerArray)
-//             }
-//             headerReader.onerror = () => {
-//                new Error ("One or more files could not be read")
-//             }
-//             headerReader.readAsText(file)
-//          })
-//       }
-
-//       for(let file of files){
-//          headers.push(readHeaders(file))
-//       }
-
-//       await Promise.all(headers).then((result)=> {
-         
-//          return result
-//       })
-      
-//       return sortedReports
-// }
-
-
-
-
 
 const parseSystmOneReport = async(files: Object): Promise<ParserResult> => {
       // console.log(files)
@@ -69,7 +18,7 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResult> => {
 
       //Parse each file 
       const parseFile = async(file: File) => {
-
+         console.log(file)
          return new Promise<Object> ((resolve, reject)=> {
             let reportObject: Record<string, object> = {}
 
@@ -77,6 +26,7 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResult> => {
                header: false,
                skipEmptyLines:true,
                complete: (results) => {
+                  console.log(results)
                   const parsedResult = results.data
                   let parsedResultHeader = parsedResult[0] as Array<string>
                   
@@ -206,3 +156,63 @@ export { parseSystmOneReport }
          //       }
          //    }
          // }
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         // const sortSystmOneFilesByHeader = async (files: Array<File>): Promise<Object> => {
+
+//       const sortedReports: Record<string, File> = {};
+//       const headers: Array<Promise<string[]>> = []
+
+//       const readHeaders = (file:File)=> {
+//          return new Promise<string[]>((resolve, reject)=>{
+//             const headerReader = new FileReader();
+
+//             headerReader.onload = () => {
+//                const result= headerReader.result as string;
+//                const lines = result.split("\n");
+//                const headerArray = lines[0].split(",");
+               
+//                for(let i = 0; i < headerArray.length; i++){
+//                   if(headerArray[0].trim() === "Full Name" && headerArray[1].trim() === "Age" && headerArray[2].trim() === "Gender"){
+//                      sortedReports["report1"] = file;
+//                   }
+//                   else if (headerArray[0].trim() === "NHS number" && headerArray[1].trim() === "Frailty" && headerArray[2].trim() === "Frailty (Date last ever)"){
+//                      sortedReports["report2"] = file;
+//                   }
+//                   else if (headerArray[0].trim() === "NHS number" && headerArray[1].trim() === "Antiplatelet" && headerArray[2].trim() === "Date of issue"){
+//                      sortedReports["report3"] = file;
+//                   }
+
+//                }
+//                resolve(headerArray)
+//             }
+//             headerReader.onerror = () => {
+//                new Error ("One or more files could not be read")
+//             }
+//             headerReader.readAsText(file)
+//          })
+//       }
+
+//       for(let file of files){
+//          headers.push(readHeaders(file))
+//       }
+
+//       await Promise.all(headers).then((result)=> {
+         
+//          return result
+//       })
+      
+//       return sortedReports
+// }

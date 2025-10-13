@@ -192,12 +192,44 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
                
          }
 
+
+
          //BLOOD PRESSURE FILTER CONFIGURATIONS
-         //Split the blood pressure values 
+         //Split the blood pressure values MOVE THESE FUNCTIONALITIES POSSIBLY TO SHARED FUNCTIONALITIES FOR OTHER TOOLS 
          const splitBloodPressureValue = (value: string) => {
        
             const [systolic, diastolic] = value.split("/");
             return [systolic, diastolic];
+         }
+
+
+         //Relative run date and blood pressure
+
+         const convertDate = (dateString : string) => {
+            if (dateString){
+               const [day, month, year] = dateString.split('-');
+               const months = { "Jan": "01", "Feb": "02", "Mar": "03", "Apr": "04", "May": "05", "Jun": "06", "Jul": "07", "Aug": "08", "Sep": "09", "Oct": "10", "Nov": "11", "Dec": "12" };
+               return `20${year}-${months[month]}-${day}`; 
+            }
+            else return ""
+         }
+
+
+         const recordedOverTwelveMonths = (recordedDate: string, relativeRunDate: string):boolean => {
+            if(!recordedDate){
+               // console.log(recordedDate, relativeRunDate)
+               return false
+            }
+            
+            //Function returns a boolean value that let's us know if a specific data was recorded 12 months prior to relative run date
+            const parsedRecordedDate = new Date(recordedDate)
+            const parsedRelativeRunDate = new Date(relativeRunDate)
+            console.log(parsedRecordedDate, parsedRelativeRunDate)
+            const cutOffDate = new Date (parsedRelativeRunDate.setFullYear(parsedRelativeRunDate.getFullYear() - 1))
+            console.log(cutOffDate)
+            return parsedRecordedDate <= cutOffDate
+            
+           
          }
 
          const bloodPressureFilterGroupOne = () => {
@@ -213,6 +245,8 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 
          const applyBloodPressureFilter = () => {
             const { lowerBound, midBound, upperBound } = bloodPressureFilterGroupOne();
+            const recordedDateResult = recordedOverTwelveMonths(convertDate(row[SystmOneReportKeys.Systolic_BP_Date_1]), convertDate("07-Aug-25"))
+            const overTwelveMonths = filterStates.bloodPressureFilter.value[1].includes("<12m") && recordedDateResult
 
             // console.log(upperBound)
             const bloodPressureFilterCombinations = 
@@ -224,29 +258,70 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 
                //When blood pressure value is selected only 
                (
-                  filterStates.bloodPressureFilter.value[0].length > 0 && (lowerBound || midBound || upperBound) &&
-                  filterStates.bloodPressureFilter.value[1].length === 0
+                  filterStates.bloodPressureFilter.value[0].length > 0 && (lowerBound || midBound || upperBound) 
+                  && filterStates.bloodPressureFilter.value[1].length === 0
+               ) ||
+
+               // When date is selected only
+               (
+                  filterStates.bloodPressureFilter.value[0].length === 0 
+                  && (filterStates.bloodPressureFilter.value[1].length > 0 && overTwelveMonths)
+               ) ||
+
+               //Value comibinations 
+               (
+                  filterStates.bloodPressureFilter.value[0].length  > 0 && (lowerBound || midBound || upperBound ) 
+                  || (filterStates.bloodPressureFilter.value[1].length > 0  && overTwelveMonths)
                )
-               
-               
-
-
+           
             return bloodPressureFilterCombinations;
          }
+
+
+
+         //CHOLESTROL READING
+         const applyCholestrolReadingFilter = () => {
+            const ldlGreaterThanTwo = filterStates.cholestrolFilter.value[0].includes(">2.0") && parseInt(row[SystmOneReportKeys.LDL_Cholestrol_Value]) > 2.0
+            const recordedDateResult = recordedOverTwelveMonths(convertDate(row[SystmOneReportKeys.LDL_Cholestrol_Date]), convertDate("07-Aug-25"))
+            const overTwelveMonths = filterStates.cholestrolFilter.value[1].includes("<12m") && recordedDateResult
+
+          
+            const cholestrolReadingCombinations = 
+            // //Nothing selected
+               (
+                  filterStates.cholestrolFilter.value[0].length === 0 
+                  && filterStates.cholestrolFilter.value[1].length === 0 
+                  
+               ) ||
+               //Only value is selected
+               (
+                  filterStates.cholestrolFilter.value[0].length > 0 && ldlGreaterThanTwo 
+                  && filterStates.cholestrolFilter.value[1].length === 0 
+               ) ||
+
+               //When only date is selected
+               (
+                  filterStates.cholestrolFilter.value[0].length === 0 
+                  && filterStates.cholestrolFilter.value[1].length > 0 && overTwelveMonths
+               ) ||
+
+               // combinations
+               (
+                  filterStates.cholestrolFilter.value[0].length > 0 && ldlGreaterThanTwo 
+                  || filterStates.cholestrolFilter.value[1].length > 0 && overTwelveMonths
+               )
+
+            return cholestrolReadingCombinations
+          }
+
  
-         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter && applyAntihypertensiveMedsFilter() && applyLipidMedicationsFilter() && applyBloodPressureFilter()
+         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter && applyAntihypertensiveMedsFilter() && applyLipidMedicationsFilter() && applyBloodPressureFilter() && applyCholestrolReadingFilter()
       })   
         
       setFilteredData(filterConfig ?? [])
    }, [filterStates])
    
-   // const columnGroup = () => {
-   //    return (
-   //       {
 
-   //       }
-   //    )
-   // }
 
 
 
@@ -267,10 +342,10 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
                            cvdTableConfig.map((data, index) => {
                               return (
                                        data.id === "select"
-                                       ?  <td className= " border text-center">
+                                       ?  <td className= " border-b text-center">
                                              <input type = "checkbox" />
                                           </td>
-                                       :  <td className ={`w-[${data.width}]  border px-2 py-1 text-sm text-${data.align}`}>
+                                       :  <td className ={`w-[${data.width}]  border-gray-150 border-b border-l px-2 py-1 text-sm text-${data.align}`}>
                                              { row[data.id] === "Patient reference no." ? "0000" :  row[data.id] }
                                           </td>
 
