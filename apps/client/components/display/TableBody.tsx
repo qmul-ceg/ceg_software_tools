@@ -5,6 +5,7 @@ import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 import { cvdTableConfig } from './TableHeader'
 import { ColumnGroup } from './TableHeader'
 import { hadUnsupportedValue } from 'next/dist/build/analysis/get-page-static-info'
+import { SYSTEM_ENTRYPOINTS } from 'next/dist/shared/lib/constants'
 
 
 
@@ -224,9 +225,9 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
             //Function returns a boolean value that let's us know if a specific data was recorded 12 months prior to relative run date
             const parsedRecordedDate = new Date(recordedDate)
             const parsedRelativeRunDate = new Date(relativeRunDate)
-            console.log(parsedRecordedDate, parsedRelativeRunDate)
+            
             const cutOffDate = new Date (parsedRelativeRunDate.setFullYear(parsedRelativeRunDate.getFullYear() - 1))
-            console.log(cutOffDate)
+            
             return parsedRecordedDate <= cutOffDate
             
            
@@ -312,10 +313,51 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
                )
 
             return cholestrolReadingCombinations
-          }
+         }
 
+         //QRISK FILTER
+         const applyQriskFilter = () => {
+            
+            const greaterThanTenPercent = filterStates.qRiskFilter.value[0].includes(">10") && (parseFloat(row[SystmOneReportKeys.QRisk_Value]) > 10.0)
+            const greaterThanTwentyPercent = filterStates.qRiskFilter.value[0].includes(">20") && (parseFloat(row[SystmOneReportKeys.QRisk_Value]) > 20.0)
+
+            const recordedDateResult = recordedOverTwelveMonths(convertDate(row[SystmOneReportKeys.QRisk_Date]), convertDate("07-Aug-25"))
+            const overTwelveMonths = filterStates.qRiskFilter.value[1].includes("<12m") && recordedDateResult
+            
+            
+            
+            const qRiskFilterCombinations = 
+            //no selections
+            (
+               filterStates.qRiskFilter.value[0].length === 0  
+               && filterStates.qRiskFilter.value[1].length === 0  
+            ) ||
+
+            //Selection at the top 
+            (
+               filterStates.qRiskFilter.value[0].length > 0 && (greaterThanTenPercent || greaterThanTwentyPercent)
+               && filterStates.qRiskFilter.value[1].length === 0
+            ) ||
+
+            (
+               filterStates.qRiskFilter.value[0].length === 0 
+               && filterStates.qRiskFilter.value[1].length > 0 && overTwelveMonths
+
+            ) ||
+
+            (
+               filterStates.qRiskFilter.value[0].length > 0 && (greaterThanTenPercent || greaterThanTwentyPercent)
+               || filterStates.qRiskFilter.value[1].length > 0 && overTwelveMonths
+            )
+
+            return qRiskFilterCombinations
+            // 
+         }
+
+
+          
  
-         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter && applyAntihypertensiveMedsFilter() && applyLipidMedicationsFilter() && applyBloodPressureFilter() && applyCholestrolReadingFilter()
+         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter && applyAntihypertensiveMedsFilter() && applyLipidMedicationsFilter() && applyBloodPressureFilter() && applyCholestrolReadingFilter() && applyQriskFilter() && applyQriskFilter
       })   
         
       setFilteredData(filterConfig ?? [])
