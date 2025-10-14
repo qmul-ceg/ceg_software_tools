@@ -390,15 +390,7 @@ export const cvdConfig = {
       }
    },
 
-   // quickFilters : 
-   //    [  "BP > 140/90, no hypertension diagnosis", 
-   //       "CVD and not on statin", 
-   //       "CKD 3-5 and diabetes, not on ACEi/ARB",
-   //       "Raised QRISK and not on statin",
-   //       "CKD on NSAID",
-   //       "Hypertension, no antihypertensive and BP > 140/90 ",
-   //       "Hypertension with last BP > 12m ago"
-   //    ],
+
    
    summaryTable : 
       [

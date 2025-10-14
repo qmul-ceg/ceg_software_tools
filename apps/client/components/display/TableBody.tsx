@@ -10,10 +10,6 @@ import { SYSTEM_ENTRYPOINTS } from 'next/dist/shared/lib/constants'
 
 
 
-// type ChildProps = {
-//    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-// }
-
 
 const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.SetStateAction<boolean>>}) => {
 

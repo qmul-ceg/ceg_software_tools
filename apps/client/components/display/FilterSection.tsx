@@ -105,41 +105,35 @@ const FilterSection = () => {
          updateGroupedFilterState()
       }
    }
+   // MOVE THIS EVENTUALLY
+   const [selectedQuickFilter, setSelectedQuickFilter] = useState<FilterStates>({})
 
-
-
-   //FINISH HERE 
-   const handleQuickFilterSelection = (payload: FilterStates)=> {
-      // setFilterStates(defaultFilters) //RESETS OUR STATE
-
-      // const sampleUpdate = {
-      //    bloodPressureFilter: {  kind: "grouped", value: [["<140/90"],[]]  },
-      //    hptnDiagnosis : { kind: "multi", value : ["no"] }
-      // }
-
-      console.log(payload)
+  
+   
+   const handleQuickFilterSelection = (payload:FilterStates)=> {
+      // Function checks if our payload already exists in state
+      // If it does then we clear our state and return this mimics user deselecting the filter
+      // if it doesn't we update the selected quick filter state and we then we updated the selected filterState.
 
       const exists = Object.entries(payload).every(([key, value]) => (
-          JSON.stringify(filterStates[key]) === JSON.stringify(value)
+         JSON.stringify(selectedQuickFilter[key]) === JSON.stringify(value)
       ))
 
-      if (exists){
+      if(selectedQuickFilter && exists){
          setFilterStates(defaultFilters)
+         setSelectedQuickFilter({})
          return
       }
-      
-      else {
-         setFilterStates({...defaultFilters, ...payload})
-      }
 
-      return
-
-
+      setSelectedQuickFilter(payload)
+      setFilterStates(defaultFilters)
+      setFilterStates({...defaultFilters, ...payload});
    }
 
+   
    // useEffect(()=>{
-   //    console.log(filterStates)
-   // }, [filterStates])
+   //    console.log(selectedQuickFilter)
+   // }, [selectedQuickFilter])
 
 
 
@@ -187,15 +181,16 @@ const FilterSection = () => {
                <div className="flex flex-col border-[0.1em] text-left border-[#21376A]  border-t-0 p-2 font-semibold ">
                   {
                      Object.entries(quickFilters).map(([key, value])=> {
-                        console.log(value.payload)
+           
                         return(
                            <ul>
                               <li>
-                                 <label htmlFor="">
+                                 <label htmlFor="" className="cursor-pointer hover:opacity-80">
                                     <input 
-                                       className="mr-2"
+                                       className="mr-2 cursor-pointer hover:opacity-90"
                                        type = "checkbox"
-                                       onChange={()=> handleQuickFilterSelection(value.payload)}
+                                       checked = {JSON.stringify(selectedQuickFilter) === JSON.stringify(value.payload)}
+                                       onChange={()=>handleQuickFilterSelection(value.payload)}
                                     />{value.label}
                                  </label>
                               </li>
@@ -205,16 +200,6 @@ const FilterSection = () => {
                      })
                   }
                   
-                  
-                  
-                  
-                  {/* {quickFilters.map((item, id) => (
-                     <label key={id}>
-                        <input type="checkbox" className="mr-2" onChange={()=>handleQuickFilterSelection()}></input>
-                        <span>{item}</span>
-                     </label>
-
-                  ))} */}
                </div>
             </div>
 
@@ -345,6 +330,19 @@ const FilterSection = () => {
 }
 
 export default FilterSection
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // setFilterStates((prev) => {
             //    // prev[filterToUpdate].value.map((item, index) => {
