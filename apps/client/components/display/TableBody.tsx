@@ -21,9 +21,6 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
    const [ filteredData, setFilteredData] = useState<string[][]>(tableData ?? [])
 
    useEffect(()=> {
-    
-      
-   
       const filterConfig = tableData?.filter((row) => {
          // console.log(row[SystmOneReportKeys.Systolic_BP_Value_1])
 
@@ -140,7 +137,8 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
          }
 
          const onInclisiran = filterStates.lipidMedicationsFilter.value[1].includes("onInclisiran") && row[SystmOneReportKeys.Inclisiran] === "YES"
-         const statinExclusions = filterStates.lipidMedicationsFilter.value[3].includes("statinExclusions") && (row[SystmOneReportKeys.Statin_Exclusion] === "Contra" || row[SystmOneReportKeys.Statin_Exclusion] === "Declined")
+         const statinExclusions = filterStates.lipidMedicationsFilter.value[3].includes("statinExclusions") 
+         && (row[SystmOneReportKeys.Statin_Exclusion] === "Contra" || row[SystmOneReportKeys.Statin_Exclusion] === "Declined")
 
 
          const applyLipidMedicationsFilter = () => {
@@ -354,10 +352,30 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
             // 
          }
 
+         const applyHptnDiagnosisFilter = () => {
+            const noHptnDiagnosis = (filterStates.hptnDiagnosis.value as string[]).includes("no") && (row[SystmOneReportKeys.Hypertension] === "NO")
+
+            const hptnCombination = 
+               filterStates.hptnDiagnosis.value.length === 0 || 
+               filterStates.hptnDiagnosis.value.length > 0 && noHptnDiagnosis
+
+            return hptnCombination
+         }
+
+         const applyAceiArbFilter = () => {
+            const noAceiArbValue = (filterStates.aceiArbFilter.value as string[]).includes("no") && (row[SystmOneReportKeys.ACEi_ARB_Name_Dosage_Quantity].trim() === "")
+         
+            const aceiArbFilterCombination = 
+               filterStates.aceiArbFilter.value.length === 0 ||
+               filterStates.aceiArbFilter.value.length > 0 && noAceiArbValue 
+
+            return aceiArbFilterCombination
+         }
+
 
           
  
-         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter && applyAntihypertensiveMedsFilter() && applyLipidMedicationsFilter() && applyBloodPressureFilter() && applyCholestrolReadingFilter() && applyQriskFilter() && applyQriskFilter
+         return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter && applyAntihypertensiveMedsFilter() && applyLipidMedicationsFilter() && applyBloodPressureFilter() && applyCholestrolReadingFilter() && applyQriskFilter() && applyQriskFilter() && applyHptnDiagnosisFilter() && applyAceiArbFilter()
       })   
         
       setFilteredData(filterConfig ?? [])
@@ -381,21 +399,19 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
                         <tr className= "hover:bg-gray-100">
                            {
                            
-                           cvdTableConfig.map((data, index) => {
-                              return (
-                                       data.id === "select"
-                                       ?  <td className= " border-b text-center">
-                                             <input type = "checkbox" />
-                                          </td>
-                                       :  <td className ={`w-[${data.width}]  border-gray-150 border-b border-l px-2 py-1 text-sm text-${data.align}`}>
-                                             { row[data.id] === "Patient reference no." ? "0000" :  row[data.id] }
-                                          </td>
+                              cvdTableConfig.map((data, index) => {
+                                 return (
+                                          data.id === "select"
+                                          ?  <td className= " border-b text-center">
+                                                <input type = "checkbox" />
+                                             </td>
+                                          :  <td className ={`w-[${data.width}]  border-gray-150 border-b border-l px-2 py-1 text-sm text-${data.align}`}>
+                                                { row[data.id] === "Patient reference no." ? "0000" :  row[data.id] }
+                                             </td>
 
-                                    )
+                                       )
                               })
-                           
                            }
-                        
                         </tr>
                      )
                   })

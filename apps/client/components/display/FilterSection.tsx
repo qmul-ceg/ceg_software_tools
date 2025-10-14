@@ -5,6 +5,7 @@ import { faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import { useDisplay } from '@/context/DispayContext'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { FilterStates } from '@/types/shared.types'
+import { cvdConfig } from '@/modules/cvd/utils/cvdConfig'
 
 const FilterSection = () => {
 
@@ -21,12 +22,26 @@ const FilterSection = () => {
 
 
 
+   const defaultFilters:FilterStates = {
+   antihypertensiveMedsFilter : {   kind: "grouped", value: [[],[], [], []]},
+   bloodPressureFilter: {kind: "grouped", value: [[],[]]},
+   houseboundCarehomeFilter : {kind: "multi", value: []},
+   lipidMedicationsFilter: {kind: "grouped", value: [[],[],[],[]]},
+   comorbiditiesFilter: {kind: "multi", value: []},
+   cholestrolFilter: {kind: "grouped", value: [[], []]},
+   qRiskFilter: {kind: "grouped", value: [[],[]]},
+   vulnerabilitiesFilter: {kind: "multi", value: []},
+   ethnicityFilter: {kind: "multi", value: []},
+   ageFilter: {kind: "multi", value: []},
+   adverseMedsFilter: {kind: "multi", value: []},
 
+   hptnDiagnosis: {kind: "multi", value: []},
+   aceiArbFilter : {kind : "multi", value : []}
+}
 
 
    // console.log(filterItems)
    const handleFilterSelection = (filterPayload : FilterSelectionPayload) => {
-      // console.log(filterPayload)
 
       if(filterPayload.selectedFilterKind === "multi"){
          const updateMultiFilterState = () => {
@@ -91,6 +106,37 @@ const FilterSection = () => {
       }
    }
 
+
+
+   //FINISH HERE 
+   const handleQuickFilterSelection = (payload: FilterStates)=> {
+      // setFilterStates(defaultFilters) //RESETS OUR STATE
+
+      // const sampleUpdate = {
+      //    bloodPressureFilter: {  kind: "grouped", value: [["<140/90"],[]]  },
+      //    hptnDiagnosis : { kind: "multi", value : ["no"] }
+      // }
+
+      console.log(payload)
+
+      const exists = Object.entries(payload).every(([key, value]) => (
+          JSON.stringify(filterStates[key]) === JSON.stringify(value)
+      ))
+
+      if (exists){
+         setFilterStates(defaultFilters)
+         return
+      }
+      
+      else {
+         setFilterStates({...defaultFilters, ...payload})
+      }
+
+      return
+
+
+   }
+
    // useEffect(()=>{
    //    console.log(filterStates)
    // }, [filterStates])
@@ -139,13 +185,36 @@ const FilterSection = () => {
                   <p className ="font-semibold text-md text-left ">Quick filters</p>
                </header>
                <div className="flex flex-col border-[0.1em] text-left border-[#21376A]  border-t-0 p-2 font-semibold ">
-                  {quickFilters.map((item, id) => (
+                  {
+                     Object.entries(quickFilters).map(([key, value])=> {
+                        console.log(value.payload)
+                        return(
+                           <ul>
+                              <li>
+                                 <label htmlFor="">
+                                    <input 
+                                       className="mr-2"
+                                       type = "checkbox"
+                                       onChange={()=> handleQuickFilterSelection(value.payload)}
+                                    />{value.label}
+                                 </label>
+                              </li>
+                           </ul>
+                           
+                        )
+                     })
+                  }
+                  
+                  
+                  
+                  
+                  {/* {quickFilters.map((item, id) => (
                      <label key={id}>
-                        <input type="checkbox" className="mr-2"></input>
+                        <input type="checkbox" className="mr-2" onChange={()=>handleQuickFilterSelection()}></input>
                         <span>{item}</span>
                      </label>
 
-                  ))}
+                  ))} */}
                </div>
             </div>
 

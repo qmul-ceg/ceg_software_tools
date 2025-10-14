@@ -37,11 +37,16 @@ const cvdFilterStates:FilterStates = {
    ethnicityFilter: {kind: "multi", value: []},
    ageFilter: {kind: "multi", value: []},
    adverseMedsFilter: {kind: "multi", value: []},
+
+   //For quick filters
+   hptnDiagnosis: {kind: "multi", value: []},
+   aceiArbFilter : {kind : "multi", value : []}
 }
 
-
-type toolConfig = {
-
+type quickFilter = {
+   id : number,
+   label : string
+   payload : FilterStates
 }
 
 type Data = {
@@ -55,8 +60,8 @@ type Data = {
    filterItems: Record <string, MultiFilter | GroupedFilter>;
    setFilterItems: React.Dispatch<React.SetStateAction<Record <string, MultiFilter | GroupedFilter>>>;
 
-   quickFilters: string[];
-   setQuickFilters: React.Dispatch<React.SetStateAction<string[]>>
+   quickFilters: Record <string, quickFilter>;
+   setQuickFilters: React.Dispatch<React.SetStateAction<Record <string, quickFilter>>>
 
    summaryTable: string[][];
    setSummaryTable: React.Dispatch<React.SetStateAction<string[][]>>
@@ -96,7 +101,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    const [test, setTest] = useState<boolean>(false)
    const [toolName, setToolName] = useState<string>("")
    const [filterItems, setFilterItems] = useState<Record <string, MultiFilter | GroupedFilter>>({})
-   const [quickFilters, setQuickFilters] = useState<string[]>([])
+   const [quickFilters, setQuickFilters] = useState<Record <string, quickFilter>>({})
    const [summaryTable, setSummaryTable] = useState<string[][]>([])
    const [tableHeader, setTableHeader] = useState<string[]>([])
    const [tableData, setTableData] = useState<string[][]>([])  
@@ -125,7 +130,6 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
                setTest(true) //Testing to allow us to move to display screen 
             }
             
-            // console.log(importedData.info)
          }
       }  
    }, [importedData])

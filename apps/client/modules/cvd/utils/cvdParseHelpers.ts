@@ -18,7 +18,7 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResult> => {
 
       //Parse each file 
       const parseFile = async(file: File) => {
-         console.log(file)
+         // console.log(file)
          return new Promise<Object> ((resolve, reject)=> {
             let reportObject: Record<string, object> = {}
 
@@ -26,7 +26,7 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResult> => {
                header: false,
                skipEmptyLines:true,
                complete: (results) => {
-                  console.log(results)
+                  // console.log(results)
                   const parsedResult = results.data
                   let parsedResultHeader = parsedResult[0] as Array<string>
                   

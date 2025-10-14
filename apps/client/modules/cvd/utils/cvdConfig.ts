@@ -1,9 +1,10 @@
-
+import { FilterStates } from "@/types/shared.types";
 
 //CREATE TYPE FOR THE CONFIGURATIONS SO THAT OTHER TOOLS WILL BE ABLE TO USE IT 
 
 
 type Options = Record<string, { groupName : string; groupOptions: { value: string; label: string }[]}>
+
 type MultiFilter = {
    id : string,
    label : string,
@@ -16,11 +17,20 @@ type MultiFilter = {
 type GroupedFilter = {
    id : string,
    label : string,
-    ui : { width : number, bgColour: string},
+   ui : { width : number, bgColour: string},
    kind : "grouped",
    options : Options,
    emptyBehaviour : [][]
 } 
+
+
+
+
+type quickFilter = {
+   id : number,
+   label : string
+   value : FilterStates
+}
 
 export const cvdConfig = {
    toolName : "CVD Prevention tool",
@@ -316,43 +326,79 @@ export const cvdConfig = {
          emptyBehaviour : []
       },
 
-         
-      
-
-     
-
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
    } satisfies Record<string, MultiFilter | GroupedFilter>, // ADD COMMENT
 
-   quickFilters : 
-      [  "BP > 140/90, no hypertension diagnosis", 
-         "CVD and not on statin", 
-         "CKD 3-5 and diabetes, not on ACEi/ARB",
-         "Raised QRISK and not on statin",
-         "CKD on NSAID",
-         "Hypertension, no antihypertensive and BP > 140/90 ",
-         "Hypertension with last BP > 12m ago"
-      ],
+
+   quickFilters : {
+      optionOne : {
+         id : 1,
+         label : "BP > 140/90, no hypertension diagnosis",
+         payload : {
+               bloodPressureFilter: {  kind: "grouped", value: [[">140/90"],[]]  },
+               hptnDiagnosis : { kind: "multi", value : ["no"] }
+            }
+      },
+      optionTwo : {
+         id : 2,
+         label : "CVD and not on statin",
+         payload : {
+            comorbiditiesFilter : {kind : "multi", value : ["cvd"]},
+            lipidMedicationsFilter: {kind: "grouped", value: [["noStatin"],[],[],[]]}
+
+         }
+      },
+      optionThree : {
+         id : 3,
+         label : "CKD 3-5 and diabetes, not on ACEi/ARB",
+         payload : {
+               aceiArbFilter : {kind : "multi", value : ["no"]},
+               comorbiditiesFilter: {kind: "multi", value: ["ckd", "diabetes"]},
+         }
+      },
+      optionFour : {
+         id : 4,
+         label : "Raised QRISK and not on statin",
+         payload : {
+            qRiskFilter: {kind: "grouped", value: [[">20"],[]]},
+            lipidMedicationsFilter: {kind: "grouped", value: [["noStatin"],[],[],[]]},
+         }
+      },
+      optionFive : {
+         id : 5,
+         label : "CKD on NSAID",
+         payload : {
+            comorbiditiesFilter: {kind: "multi", value: ["ckd"]},
+            adverseMedsFilter: {kind: "multi", value: ["nsaids"]},
+         }
+      },
+      optionSix : {
+         id : 6,
+         label : "Hypertension, no antihypertensive and BP > 140/90 ",
+         payload : {
+               bloodPressureFilter: {  kind: "grouped", value: [[">140/90"],[]]  },
+               comorbiditiesFilter: {  kind: "multi", value: ["hypertension"] },
+               antihypertensiveMedsFilter : {kind: "grouped", value: [[],["0"], [], []]},
+         }
+      },
+      optionSeven : {
+         id : 7,
+         label : "Hypertension with last BP < 12m ago",
+         payload : {
+            comorbiditiesFilter: {kind: "multi", value: ["hypertension"]},
+            bloodPressureFilter: {  kind: "grouped", value: [[],["<12m"]]  },
+         }
+      }
+   },
+
+   // quickFilters : 
+   //    [  "BP > 140/90, no hypertension diagnosis", 
+   //       "CVD and not on statin", 
+   //       "CKD 3-5 and diabetes, not on ACEi/ARB",
+   //       "Raised QRISK and not on statin",
+   //       "CKD on NSAID",
+   //       "Hypertension, no antihypertensive and BP > 140/90 ",
+   //       "Hypertension with last BP > 12m ago"
+   //    ],
    
    summaryTable : 
       [
@@ -375,6 +421,40 @@ export const cvdConfig = {
 
    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
          // selections : {
             //    option_1 : {
