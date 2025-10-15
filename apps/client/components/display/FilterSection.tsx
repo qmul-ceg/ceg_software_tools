@@ -23,21 +23,21 @@ const FilterSection = () => {
 
 
    const defaultFilters:FilterStates = {
-   antihypertensiveMedsFilter : {   kind: "grouped", value: [[],[], [], []]},
-   bloodPressureFilter: {kind: "grouped", value: [[],[]]},
-   houseboundCarehomeFilter : {kind: "multi", value: []},
-   lipidMedicationsFilter: {kind: "grouped", value: [[],[],[],[]]},
-   comorbiditiesFilter: {kind: "multi", value: []},
-   cholestrolFilter: {kind: "grouped", value: [[], []]},
-   qRiskFilter: {kind: "grouped", value: [[],[]]},
-   vulnerabilitiesFilter: {kind: "multi", value: []},
-   ethnicityFilter: {kind: "multi", value: []},
-   ageFilter: {kind: "multi", value: []},
-   adverseMedsFilter: {kind: "multi", value: []},
+      antihypertensiveMedsFilter : {   kind: "grouped", value: [[],[], [], []]},
+      bloodPressureFilter: {kind: "grouped", value: [[],[]]},
+      houseboundCarehomeFilter : {kind: "multi", value: []},
+      lipidMedicationsFilter: {kind: "grouped", value: [[],[],[],[]]},
+      comorbiditiesFilter: {kind: "multi", value: []},
+      cholestrolFilter: {kind: "grouped", value: [[], []]},
+      qRiskFilter: {kind: "grouped", value: [[],[]]},
+      vulnerabilitiesFilter: {kind: "multi", value: []},
+      ethnicityFilter: {kind: "multi", value: []},
+      ageFilter: {kind: "multi", value: []},
+      adverseMedsFilter: {kind: "multi", value: []},
 
-   hptnDiagnosis: {kind: "multi", value: []},
-   aceiArbFilter : {kind : "multi", value : []}
-}
+      hptnDiagnosis: {kind: "multi", value: []},
+      aceiArbFilter : {kind : "multi", value : []}
+   }
 
 
    // console.log(filterItems)
@@ -146,6 +146,63 @@ const FilterSection = () => {
             <div className=" items-center">
                <p className="text-xl font-bold text-white">
                   Filters
+
+
+               
+                     <div className="">
+                        {
+                           Object.entries(filterStates).map(([selectedFilterName, selectedFilterValue]) => {
+                              if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){
+                                
+                                   return(
+                                    <div className="border text-sm">
+                                       <span >{cvdConfig.filters[selectedFilterName].label}: {
+                                          
+                                          cvdConfig.filters[selectedFilterName].options.map((item)=> {
+                                             if ( selectedFilterValue.value.includes(item.value)){
+                                                return(
+                                                   <span>{item.label}</span>
+                                                )
+                                             }
+                                          })
+                                          
+                                          
+                                          }</span>
+                                    </div>
+                                   )
+                                 
+                              }
+                           })
+                        }
+                        {/* {
+                           Object.entries(filterStates).map(([selectedFilterName, selectedFilterValue]) => {
+                              if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){
+                                 return (
+                                    Object.entries(cvdConfig.filters).map(([filterName, filterConfig]) => {
+                                       if(selectedFilterName === filterConfig.id){
+                                          filterConfig.options.map((item)=> {
+                                             return (
+                                                {
+                                                   if (selectedFilterValue.value.includes(item.value)){
+                                                      return (
+                                                         <span className="text-sm">{filterConfig.label}</span>
+                                                      )
+                                                   }
+                                                }
+                                             )  
+                                          })
+                                          
+                                       }
+                                       
+                                    })
+                                 )
+                              }                       
+                           })
+                        } */}
+                     </div>
+                     
+                   
+                  
                </p>
             </div>
             
@@ -195,11 +252,9 @@ const FilterSection = () => {
                                  </label>
                               </li>
                            </ul>
-                           
                         )
                      })
                   }
-                  
                </div>
             </div>
 
@@ -223,7 +278,6 @@ const FilterSection = () => {
                                     value.kind === "multi" ?
                                        value.options.map((option: {value: string, label: string} ) => (
                                           <ul>
-                                             
                                              <label key = {option.value}>
                                                 <input 
                                                    type = "checkbox"
@@ -277,9 +331,7 @@ const FilterSection = () => {
                                                    ))}
                                                 </ul>
                                              </div>
-
                                           )
-
                                        }) 
                                  }
                               </SelectContent>
@@ -322,9 +374,6 @@ const FilterSection = () => {
 
             </div>
          </div>
-
-
-         
    </div>
   )
 }
@@ -778,3 +827,24 @@ export default FilterSection
                                        //       </>
                                        //    )
                                        // }
+
+
+                                       // return (
+                              //    Object.entries(cvdConfig.filters).map(([filterName, filterDetails]) => {
+                              //       if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){
+                              //          return (
+                              //             <span className="text-sm">{filterDetails.label}</span>
+                              //          )
+
+                              //       }
+                                    
+                              //    })
+                              // )
+                              
+                              // if(filterValue.kind === "multi" && filterValue.value.length > 0){
+
+                              //    return (
+                              //       <span className="text-sm">{filterName}</span>
+                           
+                              //    )
+                              // }

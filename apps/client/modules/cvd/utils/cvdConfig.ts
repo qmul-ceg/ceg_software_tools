@@ -37,7 +37,8 @@ export const cvdConfig = {
 
    filters : {
 
-      AntihypertensiveMeds : {
+      //AntihypertensiveMeds
+      antihypertensiveMedsFilter : {
          id: "antihypertensiveMedsFilter",
          label : "Antihypertensive meds",
          ui : {
@@ -82,7 +83,8 @@ export const cvdConfig = {
          emptyBehaviour : [[],[], [], []]
       },
 
-      BloodPressureReadings : {
+      //BloodPressureReadings
+      bloodPressureFilter : {
          id: "bloodPressureFilter",
          label : "Blood pressure readings",
          ui : {
@@ -96,8 +98,8 @@ export const cvdConfig = {
                groupName: "",
                groupOptions : [
                   {  value : "<140/90", label : "Under 140/90" },
-                  {  value : ">140/90", label : "Over 140/90" },
-                  {  value : ">150/90", label : "Over 150/90" },       
+                  {  value : "gte140/90", label : "Over 140/90" },
+                  {  value : "gte150/90", label : "Over 150/90" },       
                ]
             },
             groupTwo : {
@@ -114,7 +116,8 @@ export const cvdConfig = {
 
       },
 
-      HouseboundCarehome : {
+      //HouseboundCarehome
+      houseboundCarehomeFilter : {
          id : "houseboundCarehomeFilter",
          label : "Housebound/Carehome",
          ui : {
@@ -132,8 +135,8 @@ export const cvdConfig = {
       },
 
 
-
-      LipidMeds : {
+      //LipidMeds
+      lipidMedicationsFilter : {
          id: "lipidMedicationsFilter",
          label : "Lipid medications",
          ui : {
@@ -172,7 +175,8 @@ export const cvdConfig = {
 
       },
 
-      CoMorbidities : {
+      //comorbiditiesFilter
+      comorbiditiesFilter : {
          id : "comorbiditiesFilter",
          label : "Co-morbidities",
          ui : {
@@ -193,7 +197,8 @@ export const cvdConfig = {
          emptyBehaviour : []
       },
 
-      CholestrolReadings : {
+      //CholestrolReadings
+      cholestrolFilter : {
          id: "cholestrolFilter",
          label : "Cholestrol readings",
          ui : {
@@ -226,8 +231,8 @@ export const cvdConfig = {
 
 
 
-
-      QRiskScore : {
+      //QRiskScore
+      qRiskFilter : {
          id: "qRiskFilter",
          label : "QRisk score",
          ui : {
@@ -257,7 +262,8 @@ export const cvdConfig = {
 
       },
 
-      Vulnerabilities : {
+      //Vulnerabilities
+      vulnerabilitiesFilter : {
          id : "vulnerabilitiesFilter",
          label : "Vulnerabilities",
          ui : {
@@ -274,7 +280,8 @@ export const cvdConfig = {
          emptyBehaviour : []
       },
 
-      Ethniciy : {
+      //Ethnicity
+      ethnicityFilter : {
          id: "ethnicityFilter",
          label : "Ethnicity",
          ui : {
@@ -294,8 +301,8 @@ export const cvdConfig = {
 
       },
      
-
-      Age : {
+      //Age
+      ageFilter : {
          id : "ageFilter",
          label : "Age",
          ui : {
@@ -307,11 +314,13 @@ export const cvdConfig = {
          options : [
             {value : "lt65", label: " < 65 "},
             {value : "65-79", label: "65 - 79"},
-            {value : "gte80", label: "> 80"},
+            {value : "gte80", label: "≥ 80"},
          ], 
          emptyBehaviour : []
       },
-      AdverseMeds : {
+
+      //adverseMedsFilter
+      adverseMedsFilter : {
          id : "adverseMedsFilter",
          label : "Adverse meds",
          ui : {

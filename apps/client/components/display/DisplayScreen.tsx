@@ -8,7 +8,7 @@ import DisplayProvider, { DisplayContext } from '@/context/DispayContext'
 import Modal from './Modal'
 import TableBody from './TableBody'
 import TableHeader from './TableHeader'
-
+import { useDisplay } from '@/context/DispayContext'
 
 const DisplayScreen = () => {
    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
@@ -16,6 +16,7 @@ const DisplayScreen = () => {
 
    const bodyRef = useRef<HTMLDivElement>(null)
    
+   const {patientCount} = useDisplay()
 
    const getScrollbarWidth = (element : HTMLDivElement | null):number=>{
       if(element){
@@ -47,7 +48,7 @@ const DisplayScreen = () => {
          </div>
 
          <div className = " border mt-4 mb-2 ">
-            Patient data ....
+            <span className="font-bold">Patient count : {patientCount}</span>
 
          </div>
            

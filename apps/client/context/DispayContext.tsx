@@ -86,6 +86,9 @@ type Data = {
 
    test: boolean;
    setTest: React.Dispatch<React.SetStateAction<boolean>>
+
+   patientCount : number;
+   setPatientCount : React.Dispatch<React.SetStateAction<number>>
 }
 
 
@@ -106,7 +109,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    const [tableHeader, setTableHeader] = useState<string[]>([])
    const [tableData, setTableData] = useState<string[][]>([])  
    const [filterStates, setFilterStates] = useState<FilterStates>({});
-
+   const [patientCount, setPatientCount] = useState<number>(0)
 
    //DELETE THIS 
    const [age, setAge] = useState<string[]>([])
@@ -138,7 +141,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    return (
       <DisplayContext.Provider value = {{ toolName, setToolName,  
          quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader, filterItems, setFilterItems,
-          setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates, importedData,  setImportedData, test, setTest  }}>
+          setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates, importedData,  setImportedData, test, setTest, patientCount, setPatientCount  }}>
          {children}
 
       </DisplayContext.Provider>

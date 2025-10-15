@@ -13,7 +13,7 @@ import { SYSTEM_ENTRYPOINTS } from 'next/dist/shared/lib/constants'
 
 const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.SetStateAction<boolean>>}) => {
 
-   const { tableData, filterStates} = useDisplay()
+   const { tableData, filterStates, setPatientCount, patientCount} = useDisplay()
    const [ filteredData, setFilteredData] = useState<string[][]>(tableData ?? [])
 
    useEffect(()=> {
@@ -233,7 +233,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 
             const lowerBound = filterStates.bloodPressureFilter.value[0].includes("<140/90") && (parseInt(systolic) < 140 && parseInt(diastolic) < 90);
             const midBound = filterStates.bloodPressureFilter.value[0].includes("gte140/90") && (parseInt(systolic) >= 140 || parseInt(diastolic) >= 90);
-            const upperBound = filterStates.bloodPressureFilter.value[0].includes(">150/90") && (parseInt(systolic) >= 150 && parseInt(diastolic) > 0);
+            const upperBound = filterStates.bloodPressureFilter.value[0].includes("gte150/90") && (parseInt(systolic) >= 150 || parseInt(diastolic) >= 90);
 
             return { lowerBound, midBound, upperBound }
          }
@@ -375,12 +375,13 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
       })   
         
       setFilteredData(filterConfig ?? [])
+
    }, [filterStates])
    
 
+   setPatientCount(filteredData.length)
 
-
-
+   console.log(filteredData.length)
 
 
 
