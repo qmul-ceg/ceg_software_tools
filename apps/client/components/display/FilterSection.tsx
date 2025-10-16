@@ -7,6 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { FilterStates } from '@/types/shared.types'
 import { cvdConfig } from '@/modules/cvd/utils/cvdConfig'
 import { TfiClose } from "react-icons/tfi";
+import { GoDotFill } from "react-icons/go";
+
 
 
 const FilterSection = () => {
@@ -154,27 +156,23 @@ const FilterSection = () => {
                      <div className="flex gap-1">
                         {
                            Object.entries(filterStates).map(([selectedFilterName, selectedFilterValue]) => {
-                              if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){
-                                
+                              if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){           
                                    return(
                                     <div className=" border text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
                                        <span className='inline-flex gap-2 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName].label }: {
-                                          
                                           selectedFilterValue.value.map((item)=>{
-                                             
                                              return (
-                                                <div className="flex">
+                                                <div className="flex items-center">
                                                    {
-                                                   cvdConfig.filters[selectedFilterName].options.map((filterOptions)=> {
-                                                      if (item === filterOptions.value){
-                                                         return <span className="font-normal mr-1">{filterOptions.label}</span>
-                                                      
-                                                      }
-                                                   })
-                                                   
+                                                      cvdConfig.filters[selectedFilterName].options.map((filterOptions)=> {
+                                                         if (item === filterOptions.value){
+                                                            return <span className="font-normal mr-1">{filterOptions.label}</span>
+                                                         
+                                                         }
+                                                      })
                                                    }
                                                    
-                                                   <button className=" cursor-pointer text-red-500 hover:opacity-90 text-xs hover:text-sm" 
+                                                      <button className=" cursor-pointer text-red-500 hover:opacity-90 text-xs hover:text-sm" 
                                                          onClick= {()=> handleFilterSelection(
                                                             {
                                                             selectedFilterName : selectedFilterName,
@@ -186,77 +184,95 @@ const FilterSection = () => {
                                                          <TfiClose  />
                                                       </button>
                                                       {
-                                                         selectedFilterValue.value.indexOf(item) < selectedFilterValue.value.length - 1? "|" : ""
+                                                         selectedFilterValue.value.indexOf(item) < selectedFilterValue.value.length - 1? <GoDotFill className=" ml-2 text-gray-200 " /> : ""
                                                       }
-                                                   </div>
-                                                   
-                                                )
-                                             
-
+                                                </div> 
+                                             )
                                           })
-
-                                          // cvdConfig.filters[selectedFilterName].options.map((item)=> {
-                                          //    if ( selectedFilterValue.value.includes(item.value) ){
-                                          //       console.log(selectedFilterValue.value.indexOf(item.value))
-                                          //       return (
-                                          //          <div className="flex">
-                                          //             <span className="font-normal mr-1">{item.label}</span>
-                                                      
-                                          //             <button className=" cursor-pointer text-red-500 hover:opacity-90 text-xs hover:text-sm" 
-                                          //                onClick= {()=> handleFilterSelection(
-                                          //                   {
-                                          //                   selectedFilterName : selectedFilterName,
-                                          //                   selectedValue : item.value,
-                                          //                   selectedFilterKind : selectedFilterValue.kind
-                                          //                })}>
-
-                                                         
-                                          //                <TfiClose  />
-                                          //             </button>
-                                          //             {
-                                          //                selectedFilterValue.value.indexOf(item.value) < selectedFilterValue.value.length - 1? "|" : ""
-                                          //             }
-                                          //          </div>
-                                                   
-                                          //       )
-                                          //    }
-                                          // })
-                                           
-                                          
                                        }
                                        </span>
                                     </div>
                                    )
                                  
                               }
+
+
+                              else if(selectedFilterValue.kind === "grouped" && selectedFilterValue.value.some((group) =>group.length > 0)){
+                                 return (
+                                    <div className=" border text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
+                                       <span className='inline-flex gap-2 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName].label } : 
+                                       {
+                                          selectedFilterValue.value.map((group, groupIndex)=>{
+                                             if(group.length > 0 ){
+                                                return (
+                                                   <div className="flex items-center gap-2">
+                                                      {
+                                                         group.map((item) => {
+                                                            return (
+                                                               <div className="flex items-center">
+                                                                  {
+                                                                     Object.entries(cvdConfig.filters[selectedFilterName].options).map(([filterGroup, groupDetails])=> {
+                                                                        // console.log(filterGroup)
+                                                                        return (
+                                                                           <div className="flex">
+                                                                              {
+                                                                                 groupDetails.groupOptions.map((filterOptions)=> {
+                                                                                    if (item === filterOptions.value){
+                                                                                       console.log(item, filterOptions)
+                                                                                       return <span className="font-normal mr-1">{filterOptions.label}</span>
+                                                            
+                                                                                    }
+                                                                                 })
+                                                                              } 
+                                                                           </div>
+                                                                        )
+                                                                     })
+                                                                  }
+                                                                     <button 
+                                                                        className=" cursor-pointer text-red-500 hover:opacity-90 text-xs hover:text-sm" 
+                                                                        onClick = { ()=>handleFilterSelection({
+                                                                           selectedFilterName : selectedFilterName,
+                                                                           selectedValue : item,
+                                                                           selectedFilterKind : selectedFilterValue.kind,
+                                                                           selectedIndex : groupIndex
+
+
+                                                                        })       
+                                                                          
+                                                                        }
+                                                                        
+                                                                        >
+                                                                     <TfiClose  />
+                                                                  </button>
+                                                                  {
+                                                                     group.indexOf(item) < group.length - 1? <GoDotFill className=" ml-2 text-gray-200 " /> : ""
+                                                                  }
+                                                               </div>
+                                                            )
+                                                         })
+                                                      }
+                                                     {
+                                                      groupIndex < selectedFilterValue.value.length -1 ? <span className="text-gray-300">|</span> : ""
+                                                     }
+                                                                              
+
+                                                   </div>
+                                                   
+
+
+                                             )
+                                               
+                                             }
+                                          })
+
+                                       }
+                                       </span>
+                                    </div>
+                                 )
+                              }
                            })
                         }
-                        {/* {selectedFilterValue.value.indexOf(item.value) === (selectedFilterValue.value.length - 1 ) ? "  " : " | "}  */}
-                        {/* {
-                           Object.entries(filterStates).map(([selectedFilterName, selectedFilterValue]) => {
-                              if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){
-                                 return (
-                                    Object.entries(cvdConfig.filters).map(([filterName, filterConfig]) => {
-                                       if(selectedFilterName === filterConfig.id){
-                                          filterConfig.options.map((item)=> {
-                                             return (
-                                                {
-                                                   if (selectedFilterValue.value.includes(item.value)){
-                                                      return (
-                                                         <span className="text-sm">{filterConfig.label}</span>
-                                                      )
-                                                   }
-                                                }
-                                             )  
-                                          })
-                                          
-                                       }
-                                       
-                                    })
-                                 )
-                              }                       
-                           })
-                        } */}
+                      
                      </div>
                      
                    
@@ -441,6 +457,26 @@ export default FilterSection
 
 
 
+
+ {/* {
+                                          selectedFilterValue.value.map((selectedGroup, index) => {
+                                             
+                                             if(selectedGroup.length > 0 ){
+                                                selectedGroup.map((item) => {
+                                                   return (
+                                                      // <div >{
+                                                      //    Object.entries(cvdConfig.filters[selectedFilterName].options).map(([group, details]) => {
+
+                                                      //    })
+
+                                                      //    }
+                                                         
+                                                      // </div>
+                                                   ) 
+                                                }))
+                                             }
+                                          })
+                                       } */}
 
 
 
