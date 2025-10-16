@@ -6,6 +6,8 @@ import { useDisplay } from '@/context/DispayContext'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { FilterStates } from '@/types/shared.types'
 import { cvdConfig } from '@/modules/cvd/utils/cvdConfig'
+import { TfiClose } from "react-icons/tfi";
+
 
 const FilterSection = () => {
 
@@ -143,37 +145,93 @@ const FilterSection = () => {
    return (
       <div >
          <div className = " flex px-4 min-h-16 items-center  rounded-t-lg bg-[#21376A]">
-            <div className=" items-center">
-               <p className="text-xl font-bold text-white">
+            <div className=" items-center flex">
+               <p className="text-xl font-bold text-white mr-4">
                   Filters
-
+               </p>
 
                
-                     <div className="">
+                     <div className="flex gap-1">
                         {
                            Object.entries(filterStates).map(([selectedFilterName, selectedFilterValue]) => {
                               if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){
                                 
                                    return(
-                                    <div className="border text-sm">
-                                       <span >{cvdConfig.filters[selectedFilterName].label}: {
+                                    <div className=" border text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
+                                       <span className='inline-flex gap-2 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName].label }: {
                                           
-                                          cvdConfig.filters[selectedFilterName].options.map((item)=> {
-                                             if ( selectedFilterValue.value.includes(item.value)){
-                                                return(
-                                                   <span>{item.label}</span>
+                                          selectedFilterValue.value.map((item)=>{
+                                             
+                                             return (
+                                                <div className="flex">
+                                                   {
+                                                   cvdConfig.filters[selectedFilterName].options.map((filterOptions)=> {
+                                                      if (item === filterOptions.value){
+                                                         return <span className="font-normal mr-1">{filterOptions.label}</span>
+                                                      
+                                                      }
+                                                   })
+                                                   
+                                                   }
+                                                   
+                                                   <button className=" cursor-pointer text-red-500 hover:opacity-90 text-xs hover:text-sm" 
+                                                         onClick= {()=> handleFilterSelection(
+                                                            {
+                                                            selectedFilterName : selectedFilterName,
+                                                            selectedValue : item,
+                                                            selectedFilterKind : selectedFilterValue.kind
+                                                         })}>
+
+                                                         
+                                                         <TfiClose  />
+                                                      </button>
+                                                      {
+                                                         selectedFilterValue.value.indexOf(item) < selectedFilterValue.value.length - 1? "|" : ""
+                                                      }
+                                                   </div>
+                                                   
                                                 )
-                                             }
+                                             
+
                                           })
+
+                                          // cvdConfig.filters[selectedFilterName].options.map((item)=> {
+                                          //    if ( selectedFilterValue.value.includes(item.value) ){
+                                          //       console.log(selectedFilterValue.value.indexOf(item.value))
+                                          //       return (
+                                          //          <div className="flex">
+                                          //             <span className="font-normal mr-1">{item.label}</span>
+                                                      
+                                          //             <button className=" cursor-pointer text-red-500 hover:opacity-90 text-xs hover:text-sm" 
+                                          //                onClick= {()=> handleFilterSelection(
+                                          //                   {
+                                          //                   selectedFilterName : selectedFilterName,
+                                          //                   selectedValue : item.value,
+                                          //                   selectedFilterKind : selectedFilterValue.kind
+                                          //                })}>
+
+                                                         
+                                          //                <TfiClose  />
+                                          //             </button>
+                                          //             {
+                                          //                selectedFilterValue.value.indexOf(item.value) < selectedFilterValue.value.length - 1? "|" : ""
+                                          //             }
+                                          //          </div>
+                                                   
+                                          //       )
+                                          //    }
+                                          // })
+                                           
                                           
-                                          
-                                          }</span>
+                                       }
+                                       </span>
                                     </div>
                                    )
                                  
                               }
                            })
                         }
+                        {/* {selectedFilterValue.value.indexOf(item.value) === (selectedFilterValue.value.length - 1 ) ? "  " : " | "}  */}
                         {/* {
                            Object.entries(filterStates).map(([selectedFilterName, selectedFilterValue]) => {
                               if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){
@@ -203,7 +261,7 @@ const FilterSection = () => {
                      
                    
                   
-               </p>
+               
             </div>
             
             {/* FILTER ADD OR DELETE FILTERS */}

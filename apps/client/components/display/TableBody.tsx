@@ -381,7 +381,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 
    setPatientCount(filteredData.length)
 
-   console.log(filteredData.length)
+   // console.log(filteredData.length)
 
 
 
