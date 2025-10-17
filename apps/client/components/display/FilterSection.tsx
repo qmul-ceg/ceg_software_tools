@@ -158,7 +158,7 @@ const FilterSection = () => {
                            Object.entries(filterStates).map(([selectedFilterName, selectedFilterValue]) => {
                               if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){           
                                    return(
-                                    <div className=" border text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
+                                    <div className="  text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
                                        <span className='inline-flex gap-2 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName].label }: {
                                           selectedFilterValue.value.map((item)=>{
                                              return (
@@ -166,13 +166,13 @@ const FilterSection = () => {
                                                    {
                                                       cvdConfig.filters[selectedFilterName].options.map((filterOptions)=> {
                                                          if (item === filterOptions.value){
-                                                            return <span className="font-normal mr-1">{filterOptions.label}</span>
+                                                            return <span className="font-normal mr-2">{filterOptions.label}</span>
                                                          
                                                          }
                                                       })
                                                    }
                                                    
-                                                      <button className=" cursor-pointer text-red-500 hover:opacity-90 text-xs hover:text-sm" 
+                                                      <button className=" cursor-pointer text-red-500 hover:opacity-90 text-sm hover:text-lg font-black" 
                                                          onClick= {()=> handleFilterSelection(
                                                             {
                                                             selectedFilterName : selectedFilterName,
@@ -181,10 +181,10 @@ const FilterSection = () => {
                                                          })}>
 
                                                          
-                                                         <TfiClose  />
+                                                         <TfiClose  className="font-bold"/>
                                                       </button>
                                                       {
-                                                         selectedFilterValue.value.indexOf(item) < selectedFilterValue.value.length - 1? <GoDotFill className=" ml-2 text-gray-200 " /> : ""
+                                                         selectedFilterValue.value.indexOf(item) < selectedFilterValue.value.length - 1? <GoDotFill className=" ml-2 text-gray-500" /> : ""
                                                       }
                                                 </div> 
                                              )
@@ -245,7 +245,7 @@ const FilterSection = () => {
                                                                      <TfiClose  />
                                                                   </button>
                                                                   {
-                                                                     group.indexOf(item) < group.length - 1? <GoDotFill className=" ml-2 text-gray-200 " /> : ""
+                                                                     group.indexOf(item) < group.length - 1? <GoDotFill className=" ml-2 text-gray-500 " /> : ""
                                                                   }
                                                                </div>
                                                             )

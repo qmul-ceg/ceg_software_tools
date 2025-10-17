@@ -335,6 +335,27 @@ export const cvdConfig = {
          emptyBehaviour : []
       },
 
+
+      // hptnDiagnosis : {
+      //    id : "hptnDiagnosis",
+      //    label : "Hypertension",
+      //    ui : {
+      //       width : 9,
+      //       bgColour : "#21376A"
+      //    },
+      //    kind : "multi", 
+
+      //    options : [
+      //       {value : "no", label: "No"},
+         
+      //    ], 
+      //    emptyBehaviour : []
+      // },
+
+
+         // hptnDiagnosis: {kind: "multi", value: []},
+   // aceiArbFilter : {kind : "multi", value : []}
+
    } satisfies Record<string, MultiFilter | GroupedFilter>, // ADD COMMENT
 
 
@@ -343,9 +364,9 @@ export const cvdConfig = {
          id : 1,
          label : "BP > 140/90, no hypertension diagnosis",
          payload : {
-               bloodPressureFilter: {  kind: "grouped", value: [[">140/90"],[]]  },
+               bloodPressureFilter: {  kind: "grouped", value: [["gte140/90"],[]]  },
                hptnDiagnosis : { kind: "multi", value : ["no"] }
-            }
+         }
       },
       optionTwo : {
          id : 2,
@@ -384,7 +405,7 @@ export const cvdConfig = {
          id : 6,
          label : "Hypertension, no antihypertensive and BP > 140/90 ",
          payload : {
-               bloodPressureFilter: {  kind: "grouped", value: [[">140/90"],[]]  },
+               bloodPressureFilter: {  kind: "grouped", value: [["gte140/90"],[]]  },
                comorbiditiesFilter: {  kind: "multi", value: ["hypertension"] },
                antihypertensiveMedsFilter : {kind: "grouped", value: [[],["0"], [], []]},
          }

@@ -18,7 +18,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 
    useEffect(()=> {
       const filterConfig = tableData?.filter((row) => {
-         // console.log(row[SystmOneReportKeys.Systolic_BP_Value_1])
+        
 
 
          const ageIndex = parseInt(row[SystmOneReportKeys.Age])
@@ -26,6 +26,12 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
          const smiIndex = row[SystmOneReportKeys.SMI_Code_Term].trim()
          const learningDisabilityIndex = row[SystmOneReportKeys.Learning_Difficulties_Code_Term].trim()
          const dementiaIndex = row[SystmOneReportKeys.Dementia_Code_Term].trim()
+
+
+
+
+
+
 
          //Comorbidities indexes
          const cvdIndex = row[SystmOneReportKeys.CVD]
@@ -36,6 +42,40 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
          const cancerIndex = row[SystmOneReportKeys.Cancer_Code_Term]
 
          const adverseMedsIndex = row[SystmOneReportKeys.NSAID_Name_Dosage_Quantity]
+
+         //Create the financial year functionality
+         const checkFinancialYear = (dateString: string):boolean => {
+            // get start of financial year
+            const dateToCheck = new Date(dateString)
+
+            const monthToCheck= dateToCheck.getMonth()
+
+            const currentYear = new Date().getFullYear()
+            const financialYearStartWindow1 = new Date(`April 1, ${currentYear}`)
+            const financialYearEndWindow1 = new Date(`December 31, ${currentYear}`)
+
+            const financialYearStartWindow2 = new Date(`January 1, ${currentYear + 1}`)
+            const financialYearEndWindow2 = new Date(`March 31, ${currentYear + 1 }`)
+
+
+
+            if (monthToCheck >= financialYearStartWindow1.getMonth() && monthToCheck <= financialYearEndWindow1.getMonth()){
+               if (dateToCheck >= financialYearStartWindow1 && dateToCheck <= financialYearEndWindow1){
+                  return false
+               }
+            }
+            else if (monthToCheck >= financialYearStartWindow2.getMonth() && monthToCheck <= financialYearEndWindow2.getMonth()){
+               if(dateToCheck >= financialYearStartWindow2 && dateToCheck <= financialYearEndWindow2){
+                  return false
+               }
+            }
+            return true        
+          
+         }
+         
+
+
+
 
          const filterByAge = 
             (filterStates.ageFilter.value as string[]).includes("lt65") && ageIndex < 65 ||
@@ -242,6 +282,10 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
             const { lowerBound, midBound, upperBound } = bloodPressureFilterGroupOne();
             const recordedDateResult = recordedOverTwelveMonths(convertDate(row[SystmOneReportKeys.Systolic_BP_Date_1]), convertDate("07-Aug-25"))
             const overTwelveMonths = filterStates.bloodPressureFilter.value[1].includes("<12m") && recordedDateResult
+            const financialYearCheck = checkFinancialYear(convertDate(row[SystmOneReportKeys.Systolic_BP_Date_1]))
+            const notInFinancialYear = filterStates.bloodPressureFilter.value[1].includes("notInFinancialYear") && financialYearCheck
+
+            console.log(notInFinancialYear)
 
             // console.log(upperBound)
             const bloodPressureFilterCombinations = 
@@ -260,13 +304,17 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
                // When date is selected only
                (
                   filterStates.bloodPressureFilter.value[0].length === 0 
-                  && (filterStates.bloodPressureFilter.value[1].length > 0 && overTwelveMonths)
+                  && (filterStates.bloodPressureFilter.value[1].length > 0 && (overTwelveMonths || notInFinancialYear))
                ) ||
+               //Only financial year selected
+               // (
+
+               // )||
 
                //Value comibinations 
                (
                   filterStates.bloodPressureFilter.value[0].length  > 0 && (lowerBound || midBound || upperBound ) 
-                  || (filterStates.bloodPressureFilter.value[1].length > 0  && overTwelveMonths)
+                  || (filterStates.bloodPressureFilter.value[1].length > 0  && (overTwelveMonths || notInFinancialYear))
                )
            
             return bloodPressureFilterCombinations;
@@ -279,6 +327,10 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
             const ldlGreaterThanTwo = filterStates.cholestrolFilter.value[0].includes(">2.0") && parseInt(row[SystmOneReportKeys.LDL_Cholestrol_Value]) > 2.0
             const recordedDateResult = recordedOverTwelveMonths(convertDate(row[SystmOneReportKeys.LDL_Cholestrol_Date]), convertDate("07-Aug-25"))
             const overTwelveMonths = filterStates.cholestrolFilter.value[1].includes("<12m") && recordedDateResult
+            const financialYearCheck = checkFinancialYear(convertDate(row[SystmOneReportKeys.LDL_Cholestrol_Date]))
+            const notInFinancialYear = filterStates.cholestrolFilter.value[1].includes("notInFinancialYear") && financialYearCheck
+
+
 
           
             const cholestrolReadingCombinations = 
@@ -297,13 +349,13 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
                //When only date is selected
                (
                   filterStates.cholestrolFilter.value[0].length === 0 
-                  && filterStates.cholestrolFilter.value[1].length > 0 && overTwelveMonths
+                  && filterStates.cholestrolFilter.value[1].length > 0 && (overTwelveMonths || notInFinancialYear)
                ) ||
 
                // combinations
                (
                   filterStates.cholestrolFilter.value[0].length > 0 && ldlGreaterThanTwo 
-                  || filterStates.cholestrolFilter.value[1].length > 0 && overTwelveMonths
+                  || filterStates.cholestrolFilter.value[1].length > 0 && (overTwelveMonths || notInFinancialYear)
                )
 
             return cholestrolReadingCombinations
@@ -367,6 +419,14 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 
             return aceiArbFilterCombination
          }
+
+
+
+
+
+
+
+
 
 
           
