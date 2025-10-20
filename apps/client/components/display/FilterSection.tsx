@@ -179,10 +179,16 @@ const FilterSection = () => {
       }
 
    }, [filterStates])
+
+
    // useEffect(()=> {
    //    console.log(filterStates)
    // },[filterStates])
 
+   function removeAllFilters(){
+      setSelectedQuickFilter({})
+      setFilterStates(defaultFilters)
+   }
 
 
 
@@ -329,7 +335,7 @@ const FilterSection = () => {
                   className='bg-white text-[#21376A] rounded-md 
                            font-bold text-sm px-2 py-1 cursor-pointer 
                            hover:text-black hover:bg-white'
-               >
+                  onClick={()=> removeAllFilters()}>
                   Remove all filters
                </button>
             </div>
