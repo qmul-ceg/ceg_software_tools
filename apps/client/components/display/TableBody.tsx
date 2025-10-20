@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 import { cvdTableConfig } from './TableHeader'
 import { ColumnGroup } from './TableHeader'
-import { hadUnsupportedValue } from 'next/dist/build/analysis/get-page-static-info'
 import { SYSTEM_ENTRYPOINTS } from 'next/dist/shared/lib/constants'
 
 
@@ -21,17 +20,11 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
         
 
 
-         const ageIndex = parseInt(row[SystmOneReportKeys.Age])
-         const houseboundIndex = row[SystmOneReportKeys.Housebound_Code_Term].trim()
-         const smiIndex = row[SystmOneReportKeys.SMI_Code_Term].trim()
-         const learningDisabilityIndex = row[SystmOneReportKeys.Learning_Difficulties_Code_Term].trim()
-         const dementiaIndex = row[SystmOneReportKeys.Dementia_Code_Term].trim()
-
-
-
-
-
-
+         const ageIndex = parseInt(row[SystmOneReportKeys.Age]);
+         const houseboundIndex = row[SystmOneReportKeys.Housebound_Code_Term].trim();
+         const smiIndex = row[SystmOneReportKeys.SMI_Code_Term].trim();
+         const learningDisabilityIndex = row[SystmOneReportKeys.Learning_Difficulties_Code_Term].trim();
+         const dementiaIndex = row[SystmOneReportKeys.Dementia_Code_Term].trim();
 
          //Comorbidities indexes
          const cvdIndex = row[SystmOneReportKeys.CVD]
@@ -285,7 +278,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
             const financialYearCheck = checkFinancialYear(convertDate(row[SystmOneReportKeys.Systolic_BP_Date_1]))
             const notInFinancialYear = filterStates.bloodPressureFilter.value[1].includes("notInFinancialYear") && financialYearCheck
 
-            console.log(notInFinancialYear)
+            
 
             // console.log(upperBound)
             const bloodPressureFilterCombinations = 
@@ -440,8 +433,6 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
    
 
    setPatientCount(filteredData.length)
-
-   // console.log(filteredData.length)
 
 
 

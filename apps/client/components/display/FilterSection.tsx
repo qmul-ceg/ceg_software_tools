@@ -27,8 +27,8 @@ const FilterSection = () => {
 
 
    const defaultFilters:FilterStates = {
-      antihypertensiveMedsFilter : {   kind: "grouped", value: [[],[], [], []]},
-      bloodPressureFilter: {kind: "grouped", value: [[],[]]},
+      antihypertensiveMedsFilter : {   kind: "grouped", value: [[],[], [], []]   },
+      bloodPressureFilter: {  kind: "grouped", value: [  [], []]  },
       houseboundCarehomeFilter : {kind: "multi", value: []},
       lipidMedicationsFilter: {kind: "grouped", value: [[],[],[],[]]},
       comorbiditiesFilter: {kind: "multi", value: []},
@@ -43,10 +43,12 @@ const FilterSection = () => {
       aceiArbFilter : {kind : "multi", value : []}
    }
 
+   const [selectedQuickFilter, setSelectedQuickFilter] = useState<FilterStates>({})
+   const [selectedFilterList, setSelectedFilterList] = useState<FilterStates>({})
 
    // console.log(filterItems)
    const handleFilterSelection = (filterPayload : FilterSelectionPayload) => {
-
+      // console.log(filterPayload)
       if(filterPayload.selectedFilterKind === "multi"){
          const updateMultiFilterState = () => {
             
@@ -109,9 +111,11 @@ const FilterSection = () => {
          updateGroupedFilterState()
       }
    }
-   // MOVE THIS EVENTUALLY
-   const [selectedQuickFilter, setSelectedQuickFilter] = useState<FilterStates>({})
 
+
+
+   // MOVE THIS EVENTUALLY
+   
   
    
    const handleQuickFilterSelection = (payload:FilterStates)=> {
@@ -135,11 +139,49 @@ const FilterSection = () => {
    }
 
    
-   // useEffect(()=>{
-   //    console.log(selectedQuickFilter)
-   // }, [selectedQuickFilter])
+   useEffect(()=>{
+      console.log(selectedQuickFilter)
+   }, [selectedQuickFilter])
 
 
+
+   useEffect(()=> {
+      const updateFilters = () => {
+         let currentFilterList = {}
+
+         if(filterStates){
+            Object.entries(filterStates).map(([filterKey, filterValue])=> {
+               if((filterValue.kind == "multi" && filterValue.value.length > 0 ) || (filterValue.kind == "grouped" && filterValue.value.some(group => group.length > 0))){
+                  currentFilterList[filterKey] = filterValue
+               }
+
+            })
+         }
+
+
+
+         return currentFilterList
+      }
+
+      function checkEquality(objectOne, objectTwo){
+         const keysOne = Object.keys(objectOne)
+         const keysTwo = Object.keys(objectTwo)
+
+
+         if (keysOne.length !== keysTwo.length) return false
+
+         return keysOne.every(key => objectOne[key] === objectTwo[key])
+      }
+
+      console.log(checkEquality(selectedQuickFilter, updateFilters()))
+      if(!checkEquality(selectedQuickFilter, updateFilters())){
+         setSelectedQuickFilter({})
+      }
+
+   }, [filterStates])
+   // useEffect(()=> {
+   //    console.log(filterStates)
+   // },[filterStates])
 
 
 
@@ -212,13 +254,13 @@ const FilterSection = () => {
                                                                <div className="flex items-center">
                                                                   {
                                                                      Object.entries(cvdConfig.filters[selectedFilterName].options).map(([filterGroup, groupDetails])=> {
-                                                                        // console.log(filterGroup)
+                                                                  
                                                                         return (
                                                                            <div className="flex">
                                                                               {
                                                                                  groupDetails.groupOptions.map((filterOptions)=> {
                                                                                     if (item === filterOptions.value){
-                                                                                       console.log(item, filterOptions)
+                                                                                    
                                                                                        return <span className="font-normal mr-1">{filterOptions.label}</span>
                                                             
                                                                                     }
