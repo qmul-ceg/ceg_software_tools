@@ -1,10 +1,32 @@
+import { useDisplay } from '@/context/DispayContext'
 import React, { useState } from 'react'
-
+import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 type ChildProps = {
    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 const Modal = ({ setIsModalOpen }: ChildProps) => {
    // const [openModal, setOpenModal] = useState<boolean>(true)
+   const {selectedPatientRow, selectedPatientIndex, setSelectedPatientIndex, setSelectedPatientRow, filteredData} = useDisplay()
+
+
+   const handleNextPatient = (direction: "previous" | "next" ) => {
+      let nextPatientIndex = 0 
+      if(direction === "next"){
+         nextPatientIndex = (selectedPatientIndex + 1) % filteredData.length;
+      }
+      else if(direction === "previous"){
+         if(selectedPatientIndex === 0 ){
+            nextPatientIndex = filteredData.length - 1
+         }
+         else nextPatientIndex = selectedPatientIndex - 1
+      }
+      setSelectedPatientIndex(nextPatientIndex)
+      // setSelectedPatientRow(filteredData[nextPatientIndex])
+   }
+
+
+
+   console.log(selectedPatientIndex)
 
    return (
       <>
@@ -23,14 +45,14 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                      {/* <button className=" " onClick={handlePreviousPatient}> */}
                      <button className="cursor-pointer border">
                         <div className="flex flex-col text-sm hover:font-medium">
-                           <span>Previous patient</span>
+                           <button onClick={()=>handleNextPatient("previous")}>Previous patient</button>
                            <span className="">&larr;</span>
                         </div>
                      </button>
                      {/* <button className=" " onClick={handleNextPatient}> */}
                      <button className="cursor-pointer border">
                         <div className="flex flex-col text-sm hover:font-medium">
-                           <span>Next patient</span>
+                           <span onClick={()=>handleNextPatient("next")}>Next patient</span>
                            <span className="">&rarr;</span>
                         </div>  
                      </button>
@@ -45,11 +67,11 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                         <div className="flex flex-col gap-2   text-left">
                            <div className="flex ">
                               <h2 className=" w-[30%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Full name</h2>
-                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1"></div>
+                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][SystmOneReportKeys.Full_Name]}</div>
                            </div>
                            <div className="flex">
                               <h2 className=" w-[30%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Date of birth</h2>
-                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1"></div>
+                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][SystmOneReportKeys.Date_Of_Birth]}</div>
                            </div>
                            <div className="flex">
                               <h2 className=" w-[30%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">NHS number</h2>
@@ -57,9 +79,7 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                            </div>
                            <div className="flex h-14">
                               <h2 className=" w-[30%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Ethnicity</h2>
-                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1 ">
-                           
-                              </div>
+                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1 ">{filteredData[selectedPatientIndex][SystmOneReportKeys.Ethnicity]}</div>
                            </div>
                         </div>
                      </div>
@@ -71,19 +91,19 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                         <div className="flex flex-col gap-2  text-left">
                            <div className="flex">
                               <h2 className="w-[36%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg whitespace-nowrap">Patient record #</h2>
-                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1"></div>
+                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">?????</div>
                            </div>
                            <div className="flex">
                               <h2 className="w-[36%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Gender</h2>
-                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1"></div>
+                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][SystmOneReportKeys.Gender]}</div>
                            </div>
                            <div className="flex">
                               <h2 className="w-[36%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Age</h2>
-                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1"></div>
+                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][SystmOneReportKeys.Age]}</div>
                            </div>
                            <div className="flex h-6">
                               <h2 className="w-[36%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Mobile telephone</h2>
-                              <div className="border border-gray-400 w-[65%]  rounded-r-lg pl-2 py-1"></div>
+                              <div className="border border-gray-400 w-[65%]  rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][SystmOneReportKeys.Mobile_Number]}</div>
                            </div>
                            <div className="text-left text-sm ml-1">
                               <label className=" inline-flex gap-2 items-center cursor-pointer font-bold" htmlFor="modalCheckBox">

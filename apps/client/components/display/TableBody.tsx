@@ -12,8 +12,19 @@ import { SYSTEM_ENTRYPOINTS } from 'next/dist/shared/lib/constants'
 
 const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.SetStateAction<boolean>>}) => {
 
-   const { tableData, filterStates, setPatientCount, patientCount} = useDisplay()
-   const [ filteredData, setFilteredData] = useState<string[][]>(tableData ?? [])
+   const { tableData, filterStates, setPatientCount, patientCount, filteredData, setFilteredData, selectedPatientRow, setSelectedPatientRow, setSelectedPatientIndex, selectedPatientIndex} = useDisplay()
+   // const [ filteredData, setFilteredData] = useState<string[][]>(tableData ?? [])
+
+   const handlePatientClick = (index:number) => {
+      console.log(index)
+      console.log(filteredData[index])
+      setSelectedPatientIndex(index)
+      // setSelectedPatientRow(filteredData[index])
+      setIsModalOpen(true)
+   }
+
+
+
 
    useEffect(()=> {
       const filterConfig = tableData?.filter((row) => {
@@ -442,7 +453,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
             <ColumnGroup />
             <tbody className=" ">
                {
-                  filteredData.map((row, index) => {
+                  filteredData.map((row, patientIndex) => {
                      return (
                         <tr className= "hover:bg-gray-100">
                            {
@@ -453,8 +464,13 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
                                           ?  <td className= " border-b text-center">
                                                 <input type = "checkbox" />
                                              </td>
-                                          :  <td className ={`w-[${data.width}]  border-gray-150 border-b border-l px-2 py-1 text-sm text-${data.align}`}>
-                                                { row[data.id] === "Patient reference no." ? "0000" :  row[data.id] }
+                                          :  <td 
+                                                className ={`w-[${data.width}]  border-gray-150 border-b border-l px-2 py-1 text-sm text-${data.align} ${data.id === SystmOneReportKeys.Full_Name ? "cursor-pointer text-[#21376A]": undefined}`}
+                                                onClick={   data.id === SystmOneReportKeys.Full_Name ? () => handlePatientClick(patientIndex) : undefined  }
+                                             >
+                                                {/* { row[data.id] === "Patient reference no."   ?  "0000" :  row[data.id] } */}
+                                                {row[data.id]}
+                                                
                                              </td>
 
                                        )
@@ -472,6 +488,19 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 }
 
 export default TableBody
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

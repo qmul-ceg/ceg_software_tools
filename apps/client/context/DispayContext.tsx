@@ -89,7 +89,19 @@ type Data = {
 
    patientCount : number;
    setPatientCount : React.Dispatch<React.SetStateAction<number>>
+
+   filteredData : string[][];
+   setFilteredData : React.Dispatch<React.SetStateAction<string[][]>>
+
+   selectedPatientRow : string []
+   setSelectedPatientRow : React.Dispatch<React.SetStateAction<string[]>>
+
+   selectedPatientIndex : number
+   setSelectedPatientIndex : React.Dispatch<React.SetStateAction<number>>
 }
+
+
+
 
 
 
@@ -110,6 +122,9 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    const [tableData, setTableData] = useState<string[][]>([])  
    const [filterStates, setFilterStates] = useState<FilterStates>({});
    const [patientCount, setPatientCount] = useState<number>(0)
+   const [ filteredData, setFilteredData] = useState<string[][]>( [])
+   const [selectedPatientRow, setSelectedPatientRow] = useState<string[]>([])
+   const [selectedPatientIndex, setSelectedPatientIndex] = useState<number>(0)
 
    //DELETE THIS 
    const [age, setAge] = useState<string[]>([])
@@ -141,7 +156,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    return (
       <DisplayContext.Provider value = {{ toolName, setToolName,  
          quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader, filterItems, setFilterItems,
-          setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates, importedData,  setImportedData, test, setTest, patientCount, setPatientCount  }}>
+          setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates, importedData,  setImportedData, test, setTest, patientCount, setPatientCount, filteredData, setFilteredData, selectedPatientRow, setSelectedPatientRow, setSelectedPatientIndex, selectedPatientIndex  }}>
          {children}
 
       </DisplayContext.Provider>
