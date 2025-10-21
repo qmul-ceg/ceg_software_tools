@@ -140,7 +140,7 @@ const FilterSection = () => {
 
    
    useEffect(()=>{
-      console.log(selectedQuickFilter)
+      // console.log(selectedQuickFilter)
    }, [selectedQuickFilter])
 
 
@@ -173,7 +173,7 @@ const FilterSection = () => {
          return keysOne.every(key => objectOne[key] === objectTwo[key])
       }
 
-      console.log(checkEquality(selectedQuickFilter, updateFilters()))
+      // console.log(checkEquality(selectedQuickFilter, updateFilters()))
       if(!checkEquality(selectedQuickFilter, updateFilters())){
          setSelectedQuickFilter({})
       }

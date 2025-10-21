@@ -113,6 +113,9 @@ type Data = {
 
    tableConfig : tableConfig | null;
    setTableConfig : React.Dispatch<React.SetStateAction<tableConfig | null>>
+
+   relativeRunDate : string;
+   setRelativeRunDate : React.Dispatch<React.SetStateAction<string>>
 }
 
 
@@ -142,6 +145,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    const [selectedPatientIndex, setSelectedPatientIndex] = useState<number>(0)
    const [reportKeys, setReportKeys] = useState<IndexMap | null>(null)
    const [tableConfig, setTableConfig] = useState<tableConfig | null>(null)
+   const [relativeRunDate, setRelativeRunDate] = useState<string>("")
 
 
 
@@ -169,6 +173,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
                setFilterStates(cvdFilterStates)
                setReportKeys(importedData.config.reportKeys ?? null)
                setTableConfig(importedData.data.tableConfig)
+               setRelativeRunDate(importedData.data.reportRunDate ?? "")
                setTest(true) //Testing to allow us to move to display screen 
             }
             
@@ -179,7 +184,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
 
    return (
       <DisplayContext.Provider value = {{ toolName, setToolName, quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader, filterItems, setFilterItems,
-            setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates, importedData,  setImportedData, test, setTest, patientCount, setPatientCount, filteredData, setFilteredData, selectedPatientRow, setSelectedPatientRow, setSelectedPatientIndex, selectedPatientIndex, reportKeys, setReportKeys, tableConfig, setTableConfig }}>
+            setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates, importedData,  setImportedData, test, setTest, patientCount, setPatientCount, filteredData, setFilteredData, selectedPatientRow, setSelectedPatientRow, setSelectedPatientIndex, selectedPatientIndex, reportKeys, setReportKeys, tableConfig, setTableConfig, relativeRunDate, setRelativeRunDate }}>
          {children}
 
       </DisplayContext.Provider>

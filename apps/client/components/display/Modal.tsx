@@ -26,7 +26,7 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
 
 
 
-   console.log(selectedPatientIndex)
+   // console.log(selectedPatientIndex)
 
    return (
       <>

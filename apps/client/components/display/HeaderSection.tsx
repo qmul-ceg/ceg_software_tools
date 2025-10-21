@@ -16,7 +16,7 @@ const HeaderSection = () => {
 
 
    return (
-      <div className = "flex border ">
+      <div className = "flex  ">
          <div className= " lg:w-[24%] max-w-[250px]">
             <a href="https://www.qmul.ac.uk" target="_blank" rel="noopener noreferrer">
                <img 

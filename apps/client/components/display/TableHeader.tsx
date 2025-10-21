@@ -3,6 +3,67 @@ import { useDisplay } from '@/context/DispayContext'
 import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 
 
+
+
+
+export function ColumnGroup (){
+   const { tableHeader, tableConfig } = useDisplay()
+   //Function allows us to create a column group element that we use to align our table header and table body
+   return (
+      <colgroup>
+         {
+            tableConfig?.map((col) => {
+               return (
+                  <col key = {col.id} style ={{width: col.width}}/>
+               )
+            })
+         }
+      </colgroup>
+   )
+}
+
+// { paddingValue } : { paddingValue : number }
+const TableHeader = () => {
+   const { tableConfig } = useDisplay()
+  
+   return (
+      <div 
+         className={` border-b-6 border-[#21376A] rounded-t-lg pr-[11px]`}
+         // style = {{paddingRight : `${paddingValue}px` }}
+      
+      >
+
+
+
+         <table className="w-full table-fixed">
+            <ColumnGroup />
+            <thead>
+               <tr className=''>
+                     {  
+                        tableConfig?.map((item, index)=> (
+                           item.id == "select" 
+                           ?  <th className= "border-r-1 border-[#21376A]"><input type = "checkbox" /> </th>
+                           :  <th key = {index} className={` text-sm  px-2 py-1 ${item.header !== "Medication review latest date" ? "border-r-1 " : "" }  top-0   border-[#21376A]`}>
+                                 {item.header}
+                              </th>
+                     ))}
+                  </tr>
+
+            </thead>
+         </table>
+      </div>
+   )
+}
+
+export default TableHeader
+
+
+
+
+
+
+
+
 // export const SystmOneTableConfig = [
 //    {
 //       id: "select",
@@ -140,55 +201,3 @@ import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 //       colour : ""
 //    },
 // ];
-
-
-export function ColumnGroup (){
-   const { tableHeader, tableConfig } = useDisplay()
-   //Function allows us to create a column group element that we use to align our table header and table body
-   return (
-      <colgroup>
-         {
-            tableConfig?.map((col) => {
-               return (
-                  <col key = {col.id} style ={{width: col.width}}/>
-               )
-            })
-         }
-      </colgroup>
-   )
-}
-
-
-const TableHeader = ({ paddingValue } : { paddingValue : number }) => {
-   const { tableConfig } = useDisplay()
-  
-   return (
-      <div 
-         className={` border-b-6 border-[#21376A] rounded-t-lg pr-[${paddingValue}px]`}
-         style = {{paddingRight : `${paddingValue}px` }}
-      
-      >
-
-
-
-         <table className="w-full table-fixed">
-            <ColumnGroup />
-            <thead>
-               <tr className=''>
-                     {  
-                        tableConfig?.map((item, index)=> (
-                           item.id == "select" 
-                           ?  <th className= "border-r-1 border-[#21376A]"><input type = "checkbox" /> </th>
-                           :  <th key = {index} className={` text-sm  px-2 py-1 ${item.header !== "Medication review latest date" ? "border-r-1 " : "" }  top-0   border-[#21376A]`}>
-                                 {item.header}
-                              </th>
-                     ))}
-                  </tr>
-
-            </thead>
-         </table>
-      </div>
-   )
-}
-
-export default TableHeader

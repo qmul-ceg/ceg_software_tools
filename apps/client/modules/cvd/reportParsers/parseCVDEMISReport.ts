@@ -9,6 +9,8 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
    //    info : "",
    //    masterReport : {}
    // }
+   // let runDate = report[0].lastModifiedDate as Date
+   
 
    const parseFile = async (file: File): Promise<ParserResult> => {
       return new Promise<ParserResult>((resolve, reject) => {
@@ -20,7 +22,7 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
                let result_array = result.data
                let patient_data_starting_index: number = 0
 
-               // console.log(result_array[0])
+               // console.log(result.data[3])
             
                let startingPatientIndex: number = 0;
                //Get the first header row of patients
@@ -61,6 +63,23 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
                   }
                }
                
+
+               const runDate = result.data[3][3].split(" ")[0]
+               // console.log(relativeDate)
+               const convertDateForRelativeRunDate = (date:Date) => {
+               
+                  if(date){
+                     
+                     const [day, month, year] = date.split("/")
+                     const months = { "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec" };
+                        return `${day}-${months[month]}-${year}`; 
+                  }
+                  else return ""
+               }
+               const reportRunDate = convertDateForRelativeRunDate(runDate)
+
+
+
                let parsedFileResult:ParserResult = {
                   status : "success",
                   info : "Report successfully parsed",
@@ -71,6 +90,7 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
                   },
                   data : {
                      toolName : cvdConfig.toolName,
+                     reportRunDate : reportRunDate,
                      tableConfig: EMISTableConfig,
                      masterReport : masterReport,
                      summaryTable : cvdConfig.summaryTable,
@@ -87,7 +107,7 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
    
 
    let parsedFile = await parseFile(report[0])
-   console.log(parsedFile)
+   // console.log(parsedFile)
    return parsedFile
 }  
 

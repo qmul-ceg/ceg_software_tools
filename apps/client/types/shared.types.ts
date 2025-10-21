@@ -69,7 +69,8 @@ export type ParserResult = {
 
    data? : {
       toolName?: string ;
-      tableConfig?: tableConfig
+      reportRunDate? : string;
+      tableConfig?: tableConfig;
       tableHeader?: string[] ; //Change to table config
       summaryTable?: string[][];
       masterReport?: Record<string, string[]>;

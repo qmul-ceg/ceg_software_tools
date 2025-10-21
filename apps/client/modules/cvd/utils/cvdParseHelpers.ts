@@ -16,10 +16,13 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResult> => {
       for(const [key, value] of Object.entries(files)){      
          fileArray.push(value)
       }
+      let runDate:Date;
 
       //Parse each file 
       const parseFile = async(file: File) => {
-         // console.log(file)
+         runDate = file.lastModifiedDate as Date
+         // console.log(runDate.toLocaleDateString())
+
          return new Promise<Object> ((resolve, reject)=> {
             let reportObject: Record<string, object> = {}
 
@@ -100,6 +103,26 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResult> => {
       //    masterReport: masterReport
       // };
 
+
+      const convertDateForRelativeRunDate = (date:Date) => {
+         console.log(date)
+         if(date){
+            const localeDate = date.toLocaleDateString()
+            const [day, month, year] = localeDate.split("/")
+            const months = { "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec" };
+               return `${day}-${months[month]}-${year}`; 
+         }
+         else return ""
+      }
+      const reportRunDate = convertDateForRelativeRunDate(runDate)
+      // console.log(convertDateForRelativeRunDate(runDate))
+
+
+
+
+
+
+
       let parserResult: ParserResult = {
          status : "success",
          info : "Reports successfully parsed",
@@ -110,6 +133,7 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResult> => {
          },
          data : {
             toolName : cvdConfig.toolName,
+            reportRunDate : reportRunDate,
             tableConfig: SystmOneTableConfig,
             masterReport : masterReport,
             summaryTable : cvdConfig.summaryTable,
