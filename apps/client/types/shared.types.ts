@@ -1,3 +1,6 @@
+import { SystmOneReportKeys, EMISReportKeys } from "@/modules/cvd/constants/cvdDataEnums"
+
+
 export type ValidationType = {
    status : string,
    info? : string
@@ -11,6 +14,17 @@ export type ParserResultType = {
 }
 
 
+
+
+type tableConfigDetails = {
+   id : any;
+   header : string;
+   width: string;
+   align: string;
+   colour: string;
+}
+
+export type tableConfig = tableConfigDetails[]
 
 
 
@@ -35,7 +49,7 @@ type GroupedFilter = {
 }  
 
 
-
+type IndexMap = typeof SystmOneReportKeys | typeof EMISReportKeys
 export type ParserResult = {
 
    //Parsing error messages
@@ -48,13 +62,15 @@ export type ParserResult = {
       // filters: Record<string, string[][]> ;
       filters: Record <string, MultiFilter | GroupedFilter >
       quickFilters: string[];
+      reportKeys? : IndexMap
    }
 
    //outputs for rendering and analysis
 
    data? : {
       toolName?: string ;
-      tableHeader?: string[] ;
+      tableConfig?: tableConfig
+      tableHeader?: string[] ; //Change to table config
       summaryTable?: string[][];
       masterReport?: Record<string, string[]>;
    }

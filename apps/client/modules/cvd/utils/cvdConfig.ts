@@ -1,4 +1,5 @@
 import { FilterStates } from "@/types/shared.types";
+import { SystmOneReportKeys, EMISReportKeys } from "../constants/cvdDataEnums";
 
 //CREATE TYPE FOR THE CONFIGURATIONS SO THAT OTHER TOOLS WILL BE ABLE TO USE IT 
 
@@ -229,8 +230,6 @@ export const cvdConfig = {
 
       },
 
-
-
       //QRiskScore
       qRiskFilter : {
          id: "qRiskFilter",
@@ -443,6 +442,289 @@ export const cvdConfig = {
 
    
 }
+
+export const SystmOneTableConfig = [
+   {
+      id: "select",
+      header : "",
+      width : "2%",
+      align : "center",
+      colour : ""
+
+   },
+   {
+      id : SystmOneReportKeys.Full_Name,
+      header : "Full name",
+      width : "12%",
+      align : "left",
+      colour : "blue"
+   },
+  {
+      id : SystmOneReportKeys.Age,
+      header : "Age",
+      width : "2%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : SystmOneReportKeys.Gender,
+      header : "Gender",
+      width : "3%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : "Patient reference no.",
+      header : "Patient reference no.",
+      width : "5%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : SystmOneReportKeys.Statin_Name_Dosage_Quantity,
+      header : "Statin prescription",
+      width : "14%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : SystmOneReportKeys.Statin_Intensity,
+      header : "Statin intensity",
+      width : "4%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : SystmOneReportKeys.Statin_Exclusion,
+      header : "Statin exclusion",
+      width : "4%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : SystmOneReportKeys.Inclisiran,
+      header : "Inclisiran",
+      width : "4%",
+      align : "center",
+      colour : ""
+   },
+   
+   {
+      id : SystmOneReportKeys.BloodPressure,
+      header : "Blood pressure",
+      width : "4%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : SystmOneReportKeys.CVD,
+      header : "CVD",
+      width : "3%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : SystmOneReportKeys.CKD3_5,
+      header : "CKD 3-5",
+      width : "4%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : SystmOneReportKeys.Hypertension,
+      header : "HTN",
+      width : "3%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : SystmOneReportKeys.Diabetes,
+      header : "Diabetes",
+      width : "4%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : SystmOneReportKeys.Total_Cholestrol_Value,
+      header : "Total cholestrol",
+      width : "4%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : SystmOneReportKeys.LDL_Cholestrol_Value,
+      header : "LDL",
+      width : "3%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : SystmOneReportKeys.EGFR_Value,
+      header : "eGFR",
+      width : "2%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : SystmOneReportKeys.AntiHptnMedicationCount,
+      header : "No. of anti-hptn meds",
+      width : "5%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : SystmOneReportKeys.Medication_Review_Date,
+      header : "Medication review latest date",
+      width : "6%",
+      align : "center",
+      colour : ""
+   },
+];
+
+
+
+
+
+
+
+
+export const EMISTableConfig = [
+   {
+      id: "select",
+      header : "",
+      width : "2%",
+      align : "center",
+      colour : ""
+
+   },
+   {
+      id : EMISReportKeys.Full_Name,
+      header : "Full name",
+      width : "12%",
+      align : "left",
+      colour : "blue"
+   },
+  {
+      id : EMISReportKeys.Age,
+      header : "Age",
+      width : "2%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : EMISReportKeys.Gender,
+      header : "Gender",
+      width : "3%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : "Patient reference no.",
+      header : "Patient reference no.",
+      width : "5%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : EMISReportKeys.Statin_Name_Dosage_Quantity,
+      header : "Statin prescription",
+      width : "14%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : EMISReportKeys.Statin_Intensity,
+      header : "Statin intensity",
+      width : "4%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : EMISReportKeys.Statin_Exclusion,
+      header : "Statin exclusion",
+      width : "4%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : EMISReportKeys.Inclisiran,
+      header : "Inclisiran",
+      width : "4%",
+      align : "center",
+      colour : ""
+   },
+   
+   {
+      id : EMISReportKeys.BloodPressure,
+      header : "Blood pressure",
+      width : "4%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : EMISReportKeys.CVD,
+      header : "CVD",
+      width : "3%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : EMISReportKeys.CKD3_5,
+      header : "CKD 3-5",
+      width : "4%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : EMISReportKeys.Hypertension,
+      header : "HTN",
+      width : "3%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : EMISReportKeys.Diabetes,
+      header : "Diabetes",
+      width : "4%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : EMISReportKeys.Total_Cholestrol_Value,
+      header : "Total cholestrol",
+      width : "4%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : EMISReportKeys.LDL_Cholestrol_Value,
+      header : "LDL",
+      width : "3%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : EMISReportKeys.EGFR_Value,
+      header : "eGFR",
+      width : "2%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : EMISReportKeys.AntiHptnMedicationCount,
+      header : "No. of anti-hptn meds",
+      width : "5%",
+      align : "center",
+      colour : ""
+   },
+   {
+      id : EMISReportKeys.Medication_Review_Date,
+      header : "Medication review latest date",
+      width : "6%",
+      align : "center",
+      colour : ""
+   },
+];
 
 
 

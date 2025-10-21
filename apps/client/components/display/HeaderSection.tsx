@@ -50,9 +50,3 @@ const HeaderSection = () => {
 }
 
 export default HeaderSection
-   // if (sampleName){
-   //    setToolName(sampleName)
-   // }   
-   // 
-   // // const [toolName, setToolName] = useState<string>("")   // setToolName("cvd")
-   // console.log(toolName)

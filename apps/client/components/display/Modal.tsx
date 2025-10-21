@@ -6,7 +6,7 @@ type ChildProps = {
 }
 const Modal = ({ setIsModalOpen }: ChildProps) => {
    // const [openModal, setOpenModal] = useState<boolean>(true)
-   const {selectedPatientRow, selectedPatientIndex, setSelectedPatientIndex, setSelectedPatientRow, filteredData} = useDisplay()
+   const {selectedPatientRow, selectedPatientIndex, setSelectedPatientIndex, setSelectedPatientRow, filteredData, reportKeys} = useDisplay()
 
 
    const handleNextPatient = (direction: "previous" | "next" ) => {

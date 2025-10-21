@@ -11,7 +11,7 @@ export enum EMISReportKeys{
    IHD_Code_Term,
    Stroke_TIA_Code_Term,
    PAD_Code_Term,
-   //Heart_Failure_Code_Term,
+   Heart_Failure_Code_Term,
    Hypertension_Code_Term,
    Diabetes_Code_Term,
    CKD_Code_Term,

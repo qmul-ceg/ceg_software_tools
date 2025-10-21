@@ -29,7 +29,7 @@ const FilterSection = () => {
    const defaultFilters:FilterStates = {
       antihypertensiveMedsFilter : {   kind: "grouped", value: [[],[], [], []]   },
       bloodPressureFilter: {  kind: "grouped", value: [  [], []]  },
-      houseboundCarehomeFilter : {kind: "multi", value: []},
+      houseboundCarehomeFilter : {  kind: "multi", value: []},
       lipidMedicationsFilter: {kind: "grouped", value: [[],[],[],[]]},
       comorbiditiesFilter: {kind: "multi", value: []},
       cholestrolFilter: {kind: "grouped", value: [[], []]},

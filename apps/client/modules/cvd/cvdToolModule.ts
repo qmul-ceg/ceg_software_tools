@@ -11,6 +11,7 @@ import { CVDaddCalculatedFields } from "./utils/cvdAddCalculatedFields";
 import { TransformCVDS1Data } from "./utils/cvdS1DataTransform";
 import { CVD_Measures } from "./utils/cvdMeasures";
 import { CVD_Metrics } from "./types/cvdMetrics";
+import { useDisplay } from "@/context/DispayContext";
 
 
 
@@ -24,6 +25,9 @@ import { CVD_Metrics } from "./types/cvdMetrics";
    // We call the display screen with our packaged results. 
 
 export default async function cvdToolModule(payload:ImportPayload){
+
+
+   // const {reportKeys, setReportKeys} = useDisplay()
    // console.log(payload)
    //VALIDATE PAYLOAD
    const validateHandlers: Partial<Record< ClinicalSystems, (payload:FileList ) => Promise<ValidationType>>> ={
@@ -78,6 +82,11 @@ export default async function cvdToolModule(payload:ImportPayload){
                      }
                   });
                } 
+
+               // if (payload.clinicalSystem === "SystmOne"){
+               //    setReportKeys(SystmOneReportKeys)
+               // }
+               // else if(payload.clinicalSystem === "")
 
                return { validationResult, parserResult}
           

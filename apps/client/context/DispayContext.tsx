@@ -1,8 +1,8 @@
 "use client"
 import React, { useContext, useEffect, useState } from 'react'
 import { createContext } from 'react'
-import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
-import { ParserResult, FilterStates } from '@/types/shared.types'
+import { SystmOneReportKeys, EMISReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
+import { ParserResult, FilterStates, tableConfig } from '@/types/shared.types'
 
 
 type Options = Record<string, { groupName : string; groupOptions: { value: string; label: string }[]}>
@@ -48,6 +48,15 @@ type quickFilter = {
    label : string
    payload : FilterStates
 }
+
+
+
+type IndexMap = typeof SystmOneReportKeys | typeof EMISReportKeys
+
+
+
+
+
 
 type Data = {
 
@@ -98,6 +107,12 @@ type Data = {
 
    selectedPatientIndex : number
    setSelectedPatientIndex : React.Dispatch<React.SetStateAction<number>>
+
+   reportKeys : IndexMap | null
+   setReportKeys : React.Dispatch<React.SetStateAction<IndexMap | null>>
+
+   tableConfig : tableConfig | null;
+   setTableConfig : React.Dispatch<React.SetStateAction<tableConfig | null>>
 }
 
 
@@ -125,10 +140,17 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    const [ filteredData, setFilteredData] = useState<string[][]>( [])
    const [selectedPatientRow, setSelectedPatientRow] = useState<string[]>([])
    const [selectedPatientIndex, setSelectedPatientIndex] = useState<number>(0)
+   const [reportKeys, setReportKeys] = useState<IndexMap | null>(null)
+   const [tableConfig, setTableConfig] = useState<tableConfig | null>(null)
+
+
+
 
    //DELETE THIS 
    const [age, setAge] = useState<string[]>([])
    const [selectedFilter, setSelectedFilter] = useState<string>("")
+
+
 
 
 
@@ -145,6 +167,8 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
                setFilterItems(importedData.config.filters)
                setQuickFilters(importedData.config.quickFilters)
                setFilterStates(cvdFilterStates)
+               setReportKeys(importedData.config.reportKeys ?? null)
+               setTableConfig(importedData.data.tableConfig)
                setTest(true) //Testing to allow us to move to display screen 
             }
             
@@ -154,9 +178,8 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
 
 
    return (
-      <DisplayContext.Provider value = {{ toolName, setToolName,  
-         quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader, filterItems, setFilterItems,
-          setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates, importedData,  setImportedData, test, setTest, patientCount, setPatientCount, filteredData, setFilteredData, selectedPatientRow, setSelectedPatientRow, setSelectedPatientIndex, selectedPatientIndex  }}>
+      <DisplayContext.Provider value = {{ toolName, setToolName, quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader, filterItems, setFilterItems,
+            setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates, importedData,  setImportedData, test, setTest, patientCount, setPatientCount, filteredData, setFilteredData, selectedPatientRow, setSelectedPatientRow, setSelectedPatientIndex, selectedPatientIndex, reportKeys, setReportKeys, tableConfig, setTableConfig }}>
          {children}
 
       </DisplayContext.Provider>
@@ -167,9 +190,9 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
 export function useDisplay() {
 
    // COME BACK TO THIS 
-  const ctx = useContext(DisplayContext);
-  if (!ctx) throw new Error("useDisplay must be used within DisplayProvider");
-  return ctx; // now ctx is Data, not Data | null
+   const ctx = useContext(DisplayContext);
+   if (!ctx) throw new Error("useDisplay must be used within DisplayProvider");
+   return ctx; // now ctx is Data, not Data | null
 }
 
 

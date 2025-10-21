@@ -1,6 +1,7 @@
 import { ParserResult } from "@/types/shared.types";
 import Papa from 'papaparse';
-import { cvdConfig } from "./cvdConfig";
+import { cvdConfig, SystmOneTableConfig } from "./cvdConfig";
+import { SystmOneReportKeys } from "../constants/cvdDataEnums";
 
 
 //CREATED TO SORT FILES IN A SPECIFIC STRUCTURE BUT NOT WORKING AS EXEPECTED DUE TO THE ASYNCHRONOUS NATURE 
@@ -104,10 +105,12 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResult> => {
          info : "Reports successfully parsed",
          config : {
             filters : cvdConfig.filters,
-            quickFilters : cvdConfig.quickFilters
+            quickFilters : cvdConfig.quickFilters,
+            reportKeys : SystmOneReportKeys
          },
          data : {
             toolName : cvdConfig.toolName,
+            tableConfig: SystmOneTableConfig,
             masterReport : masterReport,
             summaryTable : cvdConfig.summaryTable,
             tableHeader : cvdConfig.tableHeader

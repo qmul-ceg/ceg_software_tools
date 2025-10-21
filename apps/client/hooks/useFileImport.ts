@@ -6,10 +6,8 @@ import ErrorMessages from "@/constants/messages"
 import toolRouter from "@/services/toolRouter";
 import { ImportPayload } from "@/types/importPayload";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
-import { DisplayContext } from "@/context/DispayContext";
 import { useDisplay } from "@/context/DispayContext";
-import { dummy_data } from "./dummy_data";
+
 
 
 
@@ -25,6 +23,8 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
    const { toolName, test, setToolName, setFilterItems, setQuickFilters, setSummaryTable, summaryTable, setTableHeader, setTableData, setFilterStates, setImportedData } = useDisplay();
 
    const handleImportButtonClick = () => {
+
+
       setImportError(ErrorMessages.None)
       if (clinicalSystem == ClinicalSystems.NotSelected || softwareTool == SoftwareTools.NotSelected){
          setImportError(ErrorMessages.ImportError);
@@ -59,6 +59,9 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       }
       
       const routerResult = await toolRouter(newPayload);
+      // console.log(routerResult)
+
+
       const validationResult = Object.values(routerResult)[0]
       const parserResult = Object.values(routerResult)[1]
       // console.log(routerResult)

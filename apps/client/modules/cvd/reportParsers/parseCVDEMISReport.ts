@@ -1,5 +1,7 @@
 import { ParserResult } from "@/types/shared.types";
 import Papa from 'papaparse';
+import { cvdConfig, EMISTableConfig } from "../utils/cvdConfig";
+import { EMISReportKeys } from "../constants/cvdDataEnums";
 
 export default async function parseCVDEMISReport(report: FileList):Promise<ParserResult>{
    // let parsedFile:ParserResultInterface = {
@@ -14,7 +16,7 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
             header : false,
             skipEmptyLines : true,
             complete : (result) =>{
-               console.log(result)
+               // console.log(result)
                let result_array = result.data
                let patient_data_starting_index: number = 0
 
@@ -28,7 +30,7 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
                      startingPatientIndex = result_array.indexOf(currentArray)
                   }
                }
-               console.log(startingPatientIndex)
+               // console.log(startingPatientIndex)
 
                let masterReport: Record<string, Array<string>> = {}
 
@@ -62,8 +64,17 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
                let parsedFileResult:ParserResult = {
                   status : "success",
                   info : "Report successfully parsed",
+                  config : {
+                     filters : cvdConfig.filters,
+                     quickFilters: cvdConfig.quickFilters,
+                     reportKeys : EMISReportKeys
+                  },
                   data : {
-                     masterReport : masterReport
+                     toolName : cvdConfig.toolName,
+                     tableConfig: EMISTableConfig,
+                     masterReport : masterReport,
+                     summaryTable : cvdConfig.summaryTable,
+                     tableHeader : cvdConfig.tableHeader
                   }
                }
 

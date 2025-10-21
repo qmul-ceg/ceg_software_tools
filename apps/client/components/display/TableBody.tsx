@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { useDisplay } from '@/context/DispayContext'
 import { useState } from 'react'
 import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
-import { cvdTableConfig } from './TableHeader'
+// import { SystmOneTableConfig } from './TableHeader'
 import { ColumnGroup } from './TableHeader'
-import { SYSTEM_ENTRYPOINTS } from 'next/dist/shared/lib/constants'
+
 
 
 
@@ -12,18 +12,12 @@ import { SYSTEM_ENTRYPOINTS } from 'next/dist/shared/lib/constants'
 
 const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.SetStateAction<boolean>>}) => {
 
-   const { tableData, filterStates, setPatientCount, patientCount, filteredData, setFilteredData, selectedPatientRow, setSelectedPatientRow, setSelectedPatientIndex, selectedPatientIndex} = useDisplay()
-   // const [ filteredData, setFilteredData] = useState<string[][]>(tableData ?? [])
+   const { tableData, filterStates, setPatientCount, patientCount, filteredData, setFilteredData, selectedPatientRow, setSelectedPatientRow, setSelectedPatientIndex, selectedPatientIndex, reportKeys, tableConfig} = useDisplay()
 
    const handlePatientClick = (index:number) => {
-      console.log(index)
-      console.log(filteredData[index])
       setSelectedPatientIndex(index)
-      // setSelectedPatientRow(filteredData[index])
       setIsModalOpen(true)
    }
-
-
 
 
    useEffect(()=> {
@@ -31,21 +25,21 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
         
 
 
-         const ageIndex = parseInt(row[SystmOneReportKeys.Age]);
-         const houseboundIndex = row[SystmOneReportKeys.Housebound_Code_Term].trim();
-         const smiIndex = row[SystmOneReportKeys.SMI_Code_Term].trim();
-         const learningDisabilityIndex = row[SystmOneReportKeys.Learning_Difficulties_Code_Term].trim();
-         const dementiaIndex = row[SystmOneReportKeys.Dementia_Code_Term].trim();
+         const ageIndex = parseInt(row[reportKeys.Age]);
+         const houseboundIndex = row[reportKeys.Housebound_Code_Term];
+         const smiIndex = row[reportKeys.SMI_Code_Term].trim();
+         const learningDisabilityIndex = row[reportKeys.Learning_Difficulties_Code_Term].trim();
+         const dementiaIndex = row[reportKeys.Dementia_Code_Term].trim();
 
          //Comorbidities indexes
-         const cvdIndex = row[SystmOneReportKeys.CVD]
-         const hypertensionIndex = row[SystmOneReportKeys.Hypertension]
-         const diabetesIndex = row[SystmOneReportKeys.Diabetes]
-         const ckdIndex = row[SystmOneReportKeys.CKD_Code_Term]
-         const afIndex = row[SystmOneReportKeys.AF_Code_Term]
-         const cancerIndex = row[SystmOneReportKeys.Cancer_Code_Term]
+         const cvdIndex = row[reportKeys.CVD]
+         const hypertensionIndex = row[reportKeys.Hypertension]
+         const diabetesIndex = row[reportKeys.Diabetes]
+         const ckdIndex = row[reportKeys.CKD_Code_Term]
+         const afIndex = row[reportKeys.AF_Code_Term]
+         const cancerIndex = row[reportKeys.Cancer_Code_Term]
 
-         const adverseMedsIndex = row[SystmOneReportKeys.NSAID_Name_Dosage_Quantity]
+         const adverseMedsIndex = row[reportKeys.NSAID_Name_Dosage_Quantity]
 
          //Create the financial year functionality
          const checkFinancialYear = (dateString: string):boolean => {
@@ -118,20 +112,20 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 
          
          const antihypertensiveMedsFilterGroupOne = () => {
-            const aceiArb = filterStates.antihypertensiveMedsFilter.value[0].includes("acei/arb") && row[SystmOneReportKeys.ACEi_ARB_Name_Dosage_Quantity].trim();
-            const caChannel = filterStates.antihypertensiveMedsFilter.value[0].includes("cachannel") && row[SystmOneReportKeys.Ca_Channel_Name_Dosage_Quantity].trim();
-            const thiazides = filterStates.antihypertensiveMedsFilter.value[0].includes("thiazides") && row[SystmOneReportKeys.Thiazides_Name_Dosage_Quantity].trim();
-            const betaBlockers = filterStates.antihypertensiveMedsFilter.value[0].includes("betablockers") && row[SystmOneReportKeys.Beta_Blocker_Name_Dosage_Quantity].trim()
+            const aceiArb = filterStates.antihypertensiveMedsFilter.value[0].includes("acei/arb") && row[reportKeys.ACEi_ARB_Name_Dosage_Quantity].trim();
+            const caChannel = filterStates.antihypertensiveMedsFilter.value[0].includes("cachannel") && row[reportKeys.Ca_Channel_Name_Dosage_Quantity].trim();
+            const thiazides = filterStates.antihypertensiveMedsFilter.value[0].includes("thiazides") && row[reportKeys.Thiazides_Name_Dosage_Quantity].trim();
+            const betaBlockers = filterStates.antihypertensiveMedsFilter.value[0].includes("betablockers") && row[reportKeys.Beta_Blocker_Name_Dosage_Quantity].trim()
             const others = filterStates.antihypertensiveMedsFilter.value[0].includes("others") && 
-               (row[SystmOneReportKeys.Other_Diuretic_Name_Dosage_Quantity].trim() || row[SystmOneReportKeys.Other_Lipid_Lowering_Name_Dosage_Quantity].trim() || row[SystmOneReportKeys.Alpha_Blocker_Name_Dosage_Quantity].trim())
+               (row[reportKeys.Other_Diuretic_Name_Dosage_Quantity].trim() || row[reportKeys.Other_Lipid_Lowering_Name_Dosage_Quantity].trim() || row[reportKeys.Alpha_Blocker_Name_Dosage_Quantity].trim())
 
             return { aceiArb, caChannel, thiazides, betaBlockers, others }
          }
 
          const antihypertensiveMedsFilterGroupTwo = () => {
-            const equalToZero = filterStates.antihypertensiveMedsFilter.value[1].includes("0") && parseInt(row[SystmOneReportKeys.AntiHptnMedicationCount]) === 0;
-            const equalToOne = filterStates.antihypertensiveMedsFilter.value[1].includes("1") && parseInt(row[SystmOneReportKeys.AntiHptnMedicationCount]) === 1;
-            const gteTwo = filterStates.antihypertensiveMedsFilter.value[1].includes("gte2") && parseInt(row[SystmOneReportKeys.AntiHptnMedicationCount]) >= 2;
+            const equalToZero = filterStates.antihypertensiveMedsFilter.value[1].includes("0") && parseInt(row[reportKeys.AntiHptnMedicationCount]) === 0;
+            const equalToOne = filterStates.antihypertensiveMedsFilter.value[1].includes("1") && parseInt(row[reportKeys.AntiHptnMedicationCount]) === 1;
+            const gteTwo = filterStates.antihypertensiveMedsFilter.value[1].includes("gte2") && parseInt(row[reportKeys.AntiHptnMedicationCount]) >= 2;
 
             return { equalToZero, equalToOne, gteTwo }
          }
@@ -169,16 +163,16 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
          //LIPID MEDICATIONS FILTER
          const lipidMedicationsFilterGroupOne = () => {
       
-            const highStatinIntensity = filterStates.lipidMedicationsFilter.value[0].includes("highIntensity") && row[SystmOneReportKeys.Statin_Intensity] === "High";
-            const mediumLowStatinIntensity = filterStates.lipidMedicationsFilter.value[0].includes("mediumLow") && row[SystmOneReportKeys.Statin_Intensity] === "Med/Low";
-            const notOnStatin = filterStates.lipidMedicationsFilter.value[0].includes("noStatin") && row[SystmOneReportKeys.Statin_Intensity] === "None"
+            const highStatinIntensity = filterStates.lipidMedicationsFilter.value[0].includes("highIntensity") && row[reportKeys.Statin_Intensity] === "High";
+            const mediumLowStatinIntensity = filterStates.lipidMedicationsFilter.value[0].includes("mediumLow") && row[reportKeys.Statin_Intensity] === "Med/Low";
+            const notOnStatin = filterStates.lipidMedicationsFilter.value[0].includes("noStatin") && row[reportKeys.Statin_Intensity] === "None"
 
             return { highStatinIntensity, mediumLowStatinIntensity, notOnStatin }
          }
 
-         const onInclisiran = filterStates.lipidMedicationsFilter.value[1].includes("onInclisiran") && row[SystmOneReportKeys.Inclisiran] === "YES"
+         const onInclisiran = filterStates.lipidMedicationsFilter.value[1].includes("onInclisiran") && row[reportKeys.Inclisiran] === "YES"
          const statinExclusions = filterStates.lipidMedicationsFilter.value[3].includes("statinExclusions") 
-         && (row[SystmOneReportKeys.Statin_Exclusion] === "Contra" || row[SystmOneReportKeys.Statin_Exclusion] === "Declined")
+         && (row[reportKeys.Statin_Exclusion] === "Contra" || row[reportKeys.Statin_Exclusion] === "Declined")
 
 
          const applyLipidMedicationsFilter = () => {
@@ -272,7 +266,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
          }
 
          const bloodPressureFilterGroupOne = () => {
-            const [systolic , diastolic ] = splitBloodPressureValue(row[SystmOneReportKeys.BloodPressure]);
+            const [systolic , diastolic ] = splitBloodPressureValue(row[reportKeys.BloodPressure]);
        
 
             const lowerBound = filterStates.bloodPressureFilter.value[0].includes("<140/90") && (parseInt(systolic) < 140 && parseInt(diastolic) < 90);
@@ -284,9 +278,9 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 
          const applyBloodPressureFilter = () => {
             const { lowerBound, midBound, upperBound } = bloodPressureFilterGroupOne();
-            const recordedDateResult = recordedOverTwelveMonths(convertDate(row[SystmOneReportKeys.Systolic_BP_Date_1]), convertDate("07-Aug-25"))
+            const recordedDateResult = recordedOverTwelveMonths(convertDate(row[reportKeys.Systolic_BP_Date_1]), convertDate("07-Aug-25"))
             const overTwelveMonths = filterStates.bloodPressureFilter.value[1].includes("<12m") && recordedDateResult
-            const financialYearCheck = checkFinancialYear(convertDate(row[SystmOneReportKeys.Systolic_BP_Date_1]))
+            const financialYearCheck = checkFinancialYear(convertDate(row[reportKeys.Systolic_BP_Date_1]))
             const notInFinancialYear = filterStates.bloodPressureFilter.value[1].includes("notInFinancialYear") && financialYearCheck
 
             
@@ -328,10 +322,10 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 
          //CHOLESTROL READING
          const applyCholestrolReadingFilter = () => {
-            const ldlGreaterThanTwo = filterStates.cholestrolFilter.value[0].includes(">2.0") && parseInt(row[SystmOneReportKeys.LDL_Cholestrol_Value]) > 2.0
-            const recordedDateResult = recordedOverTwelveMonths(convertDate(row[SystmOneReportKeys.LDL_Cholestrol_Date]), convertDate("07-Aug-25"))
+            const ldlGreaterThanTwo = filterStates.cholestrolFilter.value[0].includes(">2.0") && parseInt(row[reportKeys.LDL_Cholestrol_Value]) > 2.0
+            const recordedDateResult = recordedOverTwelveMonths(convertDate(row[reportKeys.LDL_Cholestrol_Date]), convertDate("07-Aug-25"))
             const overTwelveMonths = filterStates.cholestrolFilter.value[1].includes("<12m") && recordedDateResult
-            const financialYearCheck = checkFinancialYear(convertDate(row[SystmOneReportKeys.LDL_Cholestrol_Date]))
+            const financialYearCheck = checkFinancialYear(convertDate(row[reportKeys.LDL_Cholestrol_Date]))
             const notInFinancialYear = filterStates.cholestrolFilter.value[1].includes("notInFinancialYear") && financialYearCheck
 
 
@@ -368,10 +362,10 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
          //QRISK FILTER
          const applyQriskFilter = () => {
             
-            const greaterThanTenPercent = filterStates.qRiskFilter.value[0].includes(">10") && (parseFloat(row[SystmOneReportKeys.QRisk_Value]) > 10.0)
-            const greaterThanTwentyPercent = filterStates.qRiskFilter.value[0].includes(">20") && (parseFloat(row[SystmOneReportKeys.QRisk_Value]) > 20.0)
+            const greaterThanTenPercent = filterStates.qRiskFilter.value[0].includes(">10") && (parseFloat(row[reportKeys.QRisk_Value]) > 10.0)
+            const greaterThanTwentyPercent = filterStates.qRiskFilter.value[0].includes(">20") && (parseFloat(row[reportKeys.QRisk_Value]) > 20.0)
 
-            const recordedDateResult = recordedOverTwelveMonths(convertDate(row[SystmOneReportKeys.QRisk_Date]), convertDate("07-Aug-25"))
+            const recordedDateResult = recordedOverTwelveMonths(convertDate(row[reportKeys.QRisk_Date]), convertDate("07-Aug-25"))
             const overTwelveMonths = filterStates.qRiskFilter.value[1].includes("<12m") && recordedDateResult
             
             
@@ -405,7 +399,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
          }
 
          const applyHptnDiagnosisFilter = () => {
-            const noHptnDiagnosis = (filterStates.hptnDiagnosis.value as string[]).includes("no") && (row[SystmOneReportKeys.Hypertension] === "NO")
+            const noHptnDiagnosis = (filterStates.hptnDiagnosis.value as string[]).includes("no") && (row[reportKeys.Hypertension] === "NO")
 
             const hptnCombination = 
                filterStates.hptnDiagnosis.value.length === 0 || 
@@ -415,7 +409,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
          }
 
          const applyAceiArbFilter = () => {
-            const noAceiArbValue = (filterStates.aceiArbFilter.value as string[]).includes("no") && (row[SystmOneReportKeys.ACEi_ARB_Name_Dosage_Quantity].trim() === "")
+            const noAceiArbValue = (filterStates.aceiArbFilter.value as string[]).includes("no") && (row[reportKeys.ACEi_ARB_Name_Dosage_Quantity].trim() === "")
          
             const aceiArbFilterCombination = 
                filterStates.aceiArbFilter.value.length === 0 ||
@@ -424,17 +418,6 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
             return aceiArbFilterCombination
          }
 
-
-
-
-
-
-
-
-
-
-          
- 
          return filterByAge && filterByHousebound && vulnerabilitiesFilter && comorbiditiesFilter && adverseMedsFilter && applyAntihypertensiveMedsFilter() && applyLipidMedicationsFilter() && applyBloodPressureFilter() && applyCholestrolReadingFilter() && applyQriskFilter() && applyQriskFilter() && applyHptnDiagnosisFilter() && applyAceiArbFilter()
       })   
         
@@ -458,15 +441,15 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
                         <tr className= "hover:bg-gray-100">
                            {
                            
-                              cvdTableConfig.map((data, index) => {
+                              tableConfig.map((data, index) => {
                                  return (
                                           data.id === "select"
                                           ?  <td className= " border-b text-center">
                                                 <input type = "checkbox" />
                                              </td>
                                           :  <td 
-                                                className ={`w-[${data.width}]  border-gray-150 border-b border-l px-2 py-1 text-sm text-${data.align} ${data.id === SystmOneReportKeys.Full_Name ? "cursor-pointer text-[#21376A]": undefined}`}
-                                                onClick={   data.id === SystmOneReportKeys.Full_Name ? () => handlePatientClick(patientIndex) : undefined  }
+                                                className ={`w-[${data.width}]  border-gray-150 border-b border-l px-2 py-1 text-sm text-${data.align} ${data.id === reportKeys.Full_Name ? "cursor-pointer text-[#21376A]": undefined}`}
+                                                onClick={   data.id === reportKeys.Full_Name ? () => handlePatientClick(patientIndex) : undefined  }
                                              >
                                                 {/* { row[data.id] === "Patient reference no."   ?  "0000" :  row[data.id] } */}
                                                 {row[data.id]}
