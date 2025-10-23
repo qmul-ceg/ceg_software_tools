@@ -53,6 +53,8 @@ export const cvdConfig = {
                groupName : "",
                groupOptions: [
                   {  value: "acei/arb", label : "ACEi/ARB"  },
+                  {  value: "no_acei/arb", label : "No ACEi/ARB"  },
+
                   {  value: "cachannel", label : "Ca-Channel"  },
                   {  value: "thiazides", label : "Thiazides"  },
                   {  value: "betablockers", label : "Beta-blockers"  },
@@ -191,9 +193,9 @@ export const cvdConfig = {
             {value : "hypertension", label: "Hypertension"},
             {value : "diabetes", label: "Diabetes"},
             {value : "ckd", label: "CKD 3-5"},
-            {value : "af", label: "Atrial Fibrillation"},
+            {value : "af", label: "Atrial fibrillation"},
             {value : "cancer", label: "Cancer"},
-
+            {value : "noHypertension", label: "No hypertension"}
          ], 
          emptyBehaviour : []
       },
@@ -335,25 +337,6 @@ export const cvdConfig = {
       },
 
 
-      // hptnDiagnosis : {
-      //    id : "hptnDiagnosis",
-      //    label : "Hypertension",
-      //    ui : {
-      //       width : 9,
-      //       bgColour : "#21376A"
-      //    },
-      //    kind : "multi", 
-
-      //    options : [
-      //       {value : "no", label: "No"},
-         
-      //    ], 
-      //    emptyBehaviour : []
-      // },
-
-
-         // hptnDiagnosis: {kind: "multi", value: []},
-   // aceiArbFilter : {kind : "multi", value : []}
 
    } satisfies Record<string, MultiFilter | GroupedFilter>, // ADD COMMENT
 
@@ -364,7 +347,9 @@ export const cvdConfig = {
          label : "BP > 140/90, no hypertension diagnosis",
          payload : {
                bloodPressureFilter: {  kind: "grouped", value: [["gte140/90"],[]]  },
-               hptnDiagnosis : { kind: "multi", value : ["no"] }
+               comorbiditiesFilter: {kind: "multi", value: ["noHypertension"]},
+
+               // hptnDiagnosis : { kind: "multi", value : ["no"] }
          }
       },
       optionTwo : {
@@ -380,7 +365,8 @@ export const cvdConfig = {
          id : 3,
          label : "CKD 3-5 and diabetes, not on ACEi/ARB",
          payload : {
-               aceiArbFilter : {kind : "multi", value : ["no"]},
+               // aceiArbFilter : {kind : "multi", value : ["no"]},
+               antihypertensiveMedsFilter : {kind : "grouped", value : [["no_acei/arb"], [], [], []]},
                comorbiditiesFilter: {kind: "multi", value: ["ckd", "diabetes"]},
          }
       },

@@ -200,132 +200,130 @@ const FilterSection = () => {
                   Filters
                </p>
 
-               
-                     <div className="flex gap-1">
-                        {
-                           Object.entries(filterStates).map(([selectedFilterName, selectedFilterValue]) => {
-                              if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){           
-                                   return(
-                                    <div className="  text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
-                                       <span className='inline-flex gap-2 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName].label }: {
-                                          selectedFilterValue.value.map((item)=>{
-                                             return (
-                                                <div className="flex items-center">
-                                                   {
-                                                      cvdConfig.filters[selectedFilterName].options.map((filterOptions)=> {
-                                                         if (item === filterOptions.value){
-                                                            return <span className="font-normal mr-2">{filterOptions.label}</span>
-                                                         
-                                                         }
-                                                      })
-                                                   }
-                                                   
-                                                      <button className=" cursor-pointer text-red-500 hover:opacity-90 text-sm hover:text-lg font-black" 
-                                                         onClick= {()=> handleFilterSelection(
-                                                            {
-                                                            selectedFilterName : selectedFilterName,
-                                                            selectedValue : item,
-                                                            selectedFilterKind : selectedFilterValue.kind
-                                                         })}>
-
-                                                         
-                                                         <TfiClose  className="font-bold"/>
-                                                      </button>
-                                                      {
-                                                         selectedFilterValue.value.indexOf(item) < selectedFilterValue.value.length - 1? <GoDotFill className=" ml-2 text-gray-500" /> : ""
+               {/* FILTER SELECTION DISPLAY */}
+               <div className="flex gap-1">
+                  {
+                     Object.entries(filterStates).map(([selectedFilterName, selectedFilterValue]) => {
+                        if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){           
+                              return (
+                                 <div className="  text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
+                                    <span className='inline-flex gap-2 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName].label }: {
+                                       selectedFilterValue.value.map((item)=>{
+                                          return (
+                                             <div className="flex items-center">
+                                                {
+                                                   cvdConfig.filters[selectedFilterName].options.map((filterOptions)=> {
+                                                      if (item === filterOptions.value){
+                                                         return (
+                                                            <span className="font-normal mr-2">{filterOptions.label}</span>
+                                                         )
                                                       }
-                                                </div> 
-                                             )
-                                          })
-                                       }
-                                       </span>
-                                    </div>
-                                   )
-                                 
-                              }
-
-
-                              else if(selectedFilterValue.kind === "grouped" && selectedFilterValue.value.some((group) =>group.length > 0)){
-                                 return (
-                                    <div className=" border text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
-                                       <span className='inline-flex gap-2 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName].label } : 
-                                       {
-                                          selectedFilterValue.value.map((group, groupIndex)=>{
-                                             if(group.length > 0 ){
-                                                return (
-                                                   <div className="flex items-center gap-2">
+                                                   })
+                                                }
+                                                
+                                                <button className=" cursor-pointer text-red-500 hover:opacity-90 text-sm hover:text-lg font-black" 
+                                                   onClick= {()=> handleFilterSelection(
                                                       {
-                                                         group.map((item) => {
-                                                            return (
-                                                               <div className="flex items-center">
-                                                                  {
-                                                                     Object.entries(cvdConfig.filters[selectedFilterName].options).map(([filterGroup, groupDetails])=> {
-                                                                  
-                                                                        return (
-                                                                           <div className="flex">
-                                                                              {
-                                                                                 groupDetails.groupOptions.map((filterOptions)=> {
-                                                                                    if (item === filterOptions.value){
-                                                                                    
-                                                                                       return <span className="font-normal mr-1">{filterOptions.label}</span>
-                                                            
-                                                                                    }
-                                                                                 })
-                                                                              } 
-                                                                           </div>
-                                                                        )
-                                                                     })
-                                                                  }
-                                                                     <button 
-                                                                        className=" cursor-pointer text-red-500 hover:opacity-90 text-xs hover:text-sm" 
-                                                                        onClick = { ()=>handleFilterSelection({
-                                                                           selectedFilterName : selectedFilterName,
-                                                                           selectedValue : item,
-                                                                           selectedFilterKind : selectedFilterValue.kind,
-                                                                           selectedIndex : groupIndex
+                                                      selectedFilterName : selectedFilterName,
+                                                      selectedValue : item,
+                                                      selectedFilterKind : selectedFilterValue.kind
+                                                   })}>
 
-
-                                                                        })       
-                                                                          
-                                                                        }
-                                                                        
-                                                                        >
-                                                                     <TfiClose  />
-                                                                  </button>
-                                                                  {
-                                                                     group.indexOf(item) < group.length - 1? <GoDotFill className=" ml-2 text-gray-500 " /> : ""
-                                                                  }
-                                                               </div>
-                                                            )
-                                                         })
-                                                      }
-                                                     {
-                                                      groupIndex < selectedFilterValue.value.length -1 ? <span className="text-gray-300">|</span> : ""
-                                                     }
-                                                                              
-
-                                                   </div>
                                                    
-
-
-                                             )
-                                               
-                                             }
-                                          })
-
-                                       }
-                                       </span>
-                                    </div>
-                                 )
-                              }
-                           })
+                                                   <TfiClose  className="font-bold"/>
+                                                </button>
+                                                {
+                                                   selectedFilterValue.value.indexOf(item) < selectedFilterValue.value.length - 1? <GoDotFill className=" ml-2 text-gray-500" /> : ""
+                                                }
+                                             </div> 
+                                          )
+                                       })
+                                    }
+                                    </span>
+                                 </div>
+                              )
+                           
                         }
-                      
-                     </div>
-                     
-                   
+
+
+                        else if(selectedFilterValue.kind === "grouped" && selectedFilterValue.value.some((group) =>group.length > 0)){
+                           return (
+                              <div className=" border text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
+                                 <span className='inline-flex gap-2 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName].label } : 
+                                 {
+                                    selectedFilterValue.value.map((group, groupIndex)=>{
+                                       if(group.length > 0 ){
+                                          return (
+                                             <div className="flex items-center gap-2">
+                                                {
+                                                   group.map((item) => {
+                                                      return (
+                                                         <div className="flex items-center">
+                                                            {
+                                                               Object.entries(cvdConfig.filters[selectedFilterName].options).map(([filterGroup, groupDetails])=> {
+                                                            
+                                                                  return (
+                                                                     <div className="flex">
+                                                                        {
+                                                                           groupDetails.groupOptions.map((filterOptions)=> {
+                                                                              if (item === filterOptions.value){
+                                                                              
+                                                                                 return <span className="font-normal mr-1">{filterOptions.label}</span>
+                                                      
+                                                                              }
+                                                                           })
+                                                                        } 
+                                                                     </div>
+                                                                  )
+                                                               })
+                                                            }
+                                                               <button 
+                                                                  className=" cursor-pointer text-red-500 hover:opacity-90 text-xs hover:text-sm" 
+                                                                  onClick = { ()=>handleFilterSelection({
+                                                                     selectedFilterName : selectedFilterName,
+                                                                     selectedValue : item,
+                                                                     selectedFilterKind : selectedFilterValue.kind,
+                                                                     selectedIndex : groupIndex
+
+
+                                                                  })       
+                                                                     
+                                                                  }
+                                                                  
+                                                                  >
+                                                               <TfiClose  />
+                                                            </button>
+                                                            {
+                                                               group.indexOf(item) < group.length - 1? <GoDotFill className=" ml-2 text-gray-500 " /> : ""
+                                                            }
+                                                         </div>
+                                                      )
+                                                   })
+                                                }
+                                                {
+                                                groupIndex < selectedFilterValue.value.length -1 ? <span className="text-gray-300">|</span> : ""
+                                                }
+                                                                        
+
+                                             </div>
+                                             
+
+
+                                       )
+                                          
+                                       }
+                                    })
+
+                                 }
+                                 </span>
+                              </div>
+                           )
+                        }
+                     })
+                  }
                   
-               
+               </div>
+
             </div>
             
             {/* FILTER ADD OR DELETE FILTERS */}
@@ -398,59 +396,73 @@ const FilterSection = () => {
                               <SelectContent className="px-2">
                                  {
                                     value.kind === "multi" ?
-                                       value.options.map((option: {value: string, label: string} ) => (
-                                          <ul>
-                                             <label key = {option.value}>
-                                                <input 
-                                                   type = "checkbox"
-                                                   className=" cursor-pointer mr-2"
-                                                   checked = {
-                                                      value.kind === "multi" && (filterStates[value.id].value as string[]).includes(option.value) 
+                                       value.options.map((option: {value: string, label: string} ) => {
+                                          if(option.value !== "noHypertension"){
+                                             return (
+                                                <ul>
+                                                   <label key = {option.value}>
+                                                      <input 
+                                                         type = "checkbox"
+                                                         className=" cursor-pointer mr-2"
+                                                         checked = {
+                                                            value.kind === "multi" && (filterStates[value.id].value as string[]).includes(option.value) 
 
-                                                   }
-                                                   value = {option.value} 
-                                                   onChange = {()=>handleFilterSelection(
-                                                      {  
-                                                         selectedFilterName : value.id, 
-                                                         selectedValue: option.value, 
-                                                         selectedFilterKind : value.kind 
-                                                      }
-                                                   )}
-                                                />
-                                                   {option.label}
-                                             </label>
-                                             
-                                          </ul>
-                                       ))     
+                                                         }
+                                                         value = {option.value} 
+                                                         onChange = {()=>handleFilterSelection(
+                                                            {  
+                                                               selectedFilterName : value.id, 
+                                                               selectedValue: option.value, 
+                                                               selectedFilterKind : value.kind 
+                                                            }
+                                                         )}
+                                                      />
+                                                         {option.label}
+                                                   </label>
+                                                </ul>
+                                             )
+                                          }
+                                 
+                                       })     
                                        : 
                                        Object.entries(value.options).map(([group, inner], groupIndex, groupArray) => {
                                           return (
                                              <div>
                                                 <p className="font-bold">{inner.groupName}</p>
                                                 <ul className={`${groupIndex !== groupArray.length -1 ? " border-b-2" : ""} py-1`}>
-                                                   {inner.groupOptions.map((option) => (
-                                                      <li >
-                                                         <label>
-                                                            <input 
-                                                               type = "checkbox"
-                                                               className = "cursor-pointer mr-2 "
-                                                               value = {option.value}
-                                                               checked = {
-                                                                  value.kind === "grouped" && (filterStates[value.id].value[groupIndex].includes(option.value))
-                                                               }
-                                                               onChange = {()=>handleFilterSelection(
-                                                                  {
-                                                                     selectedFilterName : value.id,
-                                                                     selectedValue : option.value,
-                                                                     selectedFilterKind : value.kind,
-                                                                     selectedIndex : groupIndex
-                                                                  }
-                                                               )}
-                                                            />
-                                                            {option.label}
-                                                         </label>
-                                                      </li>
-                                                   ))}
+                                                   {inner.groupOptions.map((option) => 
+                                                      {
+                                                         if(option.value !== "no_acei/arb"){
+                                                            return  (
+                                                                  <li >
+                                                                     <label>
+                                                                        <input 
+                                                                           type = "checkbox"
+                                                                           className = "cursor-pointer mr-2 "
+                                                                           value = {option.value}
+                                                                           checked = {
+                                                                              value.kind === "grouped" && (filterStates[value.id].value[groupIndex].includes(option.value))
+                                                                           }
+                                                                           onChange = {()=>handleFilterSelection(
+                                                                              {
+                                                                                 selectedFilterName : value.id,
+                                                                                 selectedValue : option.value,
+                                                                                 selectedFilterKind : value.kind,
+                                                                                 selectedIndex : groupIndex
+                                                                              }
+                                                                           )}
+                                                                        />
+                                                                        {option.label}
+                                                                     </label>
+                                                                  </li>
+                                                               )
+                                                            }
+                                                      }
+                                                   
+                                                
+                                                )
+                                                   
+                                                   }
                                                 </ul>
                                              </div>
                                           )

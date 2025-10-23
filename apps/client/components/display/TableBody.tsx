@@ -113,12 +113,13 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
             filterStates.vulnerabilitiesFilter.value.length === 0 ;
 
          const comorbiditiesFilter = 
-            (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "cvd") && cvdIndex === "YES" ||
-            (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "hypertension") && hypertensionIndex === "YES" ||
-            (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "diabetes") && diabetesIndex === "YES" ||
-            (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "ckd") && ckdIndex  ||
-            (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "af") && afIndex  ||
-            (filterStates.comorbiditiesFilter.value as string[]).some(value => value === "cancer") && cancerIndex  ||
+            (filterStates.comorbiditiesFilter.value as string[]).includes("cvd") && cvdIndex === "YES" ||
+            (filterStates.comorbiditiesFilter.value as string[]).includes("hypertension") && hypertensionIndex === "YES" ||
+            (filterStates.comorbiditiesFilter.value as string[]).includes("noHypertension") && hypertensionIndex === "NO" ||
+            (filterStates.comorbiditiesFilter.value as string[]).includes("diabetes") && diabetesIndex === "YES" ||
+            (filterStates.comorbiditiesFilter.value as string[]).includes("ckd") && ckdIndex  ||
+            (filterStates.comorbiditiesFilter.value as string[]).includes("af") && afIndex  ||
+            (filterStates.comorbiditiesFilter.value as string[]).includes("cancer") && cancerIndex  ||
             filterStates.comorbiditiesFilter.value.length === 0;
          
          const adverseMedsFilter = 
@@ -132,13 +133,15 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
          
          const antihypertensiveMedsFilterGroupOne = () => {
             const aceiArb = filterStates.antihypertensiveMedsFilter.value[0].includes("acei/arb") && row[reportKeys.ACEi_ARB_Name_Dosage_Quantity].trim();
+            const noAceiArb = filterStates.antihypertensiveMedsFilter.value[0].includes("no_acei/arb") && !row[reportKeys.ACEi_ARB_Name_Dosage_Quantity].trim();
+
             const caChannel = filterStates.antihypertensiveMedsFilter.value[0].includes("cachannel") && row[reportKeys.Ca_Channel_Name_Dosage_Quantity].trim();
             const thiazides = filterStates.antihypertensiveMedsFilter.value[0].includes("thiazides") && row[reportKeys.Thiazides_Name_Dosage_Quantity].trim();
             const betaBlockers = filterStates.antihypertensiveMedsFilter.value[0].includes("betablockers") && row[reportKeys.Beta_Blocker_Name_Dosage_Quantity].trim()
             const others = filterStates.antihypertensiveMedsFilter.value[0].includes("others") && 
                (row[reportKeys.Other_Diuretic_Name_Dosage_Quantity].trim() || row[reportKeys.Other_Lipid_Lowering_Name_Dosage_Quantity].trim() || row[reportKeys.Alpha_Blocker_Name_Dosage_Quantity].trim())
 
-            return { aceiArb, caChannel, thiazides, betaBlockers, others }
+            return { aceiArb, caChannel, thiazides, betaBlockers, others, noAceiArb }
          }
 
          const antihypertensiveMedsFilterGroupTwo = () => {
@@ -151,7 +154,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 
          
          const applyAntihypertensiveMedsFilter = () => {
-            const { aceiArb, caChannel, thiazides, betaBlockers, others} = antihypertensiveMedsFilterGroupOne();
+            const { aceiArb, caChannel, thiazides, betaBlockers, others, noAceiArb} = antihypertensiveMedsFilterGroupOne();
             const { equalToZero, equalToOne, gteTwo } = antihypertensiveMedsFilterGroupTwo();
 
             const antiHypertensiveMedsFilterCombinations = 
@@ -160,7 +163,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 
             //Value selected in first group ONLY
                (filterStates.antihypertensiveMedsFilter.value[0].length > 0
-                  && (aceiArb || caChannel || thiazides || betaBlockers || others) 
+                  && (aceiArb || caChannel || thiazides || betaBlockers || others || noAceiArb) 
                   && filterStates.antihypertensiveMedsFilter.value[1].length === 0) ||
 
             // Value selected in second group ONLY
@@ -171,7 +174,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 
             //Values from both groups are selected
                (filterStates.antihypertensiveMedsFilter.value[0].length > 0
-                  && (aceiArb || caChannel || thiazides || betaBlockers || others) ||
+                  && (aceiArb || caChannel || thiazides || betaBlockers || others || noAceiArb) ||
                   filterStates.antihypertensiveMedsFilter.value[1].length > 0 
                   && (equalToZero || equalToOne || gteTwo)
                )
