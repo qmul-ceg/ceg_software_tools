@@ -140,8 +140,8 @@ const FilterSection = () => {
 
    
    useEffect(()=>{
-      // console.log(selectedQuickFilter)
-   }, [selectedQuickFilter])
+      console.log(filterStates)
+   }, [filterStates])
 
 
 
@@ -432,31 +432,31 @@ const FilterSection = () => {
                                                 <ul className={`${groupIndex !== groupArray.length -1 ? " border-b-2" : ""} py-1`}>
                                                    {inner.groupOptions.map((option) => 
                                                       {
-                                                         if(option.value !== "no_acei/arb"){
+                                                         if (option.value !== "no_acei/arb"){
                                                             return  (
-                                                                  <li >
-                                                                     <label>
-                                                                        <input 
-                                                                           type = "checkbox"
-                                                                           className = "cursor-pointer mr-2 "
-                                                                           value = {option.value}
-                                                                           checked = {
-                                                                              value.kind === "grouped" && (filterStates[value.id].value[groupIndex].includes(option.value))
-                                                                           }
-                                                                           onChange = {()=>handleFilterSelection(
-                                                                              {
-                                                                                 selectedFilterName : value.id,
-                                                                                 selectedValue : option.value,
-                                                                                 selectedFilterKind : value.kind,
-                                                                                 selectedIndex : groupIndex
+                                                                     <li >
+                                                                        <label>
+                                                                           <input 
+                                                                              type = "checkbox"
+                                                                              className = "cursor-pointer mr-2 "
+                                                                              value = {option.value}
+                                                                              checked = {
+                                                                                 value.kind === "grouped" && (filterStates[value.id].value[groupIndex].includes(option.value))
                                                                               }
-                                                                           )}
-                                                                        />
-                                                                        {option.label}
-                                                                     </label>
-                                                                  </li>
-                                                               )
-                                                            }
+                                                                              onChange = {()=>handleFilterSelection(
+                                                                                 {
+                                                                                    selectedFilterName : value.id,
+                                                                                    selectedValue : option.value,
+                                                                                    selectedFilterKind : value.kind,
+                                                                                    selectedIndex : groupIndex
+                                                                                 }
+                                                                              )}
+                                                                           />
+                                                                           {option.label}
+                                                                        </label>
+                                                                     </li>
+                                                                  )
+                                                         }
                                                       }
                                                    
                                                 

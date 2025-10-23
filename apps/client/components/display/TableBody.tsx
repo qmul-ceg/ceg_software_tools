@@ -5,6 +5,7 @@ import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 // import { SystmOneTableConfig } from './TableHeader'
 import { ColumnGroup } from './TableHeader'
 import { table } from 'console'
+import { report } from 'process'
 
 
 
@@ -13,7 +14,7 @@ import { table } from 'console'
 
 const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.SetStateAction<boolean>>}) => {
 
-   const { tableData, filterStates, setPatientCount, patientCount, filteredData, setFilteredData, selectedPatientRow, setSelectedPatientRow, setSelectedPatientIndex, selectedPatientIndex, reportKeys, tableConfig, selectedForExport, setSelectedForExport} = useDisplay()
+   const { tableData, filterStates, setPatientCount, patientCount, filteredData, setFilteredData, selectedPatientRow, setSelectedPatientRow, setSelectedPatientIndex, selectedPatientIndex, reportKeys, tableConfig, selectedForExport, setSelectedForExport, relativeRunDate} = useDisplay()
 
    const handlePatientClick = (index:number) => {
       setSelectedPatientIndex(index)
@@ -44,8 +45,37 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
    useEffect(()=> {
       const filterConfig = tableData?.filter((row) => {
 
+         //Relative run date and blood pressure
+
+         const convertDate = (dateString : string) => {
+            if (dateString){
+               const [day, month, year] = dateString.split('-');
+               const months = { "Jan": "01", "Feb": "02", "Mar": "03", "Apr": "04", "May": "05", "Jun": "06", "Jul": "07", "Aug": "08", "Sep": "09", "Oct": "10", "Nov": "11", "Dec": "12" };
+               console.log(`${year}-${months[month]}-${day}`)
+               return `${year}-${months[month]}-${day}`; 
+            }
+            else return ""
+         }
+
+
+         const recordedOverTwelveMonths = (recordedDate: string, relativeRunDate: string):boolean => {
+            if(!recordedDate){
+               // console.log(recordedDate, relativeRunDate)
+               return false
+            }
+            
+            //Function returns a boolean value that let's us know if a specific data was recorded 12 months prior to relative run date
+            const parsedRecordedDate = new Date(recordedDate)
+            const parsedRelativeRunDate = new Date(relativeRunDate)
+            
+            const cutOffDate = new Date (parsedRelativeRunDate.setFullYear(parsedRelativeRunDate.getFullYear() - 1))
+            // console.log(cutOffDate, relativeRunDate)
+            return parsedRecordedDate <= cutOffDate
+         }
+
+
          const ageIndex = parseInt(row[reportKeys.Age]);
-         const houseboundIndex = row[reportKeys.Housebound_Code_Term];
+         const houseboundIndex = row[reportKeys?.HouseB_CareH_Code_Term].trim();
          const smiIndex = row[reportKeys.SMI_Code_Term].trim();
          const learningDisabilityIndex = row[reportKeys.Learning_Difficulties_Code_Term].trim();
          const dementiaIndex = row[reportKeys.Dementia_Code_Term].trim();
@@ -102,9 +132,10 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 
 
          const filterByHousebound = 
+         // console.log(houseboundIndex)
             filterStates.houseboundCarehomeFilter.value.length === 0 ||
-            filterStates.houseboundCarehomeFilter.value  === "Housebound"  && houseboundIndex === "13CA." ||
-            filterStates.houseboundCarehomeFilter.value  === "Carehome"  && houseboundIndex === "13CA." ;
+            (filterStates.houseboundCarehomeFilter.value as string[]).includes("housebound")  && houseboundIndex === "Housebound" ||
+            (filterStates.houseboundCarehomeFilter.value as string[]).includes("carehome")  && (houseboundIndex && houseboundIndex !== "Housebound") ;
 
          const vulnerabilitiesFilter = 
             (filterStates.vulnerabilitiesFilter.value as string[]).includes("smi") && smiIndex ||
@@ -156,27 +187,51 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
          const applyAntihypertensiveMedsFilter = () => {
             const { aceiArb, caChannel, thiazides, betaBlockers, others, noAceiArb} = antihypertensiveMedsFilterGroupOne();
             const { equalToZero, equalToOne, gteTwo } = antihypertensiveMedsFilterGroupTwo();
+            const getMaxToleratedDose = filterStates.antihypertensiveMedsFilter.value[2].includes("dose") && (row[reportKeys.AntiHT_Max_Tol_Dose_Date])
+            
+            const getAntihypertensiveDeclined = filterStates.antihypertensiveMedsFilter.value[3].includes("declined") && (row[reportKeys.AntiHT_Decline_Date] && !recordedOverTwelveMonths(convertDate(row[reportKeys.AntiHT_Decline_Date]), convertDate(relativeRunDate)))
 
             const antiHypertensiveMedsFilterCombinations = 
             //When nothing is selected
-               (filterStates.antihypertensiveMedsFilter.value[0].length === 0 && filterStates.antihypertensiveMedsFilter.value[1].length === 0 ) ||
+               (  filterStates.antihypertensiveMedsFilter.value[0].length === 0 
+                  && filterStates.antihypertensiveMedsFilter.value[1].length === 0  
+                  && filterStates.antihypertensiveMedsFilter.value[2].length === 0  
+                  && filterStates.antihypertensiveMedsFilter.value[3].length === 0 ) ||
 
             //Value selected in first group ONLY
                (filterStates.antihypertensiveMedsFilter.value[0].length > 0
                   && (aceiArb || caChannel || thiazides || betaBlockers || others || noAceiArb) 
-                  && filterStates.antihypertensiveMedsFilter.value[1].length === 0) ||
+                  && filterStates.antihypertensiveMedsFilter.value[1].length === 0 
+                  && filterStates.antihypertensiveMedsFilter.value[2].length === 0  
+                  && filterStates.antihypertensiveMedsFilter.value[3].length === 0 )||
 
             // Value selected in second group ONLY
                (filterStates.antihypertensiveMedsFilter.value[1].length > 0 
                   && (equalToZero || equalToOne || gteTwo)
                   && filterStates.antihypertensiveMedsFilter.value[0].length === 0
+                  && filterStates.antihypertensiveMedsFilter.value[2].length === 0  
+                  && filterStates.antihypertensiveMedsFilter.value[3].length === 0 
+               ) ||
+
+            // Value selected from third group only 
+               (  filterStates.antihypertensiveMedsFilter.value[0].length === 0 
+                  && filterStates.antihypertensiveMedsFilter.value[1].length === 0  
+                  && filterStates.antihypertensiveMedsFilter.value[2].length > 0 && getMaxToleratedDose  
+                  && filterStates.antihypertensiveMedsFilter.value[3].length === 0 ) ||
+
+            //Value from fourth group only
+               (  filterStates.antihypertensiveMedsFilter.value[1].length === 0 
+                  && filterStates.antihypertensiveMedsFilter.value[0].length === 0
+                  && filterStates.antihypertensiveMedsFilter.value[3].length >  0 && getAntihypertensiveDeclined 
                ) ||
 
             //Values from both groups are selected
-               (filterStates.antihypertensiveMedsFilter.value[0].length > 0
+               (  filterStates.antihypertensiveMedsFilter.value[0].length > 0
                   && (aceiArb || caChannel || thiazides || betaBlockers || others || noAceiArb) ||
                   filterStates.antihypertensiveMedsFilter.value[1].length > 0 
-                  && (equalToZero || equalToOne || gteTwo)
+                  && (equalToZero || equalToOne || gteTwo) ||
+                  filterStates.antihypertensiveMedsFilter.value[3].length > 0 
+                  && (getAntihypertensiveDeclined)
                )
             return antiHypertensiveMedsFilterCombinations
          }
@@ -195,6 +250,8 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
          const onInclisiran = filterStates.lipidMedicationsFilter.value[1].includes("onInclisiran") && row[reportKeys.Inclisiran] === "YES"
          const statinExclusions = filterStates.lipidMedicationsFilter.value[3].includes("statinExclusions") 
          && (row[reportKeys.Statin_Exclusion] === "Contra" || row[reportKeys.Statin_Exclusion] === "Declined")
+
+         const statinMaxToleratedDose = filterStates.lipidMedicationsFilter.value[2].includes("dose") && (row[reportKeys.Statin_Max_Tol_Dose_Date])
 
 
          const applyLipidMedicationsFilter = () => {
@@ -226,6 +283,14 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
                   && (filterStates.lipidMedicationsFilter.value[3].length === 0 )  
                )  ||
 
+               //Value selected in thrid group only (max tolerated dose)
+               (  
+                  filterStates.lipidMedicationsFilter.value[0].length === 0  
+                  && filterStates.lipidMedicationsFilter.value[1].length === 0  
+                  && filterStates.lipidMedicationsFilter.value[2].length > 0 && (statinMaxToleratedDose)   
+                  && filterStates.lipidMedicationsFilter.value[3].length === 0  
+               )  ||
+
                //Value selected in fourth group ONLY (statin exclusions)
                (
                   filterStates.lipidMedicationsFilter.value[0].length === 0 
@@ -239,6 +304,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
                (
                   (filterStates.lipidMedicationsFilter.value[0].length > 0 && (highStatinIntensity || mediumLowStatinIntensity || notOnStatin)) ||
                   (filterStates.lipidMedicationsFilter.value[1].length > 0 && onInclisiran) ||
+                  filterStates.lipidMedicationsFilter.value[2].length > 0 && (statinMaxToleratedDose) ||
                   (filterStates.lipidMedicationsFilter.value[3].length > 0 && statinExclusions)  
                )
                
@@ -258,35 +324,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
          }
 
 
-         //Relative run date and blood pressure
-
-         const convertDate = (dateString : string) => {
-            if (dateString){
-               const [day, month, year] = dateString.split('-');
-               const months = { "Jan": "01", "Feb": "02", "Mar": "03", "Apr": "04", "May": "05", "Jun": "06", "Jul": "07", "Aug": "08", "Sep": "09", "Oct": "10", "Nov": "11", "Dec": "12" };
-               return `20${year}-${months[month]}-${day}`; 
-            }
-            else return ""
-         }
-
-
-         const recordedOverTwelveMonths = (recordedDate: string, relativeRunDate: string):boolean => {
-            if(!recordedDate){
-               // console.log(recordedDate, relativeRunDate)
-               return false
-            }
-            
-            //Function returns a boolean value that let's us know if a specific data was recorded 12 months prior to relative run date
-            const parsedRecordedDate = new Date(recordedDate)
-            const parsedRelativeRunDate = new Date(relativeRunDate)
-            
-            const cutOffDate = new Date (parsedRelativeRunDate.setFullYear(parsedRelativeRunDate.getFullYear() - 1))
-            
-            return parsedRecordedDate <= cutOffDate
-            
-           
-         }
-
+         
          const bloodPressureFilterGroupOne = () => {
             const [systolic , diastolic ] = splitBloodPressureValue(row[reportKeys.BloodPressure]);
        
@@ -300,7 +338,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 
          const applyBloodPressureFilter = () => {
             const { lowerBound, midBound, upperBound } = bloodPressureFilterGroupOne();
-            const recordedDateResult = recordedOverTwelveMonths(convertDate(row[reportKeys.Systolic_BP_Date_1]), convertDate("07-Aug-25"))
+            const recordedDateResult = recordedOverTwelveMonths(convertDate(row[reportKeys.Systolic_BP_Date_1]), convertDate(relativeRunDate))
             const overTwelveMonths = filterStates.bloodPressureFilter.value[1].includes("<12m") && recordedDateResult
             const financialYearCheck = checkFinancialYear(convertDate(row[reportKeys.Systolic_BP_Date_1]))
             const notInFinancialYear = filterStates.bloodPressureFilter.value[1].includes("notInFinancialYear") && financialYearCheck

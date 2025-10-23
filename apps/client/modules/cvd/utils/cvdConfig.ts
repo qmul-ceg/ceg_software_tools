@@ -165,7 +165,7 @@ export const cvdConfig = {
             },
             groupThree : {
                groupName: "",
-               groupOptions : [ {  value : "maxTolerated", label : "Max tolerated dose" } ]
+               groupOptions : [ {  value : "dose", label : "Max tolerated dose" } ]
             },
             
             groupFour : {
