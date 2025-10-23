@@ -42,7 +42,6 @@ const DisplayScreen = () => {
       <div className = "flex flex-col  h-screen w-full overflow-hidden">
          <div className="mt-2">
             <HeaderSection />
-
          </div>
          
          <div className = "mt-4">
@@ -60,9 +59,6 @@ const DisplayScreen = () => {
             <div className="overflow-y-auto scroll-mt-20" ref={bodyRef}>
                <TableBody setIsModalOpen={setIsModalOpen}/>
             </div>
-            
-            
-       
          </div>
 
          <div className="  mt-auto">
@@ -84,4 +80,3 @@ const DisplayScreen = () => {
 }
 
 export default DisplayScreen
-     {/* <TableSection setIsModalOpen={setIsModalOpen}/> */}

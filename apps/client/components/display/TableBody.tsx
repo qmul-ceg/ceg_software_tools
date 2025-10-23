@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 // import { SystmOneTableConfig } from './TableHeader'
 import { ColumnGroup } from './TableHeader'
+import { table } from 'console'
 
 
 
@@ -12,18 +13,36 @@ import { ColumnGroup } from './TableHeader'
 
 const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.SetStateAction<boolean>>}) => {
 
-   const { tableData, filterStates, setPatientCount, patientCount, filteredData, setFilteredData, selectedPatientRow, setSelectedPatientRow, setSelectedPatientIndex, selectedPatientIndex, reportKeys, tableConfig} = useDisplay()
+   const { tableData, filterStates, setPatientCount, patientCount, filteredData, setFilteredData, selectedPatientRow, setSelectedPatientRow, setSelectedPatientIndex, selectedPatientIndex, reportKeys, tableConfig, selectedForExport, setSelectedForExport} = useDisplay()
 
    const handlePatientClick = (index:number) => {
       setSelectedPatientIndex(index)
       setIsModalOpen(true)
    }
+   // console.log(tableData)
 
+   const toggleSelectedPatient = (patientId: string) => {
+      setSelectedForExport((prev)=> {
+         const exists = patientId in prev; //Checks if our patientId is a key of 
+
+         if (exists){
+            const updated = {...prev};
+            delete updated[patientId];
+            return updated;
+         }
+         else {
+            return {
+               ...prev,
+               [patientId] : true
+            }
+         }
+      })
+      //check if the selected patient id is present in the  
+      //if it is set
+   }
 
    useEffect(()=> {
       const filterConfig = tableData?.filter((row) => {
-        
-
 
          const ageIndex = parseInt(row[reportKeys.Age]);
          const houseboundIndex = row[reportKeys.Housebound_Code_Term];
@@ -445,7 +464,7 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
                                  return (
                                           data.id === "select"
                                           ?  <td className= " border-b text-center">
-                                                <input type = "checkbox" />
+                                                <input type = "checkbox" onChange = {()=>toggleSelectedPatient(row[reportKeys?.Full_Name])} checked = {row[reportKeys?.Full_Name] in selectedForExport}/>
                                              </td>
                                           :  <td 
                                                 className ={`w-[${data.width}]  border-gray-150 border-b border-l px-2 py-1 text-sm text-${data.align} ${data.id === reportKeys.Full_Name ? "cursor-pointer text-[#21376A]": undefined}`}
@@ -471,6 +490,20 @@ const TableBody = ({setIsModalOpen} : {setIsModalOpen : React.Dispatch<React.Set
 }
 
 export default TableBody
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

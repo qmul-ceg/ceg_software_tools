@@ -7,7 +7,7 @@ import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 
 
 export function ColumnGroup (){
-   const { tableHeader, tableConfig } = useDisplay()
+   const { tableHeader, tableConfig,  } = useDisplay()
    //Function allows us to create a column group element that we use to align our table header and table body
    return (
       <colgroup>
@@ -24,8 +24,28 @@ export function ColumnGroup (){
 
 // { paddingValue } : { paddingValue : number }
 const TableHeader = () => {
-   const { tableConfig } = useDisplay()
+   const { tableConfig, masterCheckbox, setMasterCheckbox, filteredData, selectedForExport, setSelectedForExport, reportKeys} = useDisplay()
   
+
+
+      const handleMasterCheckBox = () => {
+         setMasterCheckbox ((prev) => {
+            const newMasterCheckboxState = !prev;
+   
+            if (newMasterCheckboxState){
+               const patientsSelectedForExport = {}
+   
+               filteredData.forEach((patient) => {
+                  patientsSelectedForExport[patient[reportKeys?.Full_Name]] = true
+               })
+               setSelectedForExport(patientsSelectedForExport)
+            }else{
+               setSelectedForExport({})
+            }
+            return newMasterCheckboxState;
+         })
+      }
+      
    return (
       <div 
          className={` border-b-6 border-[#21376A] rounded-t-lg pr-[11px]`}
@@ -42,7 +62,7 @@ const TableHeader = () => {
                      {  
                         tableConfig?.map((item, index)=> (
                            item.id == "select" 
-                           ?  <th className= "border-r-1 border-[#21376A]"><input type = "checkbox" /> </th>
+                           ?  <th className= "border-r-1 border-[#21376A]"><input type = "checkbox" checked = {masterCheckbox} onChange={handleMasterCheckBox} /> </th>
                            :  <th key = {index} className={` text-sm  px-2 py-1 ${item.header !== "Medication review latest date" ? "border-r-1 " : "" }  top-0   border-[#21376A]`}>
                                  {item.header}
                               </th>

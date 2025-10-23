@@ -22,7 +22,6 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
                let result_array = result.data
                let patient_data_starting_index: number = 0
 
-               // console.log(result.data[3])
             
                let startingPatientIndex: number = 0;
                //Get the first header row of patients

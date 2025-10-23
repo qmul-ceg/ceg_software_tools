@@ -116,6 +116,12 @@ type Data = {
 
    relativeRunDate : string;
    setRelativeRunDate : React.Dispatch<React.SetStateAction<string>>
+
+   selectedForExport : Record<string, boolean>
+   setSelectedForExport : React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+
+   masterCheckbox : boolean;
+   setMasterCheckbox : React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
@@ -146,6 +152,8 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    const [reportKeys, setReportKeys] = useState<IndexMap | null>(null)
    const [tableConfig, setTableConfig] = useState<tableConfig | null>(null)
    const [relativeRunDate, setRelativeRunDate] = useState<string>("")
+   const [selectedForExport, setSelectedForExport] = useState<Record<string, boolean>>({})
+   const [masterCheckbox, setMasterCheckbox] = useState<boolean>(false)
 
 
 
@@ -156,11 +164,14 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
 
 
 
+   //Check box functionality
+
+   // console.log(filteredData)
 
 
 
    useEffect(() => {
-      if (importedData){
+      // if (importedData){
          // console.log(importedData)
          if (importedData){
             if (importedData.data && importedData.config && importedData.data?.masterReport){
@@ -176,15 +187,41 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
                setRelativeRunDate(importedData.data.reportRunDate ?? "")
                setTest(true) //Testing to allow us to move to display screen 
             }
-            
          }
-      }  
+      // }  
    }, [importedData])
+
+
+
+   useEffect(()=> {
+      let patientsSelectedForExport = {}
+
+      const updateSelectedForExport = () => {
+         filteredData.forEach((patientRow) => {
+            patientsSelectedForExport[patientRow[reportKeys?.Full_Name]] = true
+         })
+         setSelectedForExport(patientsSelectedForExport)
+      }
+
+      updateSelectedForExport()
+   }, [filteredData])
+
+
+   useEffect(() => {
+      if (filteredData.length === Object.keys(selectedForExport).length){
+         setMasterCheckbox(true)
+      }
+      else setMasterCheckbox(false)
+   }, [selectedForExport, filteredData])
+
+   useEffect(() => {
+      console.log(selectedForExport)
+   }, [selectedForExport])
 
 
    return (
       <DisplayContext.Provider value = {{ toolName, setToolName, quickFilters, setQuickFilters, summaryTable, setSummaryTable, tableHeader, setTableHeader, filterItems, setFilterItems,
-            setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates, importedData,  setImportedData, test, setTest, patientCount, setPatientCount, filteredData, setFilteredData, selectedPatientRow, setSelectedPatientRow, setSelectedPatientIndex, selectedPatientIndex, reportKeys, setReportKeys, tableConfig, setTableConfig, relativeRunDate, setRelativeRunDate }}>
+            setTableData, tableData, age, setAge, selectedFilter, setSelectedFilter, filterStates, setFilterStates, importedData,  setImportedData, test, setTest, patientCount, setPatientCount, filteredData, setFilteredData, selectedPatientRow, setSelectedPatientRow, setSelectedPatientIndex, selectedPatientIndex, reportKeys, setReportKeys, tableConfig, setTableConfig, relativeRunDate, setRelativeRunDate, selectedForExport, setSelectedForExport, masterCheckbox, setMasterCheckbox,  }}>
          {children}
 
       </DisplayContext.Provider>
