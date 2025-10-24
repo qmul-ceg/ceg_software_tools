@@ -1,6 +1,17 @@
 import { useDisplay } from '@/context/DispayContext'
 import React, { useState } from 'react'
-import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
+// import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
+import { GrClose } from "react-icons/gr";
+import { TfiArrowRight } from "react-icons/tfi";
+import { TfiArrowLeft } from "react-icons/tfi";
+import TableBody from './TableBody';
+import { StatinExclusion } from '@/modules/cvd/utils/cvdStatinIntensity';
+
+
+
+
+
+
 type ChildProps = {
    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -26,52 +37,136 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
 
 
 
-   // console.log(selectedPatientIndex)
+
+   const cvdModalConfig = {
+      medicationTable : {
+         tableData : [
+            {  medication : "ACEi/ARB (6m)", medicationName : reportKeys?.ACEi_ARB_Name_Dosage_Quantity, dateRecorded :  reportKeys?.ACEi_ARB_Issue_Date  },
+            {  medication : "Beta-blocker (6m)", medicationName : reportKeys?.Beta_Blocker_Name_Dosage_Quantity, dateRecorded :  reportKeys?.Beta_Blocker_Issue_Date },
+            {  medication : "Calcium Channel Blockers (CCB)(6m)", medicationName : reportKeys?.Ca_Channel_Name_Dosage_Quantity, dateRecorded : reportKeys?.Beta_Blocker_Issue_Date },
+            {  medication : "Thiazide(-like) diuretic (6m)	", medicationName : reportKeys?.Thiazides_Name_Dosage_Quantity, dateRecorded : reportKeys?.Thiazides_Issue_Date },
+            {  medication: "Other (e.g. centrally-acting, loop diuretic)(6m)", medicationName: reportKeys?.Other_Diuretic_Name_Dosage_Quantity, dateRecorded : reportKeys?.Other_Diuretic_Name_Issue_Date },
+         ],
+      },
+
+      lipidsMedicationTable : {
+         tableData : [
+            {  lipidsMedication: "Statin any/high intensity (6m)", medicationName : reportKeys?.Statin_Name_Dosage_Quantity, dateRecorded : reportKeys?.Statin_Issue_Date },
+            {  lipidsMedication: "Ezetimbe (6m)", medicationName : reportKeys?.Ezetimbe_Issue_Date, dateRecorded : reportKeys?.Ezetimbe_Issue_Date },
+            {  lipidsMedication: "Bempedoic (6m)", medicationName : reportKeys?.Bempedoic_Acid_Name_Dosage_Quantity, dateRecorded : reportKeys?.Bempedoic_Acid_Name_Issue_Date },
+            {  lipidsMedication: "PCSK9 (incl. Inclisiran) (6m)", medicationName : reportKeys?.PCSK9_Name_Dosage_Quantity, dateRecorded : reportKeys?.PCSK9_Issue_Date },
+         ],
+      },
+
+      statinExclusion : {
+         tableData : [
+            {  statinExclusion : "Contraindicated (latest ever)", description : reportKeys?.Statin_Contra_Code_Term, dateRecorded : reportKeys?.Statin_Contra_Date   },
+            {  StatinExclusion : "Patient declined (latest ever)", description : reportKeys?.Statin_Decline_Code_Term, dateRecorded : reportKeys?.Statin_Decline_Date},
+         ],
+      },
+
+      adverseMeds : {
+         tableData : [
+            { adverseMeds : "NSAIDs (excl. aspirin) (6m)", description : reportKeys?.NSAID_Name_Dosage_Quantity, dateRecorded : reportKeys?.NSAID_Issue_Date },
+         ]
+      },
+
+      clinicalData : {
+         tableData : [
+            { clinicalData : "Total cholestrol (latest ever)", value : reportKeys?.Total_Cholestrol_Value, dateRecorded : reportKeys?.Total_Cholestrol_Date},
+            { clinicalData : "HDL cholestrol (latest ever)", value : reportKeys?.HDL_Cholestrol_Value, dateRecorded : reportKeys?.HDL_Cholestrol_Date},
+            { clinicalData : "LDL cholestrol (latest ever)", value : reportKeys?.LDL_Cholestrol_Value, dateRecorded : reportKeys?.LDL_Cholestrol_Date},
+            { clinicalData : "non-HDL cholestrol (latest ever)", value : reportKeys?.Non_HDL_Cholestrol_Value, dateRecorded : reportKeys?.Non_HDL_Cholestrol_Date},
+            { clinicalData : "Ratio total cholestrol/HDL (latest ever)", value : "", dateRecorded: "" }, //CHECK WITH ZAHEER
+            { clinicalData : "Triglycerides (latest ever)", value : reportKeys?.Triglyceride_Value, dateRecorded : reportKeys?.Triglyceride_Date},
+            { clinicalData : "eGFR (latest ever)", value : reportKeys?.EGFR_Value, dateRecorded : reportKeys?.EGFR_Date},
+            { clinicalData : "Serum creatinine (latest ever)", value : reportKeys?.Serum_Creatinine_Value, dateRecorded : reportKeys?.Serum_Creatinine_Date},
+            { clinicalData : "Urine ACR (latest ever)", value : reportKeys?.ACR_Value, dateRecorded : reportKeys?.ACR_Date},
+            { clinicalData : "Serum ALT or AST (latest ever)", value : reportKeys?.ALT_Value, dateRecorded : reportKeys?.ALT_Date},
+            { clinicalData : "Pulse check (latest ever)", value : "", dateRecorded :""}, //CHECK WITH ZAHEER
+         ]
+      },
+
+      cvdComorbidities : {
+         tableData : [
+            {  cvdComorbidities: "CVD (IHD/Strike/TIA/PAD)", description : reportKeys?.CVD, dateRecorded : ""},
+            {  cvdComorbidities: "Hypertension", description : reportKeys?.Hypertension_Code_Term, dateRecorded : ""},
+            {  cvdComorbidities: "Heart Failure", description : reportKeys?.Heart_Failure_Code_Term, dateRecorded : ""},
+            {  cvdComorbidities: "Diabetes (T1/T2)", description : reportKeys?.Diabetes_Code_Term, dateRecorded : ""},
+            {  cvdComorbidities: "AF", description : reportKeys?.AF_Code_Term, dateRecorded : ""}, //CHECK WITH ZAHEER
+            {  cvdComorbidities: "CKD 3-5", description : reportKeys?.CKD_Code_Term, dateRecorded : ""}, //CHECK WITH ZAHEER
+            {  cvdComorbidities: "Rheumatoid Arthritis or Lupus", description : reportKeys?.RA_SLE_Code_Term, dateRecorded : ""}, //CHECK WITH ZAHEER
+         ]
+      },
+
+      vulnerabilites : {
+         tableData : [
+            {  vulnerabilities: "SMI", description : reportKeys?.SMI_Code_Term, dateRecorded : ""},
+            {  vulnerabilities: "Frailty score", description : reportKeys?.Frailty_Score_Code_Term, dateRecorded : reportKeys?.Frailty_Score_Date},
+            {  vulnerabilities: "Housebound", description : reportKeys?.HouseB_CareH_Code_Term, dateRecorded : ""},
+            {  vulnerabilities: "Learning disability", description : reportKeys?.Learning_Difficulties_Code_Term, dateRecorded : ""},
+            {  vulnerabilities: "Palliative care", description : reportKeys?.Palliative_Care_Code_Term, dateRecorded : ""},
+            {  vulnerabilities: "Dementia", description : reportKeys?.Dementia_Code_Term, dateRecorded : ""},
+            {  vulnerabilities: "Cancer", description : reportKeys?.Cancer_Code_Term, dateRecorded : ""},
+         ]
+      },
+      socialFactors : {
+         tableData : [
+            { socialFactors: "Alcohol consumption (latest ever)", description: reportKeys?.Alcohol_Value, dateRecorded: reportKeys?.Alcohol_Date},
+            { socialFactors: "Smoking (latest ever)", description: reportKeys?.Smoking_Code_Term, dateRecorded: ""}, //CHECK WITH ZAHEER
+         ]
+      }
+
+
+
+ 
+
+      
+
+   }
 
    return (
       <>
-         <div className="overlay">
-            <div className="overlayBackground">
-               <div className="overlayContainer ">
-                  <div className="flex justify-between items-center  w-full h-12 px-4 rounded-t-lg bg-[#21376A] text-white">
+      {/* <div className="overlay "> */}
+            <div className=" cursor-pointer fixed top-0 left-0 w-full h-full bg-black/90 z-40" onClick={()=> setIsModalOpen(false)}>
+            </div>
+
+            <div className=" z-100 bg-white fixed  rounded-t-xl top-30 left-1/2 tranform -translate-x-1/2 w-[50%]  max-w-[1000px] ">
+                  
+                  
+                  {/* HEADER */}
+                  <div className="flex justify-between items-center  w-full h-12 px-4 rounded-t-lg bg-[#21376A] text-white ">
                      <strong>Patient information</strong>
-                     <button className = "cursor-pointer"onClick={()=>setIsModalOpen(false)}>
-                        &#10005;
-                     </button>
+                     <GrClose className= "cursor-pointer "  onClick={()=>setIsModalOpen(false)}/>
                   </div>
 
                   {/* GET PREVIOUS AND NEXT PATIENT */}
-                  <div className='border flex justify-center gap-6 p-2'>
-                     {/* <button className=" " onClick={handlePreviousPatient}> */}
-                     <button className="cursor-pointer border">
-                        <div className="flex flex-col text-sm hover:font-medium">
-                           <button onClick={()=>handleNextPatient("previous")}>Previous patient</button>
-                           <span className="">&larr;</span>
-                        </div>
+                  <div className=' bg-white flex justify-center gap-6 p-2 '>
+                     <button className="cursor-pointer  flex flex-col  hover:font-medium">
+                        <span onClick={()=>handleNextPatient("previous")}>Previous patient</span>
+                        <TfiArrowLeft className=" m-auto text-gray-500"/>
                      </button>
-                     {/* <button className=" " onClick={handleNextPatient}> */}
-                     <button className="cursor-pointer border">
-                        <div className="flex flex-col text-sm hover:font-medium">
-                           <span onClick={()=>handleNextPatient("next")}>Next patient</span>
-                           <span className="">&rarr;</span>
-                        </div>  
+                   
+                     <button className="cursor-pointer  flex flex-col  hover:font-medium"> 
+                        <span onClick={()=>handleNextPatient("next")}>Next patient</span>
+                        <TfiArrowRight className=" m-auto text-gray-500" />
                      </button>
                   </div>
 
 
 
                   {/* PATIENT DEMOGRAPHIC DATA*/}
-                  <div className='border text-xs px-2 flex '>
+                  <div className=' text-xs px-2 flex bg-white py-4'>
                      {/* TABLE 1 */}
-                     <div className="border w-[50%]">
+                     <div className=" w-[50%]">
                         <div className="flex flex-col gap-2   text-left">
                            <div className="flex ">
                               <h2 className=" w-[30%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Full name</h2>
-                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][SystmOneReportKeys.Full_Name]}</div>
+                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][reportKeys.Full_Name]}</div>
                            </div>
                            <div className="flex">
                               <h2 className=" w-[30%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Date of birth</h2>
-                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][SystmOneReportKeys.Date_Of_Birth]}</div>
+                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][reportKeys.Date_Of_Birth]}</div>
                            </div>
                            <div className="flex">
                               <h2 className=" w-[30%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">NHS number</h2>
@@ -79,7 +174,7 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                            </div>
                            <div className="flex h-14">
                               <h2 className=" w-[30%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Ethnicity</h2>
-                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1 ">{filteredData[selectedPatientIndex][SystmOneReportKeys.Ethnicity]}</div>
+                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1 ">{filteredData[selectedPatientIndex][reportKeys.Ethnicity]}</div>
                            </div>
                         </div>
                      </div>
@@ -87,7 +182,7 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
 
 
                      {/* TABLE 2 */}
-                     <div className="border w-[50%]">
+                     <div className=" w-[50%]">
                         <div className="flex flex-col gap-2  text-left">
                            <div className="flex">
                               <h2 className="w-[36%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg whitespace-nowrap">Patient record #</h2>
@@ -95,15 +190,15 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                            </div>
                            <div className="flex">
                               <h2 className="w-[36%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Gender</h2>
-                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][SystmOneReportKeys.Gender]}</div>
+                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][reportKeys.Gender]}</div>
                            </div>
                            <div className="flex">
                               <h2 className="w-[36%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Age</h2>
-                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][SystmOneReportKeys.Age]}</div>
+                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][reportKeys.Age]}</div>
                            </div>
                            <div className="flex h-6">
                               <h2 className="w-[36%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Mobile telephone</h2>
-                              <div className="border border-gray-400 w-[65%]  rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][SystmOneReportKeys.Mobile_Number]}</div>
+                              <div className="border border-gray-400 w-[65%]  rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][reportKeys.Mobile_Number]}</div>
                            </div>
                            <div className="text-left text-sm ml-1">
                               <label className=" inline-flex gap-2 items-center cursor-pointer font-bold" htmlFor="modalCheckBox">
@@ -124,7 +219,7 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                   </div>
 
                   {/* TABLES */}
-                  <div className=" h-[36em] px-2 text-sm mt-4 border overflow-auto">
+                  <div className="  my-4 py-4 px-2 text-sm max-h-[50vh] border overflow-auto bg-white">
                      {/* BLOOD PRESSURE CHART TABLE */}
                      <table className=' w-full'>
                         <thead>
@@ -147,7 +242,7 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
 
 
                      {/* MEDICATIONS TABLE */}
-                     <table className='w-full text-left mt-4'>
+                     <table className='w-full text-left mt-4 pt-4'>
                         <thead className='border '>
                            <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
                               <th className='w-[45%] '>Medication</th>
@@ -157,34 +252,34 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                         </thead>
                         <tbody>
                            <tr>
-                              <td className='border'>ACEi/ARB (6m)</td>
+                              <td className='border pl-4'>ACEi/ARB (6m)</td>
                               <td></td>
                               <td></td>
                            </tr>
                            <tr>
-                              <td className='border'>Beta-blocker (6m)</td>
+                              <td className='border pl-4'>Beta-blocker (6m)</td>
                               <td></td>
                               <td></td>
 
                            </tr>
                            <tr>
-                              <td className='border'>Calcium Channel Blockers (CCB)(6m)</td>
+                              <td className='border pl-4'>Calcium Channel Blockers (CCB)(6m)</td>
                               <td></td>
                               <td></td>
                            </tr>                           
                            <tr>
-                              <td className='border'>Thiazide(-like) diuretic (6m)</td>
+                              <td className='border pl-4'>Thiazide(-like) diuretic (6m)</td>
                               <td></td>
                               <td></td>
                            </tr>                           
                            <tr>
-                              <td className='border'>Other (e.g. centrally-acting, loop diuretic)(6m)</td>
+                              <td className='border pl-4'>Other (e.g. centrally-acting, loop diuretic)(6m)</td>
                               <td></td>
                               <td></td>
 
                            </tr>                           
                            <tr>
-                              <td className='border'>Antiplatelet</td>
+                              <td className='border pl-4'>Antiplatelet</td>
                               <td></td>
                               <td></td>
 
@@ -444,17 +539,44 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                         </tbody>
                      </table>
                   </div>
-               </div>
             </div>
-         </div>   
-      </> 
+      </>   
+         
    );    
 }
 
 export default Modal
-{/* <div className="overlayBackground" onClick={()=>setIsModalOpen(false)}> */}
-{/* )
-               : null
-         } */}{/* {
-            openModal ?
-               ( */}
+
+
+{/* <button className = "text-sm cursor-pointer" onClick={()=>setIsModalOpen(false)}>
+   &#10005;
+</button> */}
+
+
+
+        // tableHeaders : ["Medication", "Medication name", "Date recorded"],
+         // tableBody :[
+         //    {  description: "ACEi/ARB (6m)", details : reportKeys?.ACEi_ARB_Name_Dosage_Quantity, date : reportKeys?.ACEi_ARB_Issue_Date },
+         //    {  description: "Beta-blocker (6m)", details : reportKeys?.Beta_Blocker_Name_Dosage_Quantity, date : reportKeys?.Beta_Blocker_Issue_Date },
+         //    {  description: "Calcium Channel Blockers (CCB)(6m)", details : reportKeys?.Ca_Channel_Name_Dosage_Quantity, date : reportKeys?.Beta_Blocker_Issue_Date },
+         //    {  description: "Thiazide(-like) diuretic (6m)	", details : reportKeys?.Thiazides_Name_Dosage_Quantity, date : reportKeys?.Thiazides_Issue_Date },
+         //    {  description: "Other (e.g. centrally-acting, loop diuretic)(6m)", details : reportKeys?.Other_Diuretic_Name_Dosage_Quantity, date : reportKeys?.Other_Diuretic_Name_Issue_Date },
+         // ],
+
+
+            
+
+      // lipidsMedicationTable : {
+      //    tableHeaders : ["Lipids medications", "Medication name", "Date recorded"],
+      //    tableBody : [
+      //       {  description: "Statin any/high intensity (6m)", details : reportKeys?.Statin_Name_Dosage_Quantity, date : reportKeys?.Statin_Issue_Date },
+      //       {  description: "Ezetimbe (6m)", details : reportKeys?.Ezetimbe_Issue_Date, date : reportKeys?.Ezetimbe_Issue_Date },
+      //       {  description: "Bempedoic (6m)", details : reportKeys?.Bempedoic_Acid_Name_Dosage_Quantity, date : reportKeys?.Bempedoic_Acid_Name_Issue_Date },
+      //       {  description: "PCSK9 (incl. Inclisiran) (6m)", details : reportKeys?.PCSK9_Name_Dosage_Quantity, date : reportKeys?.PCSK9_Issue_Date },
+      //       {  description: "Other lipid lowering therapy (6m)", details : reportKeys?.Other_Lipid_Lowering_Name_Dosage_Quantity, date : reportKeys?.Other_Lipid_Lowering_Issue_Date },
+      //    ]
+      // },
+
+      // StatinExclusion : {
+
+      // }
