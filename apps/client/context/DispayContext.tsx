@@ -122,6 +122,8 @@ type Data = {
 
    masterCheckbox : boolean;
    setMasterCheckbox : React.Dispatch<React.SetStateAction<boolean>>
+
+   
 }
 
 
@@ -215,7 +217,7 @@ export default function DisplayProvider ({children} : {children : React.ReactNod
    }, [selectedForExport, filteredData])
 
    useEffect(() => {
-      console.log(selectedForExport)
+      // console.log(selectedForExport)
    }, [selectedForExport])
 
 

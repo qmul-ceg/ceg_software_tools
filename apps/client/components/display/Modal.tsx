@@ -40,82 +40,95 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
 
    const cvdModalConfig = {
       medicationTable : {
+         tableHeaders : ["Medication", "Medication name", "Date recorded"],
          tableData : [
-            {  medication : "ACEi/ARB (6m)", medicationName : reportKeys?.ACEi_ARB_Name_Dosage_Quantity, dateRecorded :  reportKeys?.ACEi_ARB_Issue_Date  },
-            {  medication : "Beta-blocker (6m)", medicationName : reportKeys?.Beta_Blocker_Name_Dosage_Quantity, dateRecorded :  reportKeys?.Beta_Blocker_Issue_Date },
-            {  medication : "Calcium Channel Blockers (CCB)(6m)", medicationName : reportKeys?.Ca_Channel_Name_Dosage_Quantity, dateRecorded : reportKeys?.Beta_Blocker_Issue_Date },
-            {  medication : "Thiazide(-like) diuretic (6m)	", medicationName : reportKeys?.Thiazides_Name_Dosage_Quantity, dateRecorded : reportKeys?.Thiazides_Issue_Date },
-            {  medication: "Other (e.g. centrally-acting, loop diuretic)(6m)", medicationName: reportKeys?.Other_Diuretic_Name_Dosage_Quantity, dateRecorded : reportKeys?.Other_Diuretic_Name_Issue_Date },
+            {  info : "ACEi/ARB (6m)", description : reportKeys?.ACEi_ARB_Name_Dosage_Quantity, dateRecorded :  reportKeys?.ACEi_ARB_Issue_Date  },
+            {  info : "Beta-blocker (6m)", description : reportKeys?.Beta_Blocker_Name_Dosage_Quantity, dateRecorded :  reportKeys?.Beta_Blocker_Issue_Date },
+            {  info : "Calcium Channel Blockers (CCB)(6m)", description : reportKeys?.Ca_Channel_Name_Dosage_Quantity, dateRecorded : reportKeys?.Beta_Blocker_Issue_Date },
+            {  info : "Thiazide(-like) diuretic (6m)	", description : reportKeys?.Thiazides_Name_Dosage_Quantity, dateRecorded : reportKeys?.Thiazides_Issue_Date },
+            {  info: "Other (e.g. centrally-acting, loop diuretic)(6m)", description: reportKeys?.Other_Diuretic_Name_Dosage_Quantity, dateRecorded : reportKeys?.Other_Diuretic_Name_Issue_Date },
          ],
       },
 
       lipidsMedicationTable : {
+         tableHeaders : ["Lipids medication", "Medication name", "Date recorded"],
          tableData : [
-            {  lipidsMedication: "Statin any/high intensity (6m)", medicationName : reportKeys?.Statin_Name_Dosage_Quantity, dateRecorded : reportKeys?.Statin_Issue_Date },
-            {  lipidsMedication: "Ezetimbe (6m)", medicationName : reportKeys?.Ezetimbe_Issue_Date, dateRecorded : reportKeys?.Ezetimbe_Issue_Date },
-            {  lipidsMedication: "Bempedoic (6m)", medicationName : reportKeys?.Bempedoic_Acid_Name_Dosage_Quantity, dateRecorded : reportKeys?.Bempedoic_Acid_Name_Issue_Date },
-            {  lipidsMedication: "PCSK9 (incl. Inclisiran) (6m)", medicationName : reportKeys?.PCSK9_Name_Dosage_Quantity, dateRecorded : reportKeys?.PCSK9_Issue_Date },
+            {  info: "Statin any/high intensity (6m)", description : reportKeys?.Statin_Name_Dosage_Quantity, dateRecorded : reportKeys?.Statin_Issue_Date },
+            {  info: "Ezetimbe (6m)", description : reportKeys?.Ezetimbe_Issue_Date, dateRecorded : reportKeys?.Ezetimbe_Issue_Date },
+            {  info: "Bempedoic (6m)", description : reportKeys?.Bempedoic_Acid_Name_Dosage_Quantity, dateRecorded : reportKeys?.Bempedoic_Acid_Name_Issue_Date },
+            {  info: "PCSK9 (incl. Inclisiran) (6m)", description : reportKeys?.PCSK9_Name_Dosage_Quantity, dateRecorded : reportKeys?.PCSK9_Issue_Date },
          ],
       },
 
       statinExclusion : {
+         tableHeaders : ["Statin exclusion", "Description", "Date recorded"],
          tableData : [
-            {  statinExclusion : "Contraindicated (latest ever)", description : reportKeys?.Statin_Contra_Code_Term, dateRecorded : reportKeys?.Statin_Contra_Date   },
-            {  StatinExclusion : "Patient declined (latest ever)", description : reportKeys?.Statin_Decline_Code_Term, dateRecorded : reportKeys?.Statin_Decline_Date},
-         ],
+            {  info : "Contraindicated (latest ever)", description : reportKeys?.Statin_Contra_Code_Term, dateRecorded : reportKeys?.Statin_Contra_Date   },
+            {  info : "Patient declined (latest ever)", description : reportKeys?.Statin_Decline_Code_Term, dateRecorded : reportKeys?.Statin_Decline_Date  },
+         ]
       },
 
       adverseMeds : {
+         tableHeaders : ["AdverseMeds", "Description", "Date recorded"],
          tableData : [
-            { adverseMeds : "NSAIDs (excl. aspirin) (6m)", description : reportKeys?.NSAID_Name_Dosage_Quantity, dateRecorded : reportKeys?.NSAID_Issue_Date },
+            { info : "NSAIDs (excl. aspirin) (6m)", description : reportKeys?.NSAID_Name_Dosage_Quantity, dateRecorded : reportKeys?.NSAID_Issue_Date },
          ]
       },
 
       clinicalData : {
+         tableHeaders : ["Clinical data", "Description", "Date recorded"],
          tableData : [
-            { clinicalData : "Total cholestrol (latest ever)", value : reportKeys?.Total_Cholestrol_Value, dateRecorded : reportKeys?.Total_Cholestrol_Date},
-            { clinicalData : "HDL cholestrol (latest ever)", value : reportKeys?.HDL_Cholestrol_Value, dateRecorded : reportKeys?.HDL_Cholestrol_Date},
-            { clinicalData : "LDL cholestrol (latest ever)", value : reportKeys?.LDL_Cholestrol_Value, dateRecorded : reportKeys?.LDL_Cholestrol_Date},
-            { clinicalData : "non-HDL cholestrol (latest ever)", value : reportKeys?.Non_HDL_Cholestrol_Value, dateRecorded : reportKeys?.Non_HDL_Cholestrol_Date},
-            { clinicalData : "Ratio total cholestrol/HDL (latest ever)", value : "", dateRecorded: "" }, //CHECK WITH ZAHEER
-            { clinicalData : "Triglycerides (latest ever)", value : reportKeys?.Triglyceride_Value, dateRecorded : reportKeys?.Triglyceride_Date},
-            { clinicalData : "eGFR (latest ever)", value : reportKeys?.EGFR_Value, dateRecorded : reportKeys?.EGFR_Date},
-            { clinicalData : "Serum creatinine (latest ever)", value : reportKeys?.Serum_Creatinine_Value, dateRecorded : reportKeys?.Serum_Creatinine_Date},
-            { clinicalData : "Urine ACR (latest ever)", value : reportKeys?.ACR_Value, dateRecorded : reportKeys?.ACR_Date},
-            { clinicalData : "Serum ALT or AST (latest ever)", value : reportKeys?.ALT_Value, dateRecorded : reportKeys?.ALT_Date},
-            { clinicalData : "Pulse check (latest ever)", value : "", dateRecorded :""}, //CHECK WITH ZAHEER
+            { info : "Total cholestrol (latest ever)", value : reportKeys?.Total_Cholestrol_Value, dateRecorded : reportKeys?.Total_Cholestrol_Date},
+            { info : "HDL cholestrol (latest ever)", value : reportKeys?.HDL_Cholestrol_Value, dateRecorded : reportKeys?.HDL_Cholestrol_Date},
+            { info : "LDL cholestrol (latest ever)", value : reportKeys?.LDL_Cholestrol_Value, dateRecorded : reportKeys?.LDL_Cholestrol_Date},
+            { info : "non-HDL cholestrol (latest ever)", value : reportKeys?.Non_HDL_Cholestrol_Value, dateRecorded : reportKeys?.Non_HDL_Cholestrol_Date},
+            { info : "Ratio total cholestrol/HDL (latest ever)", value : "", dateRecorded: "" }, //CHECK WITH ZAHEER
+            { info : "Triglycerides (latest ever)", value : reportKeys?.Triglyceride_Value, dateRecorded : reportKeys?.Triglyceride_Date},
+            { info : "eGFR (latest ever)", value : reportKeys?.EGFR_Value, dateRecorded : reportKeys?.EGFR_Date},
+            { info : "Serum creatinine (latest ever)", value : reportKeys?.Serum_Creatinine_Value, dateRecorded : reportKeys?.Serum_Creatinine_Date},
+            { info : "Urine ACR (latest ever)", value : reportKeys?.ACR_Value, dateRecorded : reportKeys?.ACR_Date},
+            { info : "Serum ALT or AST (latest ever)", value : reportKeys?.ALT_Value, dateRecorded : reportKeys?.ALT_Date},
+            { info : "Pulse check (latest ever)", value : "", dateRecorded :""}, //CHECK WITH ZAHEER
          ]
       },
 
-      cvdComorbidities : {
+      comorbidities : {
+         tableHeaders : ["Co-morbidities", "Description", "Date recorded"],
          tableData : [
-            {  cvdComorbidities: "CVD (IHD/Strike/TIA/PAD)", description : reportKeys?.CVD, dateRecorded : ""},
-            {  cvdComorbidities: "Hypertension", description : reportKeys?.Hypertension_Code_Term, dateRecorded : ""},
-            {  cvdComorbidities: "Heart Failure", description : reportKeys?.Heart_Failure_Code_Term, dateRecorded : ""},
-            {  cvdComorbidities: "Diabetes (T1/T2)", description : reportKeys?.Diabetes_Code_Term, dateRecorded : ""},
-            {  cvdComorbidities: "AF", description : reportKeys?.AF_Code_Term, dateRecorded : ""}, //CHECK WITH ZAHEER
-            {  cvdComorbidities: "CKD 3-5", description : reportKeys?.CKD_Code_Term, dateRecorded : ""}, //CHECK WITH ZAHEER
-            {  cvdComorbidities: "Rheumatoid Arthritis or Lupus", description : reportKeys?.RA_SLE_Code_Term, dateRecorded : ""}, //CHECK WITH ZAHEER
+            {  info: "CVD (IHD/Strike/TIA/PAD)", description : reportKeys?.CVD, dateRecorded : ""},
+            {  info: "Hypertension", description : reportKeys?.Hypertension_Code_Term, dateRecorded : ""},
+            {  info: "Heart Failure", description : reportKeys?.Heart_Failure_Code_Term, dateRecorded : ""},
+            {  info: "Diabetes (T1/T2)", description : reportKeys?.Diabetes_Code_Term, dateRecorded : ""},
+            {  info: "AF", description : reportKeys?.AF_Code_Term, dateRecorded : ""}, //CHECK WITH ZAHEER
+            {  info: "CKD 3-5", description : reportKeys?.CKD_Code_Term, dateRecorded : ""}, //CHECK WITH ZAHEER
+            {  info: "Rheumatoid Arthritis or Lupus", description : reportKeys?.RA_SLE_Code_Term, dateRecorded : ""}, //CHECK WITH ZAHEER
+         ],
+
+      },
+
+      vulnerabilities : {
+         tableHeaders : ["Vulnerabilities", "Description", "Date recorded"],
+         tableData : [
+            {  info: "SMI", description : reportKeys?.SMI_Code_Term, dateRecorded : ""},
+            {  info: "Frailty score", description : reportKeys?.Frailty_Score_Code_Term, dateRecorded : reportKeys?.Frailty_Score_Date},
+            {  info: "Housebound", description : reportKeys?.HouseB_CareH_Code_Term, dateRecorded : ""},
+            {  info: "Learning disability", description : reportKeys?.Learning_Difficulties_Code_Term, dateRecorded : ""},
+            {  info: "Palliative care", description : reportKeys?.Palliative_Care_Code_Term, dateRecorded : ""},
+            {  info: "Dementia", description : reportKeys?.Dementia_Code_Term, dateRecorded : ""},
+            {  info: "Cancer", description : reportKeys?.Cancer_Code_Term, dateRecorded : ""},
          ]
       },
 
-      vulnerabilites : {
-         tableData : [
-            {  vulnerabilities: "SMI", description : reportKeys?.SMI_Code_Term, dateRecorded : ""},
-            {  vulnerabilities: "Frailty score", description : reportKeys?.Frailty_Score_Code_Term, dateRecorded : reportKeys?.Frailty_Score_Date},
-            {  vulnerabilities: "Housebound", description : reportKeys?.HouseB_CareH_Code_Term, dateRecorded : ""},
-            {  vulnerabilities: "Learning disability", description : reportKeys?.Learning_Difficulties_Code_Term, dateRecorded : ""},
-            {  vulnerabilities: "Palliative care", description : reportKeys?.Palliative_Care_Code_Term, dateRecorded : ""},
-            {  vulnerabilities: "Dementia", description : reportKeys?.Dementia_Code_Term, dateRecorded : ""},
-            {  vulnerabilities: "Cancer", description : reportKeys?.Cancer_Code_Term, dateRecorded : ""},
-         ]
-      },
+
       socialFactors : {
+         tableHeaders: ["Social factors", "Description", "Date recorded"],
          tableData : [
-            { socialFactors: "Alcohol consumption (latest ever)", description: reportKeys?.Alcohol_Value, dateRecorded: reportKeys?.Alcohol_Date},
-            { socialFactors: "Smoking (latest ever)", description: reportKeys?.Smoking_Code_Term, dateRecorded: ""}, //CHECK WITH ZAHEER
+            { info: "Alcohol consumption (latest ever)", description: reportKeys?.Alcohol_Value, dateRecorded: reportKeys?.Alcohol_Date},
+            { info: "Smoking (latest ever)", description: reportKeys?.Smoking_Code_Term, dateRecorded: ""}, //CHECK WITH ZAHEER
          ]
       }
+
+     
 
 
 
@@ -218,8 +231,13 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                      </div>
                   </div>
 
+
+
+
+
+
                   {/* TABLES */}
-                  <div className="  my-4 py-4 px-2 text-sm max-h-[50vh] border overflow-auto bg-white">
+                  <div className="  my-4  px-2 text-sm max-h-[50vh] border overflow-auto bg-white">
                      {/* BLOOD PRESSURE CHART TABLE */}
                      <table className=' w-full'>
                         <thead>
@@ -242,302 +260,51 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
 
 
                      {/* MEDICATIONS TABLE */}
-                     <table className='w-full text-left mt-4 pt-4'>
-                        <thead className='border '>
-                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
-                              <th className='w-[45%] '>Medication</th>
-                              <th className='w-[40%] '>Medication name</th>
-                              <th>Date recorded</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td className='border pl-4'>ACEi/ARB (6m)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td className='border pl-4'>Beta-blocker (6m)</td>
-                              <td></td>
-                              <td></td>
 
-                           </tr>
-                           <tr>
-                              <td className='border pl-4'>Calcium Channel Blockers (CCB)(6m)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>                           
-                           <tr>
-                              <td className='border pl-4'>Thiazide(-like) diuretic (6m)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>                           
-                           <tr>
-                              <td className='border pl-4'>Other (e.g. centrally-acting, loop diuretic)(6m)</td>
-                              <td></td>
-                              <td></td>
-
-                           </tr>                           
-                           <tr>
-                              <td className='border pl-4'>Antiplatelet</td>
-                              <td></td>
-                              <td></td>
-
-                           </tr>
+                    {
+                     Object.entries(cvdModalConfig).map(([config, tableObject]) => {
+                        return (
+                            Object.entries(tableObject).map(([data, tableConfig])=>{
                            
-                        </tbody>
-                     </table>
+                              return (
+                                 
+                                 <table className='w-full text-left mt-4 pt-4'>  
+                                    {data === "tableHeaders" ?
+                                    <thead className='border '>
+                                        
+                                             <tr className='flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+                                                <th className='w-[45%] '>{tableConfig[0]}</th>
+                                                <th className='w-[40%] '>{tableConfig[1]}</th>
+                                                <th>{tableConfig[2]}</th>
+                                             </tr>
+                                          
+                                       
+                                       
+                                    </thead>:
+                                    <tbody>
+                                       {
+                                          tableConfig.map((row)=> {
+                                 
+                                             return (
+                                                <tr className= "border">
+                                                   <td className=''>{row.info}</td>
+                                                   <td>{filteredData[selectedPatientIndex][row.description]}</td>
+                                                   <td>{filteredData[selectedPatientIndex][row.dateRecorded]}</td>
+                                                </tr>
+                                             )
+                                             
+                                          })
+                                       }
+                                    </tbody>}
+                                 </table>
+                              )
 
-                     {/*Lipids medications */}
-                     <table className='w-full text-left mt-4'>
-                        <thead className='border '>
-                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
-                              <th className='w-[45%] '>Lipids medications</th>
-                              <th className='w-[40%] '>Medication name</th>
-                              <th>Date recorded</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td className='border'>Statin Any / High intensity (6m)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td className='border'>Ezetimbe (6m)</td>
-                              <td></td>
-                              <td></td>
-
-                           </tr>
-                           <tr>
-                              <td className='border'>Bempedoic Acid (6m)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>                           
-                           <tr>
-                              <td className='border'>PCSK9 (incl. Inclisiran)(6m)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>                           
-                           <tr>
-                              <td className='border'>Other lipid lowering therapy (6m)</td>
-                              <td></td>
-                              <td></td>
-
-                           </tr>               
-                        </tbody>
-                     </table>
-
-                     {/* STATIN EXCLUSION */}
-                     <table className='w-full text-left mt-4'>
-                        <thead className='border '>
-                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
-                              <th className='w-[45%] '>Statin exclusion</th>
-                              <th className='w-[40%] '>Description</th>
-                              <th>Date recorded</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td className='border'>Contraindicated (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td className='border'>Patient declined (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                        </tbody>
-                     </table>
-
-                     <table className='w-full text-left mt-4'>
-                        <thead className='border '>
-                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
-                              <th className='w-[45%] '>Adverse meds</th>
-                              <th className='w-[40%] '>Description</th>
-                              <th>Date recorded</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td className='border'>NSAIDs (excl. aspirin) (6m)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                        </tbody>
-                     </table>
-
-                     <table className='w-full text-left mt-4'>
-                        <thead className='border '>
-                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
-                              <th className='w-[45%] '>Clinical data</th>
-                              <th className='w-[40%] '>Value</th>
-                              <th>Date recorded</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td className='border'>Total cholestrol (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td className='border'>HDL cholestrol (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td className='border'>LDL cholestrol (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr><tr>
-                              <td className='border'>non-HDL cholestrol (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr><tr>
-                              <td className='border'>Ratio total cholestrol/HDL (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr><tr>
-                              <td className='border'>Triglycerides (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr><tr>
-                              <td className='border'>eGFR (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr><tr>
-                              <td className='border'>Serum creatinine (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr><tr>
-                              <td className='border'>Urine ACR (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td className='border'>Serum ALT or AST (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td className='border'>Pulse check (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                        </tbody>
-                     </table>
-
-                     <table className='w-full text-left mt-4'>
-                        <thead className='border '>
-                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
-                              <th className='w-[45%] '>CVD and Comorbidities</th>
-                              <th className='w-[40%] '>Description</th>
-                              <th>Date recorded</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td className='border'>CVD (IHD/Stroke/TIA/PAD)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td className='border'>Hypertension</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td className='border'>Heart Failure</td>
-                              <td></td>
-                              <td></td>
-                           </tr><tr>
-                              <td className='border'>Diabetes(T1/T2)</td>
-                              <td></td>
-                              <td></td>
-                           </tr><tr>
-                              <td className='border'>AF</td>
-                              <td></td>
-                              <td></td>
-                           </tr><tr>
-                              <td className='border'>CKD 3-5</td>
-                              <td></td>
-                              <td></td>
-                           </tr><tr>
-                              <td className='border'>Rheumatoid Arthritis or Lupus</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                        </tbody>
-                     </table>
-
-
-                     <table className='w-full text-left mt-4'>
-                        <thead className='border '>
-                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
-                              <th className='w-[45%] '>Vulnerabilities</th>
-                              <th className='w-[40%] '>Description</th>
-                              <th>Date recorded</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td className='border'>SMI</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td className='border'>Frailty score</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td className='border'>Housebound</td>
-                              <td></td>
-                              <td></td>
-                           </tr><tr>
-                              <td className='border'>Learning disability</td>
-                              <td></td>
-                              <td></td>
-                           </tr><tr>
-                              <td className='border'>Palliative care</td>
-                              <td></td>
-                              <td></td>
-                           </tr><tr>
-                              <td className='border'>Dementia</td>
-                              <td></td>
-                              <td></td>
-                           </tr><tr>
-                              <td className='border'>Cancer</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                        </tbody>
-                     </table>
-
-                     <table className='w-full text-left mt-4'>
-                        <thead className='border '>
-                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
-                              <th className='w-[45%] '>Social factors</th>
-                              <th className='w-[40%] '>Description</th>
-                              <th>Date recorded</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td className='border'>Alcohol consumption (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td className='border'>Smoking (latest ever)</td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           
-                        </tbody>
-                     </table>
+                            })
+                        )
+                       
+                     })
+                    }
+                    
                   </div>
             </div>
       </>   
@@ -579,4 +346,364 @@ export default Modal
 
       // StatinExclusion : {
 
+      // } // statinExclusion : {
+      //    tableData : [
+      //       {  statinExclusion : "Contraindicated (latest ever)", description : reportKeys?.Statin_Contra_Code_Term, dateRecorded : reportKeys?.Statin_Contra_Date   },
+      //       {  StatinExclusion : "Patient declined (latest ever)", description : reportKeys?.Statin_Decline_Code_Term, dateRecorded : reportKeys?.Statin_Decline_Date},
+      //    ],
+      // },
+
+      // adverseMeds : {
+      //    tableData : [
+      //       { adverseMeds : "NSAIDs (excl. aspirin) (6m)", description : reportKeys?.NSAID_Name_Dosage_Quantity, dateRecorded : reportKeys?.NSAID_Issue_Date },
+      //    ]
+      // },
+
+      // clinicalData : {
+      //    tableData : [
+      //       { clinicalData : "Total cholestrol (latest ever)", value : reportKeys?.Total_Cholestrol_Value, dateRecorded : reportKeys?.Total_Cholestrol_Date},
+      //       { clinicalData : "HDL cholestrol (latest ever)", value : reportKeys?.HDL_Cholestrol_Value, dateRecorded : reportKeys?.HDL_Cholestrol_Date},
+      //       { clinicalData : "LDL cholestrol (latest ever)", value : reportKeys?.LDL_Cholestrol_Value, dateRecorded : reportKeys?.LDL_Cholestrol_Date},
+      //       { clinicalData : "non-HDL cholestrol (latest ever)", value : reportKeys?.Non_HDL_Cholestrol_Value, dateRecorded : reportKeys?.Non_HDL_Cholestrol_Date},
+      //       { clinicalData : "Ratio total cholestrol/HDL (latest ever)", value : "", dateRecorded: "" }, //CHECK WITH ZAHEER
+      //       { clinicalData : "Triglycerides (latest ever)", value : reportKeys?.Triglyceride_Value, dateRecorded : reportKeys?.Triglyceride_Date},
+      //       { clinicalData : "eGFR (latest ever)", value : reportKeys?.EGFR_Value, dateRecorded : reportKeys?.EGFR_Date},
+      //       { clinicalData : "Serum creatinine (latest ever)", value : reportKeys?.Serum_Creatinine_Value, dateRecorded : reportKeys?.Serum_Creatinine_Date},
+      //       { clinicalData : "Urine ACR (latest ever)", value : reportKeys?.ACR_Value, dateRecorded : reportKeys?.ACR_Date},
+      //       { clinicalData : "Serum ALT or AST (latest ever)", value : reportKeys?.ALT_Value, dateRecorded : reportKeys?.ALT_Date},
+      //       { clinicalData : "Pulse check (latest ever)", value : "", dateRecorded :""}, //CHECK WITH ZAHEER
+      //    ]
+      // },
+
+      // cvdComorbidities : {
+      //    tableData : [
+      //       {  cvdComorbidities: "CVD (IHD/Strike/TIA/PAD)", description : reportKeys?.CVD, dateRecorded : ""},
+      //       {  cvdComorbidities: "Hypertension", description : reportKeys?.Hypertension_Code_Term, dateRecorded : ""},
+      //       {  cvdComorbidities: "Heart Failure", description : reportKeys?.Heart_Failure_Code_Term, dateRecorded : ""},
+      //       {  cvdComorbidities: "Diabetes (T1/T2)", description : reportKeys?.Diabetes_Code_Term, dateRecorded : ""},
+      //       {  cvdComorbidities: "AF", description : reportKeys?.AF_Code_Term, dateRecorded : ""}, //CHECK WITH ZAHEER
+      //       {  cvdComorbidities: "CKD 3-5", description : reportKeys?.CKD_Code_Term, dateRecorded : ""}, //CHECK WITH ZAHEER
+      //       {  cvdComorbidities: "Rheumatoid Arthritis or Lupus", description : reportKeys?.RA_SLE_Code_Term, dateRecorded : ""}, //CHECK WITH ZAHEER
+      //    ]
+      // },
+
+      // vulnerabilites : {
+      //    tableData : [
+      //       {  vulnerabilities: "SMI", description : reportKeys?.SMI_Code_Term, dateRecorded : ""},
+      //       {  vulnerabilities: "Frailty score", description : reportKeys?.Frailty_Score_Code_Term, dateRecorded : reportKeys?.Frailty_Score_Date},
+      //       {  vulnerabilities: "Housebound", description : reportKeys?.HouseB_CareH_Code_Term, dateRecorded : ""},
+      //       {  vulnerabilities: "Learning disability", description : reportKeys?.Learning_Difficulties_Code_Term, dateRecorded : ""},
+      //       {  vulnerabilities: "Palliative care", description : reportKeys?.Palliative_Care_Code_Term, dateRecorded : ""},
+      //       {  vulnerabilities: "Dementia", description : reportKeys?.Dementia_Code_Term, dateRecorded : ""},
+      //       {  vulnerabilities: "Cancer", description : reportKeys?.Cancer_Code_Term, dateRecorded : ""},
+      //    ]
+      // },
+      // socialFactors : {
+      //    tableData : [
+      //       { socialFactors: "Alcohol consumption (latest ever)", description: reportKeys?.Alcohol_Value, dateRecorded: reportKeys?.Alcohol_Date},
+      //       { socialFactors: "Smoking (latest ever)", description: reportKeys?.Smoking_Code_Term, dateRecorded: ""}, //CHECK WITH ZAHEER
+      //    ]
       // }
+
+
+
+
+
+       {/* <table className='w-full text-left mt-4 pt-4'>
+                        <thead className='border '>
+                           <tr className='flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+                              <th className='w-[45%] '>Medication</th>
+                              <th className='w-[40%] '>Medication name</th>
+                              <th>Date recorded</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td className='border pl-4'>ACEi/ARB (6m)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td className='border pl-4'>Beta-blocker (6m)</td>
+                              <td></td>
+                              <td></td>
+
+                           </tr>
+                           <tr>
+                              <td className='border pl-4'>Calcium Channel Blockers (CCB)(6m)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>                           
+                           <tr>
+                              <td className='border pl-4'>Thiazide(-like) diuretic (6m)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>                           
+                           <tr>
+                              <td className='border pl-4'>Other (e.g. centrally-acting, loop diuretic)(6m)</td>
+                              <td></td>
+                              <td></td>
+
+                           </tr>                           
+                           <tr>
+                              <td className='border pl-4'>Antiplatelet</td>
+                              <td></td>
+                              <td></td>
+
+                           </tr>
+                           
+                        </tbody>
+                     </table> */}
+
+                     {/*Lipids medications */}
+                     {/* <table className='w-full text-left mt-4'>
+                        <thead className='border '>
+                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+                              <th className='w-[45%] '>Lipids medications</th>
+                              <th className='w-[40%] '>Medication name</th>
+                              <th>Date recorded</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td className='border'>Statin Any / High intensity (6m)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td className='border'>Ezetimbe (6m)</td>
+                              <td></td>
+                              <td></td>
+
+                           </tr>
+                           <tr>
+                              <td className='border'>Bempedoic Acid (6m)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>                           
+                           <tr>
+                              <td className='border'>PCSK9 (incl. Inclisiran)(6m)</td>
+                              <td></td>
+                              <td></td>
+                           </tr>                           
+                           <tr>
+                              <td className='border'>Other lipid lowering therapy (6m)</td>
+                              <td></td>
+                              <td></td>
+
+                           </tr>               
+                        </tbody>
+                     </table> */}
+
+                     {/* STATIN EXCLUSION */}
+                     {/*  */}
+      
+      // <table className='w-full text-left mt-4'>
+      //                   <thead className='border '>
+      //                      <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+      //                         <th className='w-[45%] '>Statin exclusion</th>
+      //                         <th className='w-[40%] '>Description</th>
+      //                         <th>Date recorded</th>
+      //                      </tr>
+      //                   </thead>
+      //                   <tbody>
+      //                      <tr>
+      //                         <td className='border'>Contraindicated (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                      <tr>
+      //                         <td className='border'>Patient declined (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                   </tbody>
+      //                </table>
+
+      //                <table className='w-full text-left mt-4'>
+      //                   <thead className='border '>
+      //                      <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+      //                         <th className='w-[45%] '>Adverse meds</th>
+      //                         <th className='w-[40%] '>Description</th>
+      //                         <th>Date recorded</th>
+      //                      </tr>
+      //                   </thead>
+      //                   <tbody>
+      //                      <tr>
+      //                         <td className='border'>NSAIDs (excl. aspirin) (6m)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                   </tbody>
+      //                </table>
+
+      //                <table className='w-full text-left mt-4'>
+      //                   <thead className='border '>
+      //                      <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+      //                         <th className='w-[45%] '>Clinical data</th>
+      //                         <th className='w-[40%] '>Value</th>
+      //                         <th>Date recorded</th>
+      //                      </tr>
+      //                   </thead>
+      //                   <tbody>
+      //                      <tr>
+      //                         <td className='border'>Total cholestrol (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                      <tr>
+      //                         <td className='border'>HDL cholestrol (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                      <tr>
+      //                         <td className='border'>LDL cholestrol (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr><tr>
+      //                         <td className='border'>non-HDL cholestrol (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr><tr>
+      //                         <td className='border'>Ratio total cholestrol/HDL (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr><tr>
+      //                         <td className='border'>Triglycerides (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr><tr>
+      //                         <td className='border'>eGFR (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr><tr>
+      //                         <td className='border'>Serum creatinine (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr><tr>
+      //                         <td className='border'>Urine ACR (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                      <tr>
+      //                         <td className='border'>Serum ALT or AST (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                      <tr>
+      //                         <td className='border'>Pulse check (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                   </tbody>
+      //                </table>
+
+      //                <table className='w-full text-left mt-4'>
+      //                   <thead className='border '>
+      //                      <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+      //                         <th className='w-[45%] '>CVD and Comorbidities</th>
+      //                         <th className='w-[40%] '>Description</th>
+      //                         <th>Date recorded</th>
+      //                      </tr>
+      //                   </thead>
+      //                   <tbody>
+      //                      <tr>
+      //                         <td className='border'>CVD (IHD/Stroke/TIA/PAD)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                      <tr>
+      //                         <td className='border'>Hypertension</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                      <tr>
+      //                         <td className='border'>Heart Failure</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr><tr>
+      //                         <td className='border'>Diabetes(T1/T2)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr><tr>
+      //                         <td className='border'>AF</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr><tr>
+      //                         <td className='border'>CKD 3-5</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr><tr>
+      //                         <td className='border'>Rheumatoid Arthritis or Lupus</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                   </tbody>
+      //                </table>
+
+
+      //                <table className='w-full text-left mt-4'>
+      //                   <thead className='border '>
+      //                      <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+      //                         <th className='w-[45%] '>Vulnerabilities</th>
+      //                         <th className='w-[40%] '>Description</th>
+      //                         <th>Date recorded</th>
+      //                      </tr>
+      //                   </thead>
+      //                   <tbody>
+      //                      <tr>
+      //                         <td className='border'>SMI</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                      <tr>
+      //                         <td className='border'>Frailty score</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                      <tr>
+      //                         <td className='border'>Housebound</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr><tr>
+      //                         <td className='border'>Learning disability</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr><tr>
+      //                         <td className='border'>Palliative care</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr><tr>
+      //                         <td className='border'>Dementia</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr><tr>
+      //                         <td className='border'>Cancer</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                   </tbody>
+      //                </table>
+
+      //                <table className='w-full text-left mt-4'>
+      //                   <thead className='border '>
+      //                      <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
+      //                         <th className='w-[45%] '>Social factors</th>
+      //                         <th className='w-[40%] '>Description</th>
+      //                         <th>Date recorded</th>
+      //                      </tr>
+      //                   </thead>
+      //                   <tbody>
+      //                      <tr>
+      //                         <td className='border'>Alcohol consumption (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+      //                      <tr>
+      //                         <td className='border'>Smoking (latest ever)</td>
+      //                         <td></td>
+      //                         <td></td>
+      //                      </tr>
+                           
+      //                   </tbody>
+      //                </table>

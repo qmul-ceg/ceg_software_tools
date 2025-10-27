@@ -34,6 +34,8 @@ type quickFilter = {
 }
 
 export const cvdConfig = {
+
+   
    toolName : "CVD Prevention tool",
 
    filters : {
@@ -426,6 +428,13 @@ export const cvdConfig = {
          "LDL cholestrol", "eGFR", "No. of anti-hptn meds", "Medication review latest date"
       ],
 
+
+
+
+
+
+
+   
    
 }
 
@@ -566,13 +575,6 @@ export const SystmOneTableConfig = [
       colour : ""
    },
 ];
-
-
-
-
-
-
-
 
 export const EMISTableConfig = [
    {
