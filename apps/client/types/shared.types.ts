@@ -1,9 +1,10 @@
+import ErrorMessages from "@/constants/messages"
 import { SystmOneReportKeys, EMISReportKeys } from "@/modules/cvd/constants/cvdDataEnums"
 
 
 export type ValidationType = {
-   status : string,
-   info? : string
+   status : "pass" | "fail",
+   message : ErrorMessages
 }
 
 export type ParserResultType = {

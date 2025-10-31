@@ -44,14 +44,14 @@ export default async function cvdToolModule(payload:ImportPayload){
    const validateReport = validateHandlers[payload.clinicalSystem]
    const parseReport = parseHandlers[payload.clinicalSystem]
    
-   let validationResult: ValidationType = {status: "", info: ""}
+   // let validationResult: ValidationType = {status: "", info: ""}
    // let parserResult: ParserResultType = {status: "", info: "", masterReport: {}}
    let parserResult: ParserResult = {  status: "", info: "" }
 
    if (validateReport){
-      validationResult = await validateReport(payload.file)
+      const validationResult = await validateReport(payload.file)
 
-      if(validationResult.status == "success"){
+      if(validationResult.status == "pass"){
          if(parseReport){
             parserResult = await parseReport(payload.file)
             // console.log(parserResult)

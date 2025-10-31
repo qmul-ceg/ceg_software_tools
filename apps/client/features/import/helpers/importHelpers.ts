@@ -1,3 +1,12 @@
+/** 
+ * getFileInputProps.ts
+ * 
+ * Purpose: Function checks if the user selected CVD and SystmOne combination and creates an object of input configurations that allows 
+ * the user to select multiple files in a folder this is turned off they did not make this selection 
+**/
+
+
+
 import ClinicalSystems from "@/constants/clinicalSystems";
 import SoftwareTools from "@/constants/softwareTools";
 

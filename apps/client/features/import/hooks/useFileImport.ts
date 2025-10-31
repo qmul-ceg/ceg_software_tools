@@ -1,33 +1,21 @@
 "use client"
 import ClinicalSystems from "@/constants/clinicalSystems";
 import SoftwareTools from "@/constants/softwareTools";
-import { useEffect, useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import ErrorMessages from "@/constants/messages"
-import toolRouter from "@/services/toolRouter";
-import { ImportPayload } from "@/types/importPayload";
-import { useRouter } from "next/navigation";
-import { useDisplay } from "@/context/DispayContext";
 
 
-
-
-export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTool:SoftwareTools){
+export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTool:SoftwareTools, onFileSelect : (file: FileList | null) => void){
    const fileInputRef = useRef<HTMLInputElement>(null);
    const [importError, setImportError] = useState<ErrorMessages>(ErrorMessages.None);
    const [importedFile, setImportedFile] = useState<any | null>(null);
-   const [displayScreen, setDisplayScreen] = useState<string>("");
-   const isMounted = useRef(false);
-
-   const router = useRouter();
-
-   const { toolName, test, setToolName, setFilterItems, setQuickFilters, setSummaryTable, summaryTable, setTableHeader, setTableData, setFilterStates, setImportedData } = useDisplay();
 
    const handleImportButtonClick = () => {
 
-
       setImportError(ErrorMessages.None)
       if (clinicalSystem == ClinicalSystems.NotSelected || softwareTool == SoftwareTools.NotSelected){
-         setImportError(ErrorMessages.ImportError);
+         console.log("hi")
+         setImportError(ErrorMessages.MissingInput);
          return
       }
       else{
@@ -36,10 +24,6 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
             fileInputRef.current.click();
          }
       }
-
-      if(displayScreen){
-         
-      }
    }
 
    const handleFileChange = (event:React.ChangeEvent<HTMLInputElement>) =>{
@@ -47,74 +31,95 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       const eventTargetFiles = eventTarget.files
       if (eventTargetFiles){
          setImportedFile(eventTargetFiles)
-      }
-   }
-   
-   
-   const routePayload = async ()=> {
-      const newPayload: ImportPayload = {
-         tool: softwareTool,
-         clinicalSystem: clinicalSystem,
-         file: importedFile
-      }
-      
-      const routerResult = await toolRouter(newPayload);
-      // console.log(routerResult)
-
-
-      const validationResult = Object.values(routerResult)[0]
-      const parserResult = Object.values(routerResult)[1]
-      // console.log(routerResult)
-
-      const validationResultArray = Object.values(validationResult)
-      const parserResultArray:any[] = Object.values(parserResult)
-      
- 
-
-      if (validationResultArray[0] === "success" && parserResultArray[0] === "success"){
-         setImportedData(parserResult)
-         
-      }
-
-      if(validationResultArray[0] === "failure"){
-         const validationErrorMessage = validationResultArray[1]
-         setImportError(ErrorMessages[validationErrorMessage as keyof typeof ErrorMessages])
+         onFileSelect(eventTargetFiles)
       }
    }
 
-
-   useEffect(()=> {
-      
-      if (test){
-         setDisplayScreen("/display")
-      }
-      router.push(displayScreen)
-   }, [test])
-
-
-   
-   useEffect(() => {
-      if(displayScreen){
-         router.push(displayScreen)
-      }
-   }, [displayScreen])
-
-
-
-
-
-   useEffect(() => {
-      if(isMounted.current){
-          routePayload()
-      }else{
-         isMounted.current = true
-      }
-   }, [importedFile])
-   return { fileInputRef, handleImportButtonClick, importError, setImportError, handleFileChange, importedFile, displayScreen }
+   return { fileInputRef, handleImportButtonClick, importError, setImportError, handleFileChange, importedFile }
 };    
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+   
+   // const routePayload = async ()=> {
+   //    const newPayload: ImportPayload = {
+   //       tool: softwareTool,
+   //       clinicalSystem: clinicalSystem,
+   //       file: importedFile
+   //    }
+      
+   //    const routerResult = await toolRouter(newPayload);
+   //    // console.log(routerResult)
+
+
+   //    const validationResult = Object.values(routerResult)[0]
+   //    const parserResult = Object.values(routerResult)[1]
+   //    // console.log(routerResult)
+
+   //    const validationResultArray = Object.values(validationResult)
+   //    console.log(validationResultArray)
+   //    const parserResultArray:any[] = Object.values(parserResult)
+   //    console.log(parserResultArray)
+      
+ 
+
+   //    if (validationResultArray[0] === "success" && parserResultArray[0] === "success"){
+   //       console.log(parserResult)
+   //       setImportedData(parserResult)
+         
+   //    }
+
+   //    if(validationResultArray[0] === "failure"){
+   //       const validationErrorMessage = validationResultArray[1]
+   //       setImportError(ErrorMessages[validationErrorMessage as keyof typeof ErrorMessages])
+   //    }
+   // }
+
+   //NAVIDATION
+
+   // useEffect(()=> {
+      
+   //    if (test){
+   //       setDisplayScreen("/display")
+   //    }
+   //    router.push(displayScreen)
+   // }, [test])
+
+
+   
+   // useEffect(() => {
+   //    if(displayScreen){
+   //       router.push(displayScreen)
+   //    }
+   // }, [displayScreen])
+
+
+
+
+
+   // useEffect(() => {
+   //    if(isMounted.current){
+   //        routePayload()
+   //    }else{
+   //       isMounted.current = true
+   //    }
+   // }, [importedFile])
 
 
 

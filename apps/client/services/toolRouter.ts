@@ -22,7 +22,7 @@ export default async function toolRouter(payload:ImportPayload){
 
    if(handlePayload){ 
       toolResult =  await handlePayload(payload)
-      // console.log(toolResult)
+      console.log(toolResult)
    }
 
 
