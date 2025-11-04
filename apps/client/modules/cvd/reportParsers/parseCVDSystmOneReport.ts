@@ -1,4 +1,4 @@
-import { ParserResultType, ParserResult } from "@/types/shared.types";
+import { ParserResult } from "@/types/shared.types";
 import { parseSystmOneReport } from "../utils/cvdParseHelpers";
 
 export default async function parseCvdSystmOneReport (report:FileList ):Promise<ParserResult>{

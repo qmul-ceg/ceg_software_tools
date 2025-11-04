@@ -32,8 +32,8 @@ export const executeImport = async (softwareTool:SoftwareTools, clinicalSystem:C
    }
 
 
-   const importPayload:ImportPayload = { tool: softwareTool, clinicalSystem: clinicalSystem, file : importedReport}
-   const routerResult:ToolResultType = await toolRouter(importPayload)
+   const importPayload:ImportPayload = { tool: softwareTool, clinicalSystem: clinicalSystem, file : importedReport };
+   const routerResult:ToolResultType = await toolRouter(importPayload);
 
    if(routerResult.validationResult?.status=== "pass" && routerResult.parserResult?.status === "success"){
       return   {  importAttempt : "pass", message: ErrorMessages.Success,  parsedResult : routerResult.parserResult  }   

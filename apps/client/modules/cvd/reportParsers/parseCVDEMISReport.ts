@@ -60,12 +60,12 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
 
                const runDate = result.data[3][3].split(" ")[0]
                // console.log(relativeDate)
-               const convertDateForRelativeRunDate = (date:Date) => {
+               const convertDateForRelativeRunDate = (date:string) => {
                
                   if(date){
                      
                      const [day, month, year] = date.split("/")
-                     const months = { "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec" };
+                     const months:Record<string, string> = { "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec" };
                         return `${day}-${months[month]}-${year}`; 
                   }
                   else return ""
@@ -107,34 +107,3 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
 
 
 
-
-
-//Get the headers
-               // for (let i = 0; i < result_array.length; i++){
-               //    let header_one = result_array[i] as Array<string>
-               //    let header_two = result_array[i+1] as Array<string>
-               //    if (header_one[0].trim() == "Patient Details"){
-               //       console.log(result_array.indexOf(header_one))
-               //       console.log(header_two)
-
-               //    } 
-
-               // }
-
-                  // if(currentPatientArray[0] == ""){
-                  //    console.log(currentPatientArray)
-                  //    return 
-                  // }
-                  //    // if(!masterReport[currentPatientArray[0]]){
-                     //    masterReport[currentPatientArray[0]] = currentPatientArray
-                        
-                     // }
-                     // else if (masterReport[currentPatientArray[0]] || currentPatientArray[0].trim() == ""){
-                     //    let bloodPressureReading = currentPatientArray.slice(-3)
-                     //    masterReport[currentPatientArray[0]] = [...masterReport[currentPatientArray[0]], ...bloodPressureReading]
-                     // }   // let parsedFile:ParserResultInterface = {
-   //    status : "",
-   //    info : "",
-   //    masterReport : {}
-   // }
-   // let runDate = report[0].lastModifiedDate as Date

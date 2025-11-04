@@ -2,11 +2,6 @@ import ErrorMessages from "@/constants/messages"
 import { ValidationType } from "@/types/shared.types"
 
 export default async function validateCVDEMISReport(file:FileList): Promise<ValidationType>{
-
-   // const validationResult: ValidationType={
-   //    status : "fail",
-   //    message : ErrorMessages.UnsuccessfulValidation
-   // }
    
 
    const readFileHeader = (file:File):Promise<string[]> => {
