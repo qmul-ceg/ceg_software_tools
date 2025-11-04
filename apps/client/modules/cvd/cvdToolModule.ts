@@ -2,7 +2,7 @@ import ClinicalSystems from "@/constants/clinicalSystems";
 import { ImportPayload } from "@/types/importPayload";
 import validateCVDSystmOneReport from "./reportValidators/validateCVDSystmOneReport";
 import validateCVDEMISReport from "./reportValidators/validateCVDEMISReport";
-import { ValidationType, ParserResultType, ParserResult } from "@/types/shared.types";
+import { ValidationType, ParserResult, ToolResultType } from "@/types/shared.types";
 import parseCVDSystmOneReport from "./reportParsers/parseCVDSystmOneReport";
 import parseCVDEMISReport from "./reportParsers/parseCVDEMISReport"
 import { cvdConfig } from "./utils/cvdConfig";
@@ -24,7 +24,7 @@ import { useDisplay } from "@/context/DispayContext";
    // These functionalities can be packaged and sent to our display screen. 
    // We call the display screen with our packaged results. 
 
-export default async function cvdToolModule(payload:ImportPayload){
+export default async function cvdToolModule(payload:ImportPayload):Promise<ToolResultType>{
 
 
    // const {reportKeys, setReportKeys} = useDisplay()
@@ -83,20 +83,16 @@ export default async function cvdToolModule(payload:ImportPayload){
                   });
                } 
 
-               // if (payload.clinicalSystem === "SystmOne"){
-               //    setReportKeys(SystmOneReportKeys)
-               // }
-               // else if(payload.clinicalSystem === "")
-
-               return { validationResult, parserResult}
+               return { validationResult : validationResult, parserResult: parserResult}
           
             }
          }
       }
    }
-
+   return {
+      
+   }
    
-
 }     
 
 

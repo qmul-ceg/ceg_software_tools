@@ -7,15 +7,19 @@ export type ValidationType = {
    message : ErrorMessages
 }
 
-export type ParserResultType = {
-   status : string,
-   info?: string,
-   masterReport? : Object
-   toolConfig ? : Object
+// export type ParserResultType = {
+//    status : string,
+//    info?: string,
+//    masterReport? : Object
+//    toolConfig ? : Object
+// }
+
+
+export type ToolResultType = {
+   
+   validationResult?: ValidationType,
+   parserResult? : ParserResult
 }
-
-
-
 
 type tableConfigDetails = {
    id : any;

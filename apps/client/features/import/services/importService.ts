@@ -13,6 +13,7 @@ import SoftwareTools from "@/constants/softwareTools";
 import toolRouter from "@/services/toolRouter";
 import { ImportPayload } from "@/types/importPayload";
 import { ParserResult } from "@/types/shared.types";
+import { ToolResultType } from "@/types/shared.types";
 
 
 type ExecuteImportTypeResult = {
@@ -32,27 +33,28 @@ export const executeImport = async (softwareTool:SoftwareTools, clinicalSystem:C
 
 
    const importPayload:ImportPayload = { tool: softwareTool, clinicalSystem: clinicalSystem, file : importedReport}
-   const routerResult = await toolRouter(importPayload)
+   const routerResult:ToolResultType = await toolRouter(importPayload)
 
-   const toolValidationResult = Object.values(routerResult)[0]
-
-   const toolParserResult = Object.values(routerResult)[1]
-
-   const toolValidationResultArray = Object.values(toolValidationResult)
-   const toolParserResultArray:any[] = Object.values(toolParserResult)
-      
- 
-
-   if (toolValidationResultArray[0] === "pass" && toolParserResultArray[0] === "success"){
-      return   {  importAttempt : "pass", message: ErrorMessages.Success,  parsedResult : toolParserResult  }   
+   if(routerResult.validationResult?.status=== "pass" && routerResult.parserResult?.status === "success"){
+      return   {  importAttempt : "pass", message: ErrorMessages.Success,  parsedResult : routerResult.parserResult  }   
    }
 
-   else if (toolValidationResultArray[0] === "fail" ){
+    else if (routerResult.validationResult?.status === "fail" ){
       
       return { importAttempt: "fail", message: ErrorMessages.UnsuccessfulValidation}
    }
+
    else {
-      return { importAttempt : "fail", message: toolParserResultArray[1]}
+      return { importAttempt : "fail", message: ErrorMessages.UnsuccessfulParsing}
    }
 }
 
+
+
+
+
+
+
+   // if (toolValidationResultArray[0] === "pass" && toolParserResultArray[0] === "success"){
+   //    r
+   // }

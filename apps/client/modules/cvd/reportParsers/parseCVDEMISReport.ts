@@ -4,12 +4,7 @@ import { cvdConfig, EMISTableConfig } from "../utils/cvdConfig";
 import { EMISReportKeys } from "../constants/cvdDataEnums";
 
 export default async function parseCVDEMISReport(report: FileList):Promise<ParserResult>{
-   // let parsedFile:ParserResultInterface = {
-   //    status : "",
-   //    info : "",
-   //    masterReport : {}
-   // }
-   // let runDate = report[0].lastModifiedDate as Date
+
    
 
    const parseFile = async (file: File): Promise<ParserResult> => {
@@ -137,4 +132,9 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
                      // else if (masterReport[currentPatientArray[0]] || currentPatientArray[0].trim() == ""){
                      //    let bloodPressureReading = currentPatientArray.slice(-3)
                      //    masterReport[currentPatientArray[0]] = [...masterReport[currentPatientArray[0]], ...bloodPressureReading]
-                     // }
+                     // }   // let parsedFile:ParserResultInterface = {
+   //    status : "",
+   //    info : "",
+   //    masterReport : {}
+   // }
+   // let runDate = report[0].lastModifiedDate as Date
