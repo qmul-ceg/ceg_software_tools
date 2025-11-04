@@ -12,6 +12,7 @@ import { TransformCVDS1Data } from "./utils/cvdS1DataTransform";
 import { CVD_Measures } from "./utils/cvdMeasures";
 import { CVD_Metrics } from "./types/cvdMetrics";
 import { useDisplay } from "@/context/DispayContext";
+import ErrorMessages from "@/constants/messages";
 
 
 
@@ -25,7 +26,7 @@ import { useDisplay } from "@/context/DispayContext";
    // We call the display screen with our packaged results. 
 
 export default async function cvdToolModule(payload:ImportPayload):Promise<ToolResultType>{
-
+   console.log(payload)
 
    // const {reportKeys, setReportKeys} = useDisplay()
    // console.log(payload)
@@ -57,7 +58,7 @@ export default async function cvdToolModule(payload:ImportPayload):Promise<ToolR
             // console.log(parserResult)
 
             if (parserResult.status === "success"){
-               let parsedDataObject = Object.values(parserResult.data.masterReport as object);
+               let parsedDataObject = Object.values(parserResult.data?.masterReport as object);
                if (parsedDataObject.length > 0) {
 
                   let reportKeys : typeof EMISReportKeys | typeof SystmOneReportKeys = EMISReportKeys;
@@ -86,12 +87,28 @@ export default async function cvdToolModule(payload:ImportPayload):Promise<ToolR
                return { validationResult : validationResult, parserResult: parserResult}
           
             }
+            else  {
+               if(payload.clinicalSystem === "EMIS Web"){
+                  return {
+                     status : "fail",
+                     info: ErrorMessages.EMISUnsuccessfulParsing
+                  }
+               }
+            }
          }
       }
+      else {
+         if(payload.clinicalSystem === "EMIS Web"){
+            return {
+               status : "fail",
+               info: ErrorMessages.EMISUnsuccessfulValidation
+            }
+         }
+         
+      }
    }
-   return {
-      
-   }
+
+   return {}
    
 }     
 

@@ -17,7 +17,7 @@ import { ToolResultType } from "@/types/shared.types";
 
 
 type ExecuteImportTypeResult = {
-   importAttempt: "pass" | "fail",
+   importAttempt?: string,
    message : ErrorMessages,
    parsedResult?: ParserResult
 }
@@ -39,22 +39,7 @@ export const executeImport = async (softwareTool:SoftwareTools, clinicalSystem:C
       return   {  importAttempt : "pass", message: ErrorMessages.Success,  parsedResult : routerResult.parserResult  }   
    }
 
-    else if (routerResult.validationResult?.status === "fail" ){
-      
-      return { importAttempt: "fail", message: ErrorMessages.UnsuccessfulValidation}
-   }
+   return { importAttempt: routerResult.status, message: routerResult.info!}
 
-   else {
-      return { importAttempt : "fail", message: ErrorMessages.UnsuccessfulParsing}
-   }
 }
 
-
-
-
-
-
-
-   // if (toolValidationResultArray[0] === "pass" && toolParserResultArray[0] === "success"){
-   //    r
-   // }

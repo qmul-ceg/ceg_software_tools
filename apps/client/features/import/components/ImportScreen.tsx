@@ -42,7 +42,7 @@ const ImportScreen = () => {
       handleImportButtonClick,
       fileInputRef,
       handleFileChange,
-   } = useFileImport(selectedClinicalSystem, selectedSoftwareTool, setSelectedReport);
+   } = useFileImport(selectedClinicalSystem, selectedSoftwareTool, setSelectedReport, setImportError);
    
    const handleSelectTool = (event: React.ChangeEvent<HTMLInputElement>) => {
       const eventTarget = event.target as HTMLInputElement;

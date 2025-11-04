@@ -16,7 +16,11 @@ export type ValidationType = {
 
 
 export type ToolResultType = {
-   
+
+   status?: "pass" | "fail",
+   info?: ErrorMessages
+
+
    validationResult?: ValidationType,
    parserResult? : ParserResult
 }

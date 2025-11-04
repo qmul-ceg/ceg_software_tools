@@ -5,17 +5,14 @@ import {  useRef, useState } from "react";
 import ErrorMessages from "@/constants/messages"
 
 
-export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTool:SoftwareTools, onFileSelect : (file: FileList | null) => void){
+export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTool:SoftwareTools, onFileSelect : (file: FileList | null) => void, errorSetter : (error: ErrorMessages ) => void){
    const fileInputRef = useRef<HTMLInputElement>(null);
-   const [importError, setImportError] = useState<ErrorMessages>(ErrorMessages.None);
-   const [importedFile, setImportedFile] = useState<any | null>(null);
 
    const handleImportButtonClick = () => {
-
-      setImportError(ErrorMessages.None)
+      errorSetter(ErrorMessages.None)
       if (clinicalSystem == ClinicalSystems.NotSelected || softwareTool == SoftwareTools.NotSelected){
          console.log("hi")
-         setImportError(ErrorMessages.MissingInput);
+         errorSetter(ErrorMessages.MissingInput)
          return
       }
       else{
@@ -30,13 +27,14 @@ export default function useFileImport(clinicalSystem:ClinicalSystems, softwareTo
       const eventTarget = event.target as HTMLInputElement
       const eventTargetFiles = eventTarget.files
       if (eventTargetFiles){
-         setImportedFile(eventTargetFiles)
          onFileSelect(eventTargetFiles)
       }
    }
 
-   return { fileInputRef, handleImportButtonClick, importError, setImportError, handleFileChange, importedFile }
+   return { fileInputRef, handleImportButtonClick, handleFileChange,  }
 };    
+
+
 
 
 
