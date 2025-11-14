@@ -428,8 +428,24 @@ export const cvdConfig = {
          "LDL cholestrol", "eGFR", "No. of anti-hptn meds", "Medication review latest date"
       ],
 
+      
+   filterStatesConfig: {
+      antihypertensiveMedsFilter : {kind: "grouped", value: [[],[], [], []]},
+      bloodPressureFilter: {kind: "grouped", value: [[],[]]},
+      houseboundCarehomeFilter : {kind: "multi", value: []},
+      lipidMedicationsFilter: {kind: "grouped", value: [[],[],[],[]]},
+      comorbiditiesFilter: {kind: "multi", value: []},
+      cholestrolFilter: {kind: "grouped", value: [[], []]},
+      qRiskFilter: {kind: "grouped", value: [[],[]]},
+      vulnerabilitiesFilter: {kind: "multi", value: []},
+      ethnicityFilter: {kind: "multi", value: []},
+      ageFilter: {kind: "multi", value: []},
+      adverseMedsFilter: { kind: "multi", value: []   },
 
-
+      //For quick filters
+      hptnDiagnosis: {  kind: "multi", value: []   },
+      aceiArbFilter : { kind : "multi", value : []  }
+   }
 
 
 
@@ -588,7 +604,7 @@ export const EMISTableConfig = [
    {
       id : EMISReportKeys.Full_Name,
       header : "Full name",
-      width : "12%",
+      width : "1fr",
       align : "left",
       colour : "blue"
    },
@@ -694,7 +710,7 @@ export const EMISTableConfig = [
    {
       id : EMISReportKeys.EGFR_Value,
       header : "eGFR",
-      width : "2%",
+      width : "3%",
       align : "center",
       colour : ""
    },
@@ -708,7 +724,7 @@ export const EMISTableConfig = [
    {
       id : EMISReportKeys.Medication_Review_Date,
       header : "Medication review latest date",
-      width : "6%",
+      width : "8%",
       align : "center",
       colour : ""
    },

@@ -12,7 +12,7 @@ const sourceFont = Source_Sans_3({
 })
 const HeaderSection = () => {
 
-   const { toolName, setToolName } = useDisplay();
+   const { importedData } = useDisplay();
 
 
    return (
@@ -38,7 +38,7 @@ const HeaderSection = () => {
                2xl:text-4xl  font-sourceSans 
                font-bold
                text-[#21376A]"
-            >{toolName}</h1>
+            >{importedData?.data?.toolName}</h1>
  
          </div>
          <div>

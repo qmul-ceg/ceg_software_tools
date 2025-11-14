@@ -26,10 +26,7 @@ import ErrorMessages from "@/constants/messages";
    // We call the display screen with our packaged results. 
 
 export default async function cvdToolModule(payload:ImportPayload):Promise<ToolResultType>{
-   console.log(payload)
 
-   // const {reportKeys, setReportKeys} = useDisplay()
-   // console.log(payload)
    //VALIDATE PAYLOAD
    const validateHandlers: Partial<Record< ClinicalSystems, (payload:FileList ) => Promise<ValidationType>>> ={
       [ClinicalSystems.EMIS] : validateCVDEMISReport,

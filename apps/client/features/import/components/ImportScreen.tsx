@@ -67,7 +67,7 @@ const ImportScreen = () => {
             return await executeImport(selectedSoftwareTool, selectedClinicalSystem, selectedReport)
          }
          runImport().then((result) => {
-            console.log(result)
+
             if(result.importAttempt === "pass"){
                setImportedData(result.parsedResult!) //Exclamation is non-null opearator telling Typescript that this value will never be null 
                router.push("/display")       

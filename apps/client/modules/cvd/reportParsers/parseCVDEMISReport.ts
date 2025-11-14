@@ -80,7 +80,8 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
                   config : {
                      filters : cvdConfig.filters,
                      quickFilters: cvdConfig.quickFilters,
-                     reportKeys : EMISReportKeys
+                     reportKeys : EMISReportKeys,
+                     filterStatesConfig : cvdConfig.filterStatesConfig
                   },
                   data : {
                      toolName : cvdConfig.toolName,

@@ -10,11 +10,21 @@ import { TfiClose } from "react-icons/tfi";
 import { GoDotFill } from "react-icons/go";
 
 
+type ActiveFilters = "ageFilter" | "comorbiditiesFilter";
+type FilterStateProps = {
+      filterStates: FilterStates;
+      setFilterStates: React.Dispatch<React.SetStateAction<FilterStates>>
+      activeFilters: ActiveFilters[];
+      setActiveFilters : React.Dispatch<React.SetStateAction<ActiveFilters[]>>
+}
 
-const FilterSection = () => {
+
+const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveFilters}:FilterStateProps) => {
 
    const [showFilter, setShowFilter] = useState<boolean>(true)
-   const {  filterItems, setFilterItems, quickFilters, summaryTable, filterStates, setFilterStates} = useDisplay()
+   const {  importedData } = useDisplay()
+            // filterStates, setFilterStates, 
+            // activeFilters, setActiveFilters  
   
    type FilterKind = "multi" | "grouped"
    type FilterSelectionPayload = {
@@ -23,6 +33,13 @@ const FilterSection = () => {
       selectedFilterKind : FilterKind,
       selectedIndex? : number
    }
+
+
+
+
+
+
+
 
 
 
@@ -38,13 +55,12 @@ const FilterSection = () => {
       ethnicityFilter: {kind: "multi", value: []},
       ageFilter: {kind: "multi", value: []},
       adverseMedsFilter: {kind: "multi", value: []},
-
       hptnDiagnosis: {kind: "multi", value: []},
       aceiArbFilter : {kind : "multi", value : []}
    }
 
    const [selectedQuickFilter, setSelectedQuickFilter] = useState<FilterStates>({})
-   const [selectedFilterList, setSelectedFilterList] = useState<FilterStates>({})
+   // const [selectedFilterList, setSelectedFilterList] = useState<FilterStates>({})
 
    // console.log(filterItems)
    const handleFilterSelection = (filterPayload : FilterSelectionPayload) => {
@@ -113,11 +129,6 @@ const FilterSection = () => {
    }
 
 
-
-   // MOVE THIS EVENTUALLY
-   
-  
-   
    const handleQuickFilterSelection = (payload:FilterStates)=> {
       // Function checks if our payload already exists in state
       // If it does then we clear our state and return this mimics user deselecting the filter
@@ -138,10 +149,7 @@ const FilterSection = () => {
       setFilterStates({...defaultFilters, ...payload});
    }
 
-   
-   useEffect(()=>{
-      console.log(filterStates)
-   }, [filterStates])
+
 
 
 
@@ -152,7 +160,19 @@ const FilterSection = () => {
          if(filterStates){
             Object.entries(filterStates).map(([filterKey, filterValue])=> {
                if((filterValue.kind == "multi" && filterValue.value.length > 0 ) || (filterValue.kind == "grouped" && filterValue.value.some(group => group.length > 0))){
+                 
+                 //Track which filter was selected
+                  if(!activeFilters.includes(filterKey)){
+                     setActiveFilters(prev => [...prev, filterKey])
+                  }
+                  
+                  
                   currentFilterList[filterKey] = filterValue
+               }
+               else{
+                  if (activeFilters.includes(filterKey)){
+                     setActiveFilters(prev => prev.filter(value => value !== filterKey))
+                  }
                }
 
             })
@@ -162,7 +182,8 @@ const FilterSection = () => {
 
          return currentFilterList
       }
-
+      
+      
       function checkEquality(objectOne, objectTwo){
          const keysOne = Object.keys(objectOne)
          const keysTwo = Object.keys(objectTwo)
@@ -173,24 +194,25 @@ const FilterSection = () => {
          return keysOne.every(key => objectOne[key] === objectTwo[key])
       }
 
-      // console.log(checkEquality(selectedQuickFilter, updateFilters()))
+
       if(!checkEquality(selectedQuickFilter, updateFilters())){
+         // console.log(updateFilters())
          setSelectedQuickFilter({})
       }
 
    }, [filterStates])
 
 
-   // useEffect(()=> {
-   //    console.log(filterStates)
-   // },[filterStates])
+
 
    function removeAllFilters(){
       setSelectedQuickFilter({})
       setFilterStates(defaultFilters)
    }
+   
 
-
+   const quickFilters = importedData?.config?.quickFilters ?? []
+   const filterItems = importedData?.config?.filters ?? []
 
    return (
       <div >
@@ -494,7 +516,7 @@ const FilterSection = () => {
                   </div>
                </header>
                <div className="border-[0.1em] border-[#21376A] border-t-0  p-2 font-semibold ">
-                  {summaryTable.map((item, index)=> (
+                  {importedData?.data?.summaryTable?.map((item, index)=> (
                      <div key = {index} className="text-sm flex  justify-between">
                         <p>{item[0]}</p>
                         <div className="flex gap-16 mr-12">
@@ -514,6 +536,30 @@ const FilterSection = () => {
 
 export default FilterSection
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   // useEffect(()=> {
+
+   //    console.log(activeFilters)
+   // }, [filterStates])
+
+   // MOVE THIS EVENTUALLY
 
 
 

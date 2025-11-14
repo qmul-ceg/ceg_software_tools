@@ -1,18 +1,26 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { useDisplay } from '@/context/DispayContext'
-import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
 
 
+type TableHeaderProps = {
+   paddingValue: number,
+   masterCheckbox: boolean,
+   setMasterCheckbox:  React.Dispatch<React.SetStateAction<boolean>>
+   selectedForExport : Record<string, boolean>
+   setSelectedForExport: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+   filteredData : string[][]
+   gridTemplateColumns: string
+}
 
 
 
 export function ColumnGroup (){
-   const { tableHeader, tableConfig,  } = useDisplay()
+   const { importedData} = useDisplay()
    //Function allows us to create a column group element that we use to align our table header and table body
    return (
       <colgroup>
          {
-            tableConfig?.map((col) => {
+            importedData?.data?.tableConfig?.map((col) => {
                return (
                   <col key = {col.id} style ={{width: col.width}}/>
                )
@@ -22,55 +30,64 @@ export function ColumnGroup (){
    )
 }
 
-// { paddingValue } : { paddingValue : number }
-const TableHeader = () => {
-   const { tableConfig, masterCheckbox, setMasterCheckbox, filteredData, selectedForExport, setSelectedForExport, reportKeys} = useDisplay()
-  
 
+const TableHeader = ({paddingValue, masterCheckbox, setMasterCheckbox, selectedForExport, setSelectedForExport, filteredData, gridTemplateColumns} : TableHeaderProps) => {
+   const { importedData } = useDisplay()
+   
 
-      const handleMasterCheckBox = () => {
-         setMasterCheckbox ((prev) => {
-            const newMasterCheckboxState = !prev;
-   
-            if (newMasterCheckboxState){
-               const patientsSelectedForExport = {}
-   
-               filteredData.forEach((patient) => {
-                  patientsSelectedForExport[patient[reportKeys?.Full_Name]] = true
-               })
-               setSelectedForExport(patientsSelectedForExport)
-            }else{
-               setSelectedForExport({})
-            }
-            return newMasterCheckboxState;
-         })
+   useEffect(() => {
+      if (filteredData.length === Object.keys(selectedForExport).length){
+         setMasterCheckbox(true)
       }
+      else setMasterCheckbox(false)
+   }, [selectedForExport, filteredData])   
+
+
+   const handleMasterCheckBox = () => {
+      setMasterCheckbox ((prev) => {
+         const newMasterCheckboxState = !prev;
+   
+         if (newMasterCheckboxState){
+            const patientsSelectedForExport = {}
+   
+            filteredData.forEach((patient) => {
+               patientsSelectedForExport[patient[reportKeys!.Full_Name]] = true
+            })
+            setSelectedForExport(patientsSelectedForExport)
+         }
+         else {
+            setSelectedForExport({})
+         }
+         return newMasterCheckboxState;
+      })
+   }
       
+
+
+
    return (
       <div 
          className={` border-b-6 border-[#21376A] rounded-t-lg pr-[11px]`}
-         // style = {{paddingRight : `${paddingValue}px` }}
-      
+         
       >
-
-
-
-         <table className="w-full table-fixed">
-            <ColumnGroup />
-            <thead>
-               <tr className=''>
+{/* 
+         <div className="">
+            <ColumnGroup /> */}
+            {/* <div > */}
+               <div className='flex' style = {{display:"grid", gridTemplateColumns:gridTemplateColumns}}>
                      {  
-                        tableConfig?.map((item, index)=> (
+                         importedData?.data?.tableConfig?.map((item, index)=> (
                            item.id == "select" 
-                           ?  <th className= "border-r-1 border-[#21376A]"><input type = "checkbox" checked = {masterCheckbox} onChange={handleMasterCheckBox} /> </th>
-                           :  <th key = {index} className={` text-sm  px-2 py-1 ${item.header !== "Medication review latest date" ? "border-r-1 " : "" }  top-0   border-[#21376A]`}>
+                           ?  <div className= "border-r-1 border-[#21376A] flex justify-center"><input type = "checkbox" checked = {masterCheckbox} onChange={handleMasterCheckBox} /> </div>
+                           :  <div key = {index} className={`text-center font-bold flex text-sm  px-2 py-1 items-center justify-${item.align} ${item.header !== "Medication review latest date" ? "border-r-1 " : "" }   border-[#21376A]`}>
                                  {item.header}
-                              </th>
+                              </div>
                      ))}
-                  </tr>
-
-            </thead>
-         </table>
+               </div>
+{/* 
+            </div> */}
+         {/* </div> */}
+         
       </div>
    )
 }
@@ -84,6 +101,90 @@ export default TableHeader
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* <table className="w-full table-fixed">
+            <ColumnGroup />
+            <thead>
+               <tr className=''>
+                     {  
+                         importedData?.data?.tableConfig?.map((item, index)=> (
+                           item.id == "select" 
+                           ?  <th className= "border-r-1 border-[#21376A]"><input type = "checkbox" checked = {masterCheckbox} onChange={handleMasterCheckBox} /> </th>
+                           :  <th key = {index} className={` text-sm  px-2 py-1 ${item.header !== "Medication review latest date" ? "border-r-1 " : "" }  top-0   border-[#21376A]`}>
+                                 {item.header}
+                              </th>
+                     ))}
+                  </tr>
+
+            </thead>
+         </table> */}
+
+
+
+
+
+
+
+
+
+
+      // masterCheckbox, setMasterCheckbox, setSelectedForExportselectedForExport
 // export const SystmOneTableConfig = [
 //    {
 //       id: "select",

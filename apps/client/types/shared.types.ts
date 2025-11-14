@@ -71,7 +71,8 @@ export type ParserResult = {
       // filters: Record<string, string[][]> ;
       filters: Record <string, MultiFilter | GroupedFilter >
       quickFilters: string[];
-      reportKeys? : IndexMap
+      reportKeys? : IndexMap;
+      filterStatesConfig?: FilterStates
    }
 
    //outputs for rendering and analysis

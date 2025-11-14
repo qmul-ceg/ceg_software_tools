@@ -1,11 +1,9 @@
 import { useDisplay } from '@/context/DispayContext'
-import React, { useState } from 'react'
-// import { SystmOneReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
-import { GrClose } from "react-icons/gr";
+import React from 'react'
 import { TfiArrowRight } from "react-icons/tfi";
 import { TfiArrowLeft } from "react-icons/tfi";
-import TableBody from './TableBody';
-import { StatinExclusion } from '@/modules/cvd/utils/cvdStatinIntensity';
+import { GrClose } from "react-icons/gr";
+
 
 
 
@@ -16,8 +14,7 @@ type ChildProps = {
    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 const Modal = ({ setIsModalOpen }: ChildProps) => {
-   // const [openModal, setOpenModal] = useState<boolean>(true)
-   const {selectedPatientRow, selectedPatientIndex, setSelectedPatientIndex, setSelectedPatientRow, filteredData, reportKeys} = useDisplay()
+   const {selectedPatientRow, selectedPatientIndex, setSelectedPatientIndex, setSelectedPatientRow, filteredData, importedData} = useDisplay()
 
 
    const handleNextPatient = (direction: "previous" | "next" ) => {
@@ -32,10 +29,10 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
          else nextPatientIndex = selectedPatientIndex - 1
       }
       setSelectedPatientIndex(nextPatientIndex)
-      // setSelectedPatientRow(filteredData[nextPatientIndex])
+  
    }
-
-
+   console.log(filteredData)
+   const reportKeys = importedData?.config?.reportKeys
 
 
    const cvdModalConfig = {
@@ -127,16 +124,12 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
             { info: "Smoking (latest ever)", description: reportKeys?.Smoking_Code_Term, dateRecorded: ""}, //CHECK WITH ZAHEER
          ]
       }
-
-     
-
-
-
- 
-
-      
-
    }
+
+
+
+
+
 
    return (
       <>

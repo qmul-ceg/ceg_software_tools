@@ -21,7 +21,6 @@ export default async function toolRouter(payload:ImportPayload):Promise<ToolResu
 
    if(handlePayload){ 
       toolResult =  await handlePayload(payload)
-      console.log(toolResult)
    }
 
    return toolResult

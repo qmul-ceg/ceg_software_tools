@@ -1,5 +1,5 @@
 import React from 'react'
-import DisplayScreen from '@/components/display/DisplayScreen'
+import DisplayScreen from '@/features/display/components/DisplayScreen'
 const Display = () => {
 
    return (
