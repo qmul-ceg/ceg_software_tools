@@ -14,8 +14,8 @@ type ActiveFilters = "ageFilter" | "comorbiditiesFilter";
 type FilterStateProps = {
       filterStates: FilterStates;
       setFilterStates: React.Dispatch<React.SetStateAction<FilterStates>>
-      activeFilters: ActiveFilters[];
-      setActiveFilters : React.Dispatch<React.SetStateAction<ActiveFilters[]>>
+      activeFilters: string[];
+      setActiveFilters : React.Dispatch<React.SetStateAction<string[]>>
 }
 
 
@@ -184,7 +184,7 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
       }
       
       
-      function checkEquality(objectOne, objectTwo){
+   function checkEquality(objectOne, objectTwo){
          const keysOne = Object.keys(objectOne)
          const keysTwo = Object.keys(objectTwo)
 
@@ -192,13 +192,13 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
          if (keysOne.length !== keysTwo.length) return false
 
          return keysOne.every(key => objectOne[key] === objectTwo[key])
-      }
+   }
 
 
-      if(!checkEquality(selectedQuickFilter, updateFilters())){
-         // console.log(updateFilters())
-         setSelectedQuickFilter({})
-      }
+   if(!checkEquality(selectedQuickFilter, updateFilters())){
+      // console.log(updateFilters())
+      setSelectedQuickFilter({})
+   }
 
    }, [filterStates])
 

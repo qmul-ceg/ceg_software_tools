@@ -76,7 +76,7 @@ const TableHeader = ({paddingValue, masterCheckbox, setMasterCheckbox, selectedF
             {/* <div > */}
                <div className='flex' style = {{display:"grid", gridTemplateColumns:gridTemplateColumns}}>
                      {  
-                         importedData?.data?.tableConfig?.map((item, index)=> (
+                         importedData?.config?.tableConfig?.map((item, index)=> (
                            item.id == "select" 
                            ?  <div className= "border-r-1 border-[#21376A] flex justify-center"><input type = "checkbox" checked = {masterCheckbox} onChange={handleMasterCheckBox} /> </div>
                            :  <div key = {index} className={`text-center font-bold flex text-sm  px-2 py-1 items-center justify-${item.align} ${item.header !== "Medication review latest date" ? "border-r-1 " : "" }   border-[#21376A]`}>

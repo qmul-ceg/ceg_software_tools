@@ -59,6 +59,9 @@ type GroupedFilter = {
 
 
 type IndexMap = typeof SystmOneReportKeys | typeof EMISReportKeys
+
+
+
 export type ParserResult = {
 
    //Parsing error messages
@@ -71,19 +74,21 @@ export type ParserResult = {
       // filters: Record<string, string[][]> ;
       filters: Record <string, MultiFilter | GroupedFilter >
       quickFilters: string[];
-      reportKeys? : IndexMap;
-      filterStatesConfig?: FilterStates
+      reportKeys : IndexMap;
+      filterStatesConfig: FilterStates
+      filterFunctionalityConfig: Record<string, (row:string[], filterStates: FilterStates, reportKeys:IndexMap, relativeDate:string)=> boolean>
+      tableConfig: tableConfig;
    }
 
    //outputs for rendering and analysis
 
    data? : {
       toolName?: string ;
-      reportRunDate? : string;
-      tableConfig?: tableConfig;
+      reportRunDate : string;
+      
       tableHeader?: string[] ; //Change to table config
       summaryTable?: string[][];
-      masterReport?: Record<string, string[]>;
+      masterReport: Record<string, string[]>;
    }
 }
 

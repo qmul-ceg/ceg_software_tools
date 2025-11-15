@@ -19,19 +19,6 @@ type TableRowProps = {
 
 const TableRow = ({row, tableConfig, reportKeys, selectedForExport, toggleSelectedPatient, handlePatientClick, index, style, gridTemplateColumns}: TableRowProps)=> {
 
-   // console.log(gridTemplateColumns())
-//   console.log(tableConfig) 
-   // const gridTemplateColumns = ()=>{
-   //    let gridTemplateColumns: string[] = []
-   //    tableConfig.map((col)=> {
-   //       gridTemplateColumns.push(col.width)
-   //    })
-   //    return gridTemplateColumns.join(' ')
-   // }
-
-
-
-   // console.log(tableConfig)
    return (
       <div style ={{...style, display:"grid", gridTemplateColumns: gridTemplateColumns}} >
          {
@@ -62,3 +49,23 @@ const TableRow = ({row, tableConfig, reportKeys, selectedForExport, toggleSelect
 }
 
 export default React.memo(TableRow)
+
+
+
+
+
+
+
+   // console.log(gridTemplateColumns())
+//   console.log(tableConfig) 
+   // const gridTemplateColumns = ()=>{
+   //    let gridTemplateColumns: string[] = []
+   //    tableConfig.map((col)=> {
+   //       gridTemplateColumns.push(col.width)
+   //    })
+   //    return gridTemplateColumns.join(' ')
+   // }
+
+
+
+   // console.log(tableConfig)

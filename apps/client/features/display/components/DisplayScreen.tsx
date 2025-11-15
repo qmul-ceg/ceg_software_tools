@@ -9,393 +9,54 @@ import { useDisplay } from '@/context/DispayContext'
 import { FilterStates } from '@/types/shared.types'
 import { List } from "react-window";
 import TableRow from './TableRow'
-import {checkFinancialYear, convertDate, recordedOverTwelveMonths, splitBloodPressureValue} from '../helpers/displayHelpers'
+// import {checkFinancialYear, convertDate, recordedOverTwelveMonths, splitBloodPressureValue } from '../helpers/displayHelpers'
+
+
+
+
+
 
 const DisplayScreen = () => {   
+
    
-   const bodyRef = useRef<HTMLDivElement>(null)
-   
-   const { importedData } = useDisplay()
-   const [  isModalOpen, setIsModalOpen   ] = useState<boolean>(false)
-   const [  scrollbarWidth, setScrollBarWidth   ] = useState<number>(11)
-   const [  masterCheckbox, setMasterCheckbox   ] = useState<boolean>(false)
-   const [  selectedPatientRow, setSelectedPatientRow ] = useState<string[]>([])
-   const [  selectedPatientIndex, setSelectedPatientIndex   ] = useState<number>()
-   const [  selectedForExport, setSelectedForExport   ]  = useState<Record<string, boolean>>({})
+   const { importedData } = useDisplay();
 
-   type ActiveFilters = "ageFilter" | "comorbiditiesFilter" 
- 
-   const [filterStates, setFilterStates]= useState<FilterStates>(()=>structuredClone(importedData?.config?.filterStatesConfig!))
-   const [activeFilters, setActiveFilters]= useState<ActiveFilters[]>([])
-   
-   const reportKeys = importedData?.config?.reportKeys
-   
-   
-   const tableConfig = useMemo(()=> {
-      
-      return importedData?.data?.tableConfig!
-   },[importedData])
-
-   const filterFunctionalityObject = { 
-      antihypertensiveMedsFilter : (row: string[]) : boolean => {
-          const antihypertensiveMedsFilterGroupOne = () => {
-            const aceiArb = filterStates.antihypertensiveMedsFilter.value[0].includes("acei/arb") && row[reportKeys!.ACEi_ARB_Name_Dosage_Quantity].trim();
-            const noAceiArb = filterStates.antihypertensiveMedsFilter.value[0].includes("no_acei/arb") && !row[reportKeys!.ACEi_ARB_Name_Dosage_Quantity].trim();
-
-            const caChannel = filterStates.antihypertensiveMedsFilter.value[0].includes("cachannel") && row[reportKeys!.Ca_Channel_Name_Dosage_Quantity].trim();
-            const thiazides = filterStates.antihypertensiveMedsFilter.value[0].includes("thiazides") && row[reportKeys!.Thiazides_Name_Dosage_Quantity].trim();
-            const betaBlockers = filterStates.antihypertensiveMedsFilter.value[0].includes("betablockers") && row[reportKeys!.Beta_Blocker_Name_Dosage_Quantity].trim()
-            const others = filterStates.antihypertensiveMedsFilter.value[0].includes("others") 
-               && (row[reportKeys!.Other_Diuretic_Name_Dosage_Quantity].trim() 
-               || row[reportKeys!.Other_Lipid_Lowering_Name_Dosage_Quantity].trim() 
-               || row[reportKeys!.Alpha_Blocker_Name_Dosage_Quantity].trim())
-
-            return { aceiArb, caChannel, thiazides, betaBlockers, others, noAceiArb }
-         }
-
-         const antihypertensiveMedsFilterGroupTwo = () => {
-            const equalToZero = filterStates.antihypertensiveMedsFilter.value[1].includes("0") && parseInt(row[reportKeys!.AntiHptnMedicationCount]) === 0;
-            const equalToOne = filterStates.antihypertensiveMedsFilter.value[1].includes("1") && parseInt(row[reportKeys!.AntiHptnMedicationCount]) === 1;
-            const gteTwo = filterStates.antihypertensiveMedsFilter.value[1].includes("gte2") && parseInt(row[reportKeys!.AntiHptnMedicationCount]) >= 2;
-
-            return { equalToZero, equalToOne, gteTwo }
-         }
-
-         const { aceiArb, caChannel, thiazides, betaBlockers, others, noAceiArb} = antihypertensiveMedsFilterGroupOne();
-         const { equalToZero, equalToOne, gteTwo } = antihypertensiveMedsFilterGroupTwo();
-         const getMaxToleratedDose = filterStates.antihypertensiveMedsFilter.value[2].includes("dose") && (row[reportKeys!.AntiHT_Max_Tol_Dose_Date])
-            
-         const getAntihypertensiveDeclined = filterStates.antihypertensiveMedsFilter.value[3].includes("declined") && (row[reportKeys!.AntiHT_Decline_Date] && !recordedOverTwelveMonths(convertDate(row[reportKeys!.AntiHT_Decline_Date]), convertDate(importedData.data?.reportRunDate)))
-
-         const filterByAntihypertensiveMeds = 
-         //When nothing is selected
-         (  filterStates.antihypertensiveMedsFilter.value[0].length === 0 
-            && filterStates.antihypertensiveMedsFilter.value[1].length === 0  
-            && filterStates.antihypertensiveMedsFilter.value[2].length === 0  
-            && filterStates.antihypertensiveMedsFilter.value[3].length === 0 ) ||
-
-         //Value selected in first group ONLY
-         (filterStates.antihypertensiveMedsFilter.value[0].length > 0
-            && (aceiArb || caChannel || thiazides || betaBlockers || others || noAceiArb) 
-            && filterStates.antihypertensiveMedsFilter.value[1].length === 0 
-            && filterStates.antihypertensiveMedsFilter.value[2].length === 0  
-            && filterStates.antihypertensiveMedsFilter.value[3].length === 0 )||
-
-         // Value selected in second group ONLY
-         (filterStates.antihypertensiveMedsFilter.value[1].length > 0 
-            && (equalToZero || equalToOne || gteTwo)
-            && filterStates.antihypertensiveMedsFilter.value[0].length === 0
-            && filterStates.antihypertensiveMedsFilter.value[2].length === 0  
-            && filterStates.antihypertensiveMedsFilter.value[3].length === 0 
-         ) ||
-
-         // Value selected from third group only 
-         (  filterStates.antihypertensiveMedsFilter.value[0].length === 0 
-            && filterStates.antihypertensiveMedsFilter.value[1].length === 0  
-            && filterStates.antihypertensiveMedsFilter.value[2].length > 0 && getMaxToleratedDose  
-            && filterStates.antihypertensiveMedsFilter.value[3].length === 0 ) ||
-
-         //Value from fourth group only
-         (  filterStates.antihypertensiveMedsFilter.value[1].length === 0 
-            && filterStates.antihypertensiveMedsFilter.value[0].length === 0
-            && filterStates.antihypertensiveMedsFilter.value[3].length >  0 && getAntihypertensiveDeclined 
-         ) ||
-
-         //Values from both groups are selected
-         (  filterStates.antihypertensiveMedsFilter.value[0].length > 0
-            && (aceiArb || caChannel || thiazides || betaBlockers || others || noAceiArb) ||
-            filterStates.antihypertensiveMedsFilter.value[1].length > 0 
-            && (equalToZero || equalToOne || gteTwo) ||
-            filterStates.antihypertensiveMedsFilter.value[3].length > 0 
-            && (getAntihypertensiveDeclined)
-         )
-
-         return filterByAntihypertensiveMeds
-      }, 
-      
-      bloodPressureFilter : (row:string[]): boolean => {
-         const bloodPressureFilterGroupOne = () => {
-            const [systolic , diastolic ] = splitBloodPressureValue(row[reportKeys!.BloodPressure]);
-       
-
-            const lowerBound = filterStates.bloodPressureFilter.value[0].includes("<140/90") && (parseInt(systolic) < 140 && parseInt(diastolic) < 90);
-            const midBound = filterStates.bloodPressureFilter.value[0].includes("gte140/90") && (parseInt(systolic) >= 140 || parseInt(diastolic) >= 90);
-            const upperBound = filterStates.bloodPressureFilter.value[0].includes("gte150/90") && (parseInt(systolic) >= 150 || parseInt(diastolic) >= 90);
-
-            return { lowerBound, midBound, upperBound }
-         }
-
-         const { lowerBound, midBound, upperBound } = bloodPressureFilterGroupOne();
-         const recordedDateResult = recordedOverTwelveMonths(convertDate(row[reportKeys!.Systolic_BP_Date_1]), convertDate(importedData?.data?.reportRunDate))
-         const overTwelveMonths = filterStates.bloodPressureFilter.value[1].includes("<12m") && recordedDateResult
-         const financialYearCheck = checkFinancialYear(convertDate(row[reportKeys!.Systolic_BP_Date_1]))
-         const notInFinancialYear = filterStates.bloodPressureFilter.value[1].includes("notInFinancialYear") && financialYearCheck
-
-         const filterByBloodPressure = 
-            // When no filter is selected
-            (
-               filterStates.bloodPressureFilter.value[0].length === 0 
-               && filterStates.bloodPressureFilter.value[1].length === 0 
-            ) ||
-
-            //When blood pressure value is selected only 
-            (
-               filterStates.bloodPressureFilter.value[0].length > 0 && (lowerBound || midBound || upperBound) 
-               && filterStates.bloodPressureFilter.value[1].length === 0
-            ) ||
-
-            // When date is selected only
-            (
-               filterStates.bloodPressureFilter.value[0].length === 0 
-               && (filterStates.bloodPressureFilter.value[1].length > 0 && (overTwelveMonths || notInFinancialYear))
-            ) ||
-
-            //Value comibinations 
-            (
-               filterStates.bloodPressureFilter.value[0].length  > 0 && (lowerBound || midBound || upperBound ) 
-               || (filterStates.bloodPressureFilter.value[1].length > 0  && (overTwelveMonths || notInFinancialYear))
-            )
-            return filterByBloodPressure;
-
-      },
-
-      houseboundCarehomeFilter : (row:string[]):boolean => {
-         const houseboundIndex = row[reportKeys!.HouseB_CareH_Code_Term].trim();
-
-         const filterByHouseboundCarehome = 
-            filterStates.houseboundCarehomeFilter.value.length === 0 ||
-            (filterStates.houseboundCarehomeFilter.value as string[]).includes("housebound")  && houseboundIndex === "Housebound" ||
-            (filterStates.houseboundCarehomeFilter.value as string[]).includes("carehome")  && (houseboundIndex.length > 0  && houseboundIndex !== "Housebound") ;
-      
-         return filterByHouseboundCarehome
-      },
-
-      lipidMedicationsFilter : (row:string[]) : boolean => {
-         const lipidMedicationsFilterGroupOne = () => {
-      
-            const highStatinIntensity = filterStates.lipidMedicationsFilter.value[0].includes("highIntensity") && row[reportKeys!.Statin_Intensity] === "High";
-            const mediumLowStatinIntensity = filterStates.lipidMedicationsFilter.value[0].includes("mediumLow") && row[reportKeys!.Statin_Intensity] === "Med/Low";
-            const notOnStatin = filterStates.lipidMedicationsFilter.value[0].includes("noStatin") && row[reportKeys!.Statin_Intensity] === "None"
-
-            return { highStatinIntensity, mediumLowStatinIntensity, notOnStatin }
-         }
-
-         const onInclisiran = filterStates.lipidMedicationsFilter.value[1].includes("onInclisiran") && row[reportKeys!.Inclisiran] === "YES"
-         const statinExclusions = filterStates.lipidMedicationsFilter.value[3].includes("statinExclusions") 
-         && (row[reportKeys!.Statin_Exclusion] === "Contra" || row[reportKeys!.Statin_Exclusion] === "Declined")
-
-         const statinMaxToleratedDose = filterStates.lipidMedicationsFilter.value[2].includes("dose") && (row[reportKeys!.Statin_Max_Tol_Dose_Date])
-         const { highStatinIntensity, mediumLowStatinIntensity, notOnStatin } = lipidMedicationsFilterGroupOne()
-
-
-
-         const filterByLipidMedications = 
-         //  When nothing is selected
-            (  
-               filterStates.lipidMedicationsFilter.value[0].length === 0  
-               && filterStates.lipidMedicationsFilter.value[1].length === 0  
-               && filterStates.lipidMedicationsFilter.value[2].length === 0   
-               && filterStates.lipidMedicationsFilter.value[3].length === 0  
-            )  ||
-
-            //Value selected in first group only 
-            (
-               filterStates.lipidMedicationsFilter.value[0].length > 0 
-               && ( highStatinIntensity || mediumLowStatinIntensity || notOnStatin ) 
-               && filterStates.lipidMedicationsFilter.value[1].length === 0  
-               && filterStates.lipidMedicationsFilter.value[2].length === 0
-               && filterStates.lipidMedicationsFilter.value[3].length === 0 ) ||
-
-            //Value selected in second group only (onInclisiran)
-            
-            (
-               filterStates.lipidMedicationsFilter.value[0].length === 0 
-               && (filterStates.lipidMedicationsFilter.value[1].length > 0 && onInclisiran) 
-               && (filterStates.lipidMedicationsFilter.value[2].length === 0 ) 
-               && (filterStates.lipidMedicationsFilter.value[3].length === 0 )  
-            )  ||
-
-            //Value selected in thrid group only (max tolerated dose)
-            (  
-               filterStates.lipidMedicationsFilter.value[0].length === 0  
-               && filterStates.lipidMedicationsFilter.value[1].length === 0  
-               && filterStates.lipidMedicationsFilter.value[2].length > 0 && (statinMaxToleratedDose)   
-               && filterStates.lipidMedicationsFilter.value[3].length === 0  
-            )  ||
-
-            //Value selected in fourth group ONLY (statin exclusions)
-            (
-               filterStates.lipidMedicationsFilter.value[0].length === 0 
-               && (filterStates.lipidMedicationsFilter.value[1].length === 0) 
-               && (filterStates.lipidMedicationsFilter.value[2].length === 0 ) 
-               && (filterStates.lipidMedicationsFilter.value[3].length > 0 && statinExclusions)  
-            )  ||
-
-            //Value combinationations
-            (
-               (filterStates.lipidMedicationsFilter.value[0].length > 0 && (highStatinIntensity || mediumLowStatinIntensity || notOnStatin)) ||
-               (filterStates.lipidMedicationsFilter.value[1].length > 0 && onInclisiran) ||
-               filterStates.lipidMedicationsFilter.value[2].length > 0 && (statinMaxToleratedDose) ||
-               (filterStates.lipidMedicationsFilter.value[3].length > 0 && statinExclusions)  
-            )
-               
-
-            return filterByLipidMedications
-      },
-      
-
-
-      comorbiditiesFilter : (row:string[]): boolean => {
-
-         const cvdIndex = row[reportKeys!.CVD]
-         const hypertensionIndex = row[reportKeys!.Hypertension]
-         const diabetesIndex = row[reportKeys!.Diabetes]
-         const ckdIndex = row[reportKeys!.CKD_Code_Term]
-         const afIndex = row[reportKeys!.AF_Code_Term]
-         const cancerIndex = row[reportKeys!.Cancer_Code_Term]
-        
-
-         const filterByComorbodities = 
-            (filterStates.comorbiditiesFilter.value as string[]).includes("cvd") && cvdIndex === "YES" ||
-            (filterStates.comorbiditiesFilter.value as string[]).includes("hypertension") && hypertensionIndex === "YES" ||
-            (filterStates.comorbiditiesFilter.value as string[]).includes("noHypertension") && hypertensionIndex === "NO" ||
-            (filterStates.comorbiditiesFilter.value as string[]).includes("diabetes") && diabetesIndex === "YES" ||
-            (filterStates.comorbiditiesFilter.value as string[]).includes("ckd") && ckdIndex.length > 0  ||
-            (filterStates.comorbiditiesFilter.value as string[]).includes("af") && afIndex.length > 0  ||
-            (filterStates.comorbiditiesFilter.value as string[]).includes("cancer") && cancerIndex.length > 0  ||
-            filterStates.comorbiditiesFilter.value.length === 0;
-
-         return filterByComorbodities
-      },
-
-      cholestrolFilter : (row:string[]): boolean => {
-   
-         const ldlGreaterThanTwo = filterStates.cholestrolFilter.value[0].includes(">2.0") && parseInt(row[reportKeys!.LDL_Cholestrol_Value]) > 2.0
-         const recordedDateResult = recordedOverTwelveMonths(convertDate(row[reportKeys!.LDL_Cholestrol_Date]), convertDate("07-Aug-25"))
-         const overTwelveMonths = filterStates.cholestrolFilter.value[1].includes("<12m") && recordedDateResult
-         const financialYearCheck = checkFinancialYear(convertDate(row[reportKeys!.LDL_Cholestrol_Date]))
-         const notInFinancialYear = filterStates.cholestrolFilter.value[1].includes("notInFinancialYear") && financialYearCheck
-
-         const filterByCholestrol = 
-            (
-               filterStates.cholestrolFilter.value[0].length === 0 
-               && filterStates.cholestrolFilter.value[1].length === 0       
-            ) ||
-            //Only value is selected
-            (
-               filterStates.cholestrolFilter.value[0].length > 0 && ldlGreaterThanTwo 
-               && filterStates.cholestrolFilter.value[1].length === 0 
-            ) ||
-
-            //When only date is selected
-            (
-               filterStates.cholestrolFilter.value[0].length === 0 
-               && filterStates.cholestrolFilter.value[1].length > 0 && (overTwelveMonths || notInFinancialYear)
-            ) ||
-
-            // combinations
-            (
-               filterStates.cholestrolFilter.value[0].length > 0 && ldlGreaterThanTwo 
-               || filterStates.cholestrolFilter.value[1].length > 0 && (overTwelveMonths || notInFinancialYear)
-            )
-
-            return filterByCholestrol
-      },
-
-      qRiskFilter : (row:string[]):boolean => {
-         const greaterThanTenPercent = filterStates.qRiskFilter.value[0].includes(">10") && (parseFloat(row[reportKeys!.QRisk_Value]) > 10.0)
-         const greaterThanTwentyPercent = filterStates.qRiskFilter.value[0].includes(">20") && (parseFloat(row[reportKeys!.QRisk_Value]) > 20.0)
-
-         const recordedDateResult = recordedOverTwelveMonths(convertDate(row[reportKeys!.QRisk_Date]), convertDate("07-Aug-25"))
-         const overTwelveMonths = filterStates.qRiskFilter.value[1].includes("<12m") && recordedDateResult
-
-         const filterByQrisk = 
-            (
-               filterStates.qRiskFilter.value[0].length === 0  
-               && filterStates.qRiskFilter.value[1].length === 0  
-            ) ||
-
-            //Selection at the top 
-            (
-               filterStates.qRiskFilter.value[0].length > 0 && (greaterThanTenPercent || greaterThanTwentyPercent)
-               && filterStates.qRiskFilter.value[1].length === 0
-            ) ||
-
-            (
-               filterStates.qRiskFilter.value[0].length === 0 
-               && filterStates.qRiskFilter.value[1].length > 0 && overTwelveMonths
-
-            ) ||
-
-            (
-               filterStates.qRiskFilter.value[0].length > 0 && (greaterThanTenPercent || greaterThanTwentyPercent)
-               || filterStates.qRiskFilter.value[1].length > 0 && overTwelveMonths
-            )
-
-         return filterByQrisk
-     
-      },
-
-
-
-      ageFilter : (row: string[] ): boolean => {
-         const ageIndex = parseInt(row[reportKeys!.Age]);
-
-         const filterByAge = 
-            (filterStates.ageFilter.value as string[]).includes("lt65") && ageIndex < 65 ||
-            (filterStates.ageFilter.value as string[]).includes("65-79") && (ageIndex >= 65 && ageIndex <= 79) ||
-            (filterStates.ageFilter.value as string[]).includes("gte80") && (ageIndex >= 80) ||
-            filterStates.ageFilter.value.length === 0 ;
-
-         
-         return filterByAge
-      },
-      adverseMedsFilter : (row:string[]): boolean => {
-         const adverseMedsIndex = row[reportKeys!.NSAID_Name_Dosage_Quantity]
-
-         const filterByAdverseMeds = 
-            (filterStates.adverseMedsFilter.value as string[]).includes("nsaids") && adverseMedsIndex.length > 0 ||
-            filterStates.adverseMedsFilter.value.length === 0;
-
-         return filterByAdverseMeds
-      },
-      vulnerabilitiesFilter : (row:string[]):boolean => {
-         const smiIndex = row[reportKeys!.SMI_Code_Term].trim();
-         const learningDisabilityIndex = row[reportKeys!.Learning_Difficulties_Code_Term].trim();
-         const dementiaIndex = row[reportKeys!.Dementia_Code_Term].trim();
-
-
-         const filterByVulnerabilites = 
-            (filterStates.vulnerabilitiesFilter.value as string[]).includes("smi") && smiIndex.length > 0  ||
-            (filterStates.vulnerabilitiesFilter.value as string[]).includes("learning") && learningDisabilityIndex.length > 0 ||
-            (filterStates.vulnerabilitiesFilter.value as string[]).includes("dementia") && dementiaIndex.length > 0 ||
-            filterStates.vulnerabilitiesFilter.value.length === 0 ;
-
-         return filterByVulnerabilites
-
-      },
-
+   if (!importedData.data || !importedData.config || !importedData.data.reportRunDate || !importedData.config.filterFunctionalityConfig  ){
+      return null;
    }
 
 
+   const bodyRef = useRef<HTMLDivElement>(null);
+   const reportKeys = importedData.config.reportKeys;
+   const filterFunctionalities = importedData.config.filterFunctionalityConfig;
+   const relativeRunDate = importedData.data.reportRunDate;
+   const masterReport = importedData.data.masterReport;
+   const filterStatesConfig = importedData.config.filterStatesConfig;
+   const tableConfig = importedData.config.tableConfig;
+   const gridTemplateColumns = tableConfig.map((item)=> item.width).join(' ');
 
 
+
+
+   const [  isModalOpen, setIsModalOpen   ] = useState<boolean>(false);
+   const [  scrollbarWidth, setScrollBarWidth   ] = useState<number>(11);
+   const [  masterCheckbox, setMasterCheckbox   ] = useState<boolean>(false);
+   const [  selectedPatientIndex, setSelectedPatientIndex   ] = useState<number>();
+   const [  selectedForExport, setSelectedForExport   ]  = useState<Record<string, boolean>>({});  
+   const [  filterStates, setFilterStates ]= useState<FilterStates>(()=>structuredClone(filterStatesConfig));
+   const [  activeFilters, setActiveFilters  ]= useState<string[]>([]);
+   // const [  selectedPatientRow, setSelectedPatientRow ] = useState<string[]>([])
+   
+  
 
    const filteredData = useMemo(()=> {
-      if (!importedData) return [];
-      const tableData = Object.values(importedData?.data?.masterReport!)
-      return tableData?.filter((row) => {
+      const tableData = Object.values(masterReport);
+      return tableData.filter((row) => {
          return activeFilters.every((activeFilter) => {
-            return filterFunctionalityObject[activeFilter](row) === true 
-         })
-      })
-   }, [filterStates, importedData, activeFilters])
-
-
-
-
-
-
+            return filterFunctionalities[activeFilter](row, filterStates, reportKeys, relativeRunDate) === true 
+         });
+      });
+   }, [filterStates, importedData, activeFilters]);
 
 
 
@@ -405,14 +66,11 @@ const DisplayScreen = () => {
          return width
       }
       return 0
-      
-
    }
 
    useLayoutEffect(()=>{
 
       setScrollBarWidth(getScrollbarWidth(bodyRef.current))
-      
    },[])
 
    useEffect(()=> {
@@ -454,22 +112,17 @@ const DisplayScreen = () => {
 
    }
 
-   const gridTemplateColumns = ()=>{
-      let gridTemplateColumns: string[] = []
-      tableConfig.map((col)=> {
-         gridTemplateColumns.push(col.width)
-      })
-      return gridTemplateColumns.join(' ')
-   }
+
+
 
 
 
 function renderRow({index, style }){
    return <TableRow 
-            row={filteredData[index]} tableConfig={tableConfig} reportKeys={reportKeys!} selectedForExport={selectedForExport} 
+            row={filteredData[index]} tableConfig={tableConfig} reportKeys={reportKeys} selectedForExport={selectedForExport} 
             toggleSelectedPatient = {toggleSelectedPatient}
             handlePatientClick={handlePatientClick} index = {index}
-            key={index} style={style} gridTemplateColumns = {gridTemplateColumns()}
+            key={index} style={style} gridTemplateColumns = {gridTemplateColumns}
    />
 }
 
@@ -488,21 +141,21 @@ function renderRow({index, style }){
          </div>
 
          <div className = "  mt-4 mb-2 flex justify-between">
-            <span className="font-bold">Patient count : {filteredData.length}</span>
-            <span className="font-bold">Relative run date : {importedData?.data?.reportRunDate}</span>
+            <span className="font-bold">Patient count : {   filteredData.length  }</span>
+            <span className="font-bold">Relative run date : {importedData.data.reportRunDate}</span>
             
          </div>
            
          <div className='flex flex-col flex-1 min-h-0 border border-[#21376A] rounded-t-lg '>
             <TableHeader 
-               paddingValue={scrollbarWidth} masterCheckbox={masterCheckbox} setMasterCheckbox=   {setMasterCheckbox} selectedForExport={selectedForExport}setSelectedForExport={setSelectedForExport} filteredData={filteredData}  gridTemplateColumns = {gridTemplateColumns()}
+               paddingValue={scrollbarWidth} masterCheckbox={masterCheckbox} setMasterCheckbox=   {setMasterCheckbox} selectedForExport={selectedForExport}setSelectedForExport={setSelectedForExport} filteredData={filteredData}  gridTemplateColumns = {gridTemplateColumns}
             />
             <div className="overflow-y-auto scroll-mt-20 " ref={bodyRef}>
                <List 
                   style={{ height: "100%", width: "100%" }}
                   className=''
-                  rowCount = {filteredData?.length ?? 0}
-                  rowHeight={30}
+                  rowCount = {filteredData.length}
+                  rowHeight={25}
                   rowComponent={renderRow}
                   rowProps={{ tableConfig, reportKeys, selectedForExport }}
                />
@@ -510,7 +163,7 @@ function renderRow({index, style }){
             </div>
          </div>
 
-         <div className="  mt-auto">
+         <div className="mt-auto">
             <FooterSection />
          </div>
 
@@ -521,14 +174,18 @@ function renderRow({index, style }){
                      <Modal setIsModalOpen = {setIsModalOpen}/>
                   </div>
                ): null
-         }
-         
+         } 
       </div>
   )
 }
 
 
 export default DisplayScreen
+
+
+
+
+
 
 
 
@@ -600,4 +257,343 @@ export default DisplayScreen
    // setSelectedForExport : React.Dispatch<React.SetStateAction<Record<string, boolean>>>
 
    // masterCheckbox : boolean;
-   // setMasterCheckbox : React.Dispatch<React.SetStateAction<boolean>>
+   // setMasterCheckbox : React.Dispatch<React.SetStateAction<boolean>> // const filterFunctionalityObject = { 
+   //    antihypertensiveMedsFilter : (row: string[]) : boolean => {
+   //        const antihypertensiveMedsFilterGroupOne = () => {
+   //          const aceiArb = filterStates.antihypertensiveMedsFilter.value[0].includes("acei/arb") && row[reportKeys.ACEi_ARB_Name_Dosage_Quantity].trim();
+   //          const noAceiArb = filterStates.antihypertensiveMedsFilter.value[0].includes("no_acei/arb") && !row[reportKeys.ACEi_ARB_Name_Dosage_Quantity].trim();
+
+   //          const caChannel = filterStates.antihypertensiveMedsFilter.value[0].includes("cachannel") && row[reportKeys.Ca_Channel_Name_Dosage_Quantity].trim();
+   //          const thiazides = filterStates.antihypertensiveMedsFilter.value[0].includes("thiazides") && row[reportKeys.Thiazides_Name_Dosage_Quantity].trim();
+   //          const betaBlockers = filterStates.antihypertensiveMedsFilter.value[0].includes("betablockers") && row[reportKeys.Beta_Blocker_Name_Dosage_Quantity].trim()
+   //          const others = filterStates.antihypertensiveMedsFilter.value[0].includes("others") 
+   //             && (row[reportKeys.Other_Diuretic_Name_Dosage_Quantity].trim() 
+   //             || row[reportKeys.Other_Lipid_Lowering_Name_Dosage_Quantity].trim() 
+   //             || row[reportKeys.Alpha_Blocker_Name_Dosage_Quantity].trim())
+
+   //          return { aceiArb, caChannel, thiazides, betaBlockers, others, noAceiArb }
+   //       }
+
+   //       const antihypertensiveMedsFilterGroupTwo = () => {
+   //          const equalToZero = filterStates.antihypertensiveMedsFilter.value[1].includes("0") && parseInt(row[reportKeys.AntiHptnMedicationCount]) === 0;
+   //          const equalToOne = filterStates.antihypertensiveMedsFilter.value[1].includes("1") && parseInt(row[reportKeys.AntiHptnMedicationCount]) === 1;
+   //          const gteTwo = filterStates.antihypertensiveMedsFilter.value[1].includes("gte2") && parseInt(row[reportKeys.AntiHptnMedicationCount]) >= 2;
+
+   //          return { equalToZero, equalToOne, gteTwo }
+   //       }
+
+   //       const { aceiArb, caChannel, thiazides, betaBlockers, others, noAceiArb} = antihypertensiveMedsFilterGroupOne();
+   //       const { equalToZero, equalToOne, gteTwo } = antihypertensiveMedsFilterGroupTwo();
+   //       const getMaxToleratedDose = filterStates.antihypertensiveMedsFilter.value[2].includes("dose") && (row[reportKeys.AntiHT_Max_Tol_Dose_Date])
+            
+   //       const getAntihypertensiveDeclined = filterStates.antihypertensiveMedsFilter.value[3].includes("declined") && (row[reportKeys.AntiHT_Decline_Date] && !recordedOverTwelveMonths(convertDate(row[reportKeys.AntiHT_Decline_Date]), convertDate(importedData.data?.reportRunDate ?? "")))
+
+   //       const filterByAntihypertensiveMeds = 
+   //       //When nothing is selected
+   //       (  filterStates.antihypertensiveMedsFilter.value[0].length === 0 
+   //          && filterStates.antihypertensiveMedsFilter.value[1].length === 0  
+   //          && filterStates.antihypertensiveMedsFilter.value[2].length === 0  
+   //          && filterStates.antihypertensiveMedsFilter.value[3].length === 0 ) ||
+
+   //       //Value selected in first group ONLY
+   //       (filterStates.antihypertensiveMedsFilter.value[0].length > 0
+   //          && (aceiArb || caChannel || thiazides || betaBlockers || others || noAceiArb) 
+   //          && filterStates.antihypertensiveMedsFilter.value[1].length === 0 
+   //          && filterStates.antihypertensiveMedsFilter.value[2].length === 0  
+   //          && filterStates.antihypertensiveMedsFilter.value[3].length === 0 )||
+
+   //       // Value selected in second group ONLY
+   //       (filterStates.antihypertensiveMedsFilter.value[1].length > 0 
+   //          && (equalToZero || equalToOne || gteTwo)
+   //          && filterStates.antihypertensiveMedsFilter.value[0].length === 0
+   //          && filterStates.antihypertensiveMedsFilter.value[2].length === 0  
+   //          && filterStates.antihypertensiveMedsFilter.value[3].length === 0 
+   //       ) ||
+
+   //       // Value selected from third group only 
+   //       (  filterStates.antihypertensiveMedsFilter.value[0].length === 0 
+   //          && filterStates.antihypertensiveMedsFilter.value[1].length === 0  
+   //          && filterStates.antihypertensiveMedsFilter.value[2].length > 0 && getMaxToleratedDose  
+   //          && filterStates.antihypertensiveMedsFilter.value[3].length === 0 ) ||
+
+   //       //Value from fourth group only
+   //       (  filterStates.antihypertensiveMedsFilter.value[1].length === 0 
+   //          && filterStates.antihypertensiveMedsFilter.value[0].length === 0
+   //          && filterStates.antihypertensiveMedsFilter.value[3].length >  0 && getAntihypertensiveDeclined 
+   //       ) ||
+
+   //       //Values from both groups are selected
+   //       (  filterStates.antihypertensiveMedsFilter.value[0].length > 0
+   //          && (aceiArb || caChannel || thiazides || betaBlockers || others || noAceiArb) ||
+   //          filterStates.antihypertensiveMedsFilter.value[1].length > 0 
+   //          && (equalToZero || equalToOne || gteTwo) ||
+   //          filterStates.antihypertensiveMedsFilter.value[3].length > 0 
+   //          && (getAntihypertensiveDeclined)
+   //       )
+
+   //       return filterByAntihypertensiveMeds;
+   //    }, 
+      
+   //    bloodPressureFilter : (row:string[]): boolean => {
+   //       const bloodPressureFilterGroupOne = () => {
+   //          const [systolic , diastolic ] = splitBloodPressureValue(row[reportKeys.BloodPressure]);
+       
+
+   //          const lowerBound = filterStates.bloodPressureFilter.value[0].includes("<140/90") && (parseInt(systolic) < 140 && parseInt(diastolic) < 90);
+   //          const midBound = filterStates.bloodPressureFilter.value[0].includes("gte140/90") && (parseInt(systolic) >= 140 || parseInt(diastolic) >= 90);
+   //          const upperBound = filterStates.bloodPressureFilter.value[0].includes("gte150/90") && (parseInt(systolic) >= 150 || parseInt(diastolic) >= 90);
+
+   //          return { lowerBound, midBound, upperBound }
+   //       }
+
+   //       const { lowerBound, midBound, upperBound } = bloodPressureFilterGroupOne();
+   //       const recordedDateResult = recordedOverTwelveMonths(convertDate(row[reportKeys.Systolic_BP_Date_1]), convertDate(importedData.data?.reportRunDate ?? ""))
+   //       const overTwelveMonths = filterStates.bloodPressureFilter.value[1].includes("<12m") && recordedDateResult
+   //       const financialYearCheck = checkFinancialYear(convertDate(row[reportKeys.Systolic_BP_Date_1]))
+   //       const notInFinancialYear = filterStates.bloodPressureFilter.value[1].includes("notInFinancialYear") && financialYearCheck
+
+   //       const filterByBloodPressure = 
+   //          // When no filter is selected
+   //          (
+   //             filterStates.bloodPressureFilter.value[0].length === 0 
+   //             && filterStates.bloodPressureFilter.value[1].length === 0 
+   //          ) ||
+
+   //          //When blood pressure value is selected only 
+   //          (
+   //             filterStates.bloodPressureFilter.value[0].length > 0 && (lowerBound || midBound || upperBound) 
+   //             && filterStates.bloodPressureFilter.value[1].length === 0
+   //          ) ||
+
+   //          // When date is selected only
+   //          (
+   //             filterStates.bloodPressureFilter.value[0].length === 0 
+   //             && (filterStates.bloodPressureFilter.value[1].length > 0 && (overTwelveMonths || notInFinancialYear))
+   //          ) ||
+
+   //          //Value comibinations 
+   //          (
+   //             filterStates.bloodPressureFilter.value[0].length  > 0 && (lowerBound || midBound || upperBound ) 
+   //             || (filterStates.bloodPressureFilter.value[1].length > 0  && (overTwelveMonths || notInFinancialYear))
+   //          )
+   //          return filterByBloodPressure;
+
+   //    },
+
+   //    houseboundCarehomeFilter : (row:string[]):boolean => {
+   //       const houseboundIndex = row[reportKeys.HouseB_CareH_Code_Term].trim();
+
+   //       const filterByHouseboundCarehome = 
+   //          filterStates.houseboundCarehomeFilter.value.length === 0 ||
+   //          (filterStates.houseboundCarehomeFilter.value as string[]).includes("housebound")  && houseboundIndex === "Housebound" ||
+   //          (filterStates.houseboundCarehomeFilter.value as string[]).includes("carehome")  && (houseboundIndex.length > 0  && houseboundIndex !== "Housebound") ;
+      
+   //       return filterByHouseboundCarehome
+   //    },
+
+   //    lipidMedicationsFilter : (row:string[]) : boolean => {
+   //       const lipidMedicationsFilterGroupOne = () => {
+      
+   //          const highStatinIntensity = filterStates.lipidMedicationsFilter.value[0].includes("highIntensity") && row[reportKeys.Statin_Intensity] === "High";
+   //          const mediumLowStatinIntensity = filterStates.lipidMedicationsFilter.value[0].includes("mediumLow") && row[reportKeys.Statin_Intensity] === "Med/Low";
+   //          const notOnStatin = filterStates.lipidMedicationsFilter.value[0].includes("noStatin") && row[reportKeys.Statin_Intensity] === "None"
+
+   //          return { highStatinIntensity, mediumLowStatinIntensity, notOnStatin }
+   //       }
+
+   //       const onInclisiran = filterStates.lipidMedicationsFilter.value[1].includes("onInclisiran") && row[reportKeys.Inclisiran] === "YES"
+   //       const statinExclusions = filterStates.lipidMedicationsFilter.value[3].includes("statinExclusions") 
+   //       && (row[reportKeys.Statin_Exclusion] === "Contra" || row[reportKeys.Statin_Exclusion] === "Declined")
+
+   //       const statinMaxToleratedDose = filterStates.lipidMedicationsFilter.value[2].includes("dose") && (row[reportKeys.Statin_Max_Tol_Dose_Date])
+   //       const { highStatinIntensity, mediumLowStatinIntensity, notOnStatin } = lipidMedicationsFilterGroupOne()
+
+
+
+   //       const filterByLipidMedications = 
+   //       //  When nothing is selected
+   //          (  
+   //             filterStates.lipidMedicationsFilter.value[0].length === 0  
+   //             && filterStates.lipidMedicationsFilter.value[1].length === 0  
+   //             && filterStates.lipidMedicationsFilter.value[2].length === 0   
+   //             && filterStates.lipidMedicationsFilter.value[3].length === 0  
+   //          )  ||
+
+   //          //Value selected in first group only 
+   //          (
+   //             filterStates.lipidMedicationsFilter.value[0].length > 0 
+   //             && ( highStatinIntensity || mediumLowStatinIntensity || notOnStatin ) 
+   //             && filterStates.lipidMedicationsFilter.value[1].length === 0  
+   //             && filterStates.lipidMedicationsFilter.value[2].length === 0
+   //             && filterStates.lipidMedicationsFilter.value[3].length === 0 ) ||
+
+   //          //Value selected in second group only (onInclisiran)
+            
+   //          (
+   //             filterStates.lipidMedicationsFilter.value[0].length === 0 
+   //             && (filterStates.lipidMedicationsFilter.value[1].length > 0 && onInclisiran) 
+   //             && (filterStates.lipidMedicationsFilter.value[2].length === 0 ) 
+   //             && (filterStates.lipidMedicationsFilter.value[3].length === 0 )  
+   //          )  ||
+
+   //          //Value selected in thrid group only (max tolerated dose)
+   //          (  
+   //             filterStates.lipidMedicationsFilter.value[0].length === 0  
+   //             && filterStates.lipidMedicationsFilter.value[1].length === 0  
+   //             && filterStates.lipidMedicationsFilter.value[2].length > 0 && (statinMaxToleratedDose)   
+   //             && filterStates.lipidMedicationsFilter.value[3].length === 0  
+   //          )  ||
+
+   //          //Value selected in fourth group ONLY (statin exclusions)
+   //          (
+   //             filterStates.lipidMedicationsFilter.value[0].length === 0 
+   //             && (filterStates.lipidMedicationsFilter.value[1].length === 0) 
+   //             && (filterStates.lipidMedicationsFilter.value[2].length === 0 ) 
+   //             && (filterStates.lipidMedicationsFilter.value[3].length > 0 && statinExclusions)  
+   //          )  ||
+
+   //          //Value combinationations
+   //          (
+   //             (filterStates.lipidMedicationsFilter.value[0].length > 0 && (highStatinIntensity || mediumLowStatinIntensity || notOnStatin)) ||
+   //             (filterStates.lipidMedicationsFilter.value[1].length > 0 && onInclisiran) ||
+   //             filterStates.lipidMedicationsFilter.value[2].length > 0 && (statinMaxToleratedDose) ||
+   //             (filterStates.lipidMedicationsFilter.value[3].length > 0 && statinExclusions)  
+   //          )
+               
+
+   //          return filterByLipidMedications
+   //    },
+      
+
+
+   //    comorbiditiesFilter : (row:string[]): boolean => {
+
+   //       const cvdIndex = row[reportKeys.CVD]
+   //       const hypertensionIndex = row[reportKeys.Hypertension]
+   //       const diabetesIndex = row[reportKeys.Diabetes]
+   //       const ckdIndex = row[reportKeys.CKD_Code_Term]
+   //       const afIndex = row[reportKeys.AF_Code_Term]
+   //       const cancerIndex = row[reportKeys.Cancer_Code_Term]
+        
+
+   //       const filterByComorbodities = 
+   //          (filterStates.comorbiditiesFilter.value as string[]).includes("cvd") && cvdIndex === "YES" ||
+   //          (filterStates.comorbiditiesFilter.value as string[]).includes("hypertension") && hypertensionIndex === "YES" ||
+   //          (filterStates.comorbiditiesFilter.value as string[]).includes("noHypertension") && hypertensionIndex === "NO" ||
+   //          (filterStates.comorbiditiesFilter.value as string[]).includes("diabetes") && diabetesIndex === "YES" ||
+   //          (filterStates.comorbiditiesFilter.value as string[]).includes("ckd") && ckdIndex.length > 0  ||
+   //          (filterStates.comorbiditiesFilter.value as string[]).includes("af") && afIndex.length > 0  ||
+   //          (filterStates.comorbiditiesFilter.value as string[]).includes("cancer") && cancerIndex.length > 0  ||
+   //          filterStates.comorbiditiesFilter.value.length === 0;
+
+   //       return filterByComorbodities
+   //    },
+
+   //    cholestrolFilter : (row:string[]): boolean => {
+   
+   //       const ldlGreaterThanTwo = filterStates.cholestrolFilter.value[0].includes(">2.0") && parseInt(row[reportKeys.LDL_Cholestrol_Value]) > 2.0
+   //       const recordedDateResult = recordedOverTwelveMonths(convertDate(row[reportKeys.LDL_Cholestrol_Date]), convertDate(importedData.data?.reportRunDate ?? ""))
+   //       const overTwelveMonths = filterStates.cholestrolFilter.value[1].includes("<12m") && recordedDateResult
+   //       const financialYearCheck = checkFinancialYear(convertDate(row[reportKeys.LDL_Cholestrol_Date]))
+   //       const notInFinancialYear = filterStates.cholestrolFilter.value[1].includes("notInFinancialYear") && financialYearCheck
+
+   //       const filterByCholestrol = 
+   //          (
+   //             filterStates.cholestrolFilter.value[0].length === 0 
+   //             && filterStates.cholestrolFilter.value[1].length === 0       
+   //          ) ||
+   //          //Only value is selected
+   //          (
+   //             filterStates.cholestrolFilter.value[0].length > 0 && ldlGreaterThanTwo 
+   //             && filterStates.cholestrolFilter.value[1].length === 0 
+   //          ) ||
+
+   //          //When only date is selected
+   //          (
+   //             filterStates.cholestrolFilter.value[0].length === 0 
+   //             && filterStates.cholestrolFilter.value[1].length > 0 && (overTwelveMonths || notInFinancialYear)
+   //          ) ||
+
+   //          // combinations
+   //          (
+   //             filterStates.cholestrolFilter.value[0].length > 0 && ldlGreaterThanTwo 
+   //             || filterStates.cholestrolFilter.value[1].length > 0 && (overTwelveMonths || notInFinancialYear)
+   //          )
+
+   //          return filterByCholestrol
+   //    },
+
+   //    qRiskFilter : (row:string[]):boolean => {
+   //       const greaterThanTenPercent = filterStates.qRiskFilter.value[0].includes(">10") && (parseFloat(row[reportKeys.QRisk_Value]) > 10.0)
+   //       const greaterThanTwentyPercent = filterStates.qRiskFilter.value[0].includes(">20") && (parseFloat(row[reportKeys.QRisk_Value]) > 20.0)
+
+   //       const recordedDateResult = recordedOverTwelveMonths(convertDate(row[reportKeys.QRisk_Date]), convertDate(importedData.data?.reportRunDate ?? ""))
+   //       const overTwelveMonths = filterStates.qRiskFilter.value[1].includes("<12m") && recordedDateResult
+
+   //       const filterByQrisk = 
+   //          (
+   //             filterStates.qRiskFilter.value[0].length === 0  
+   //             && filterStates.qRiskFilter.value[1].length === 0  
+   //          ) ||
+
+   //          //Selection at the top 
+   //          (
+   //             filterStates.qRiskFilter.value[0].length > 0 && (greaterThanTenPercent || greaterThanTwentyPercent)
+   //             && filterStates.qRiskFilter.value[1].length === 0
+   //          ) ||
+
+   //          (
+   //             filterStates.qRiskFilter.value[0].length === 0 
+   //             && filterStates.qRiskFilter.value[1].length > 0 && overTwelveMonths
+
+   //          ) ||
+
+   //          (
+   //             filterStates.qRiskFilter.value[0].length > 0 && (greaterThanTenPercent || greaterThanTwentyPercent)
+   //             || filterStates.qRiskFilter.value[1].length > 0 && overTwelveMonths
+   //          )
+
+   //       return filterByQrisk
+     
+   //    },
+
+
+
+   //    ageFilter : (row: string[] ): boolean => {
+   //       const ageIndex = parseInt(row[reportKeys.Age]);
+
+   //       const filterByAge = 
+   //          (filterStates.ageFilter.value as string[]).includes("lt65") && ageIndex < 65 ||
+   //          (filterStates.ageFilter.value as string[]).includes("65-79") && (ageIndex >= 65 && ageIndex <= 79) ||
+   //          (filterStates.ageFilter.value as string[]).includes("gte80") && (ageIndex >= 80) ||
+   //          filterStates.ageFilter.value.length === 0 ;
+
+         
+   //       return filterByAge
+   //    },
+   //    adverseMedsFilter : (row:string[]): boolean => {
+   //       const adverseMedsIndex = row[reportKeys.NSAID_Name_Dosage_Quantity]
+
+   //       const filterByAdverseMeds = 
+   //          (filterStates.adverseMedsFilter.value as string[]).includes("nsaids") && adverseMedsIndex.length > 0 ||
+   //          filterStates.adverseMedsFilter.value.length === 0;
+
+   //       return filterByAdverseMeds
+   //    },
+   //    vulnerabilitiesFilter : (row:string[]):boolean => {
+   //       const smiIndex = row[reportKeys.SMI_Code_Term].trim();
+   //       const learningDisabilityIndex = row[reportKeys.Learning_Difficulties_Code_Term].trim();
+   //       const dementiaIndex = row[reportKeys.Dementia_Code_Term].trim();
+
+
+   //       const filterByVulnerabilites = 
+   //          (filterStates.vulnerabilitiesFilter.value as string[]).includes("smi") && smiIndex.length > 0  ||
+   //          (filterStates.vulnerabilitiesFilter.value as string[]).includes("learning") && learningDisabilityIndex.length > 0 ||
+   //          (filterStates.vulnerabilitiesFilter.value as string[]).includes("dementia") && dementiaIndex.length > 0 ||
+   //          filterStates.vulnerabilitiesFilter.value.length === 0 ;
+
+   //       return filterByVulnerabilites
+
+   //    },
+
+   // }

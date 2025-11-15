@@ -81,12 +81,14 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
                      filters : cvdConfig.filters,
                      quickFilters: cvdConfig.quickFilters,
                      reportKeys : EMISReportKeys,
-                     filterStatesConfig : cvdConfig.filterStatesConfig
+                     filterStatesConfig : cvdConfig.filterStatesConfig,
+                     tableConfig: EMISTableConfig,
+                     filterFunctionalityConfig : cvdConfig.filterFunctionalities
                   },
                   data : {
                      toolName : cvdConfig.toolName,
                      reportRunDate : reportRunDate,
-                     tableConfig: EMISTableConfig,
+                     
                      masterReport : masterReport,
                      summaryTable : cvdConfig.summaryTable,
                      tableHeader : cvdConfig.tableHeader
