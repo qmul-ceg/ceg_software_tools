@@ -58,7 +58,7 @@ type GroupedFilter = {
 }  
 
 
-type IndexMap = typeof SystmOneReportKeys | typeof EMISReportKeys
+export type IndexMap = typeof SystmOneReportKeys | typeof EMISReportKeys
 
 
 

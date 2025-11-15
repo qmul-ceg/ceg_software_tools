@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import HeaderSection from './HeaderSection'
 import FilterSection from './FilterSection'
 import FooterSection from './FooterSection'
@@ -8,7 +8,8 @@ import TableHeader from './TableHeader'
 import { useDisplay } from '@/context/DispayContext'
 import { FilterStates } from '@/types/shared.types'
 import { List } from "react-window";
-import TableRow from './TableRow'
+import TableRow from './TableRow';
+import useFilteredData from '../hooks/useFilteredData'
 // import {checkFinancialYear, convertDate, recordedOverTwelveMonths, splitBloodPressureValue } from '../helpers/displayHelpers'
 
 
@@ -21,7 +22,7 @@ const DisplayScreen = () => {
    
    const { importedData } = useDisplay();
 
-   if (!importedData.data || !importedData.config || !importedData.data.reportRunDate || !importedData.config.filterFunctionalityConfig  ){
+   if (  !importedData.data || !importedData.config || !importedData.data.reportRunDate || !importedData.config.filterFunctionalityConfig  ){
       return null;
    }
 
@@ -47,16 +48,9 @@ const DisplayScreen = () => {
    const [  activeFilters, setActiveFilters  ]= useState<string[]>([]);
    // const [  selectedPatientRow, setSelectedPatientRow ] = useState<string[]>([])
    
-  
+   const filteredDataParameters = {masterReport, activeFilters, filterStates, reportKeys, relativeRunDate, filterFunctionalities}
+   const filteredData = useFilteredData(filteredDataParameters)
 
-   const filteredData = useMemo(()=> {
-      const tableData = Object.values(masterReport);
-      return tableData.filter((row) => {
-         return activeFilters.every((activeFilter) => {
-            return filterFunctionalities[activeFilter](row, filterStates, reportKeys, relativeRunDate) === true 
-         });
-      });
-   }, [filterStates, importedData, activeFilters]);
 
 
 
@@ -73,6 +67,7 @@ const DisplayScreen = () => {
       setScrollBarWidth(getScrollbarWidth(bodyRef.current))
    },[])
 
+   // useEffection that stores all rows into an ubject when filtered data changes
    useEffect(()=> {
       let patientsSelectedForExport = {}
 
@@ -87,13 +82,14 @@ const DisplayScreen = () => {
    }, [filteredData])
    
    
-   
-   const handlePatientClick = (index:number) => {
+   //patient modal open fnctionality 
+   const handlePatientClick = useCallback((index:number) => {
       setSelectedPatientIndex(index)
       setIsModalOpen(true)
-   }
+   },[])
 
-   const toggleSelectedPatient = (patientId: string) => {
+   //patient 
+   const toggleSelectedPatient = useCallback((patientId: string) => {
       setSelectedForExport((prev)=> {
          const exists = patientId in prev; //Checks if our patientId is a key of 
 
@@ -110,7 +106,7 @@ const DisplayScreen = () => {
          }
       })
 
-   }
+   }, [])
 
 
 
@@ -199,7 +195,15 @@ export default DisplayScreen
 
 
 
-
+   //function to filter data
+   // const filteredData = useMemo(()=> {
+   //    const tableData = Object.values(masterReport);
+   //    return tableData.filter((row) => {
+   //       return activeFilters.every((activeFilter) => {
+   //          return filterFunctionalities[activeFilter](row, filterStates, reportKeys, relativeRunDate) === true 
+   //       });
+   //    });
+   // }, [filterStates, importedData, activeFilters]);
 
 
 
