@@ -8,43 +8,12 @@ type TableHeaderProps = {
    filteredData : string[][],
    selectedForExport : Record<string, boolean>
 }
-   // reportKeys : IndexMap
- // paddingValue: number,
-   // masterCheckbox: boolean,
-   // setMasterCheckbox:  React.Dispatch<React.SetStateAction<boolean>>
-   // selectedForExport : Record<string, boolean>
-   // setSelectedForExport: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
-   // filteredData : string[][]
-
-export function ColumnGroup (){
-   const { importedData} = useDisplay()
-   //Function allows us to create a column group element that we use to align our table header and table body
-   return (
-      <colgroup>
-         {
-            importedData?.data?.tableConfig?.map((col) => {
-               return (
-                  <col key = {col.id} style ={{width: col.width}}/>
-               )
-            })
-         }
-      </colgroup>
-   )
-}
 
 
-const TableHeader = ({
-   handleToggleSelectAll, gridTemplateColumns, filteredData, selectedForExport
-   // paddingValue, 
-   // masterCheckbox, setMasterCheckbox, , setSelectedForExport, , , reportKeys
-} : TableHeaderProps) => {
+
+const TableHeader = ({  handleToggleSelectAll, gridTemplateColumns, filteredData, selectedForExport   } : TableHeaderProps) => {
    const { importedData } = useDisplay()
    
-
-      
-
-
-
    return (
       <div 
          className={` border-b-6 border-[#21376A] rounded-t-lg pr-[11px]`}
@@ -114,13 +83,36 @@ export default TableHeader
 
 
 
+   // paddingValue, 
+   // masterCheckbox, setMasterCheckbox, , setSelectedForExport, , , reportKeys
 
 
 
 
 
+   // reportKeys : IndexMap
+ // paddingValue: number,
+   // masterCheckbox: boolean,
+   // setMasterCheckbox:  React.Dispatch<React.SetStateAction<boolean>>
+   // selectedForExport : Record<string, boolean>
+   // setSelectedForExport: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+   // filteredData : string[][]
 
-
+// export function ColumnGroup (){
+//    const { importedData } = useDisplay()
+//    //Function allows us to create a column group element that we use to align our table header and table body
+//    return (
+//       <colgroup>
+//          {
+//             importedData?.data?.tableConfig?.map((col) => {
+//                return (
+//                   <col key = {col.id} style ={{width: col.width}}/>
+//                )
+//             })
+//          }
+//       </colgroup>
+//    )
+// }
 
 
 

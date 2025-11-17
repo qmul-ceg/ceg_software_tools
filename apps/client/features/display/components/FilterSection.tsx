@@ -151,8 +151,6 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
 
 
 
-
-
    useEffect(()=> {
       const updateFilters = () => {
          let currentFilterList = {}

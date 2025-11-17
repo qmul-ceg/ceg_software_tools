@@ -37,10 +37,9 @@ const DisplayScreen = () => {
 
    // STATES FOR DISPLAY SCREEN
    const [  isModalOpen, setIsModalOpen   ] = useState<boolean>(false);
-   const [  scrollbarWidth, setScrollBarWidth   ] = useState<number>(11);
-   const [  masterCheckbox, setMasterCheckbox   ] = useState<boolean>(false);
+
    const [  selectedPatientIndex, setSelectedPatientIndex   ] = useState<number>();
-   // const [  selectedForExport, setSelectedForExport   ]  = useState<Record<string, boolean>>({});  
+
    const [  filterStates, setFilterStates ]= useState<FilterStates>(()=>structuredClone(filterStatesConfig));
    const [  activeFilters, setActiveFilters  ]= useState<string[]>([]);
 
@@ -48,22 +47,10 @@ const DisplayScreen = () => {
    const filteredDataParameters = {masterReport, activeFilters, filterStates, reportKeys, relativeRunDate, filterFunctionalities}
    const filteredData = useFilteredData(filteredDataParameters);
    const gridTemplateColumns = useGridTemplateColumns(tableConfig);
-   const { toggleSelectedPatient, selectedForExport, setSelectedForExport, handleToggleSelectAll} = useSelection({filteredData: filteredData, key:reportKeys.Full_Name});
+   const { toggleSelectedPatient, selectedForExport,  handleToggleSelectAll} = useSelection({filteredData: filteredData, key:reportKeys.Full_Name});
 
 
 
-
-   const getScrollbarWidth = (element : HTMLDivElement | null):number=>{
-      if(element){
-         const width = element.offsetWidth - element.clientWidth
-         return width
-      }
-      return 0
-   };
-
-   useLayoutEffect(()=>{
-      setScrollBarWidth(getScrollbarWidth(bodyRef.current))
-   },[])
 
    
    
@@ -113,12 +100,11 @@ function renderRow({index, style }){
            
          <div className='flex flex-col flex-1 min-h-0 border border-[#21376A] rounded-t-lg '>
             <TableHeader 
-               // paddingValue={scrollbarWidth} 
+               
                handleToggleSelectAll = {handleToggleSelectAll}
-               // masterCheckbox={masterCheckbox} 
-               // setMasterCheckbox=   {setMasterCheckbox} 
+       
                selectedForExport={selectedForExport}
-               // setSelectedForExport={setSelectedForExport} 
+
                filteredData={filteredData}  
                
                gridTemplateColumns = {gridTemplateColumns} reportKeys={reportKeys}
@@ -178,6 +164,30 @@ export default DisplayScreen
 
 
 
+   // const [  scrollbarWidth, setScrollBarWidth   ] = useState<number>(11);
+   // const [  masterCheckbox, setMasterCheckbox   ] = useState<boolean>(false);
+
+   // const getScrollbarWidth = (element : HTMLDivElement | null):number=>{
+   //    if(element){
+   //       const width = element.offsetWidth - element.clientWidth
+   //       return width
+   //    }
+   //    return 0
+   // };
+
+   // useLayoutEffect(()=>{
+   //    setScrollBarWidth(getScrollbarWidth(bodyRef.current))
+   // },[])
+
+
+
+
+
+
+
+   // const [  selectedForExport, setSelectedForExport   ]  = useState<Record<string, boolean>>({});  
+
+               // setSelectedForExport={setSelectedForExport} 
 
 
 
@@ -186,6 +196,9 @@ export default DisplayScreen
 
 
 
+        // masterCheckbox={masterCheckbox} 
+               // setMasterCheckbox=   {setMasterCheckbox} 
+// paddingValue={scrollbarWidth} 
 
 
 
