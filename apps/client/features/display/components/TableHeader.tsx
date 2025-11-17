@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useDisplay } from '@/context/DispayContext'
-
+import { IndexMap } from '@/types/shared.types'
 
 type TableHeaderProps = {
    paddingValue: number,
@@ -10,6 +10,7 @@ type TableHeaderProps = {
    setSelectedForExport: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
    filteredData : string[][]
    gridTemplateColumns: string
+   reportKeys : IndexMap
 }
 
 
@@ -31,7 +32,7 @@ export function ColumnGroup (){
 }
 
 
-const TableHeader = ({paddingValue, masterCheckbox, setMasterCheckbox, selectedForExport, setSelectedForExport, filteredData, gridTemplateColumns} : TableHeaderProps) => {
+const TableHeader = ({paddingValue, masterCheckbox, setMasterCheckbox, selectedForExport, setSelectedForExport, filteredData, gridTemplateColumns, reportKeys} : TableHeaderProps) => {
    const { importedData } = useDisplay()
    
 

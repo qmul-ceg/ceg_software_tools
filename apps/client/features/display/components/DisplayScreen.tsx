@@ -59,7 +59,8 @@ const DisplayScreen = () => {
          return width
       }
       return 0
-   }
+   };
+
    useLayoutEffect(()=>{
       setScrollBarWidth(getScrollbarWidth(bodyRef.current))
    },[])
@@ -141,7 +142,7 @@ function renderRow({index, style }){
            
          <div className='flex flex-col flex-1 min-h-0 border border-[#21376A] rounded-t-lg '>
             <TableHeader 
-               paddingValue={scrollbarWidth} masterCheckbox={masterCheckbox} setMasterCheckbox=   {setMasterCheckbox} selectedForExport={selectedForExport}setSelectedForExport={setSelectedForExport} filteredData={filteredData}  gridTemplateColumns = {gridTemplateColumns}
+               paddingValue={scrollbarWidth} masterCheckbox={masterCheckbox} setMasterCheckbox=   {setMasterCheckbox} selectedForExport={selectedForExport}setSelectedForExport={setSelectedForExport} filteredData={filteredData}  gridTemplateColumns = {gridTemplateColumns} reportKeys={reportKeys}
             />
             <div className="overflow-y-auto scroll-mt-20 " ref={bodyRef}>
                <List 
