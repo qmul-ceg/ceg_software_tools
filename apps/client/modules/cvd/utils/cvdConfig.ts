@@ -1,7 +1,8 @@
 import { FilterStates } from "@/types/shared.types";
 import { SystmOneReportKeys, EMISReportKeys } from "../constants/cvdDataEnums";
-// import {checkFinancialYear, convertDate, recordedOverTwelveMonths, splitBloodPressureValue} from '../helpers/displayHelpers'
 import { checkFinancialYear, convertDate, recordedOverTwelveMonths, splitBloodPressureValue } from "@/features/display/helpers/displayHelpers";
+import { TableConfig } from "@/types/shared.types";
+
 //CREATE TYPE FOR THE CONFIGURATIONS SO THAT OTHER TOOLS WILL BE ABLE TO USE IT 
 
 
@@ -793,7 +794,7 @@ export const cvdConfig = {
    
 }
 
-export const SystmOneTableConfig = [
+export const SystmOneTableConfig: TableConfig = [
    {
       id: "select",
       header : "",

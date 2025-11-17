@@ -1,16 +1,17 @@
 "use client"
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import HeaderSection from './HeaderSection'
-import FilterSection from './FilterSection'
-import FooterSection from './FooterSection'
-import Modal from './Modal'
-import TableHeader from './TableHeader'
-import { useDisplay } from '@/context/DispayContext'
-import { FilterStates } from '@/types/shared.types'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import HeaderSection from './HeaderSection';
+import FilterSection from './FilterSection';
+import FooterSection from './FooterSection';
+import Modal from './Modal';
+import TableHeader from './TableHeader';
+import { useDisplay } from '@/context/DispayContext';
+import { FilterStates } from '@/types/shared.types';
 import { List } from "react-window";
 import TableRow from './TableRow';
-import useFilteredData from '../hooks/useFilteredData'
-// import {checkFinancialYear, convertDate, recordedOverTwelveMonths, splitBloodPressureValue } from '../helpers/displayHelpers'
+import useFilteredData from '../hooks/useFilteredData';
+import useGridTemplateColumns from '../hooks/useGridTemplateColumns';
+
 
 
 
@@ -34,11 +35,8 @@ const DisplayScreen = () => {
    const masterReport = importedData.data.masterReport;
    const filterStatesConfig = importedData.config.filterStatesConfig;
    const tableConfig = importedData.config.tableConfig;
-   const gridTemplateColumns = tableConfig.map((item)=> item.width).join(' ');
 
-
-
-
+   // STATES FOR DISPLAY SCREEN
    const [  isModalOpen, setIsModalOpen   ] = useState<boolean>(false);
    const [  scrollbarWidth, setScrollBarWidth   ] = useState<number>(11);
    const [  masterCheckbox, setMasterCheckbox   ] = useState<boolean>(false);
@@ -46,10 +44,11 @@ const DisplayScreen = () => {
    const [  selectedForExport, setSelectedForExport   ]  = useState<Record<string, boolean>>({});  
    const [  filterStates, setFilterStates ]= useState<FilterStates>(()=>structuredClone(filterStatesConfig));
    const [  activeFilters, setActiveFilters  ]= useState<string[]>([]);
-   // const [  selectedPatientRow, setSelectedPatientRow ] = useState<string[]>([])
+
    
    const filteredDataParameters = {masterReport, activeFilters, filterStates, reportKeys, relativeRunDate, filterFunctionalities}
-   const filteredData = useFilteredData(filteredDataParameters)
+   const filteredData = useFilteredData(filteredDataParameters);
+   const gridTemplateColumns = useGridTemplateColumns(tableConfig);
 
 
 
@@ -61,13 +60,11 @@ const DisplayScreen = () => {
       }
       return 0
    }
-
    useLayoutEffect(()=>{
-
       setScrollBarWidth(getScrollbarWidth(bodyRef.current))
    },[])
 
-   // useEffection that stores all rows into an ubject when filtered data changes
+   // useEffection that stores all rows into an object when filtered data changes
    useEffect(()=> {
       let patientsSelectedForExport = {}
 
@@ -82,7 +79,7 @@ const DisplayScreen = () => {
    }, [filteredData])
    
    
-   //patient modal open fnctionality 
+   //patient modal open functionality 
    const handlePatientClick = useCallback((index:number) => {
       setSelectedPatientIndex(index)
       setIsModalOpen(true)
@@ -138,7 +135,7 @@ function renderRow({index, style }){
 
          <div className = "  mt-4 mb-2 flex justify-between">
             <span className="font-bold">Patient count : {   filteredData.length  }</span>
-            <span className="font-bold">Relative run date : {importedData.data.reportRunDate}</span>
+            <span className="font-bold">Relative run date : {  importedData.data.reportRunDate  }</span>
             
          </div>
            
@@ -166,9 +163,7 @@ function renderRow({index, style }){
          {
             isModalOpen ?
                (
-                  <div>
-                     <Modal setIsModalOpen = {setIsModalOpen}/>
-                  </div>
+                  <Modal setIsModalOpen = {setIsModalOpen}/>
                ): null
          } 
       </div>

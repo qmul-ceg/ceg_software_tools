@@ -15,6 +15,24 @@ export type ValidationType = {
 // }
 
 
+export type TableConfigItem = {
+   id : string | number,
+   header : string,
+   width : string,
+   align : string,
+   colour : string,
+};
+
+export type TableConfig = TableConfigItem[];
+
+
+
+
+
+
+
+
+
 export type ToolResultType = {
 
    status?: "pass" | "fail",
