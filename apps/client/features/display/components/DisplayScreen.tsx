@@ -11,8 +11,7 @@ import { List } from "react-window";
 import TableRow from './TableRow';
 import useFilteredData from '../hooks/useFilteredData';
 import useGridTemplateColumns from '../hooks/useGridTemplateColumns';
-
-
+import useSelection from '../hooks/useSelection';
 
 
 
@@ -41,7 +40,7 @@ const DisplayScreen = () => {
    const [  scrollbarWidth, setScrollBarWidth   ] = useState<number>(11);
    const [  masterCheckbox, setMasterCheckbox   ] = useState<boolean>(false);
    const [  selectedPatientIndex, setSelectedPatientIndex   ] = useState<number>();
-   const [  selectedForExport, setSelectedForExport   ]  = useState<Record<string, boolean>>({});  
+   // const [  selectedForExport, setSelectedForExport   ]  = useState<Record<string, boolean>>({});  
    const [  filterStates, setFilterStates ]= useState<FilterStates>(()=>structuredClone(filterStatesConfig));
    const [  activeFilters, setActiveFilters  ]= useState<string[]>([]);
 
@@ -49,6 +48,7 @@ const DisplayScreen = () => {
    const filteredDataParameters = {masterReport, activeFilters, filterStates, reportKeys, relativeRunDate, filterFunctionalities}
    const filteredData = useFilteredData(filteredDataParameters);
    const gridTemplateColumns = useGridTemplateColumns(tableConfig);
+   const { toggleSelectedPatient, selectedForExport, setSelectedForExport, handleToggleSelectAll} = useSelection({filteredData: filteredData, key:reportKeys.Full_Name});
 
 
 
@@ -65,46 +65,15 @@ const DisplayScreen = () => {
       setScrollBarWidth(getScrollbarWidth(bodyRef.current))
    },[])
 
-   // useEffection that stores all rows into an object when filtered data changes
-   useEffect(()=> {
-      let patientsSelectedForExport = {}
-
-      const updateSelectedForExport = () => {
-         filteredData.forEach((patientRow) => {
-            patientsSelectedForExport[patientRow[reportKeys?.Full_Name]] = true
-         })
-         setSelectedForExport(patientsSelectedForExport)
-      }
-
-      updateSelectedForExport()
-   }, [filteredData])
    
    
    //patient modal open functionality 
    const handlePatientClick = useCallback((index:number) => {
       setSelectedPatientIndex(index)
       setIsModalOpen(true)
-   },[])
+   },[]);
 
-   //patient 
-   const toggleSelectedPatient = useCallback((patientId: string) => {
-      setSelectedForExport((prev)=> {
-         const exists = patientId in prev; //Checks if our patientId is a key of 
 
-         if (exists){
-            const updated = {...prev};
-            delete updated[patientId];
-            return updated;
-         }
-         else {
-            return {
-               ...prev,
-               [patientId] : true
-            }
-         }
-      })
-
-   }, [])
 
 
 
@@ -113,7 +82,9 @@ const DisplayScreen = () => {
 
 function renderRow({index, style }){
    return <TableRow 
-            row={filteredData[index]} tableConfig={tableConfig} reportKeys={reportKeys} selectedForExport={selectedForExport} 
+            row={filteredData[index]} tableConfig={tableConfig} 
+            reportKeys={reportKeys} 
+            selectedForExport={selectedForExport} 
             toggleSelectedPatient = {toggleSelectedPatient}
             handlePatientClick={handlePatientClick} index = {index}
             key={index} style={style} gridTemplateColumns = {gridTemplateColumns}
@@ -142,7 +113,15 @@ function renderRow({index, style }){
            
          <div className='flex flex-col flex-1 min-h-0 border border-[#21376A] rounded-t-lg '>
             <TableHeader 
-               paddingValue={scrollbarWidth} masterCheckbox={masterCheckbox} setMasterCheckbox=   {setMasterCheckbox} selectedForExport={selectedForExport}setSelectedForExport={setSelectedForExport} filteredData={filteredData}  gridTemplateColumns = {gridTemplateColumns} reportKeys={reportKeys}
+               // paddingValue={scrollbarWidth} 
+               handleToggleSelectAll = {handleToggleSelectAll}
+               // masterCheckbox={masterCheckbox} 
+               // setMasterCheckbox=   {setMasterCheckbox} 
+               selectedForExport={selectedForExport}
+               // setSelectedForExport={setSelectedForExport} 
+               filteredData={filteredData}  
+               
+               gridTemplateColumns = {gridTemplateColumns} reportKeys={reportKeys}
             />
             <div className="overflow-y-auto scroll-mt-20 " ref={bodyRef}>
                <List 
@@ -186,6 +165,76 @@ export default DisplayScreen
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   //patient 
+   // const toggleSelectedPatient = useCallback((patientId: string) => {
+   //    setSelectedForExport((prev)=> {
+   //       const exists = patientId in prev; //Checks if our patientId is a key of 
+
+   //       if (exists){
+   //          const updated = {...prev};
+   //          delete updated[patientId];
+   //          return updated;
+   //       }
+   //       else {
+   //          return {
+   //             ...prev,
+   //             [patientId] : true
+   //          }
+   //       }
+   //    })
+
+   // }, []);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   // useEffect on that stores all rows into an object when filtered data changes
+   // useEffect(()=> {
+   //    let patientsSelectedForExport = {}
+
+   //    const updateSelectedForExport = () => {
+   //       filteredData.forEach((patientRow) => {
+   //          patientsSelectedForExport[patientRow[reportKeys?.Full_Name]] = true
+   //       })
+   //       setSelectedForExport(patientsSelectedForExport)
+   //    }
+   //    updateSelectedForExport()
+   // }, [filteredData]);
 
 
 

@@ -3,17 +3,18 @@ import { useDisplay } from '@/context/DispayContext'
 import { IndexMap } from '@/types/shared.types'
 
 type TableHeaderProps = {
-   paddingValue: number,
-   masterCheckbox: boolean,
-   setMasterCheckbox:  React.Dispatch<React.SetStateAction<boolean>>
+   gridTemplateColumns: string,
+   handleToggleSelectAll : ()=>void,
+   filteredData : string[][],
    selectedForExport : Record<string, boolean>
-   setSelectedForExport: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
-   filteredData : string[][]
-   gridTemplateColumns: string
-   reportKeys : IndexMap
 }
-
-
+   // reportKeys : IndexMap
+ // paddingValue: number,
+   // masterCheckbox: boolean,
+   // setMasterCheckbox:  React.Dispatch<React.SetStateAction<boolean>>
+   // selectedForExport : Record<string, boolean>
+   // setSelectedForExport: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+   // filteredData : string[][]
 
 export function ColumnGroup (){
    const { importedData} = useDisplay()
@@ -32,36 +33,14 @@ export function ColumnGroup (){
 }
 
 
-const TableHeader = ({paddingValue, masterCheckbox, setMasterCheckbox, selectedForExport, setSelectedForExport, filteredData, gridTemplateColumns, reportKeys} : TableHeaderProps) => {
+const TableHeader = ({
+   handleToggleSelectAll, gridTemplateColumns, filteredData, selectedForExport
+   // paddingValue, 
+   // masterCheckbox, setMasterCheckbox, , setSelectedForExport, , , reportKeys
+} : TableHeaderProps) => {
    const { importedData } = useDisplay()
    
 
-   useEffect(() => {
-      if (filteredData.length === Object.keys(selectedForExport).length){
-         setMasterCheckbox(true)
-      }
-      else setMasterCheckbox(false)
-   }, [selectedForExport, filteredData])   
-
-
-   const handleMasterCheckBox = () => {
-      setMasterCheckbox ((prev) => {
-         const newMasterCheckboxState = !prev;
-   
-         if (newMasterCheckboxState){
-            const patientsSelectedForExport = {}
-   
-            filteredData.forEach((patient) => {
-               patientsSelectedForExport[patient[reportKeys!.Full_Name]] = true
-            })
-            setSelectedForExport(patientsSelectedForExport)
-         }
-         else {
-            setSelectedForExport({})
-         }
-         return newMasterCheckboxState;
-      })
-   }
       
 
 
@@ -71,24 +50,17 @@ const TableHeader = ({paddingValue, masterCheckbox, setMasterCheckbox, selectedF
          className={` border-b-6 border-[#21376A] rounded-t-lg pr-[11px]`}
          
       >
-{/* 
-         <div className="">
-            <ColumnGroup /> */}
-            {/* <div > */}
-               <div className='flex' style = {{display:"grid", gridTemplateColumns:gridTemplateColumns}}>
-                     {  
-                         importedData?.config?.tableConfig?.map((item, index)=> (
-                           item.id == "select" 
-                           ?  <div className= "border-r-1 border-[#21376A] flex justify-center"><input type = "checkbox" checked = {masterCheckbox} onChange={handleMasterCheckBox} /> </div>
-                           :  <div key = {index} className={`text-center font-bold flex text-sm  px-2 py-1 items-center justify-${item.align} ${item.header !== "Medication review latest date" ? "border-r-1 " : "" }   border-[#21376A]`}>
-                                 {item.header}
-                              </div>
-                     ))}
-               </div>
-{/* 
-            </div> */}
-         {/* </div> */}
-         
+         <div className='flex' style = {{display:"grid", gridTemplateColumns:gridTemplateColumns}}>
+               {  
+                  importedData?.config?.tableConfig?.map((item, index)=> (
+                  item.id == "select" 
+                  ?  <div  className= "border-r-1 border-[#21376A] flex justify-center"><input type = "checkbox" 
+                           checked = {Object.keys(selectedForExport).length === filteredData.length} onChange={handleToggleSelectAll} /> </div>
+                  :  <div key = {index} className={`text-center font-bold flex text-sm  px-2 py-1 items-center justify-${item.align} ${item.header !== "Medication review latest date" ? "border-r-1 " : "" }   border-[#21376A]`}>
+                        {item.header}
+                     </div>
+               ))}
+         </div>
       </div>
    )
 }
@@ -154,6 +126,32 @@ export default TableHeader
 
 
 
+   // useEffect(() => {
+   //    if (filteredData.length === Object.keys(selectedForExport).length){
+   //       setMasterCheckbox(true)
+   //    }
+   //    else setMasterCheckbox(false)
+   // }, [selectedForExport, filteredData])   
+
+
+   // const handleMasterCheckBox = () => {
+   //    setMasterCheckbox ((prev) => {
+   //       const newMasterCheckboxState = !prev;
+   
+   //       if (newMasterCheckboxState){
+   //          const patientsSelectedForExport = {}
+   
+   //          filteredData.forEach((patient) => {
+   //             patientsSelectedForExport[patient[reportKeys!.Full_Name]] = true
+   //          })
+   //          setSelectedForExport(patientsSelectedForExport)
+   //       }
+   //       else {
+   //          setSelectedForExport({})
+   //       }
+   //       return newMasterCheckboxState;
+   //    })
+   // }
 
 
 

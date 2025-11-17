@@ -8,7 +8,7 @@ type TableRowProps = {
    tableConfig: tableConfig,
    reportKeys: IndexMap,
    selectedForExport : Record<string, boolean>
-   toggleSelectedPatient: (patientId: string) => void;
+   toggleSelectedPatient: (patientId: number) => void;
    handlePatientClick : (index: number) => void; 
    index : number
    style :React.CSSProperties
@@ -22,11 +22,11 @@ const TableRow = ({row, tableConfig, reportKeys, selectedForExport, toggleSelect
    return (
       <div style ={{...style, display:"grid", gridTemplateColumns: gridTemplateColumns}} >
          {
-            tableConfig.map((data, index) => {
+            tableConfig.map((data, configIndex) => {
                return (
                   data.id === "select"
                   ?  <div className= " border-gray-100 border-b text-center border-r flex items-center justify-center">
-                        <input type = "checkbox" onChange = {()=>toggleSelectedPatient(row[reportKeys!.Full_Name])} checked = {row[reportKeys!.Full_Name] in selectedForExport}/>
+                        <input type = "checkbox" onChange = {()=>toggleSelectedPatient(index)} checked = {row[reportKeys!.Full_Name] in selectedForExport}/>
                      </div>
                   :  <div 
                         className ={`w-[${data.width}] flex justify-${data.align} items-center border-gray-100 border-b border-r px-2 py-1 text-sm text-${data.align} ${data.id === reportKeys!.Full_Name ? "cursor-pointer text-[#21376A]": undefined}`}

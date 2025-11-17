@@ -14,6 +14,8 @@ type FilteredDataPayload<EnumType> = {
 }
 
 
+
+
 export default function useFilteredData<EnumType>(payload: FilteredDataPayload<EnumType>): string[][]{
    const filtered = useMemo(()=>{
       const tableData = Object.values(payload.masterReport);
@@ -23,6 +25,6 @@ export default function useFilteredData<EnumType>(payload: FilteredDataPayload<E
          });
       });
 
-   }, [payload.filterStates, payload.activeFilters])
-  return filtered
+   }, [payload.filterStates, payload.activeFilters]);
+  return filtered;
 }
