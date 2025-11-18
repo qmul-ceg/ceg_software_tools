@@ -37,9 +37,7 @@ const DisplayScreen = () => {
 
    // STATES FOR DISPLAY SCREEN
    const [  isModalOpen, setIsModalOpen   ] = useState<boolean>(false);
-
    const [  selectedPatientIndex, setSelectedPatientIndex   ] = useState<number>();
-
    const [  filterStates, setFilterStates ]= useState<FilterStates>(()=>structuredClone(filterStatesConfig));
    const [  activeFilters, setActiveFilters  ]= useState<string[]>([]);
 
@@ -129,7 +127,15 @@ function renderRow({index, style }){
          {
             isModalOpen ?
                (
-                  <Modal setIsModalOpen = {setIsModalOpen}/>
+                  <Modal 
+                     setIsModalOpen = {setIsModalOpen} 
+                     selectedPatientIndex= {selectedPatientIndex} 
+                     setSelectedPatientIndex={setSelectedPatientIndex} 
+                     filteredData={filteredData} 
+                     reportKeys={reportKeys}
+                     toggleSelectedPatient={toggleSelectedPatient}
+                     selectedForExport={selectedForExport}
+                  />
                ): null
          } 
       </div>

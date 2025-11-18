@@ -1,38 +1,48 @@
-import { useDisplay } from '@/context/DispayContext'
 import React from 'react'
 import { TfiArrowRight } from "react-icons/tfi";
 import { TfiArrowLeft } from "react-icons/tfi";
 import { GrClose } from "react-icons/gr";
+import { SystmOneReportKeys, EMISReportKeys } from '@/modules/cvd/constants/cvdDataEnums';
 
 
 
 
 
-
-
-type ChildProps = {
-   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+type IndexMap = typeof SystmOneReportKeys | typeof EMISReportKeys
+type ModalProps = {
+   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
+   selectedPatientIndex : number |undefined
+   setSelectedPatientIndex: React.Dispatch<React.SetStateAction<number | undefined>>,
+   filteredData : string[][],
+   reportKeys : IndexMap,
+   toggleSelectedPatient: (patientId: number) => void;
+   selectedForExport : Record<string, boolean>
 }
-const Modal = ({ setIsModalOpen }: ChildProps) => {
-   const {selectedPatientRow, selectedPatientIndex, setSelectedPatientIndex, setSelectedPatientRow, filteredData, importedData} = useDisplay()
+export default function Modal<EnumType extends number>({ setIsModalOpen, selectedPatientIndex, setSelectedPatientIndex, filteredData, reportKeys, toggleSelectedPatient, selectedForExport }: ModalProps){
+ 
 
 
    const handleNextPatient = (direction: "previous" | "next" ) => {
       let nextPatientIndex = 0 
-      if(direction === "next"){
-         nextPatientIndex = (selectedPatientIndex + 1) % filteredData.length;
-      }
-      else if(direction === "previous"){
-         if(selectedPatientIndex === 0 ){
-            nextPatientIndex = filteredData.length - 1
+      if (selectedPatientIndex){
+         if(direction === "next"){
+            
+               nextPatientIndex = (selectedPatientIndex + 1) % filteredData.length;
+            }
+            
+         
+         else if(direction === "previous"){
+            if(selectedPatientIndex === 0 ){
+               nextPatientIndex = filteredData.length - 1
+            }
+            else nextPatientIndex = selectedPatientIndex - 1
          }
-         else nextPatientIndex = selectedPatientIndex - 1
       }
       setSelectedPatientIndex(nextPatientIndex)
   
    }
-   console.log(filteredData)
-   const reportKeys = importedData?.config?.reportKeys
+   // console.log(filteredData)
+   // const reportKeys = importedData?.config?.reportKeys
 
 
    const cvdModalConfig = {
@@ -126,15 +136,15 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
       }
    }
 
-
+   const row = filteredData[selectedPatientIndex!]
 
 
 
 
    return (
       <>
-      {/* <div className="overlay "> */}
-            <div className=" cursor-pointer fixed top-0 left-0 w-full h-full bg-black/90 z-40" onClick={()=> setIsModalOpen(false)}>
+
+         <div className=" cursor-pointer fixed top-0 left-0 w-full h-full bg-black/90 z-40" onClick={()=> setIsModalOpen(false)}>
             </div>
 
             <div className=" z-100 bg-white fixed  rounded-t-xl top-30 left-1/2 tranform -translate-x-1/2 w-[50%]  max-w-[1000px] ">
@@ -213,7 +223,8 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
                                     type="checkbox"
                                     id="modalCheckBox"
                                     // checked = {!!selectedForExport[selectedPatientData[AFibColumns.NHS_Number]]}
-                                    // onChange={()=>toggleSelectedPatient(selectedPatientData[AFibColumns.NHS_Number])}
+                                    checked = {row[reportKeys!.Full_Name] in selectedForExport}
+                                    onChange={()=>toggleSelectedPatient(selectedPatientIndex!)}
                                     className="ml-2 modal_checkbox"
                                  //onclick toggle the select for export;
                                  />
@@ -305,7 +316,49 @@ const Modal = ({ setIsModalOpen }: ChildProps) => {
    );    
 }
 
-export default Modal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // const {selectedPatientRow, , , setSelectedPatientRow, filteredData, importedData} = useDisplay()
+// export default Modal
 
 
 {/* <button className = "text-sm cursor-pointer" onClick={()=>setIsModalOpen(false)}>

@@ -14,17 +14,17 @@ export default function useSelection<EnumType extends number>(selectionPayload: 
    const [  selectedForExport, setSelectedForExport   ]  = useState<Record<string, boolean>>({}); 
 
 
-      useEffect(()=> {
-         let patientsSelectedForExport:Record<string, boolean> = {};
-   
-         const updateSelectedForExport = () => {
-            selectionPayload.filteredData.forEach((patientRow) => {
-               patientsSelectedForExport[patientRow[selectionPayload.key]] = true;
-            })
-            setSelectedForExport(patientsSelectedForExport)
-         }
-         updateSelectedForExport()
-      }, [selectionPayload.filteredData]);
+   useEffect(()=> {
+      let patientsSelectedForExport:Record<string, boolean> = {};
+
+      const updateSelectedForExport = () => {
+         selectionPayload.filteredData.forEach((patientRow) => {
+            patientsSelectedForExport[patientRow[selectionPayload.key]] = true;
+         })
+         setSelectedForExport(patientsSelectedForExport)
+      }
+      updateSelectedForExport()
+   }, [selectionPayload.filteredData]);
 
 
    const toggleSelectedPatient =(rowIndex: number) => {
@@ -44,9 +44,7 @@ export default function useSelection<EnumType extends number>(selectionPayload: 
                [patientRow[selectionPayload.key]]: true
             }
          }
-         
       })
-      
    };
 
    const handleToggleSelectAll = () => {
@@ -61,7 +59,6 @@ export default function useSelection<EnumType extends number>(selectionPayload: 
       else {
          setSelectedForExport({})
       }
-     
    }
 
    return { toggleSelectedPatient, selectedForExport, setSelectedForExport, handleToggleSelectAll }
@@ -69,37 +66,3 @@ export default function useSelection<EnumType extends number>(selectionPayload: 
 }
 
 
-
-
- // // setToggleSelectAll((prev) => {
-      // //    const newToggleSelectAllState = !prev;
-
-      // //    if (newToggleSelectAllState){
-      // //          const patientsSelectedForExport = {};
-
-      // //       selectionPayload.filteredData.forEach((patient) => {
-      // //          patientsSelectedForExport[patient[selectionPayload.key!.Full_Name]] = true
-      // //       })
-      // //       setSelectedForExport(patientsSelectedForExport)
-
-      // //    }
-      // //    else {
-      // //       setSelectedForExport({})
-      // //    }
-      // //    return newToggleSelectAllState
-      // })
-
-
-            // const exists = selectionPayload.filteredData[patientId] in prev; //Checks if our patientId is a key of 
-   
-            // if (exists){
-            //    const updated = {...prev};
-            //    delete updated[patientId];
-            //    return updated;
-            // }
-            // else {
-            //    return {
-            //       ...prev,
-            //       [patientId] : true
-            //    }
-            // }

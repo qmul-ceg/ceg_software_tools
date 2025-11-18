@@ -1,100 +1,91 @@
-import React, { useEffect, useMemo } from 'react'
-import { useDisplay } from '@/context/DispayContext'
-import { ColumnGroup } from './TableHeader'
-import {checkFinancialYear, convertDate, recordedOverTwelveMonths} from '../helpers/displayHelpers'
-import { FilterStates, tableConfig } from '@/types/shared.types'
-import { SystmOneReportKeys, EMISReportKeys } from '@/modules/cvd/constants/cvdDataEnums'
-import TableRow from './TableRow'
-import { report } from 'process'
-
-type IndexMap = typeof SystmOneReportKeys | typeof EMISReportKeys
-type ActiveFilters = "ageFilter" | "comorbiditiesFilter";
-type TableBodyProps = {
-   setIsModalOpen : React.Dispatch<React.SetStateAction<boolean>>
-   // filterStates: FilterStates;
-   // activeFilters: ActiveFilters[];
-   selectedForExport : Record<string, boolean>
-   setSelectedForExport : React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
-   setSelectedPatientIndex : React.Dispatch<React.SetStateAction<number>>;
-   filteredData : string[][]
-   // setFilteredData : React.Dispatch<React.SetStateAction<string[][]>>
-   reportKeys : IndexMap | undefined
-   tableConfig: tableConfig
-}
-
-const TableBody = ({setIsModalOpen, selectedForExport, setSelectedForExport, setSelectedPatientIndex, filteredData, reportKeys, tableConfig}: TableBodyProps) => {
-   
-   // const { importedData } = useDisplay()
+// import React from 'react';
+// import { tableConfig } from '@/types/shared.types';
+// import { SystmOneReportKeys, EMISReportKeys } from '@/modules/cvd/constants/cvdDataEnums';
+// import TableRow from './TableRow';
 
 
-   // const tableData = Object.values(importedData?.data?.masterReport ?? []) 
+// type IndexMap = typeof SystmOneReportKeys | typeof EMISReportKeys;
+
+// type TableBodyProps = {
+//    setIsModalOpen : React.Dispatch<React.SetStateAction<boolean>>
+
+//    selectedForExport : Record<string, boolean>
+//    setSelectedForExport : React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
+//    setSelectedPatientIndex : React.Dispatch<React.SetStateAction<number>>;
+//    filteredData : string[][]
+
+//    reportKeys : IndexMap | undefined
+//    tableConfig: tableConfig
+// }
+
+// const TableBody = ({setIsModalOpen, selectedForExport, setSelectedForExport, setSelectedPatientIndex, filteredData, reportKeys, tableConfig}: TableBodyProps) => {
 
 
 
 
-   const handlePatientClick = (index:number) => {
-      setSelectedPatientIndex(index)
-      setIsModalOpen(true)
-   }
+//    const handlePatientClick = (index:number) => {
+//       setSelectedPatientIndex(index)
+//       setIsModalOpen(true)
+//    }
 
-   const toggleSelectedPatient = (patientId: string) => {
-      setSelectedForExport((prev)=> {
-         const exists = patientId in prev; //Checks if our patientId is a key of 
+//    const toggleSelectedPatient = (patientId: string) => {
+//       setSelectedForExport((prev)=> {
+//          const exists = patientId in prev; //Checks if our patientId is a key of 
 
-         if (exists){
-            const updated = {...prev};
-            delete updated[patientId];
-            return updated;
-         }
-         else {
-            return {
-               ...prev,
-               [patientId] : true
-            }
-         }
-      })
+//          if (exists){
+//             const updated = {...prev};
+//             delete updated[patientId];
+//             return updated;
+//          }
+//          else {
+//             return {
+//                ...prev,
+//                [patientId] : true
+//             }
+//          }
+//       })
 
-   }
+//    }
 
-   function renderRow({index, style }){
-      return <TableRow 
-                  row={filteredData[index]} tableConfig={tableConfig} reportKeys={reportKeys!} selectedForExport={selectedForExport} 
-                  toggleSelectedPatient = {toggleSelectedPatient}
-                        handlePatientClick={handlePatientClick} index = {index}
-                        key={index} style={style}
-            />
-   }
+//    function renderRow({index, style }){
+//       return <TableRow 
+//                   row={filteredData[index]} tableConfig={tableConfig} reportKeys={reportKeys!} selectedForExport={selectedForExport} 
+//                   toggleSelectedPatient = {toggleSelectedPatient}
+//                         handlePatientClick={handlePatientClick} index = {index}
+//                         key={index} style={style}
+//             />
+//    }
 
 
    
    
-   return (
-      <div className=" ">
-         <table className="w-full table-fixed">
-            <ColumnGroup />
-            <tbody className=" ">
-               {
-                  filteredData?.map((row, patientIndex) => {
-                     return (
+//    return (
+//       <div className=" ">
+//          <table className="w-full table-fixed">
+//             <ColumnGroup />
+//             <tbody className=" ">
+//                {
+//                   filteredData?.map((row, patientIndex) => {
+//                      return (
                         
-                        // <TableRow 
-                        //    row={row} tableConfig={tableConfig} reportKeys={reportKeys!} 
-                        //    selectedForExport={selectedForExport} toggleSelectedPatient = {toggleSelectedPatient}
-                        //    handlePatientClick={handlePatientClick} index = {patientIndex}
-                        //    key={patientIndex}
-                        // />
+//                         // <TableRow 
+//                         //    row={row} tableConfig={tableConfig} reportKeys={reportKeys!} 
+//                         //    selectedForExport={selectedForExport} toggleSelectedPatient = {toggleSelectedPatient}
+//                         //    handlePatientClick={handlePatientClick} index = {patientIndex}
+//                         //    key={patientIndex}
+//                         // />
                        
-                     )
-                  })
-               }
-            </tbody>  
-         </table>
+//                      )
+//                   })
+//                }
+//             </tbody>  
+//          </table>
 
-      </div>
-   )
-}
+//       </div>
+//    )
+// }
 
-export default React.memo(TableBody)
+// export default React.memo(TableBody)
 
 
 

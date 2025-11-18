@@ -32,23 +32,38 @@ const TableRow = ({row, tableConfig, reportKeys, selectedForExport, toggleSelect
                         className ={`w-[${data.width}] flex justify-${data.align} items-center border-gray-100 border-b border-r px-2 py-1 text-sm text-${data.align} ${data.id === reportKeys!.Full_Name ? "cursor-pointer text-[#21376A]": undefined}`}
                         onClick={   data.id === reportKeys!.Full_Name ? () => handlePatientClick(index) : undefined  }
                      >
-                        {/* { row[data.id] === "Patient reference no."   ?  "0000" :  row[data.id] } */}
                         {row[data.id]}
                         
                      </div>
                )
-
-
             })
          }
-         
-
-
       </div>
    )
 }
 
 export default React.memo(TableRow)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
