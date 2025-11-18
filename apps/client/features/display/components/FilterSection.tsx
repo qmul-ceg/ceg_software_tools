@@ -221,7 +221,7 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
                </p>
 
                {/* FILTER SELECTION DISPLAY */}
-               <div className="flex gap-1">
+               <div className="flex gap-2 flex-wrap  p-2">
                   {
                      Object.entries(filterStates).map(([selectedFilterName, selectedFilterValue]) => {
                         if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){           
