@@ -7,6 +7,7 @@ type TableHeaderProps = {
    handleToggleSelectAll : ()=>void,
    filteredData : string[][],
    selectedForExport : Record<string, boolean>
+
 }
 
 

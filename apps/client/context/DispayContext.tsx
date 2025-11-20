@@ -14,7 +14,8 @@ export const DisplayContext = createContext<Data | null>(null);
 
 export default function DisplayProvider ({children} : {children : React.ReactNode }){
 
-   const [importedData, setImportedData] = useState<ParserResult>({status : "", info: ""})
+   const [importedData, setImportedData] = useState<ParserResult>({status : "", info: ""});
+
    return (
       <DisplayContext.Provider value = {{ importedData,  setImportedData, }}>
          {children}

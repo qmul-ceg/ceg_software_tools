@@ -10,7 +10,18 @@ const sourceFont = Source_Sans_3({
    subsets:['latin'],
    weight:"500",
 })
-const HeaderSection = () => {
+
+
+import { SystmOneReportKeys, EMISReportKeys } from "@/modules/cvd/constants/cvdDataEnums"
+import { Header } from 'next/dist/lib/load-custom-routes'
+type IndexMap = typeof SystmOneReportKeys | typeof EMISReportKeys
+
+type HeaderProps= {
+   exportObject: Record<string, boolean>,
+   data : string [][],
+   reportKeys :IndexMap
+}
+const HeaderSection = ({exportObject, data, reportKeys}:HeaderProps) => {
 
    const { importedData } = useDisplay();
 
@@ -42,7 +53,7 @@ const HeaderSection = () => {
  
          </div>
          <div>
-            <Menu />
+            <Menu exportObject = {exportObject} data={data} reportKeys={reportKeys}/>
          </div>
          
       </div>

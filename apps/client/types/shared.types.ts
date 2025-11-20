@@ -93,7 +93,7 @@ export type ParserResult = {
       filters: Record <string, MultiFilter | GroupedFilter >
       quickFilters: string[];
       reportKeys : IndexMap;
-      filterStatesConfig: FilterStates
+      filterStatesConfig: FilterStates;
       filterFunctionalityConfig: Record<string, (row:string[], filterStates: FilterStates, reportKeys:IndexMap, relativeDate:string)=> boolean>
       tableConfig: tableConfig;
    }

@@ -775,7 +775,6 @@ export const cvdConfig = {
          const learningDisabilityIndex = row[reportKeys.Learning_Difficulties_Code_Term].trim();
          const dementiaIndex = row[reportKeys.Dementia_Code_Term].trim();
 
-
          const filterByVulnerabilites = 
             (filterStates.vulnerabilitiesFilter.value as string[]).includes("smi") && smiIndex.length > 0  ||
             (filterStates.vulnerabilitiesFilter.value as string[]).includes("learning") && learningDisabilityIndex.length > 0 ||
@@ -785,6 +784,11 @@ export const cvdConfig = {
          return filterByVulnerabilites
 
       },
+
+      // ethnicityFilter :(row: string[], filterStates:FilterStates, reportKeys:IndexMap, relativeRunDate:string): boolean => {
+      //    //Ethnicity_category5 name of enum column
+      //    // 
+      // }
 
    }
 

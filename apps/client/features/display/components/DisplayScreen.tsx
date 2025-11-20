@@ -65,7 +65,7 @@ const DisplayScreen = () => {
 
 
 
-function renderRow({index, style }){
+function renderRow({index, style } :{index:number, style : React.CSSProperties}){
    return <TableRow 
             row={filteredData[index]} tableConfig={tableConfig} 
             reportKeys={reportKeys} 
@@ -73,7 +73,7 @@ function renderRow({index, style }){
             toggleSelectedPatient = {toggleSelectedPatient}
             handlePatientClick={handlePatientClick} index = {index}
             key={index} style={style} gridTemplateColumns = {gridTemplateColumns}
-   />
+         />
 }
 
 
@@ -83,7 +83,7 @@ function renderRow({index, style }){
 
       <div className = "flex flex-col  h-screen w-full overflow-hidden">
          <div className="mt-2">
-            <HeaderSection />
+            <HeaderSection exportObject={selectedForExport} data={filteredData} reportKeys={reportKeys}/>
          </div>
          
          <div className = "mt-4">
@@ -98,21 +98,17 @@ function renderRow({index, style }){
            
          <div className='flex flex-col flex-1 min-h-0 border border-[#21376A] rounded-t-lg '>
             <TableHeader 
-               
                handleToggleSelectAll = {handleToggleSelectAll}
-       
                selectedForExport={selectedForExport}
-
                filteredData={filteredData}  
-               
-               gridTemplateColumns = {gridTemplateColumns} reportKeys={reportKeys}
+               gridTemplateColumns = {gridTemplateColumns} 
             />
             <div className="overflow-y-auto scroll-mt-20 " ref={bodyRef}>
                <List 
                   style={{ height: "100%", width: "100%" }}
-                  className=''
+                  
                   rowCount = {filteredData.length}
-                  rowHeight={25}
+                  rowHeight={30}
                   rowComponent={renderRow}
                   rowProps={{ tableConfig, reportKeys, selectedForExport }}
                />
@@ -144,6 +140,14 @@ function renderRow({index, style }){
 
 
 export default DisplayScreen
+
+
+
+
+
+
+
+
 
 
 
