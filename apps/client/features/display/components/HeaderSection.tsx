@@ -36,20 +36,14 @@ const HeaderSection = ({exportObject, data, reportKeys}:HeaderProps) => {
                />
             </a>
          </div>
-         <div className="text-center w-full sm:w-auto  flex-row flex-1">
-            <a href="https://www.qmul.ac.uk/ceg/" target = "_blank" rel ="noopener noreferrer"
-               className="text-2xl 
-               lg:text-xl xl:text-2xl 
-               font-bold
-               text-[#21376A]" 
+         <div className="text-center w-full  flex-row flex-1  ">
+            <a 
+               href="https://www.qmul.ac.uk/ceg/" target = "_blank" rel ="noopener noreferrer"
+               className=" text-xl font-bold text-[#21376A] "
             >Clinical Effectiveness Group</a>
-            <h1 
-               className="text-xl md:text-2xl 
-               lg:text-3xl xl:text-4xl 
-               2xl:text-4xl  font-sourceSans 
-               font-bold
-               text-[#21376A]"
-            >{importedData?.data?.toolName}</h1>
+            <h1 className="text-3xl  font-bold text-[#21376A] ">
+               {importedData?.data?.toolName}
+            </h1>
  
          </div>
          <div>

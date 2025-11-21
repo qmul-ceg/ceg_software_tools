@@ -326,9 +326,6 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
                                                                         
 
                                              </div>
-                                             
-
-
                                        )
                                           
                                        }
@@ -370,13 +367,16 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
          
          <div className={`border-[0.1em] border-[#21376A] border-t-0 filter ${showFilter ? 'open' : 'closed'} px-4 py-2 flex justify-between`}>
             {/* QUICK FILTERS */}
+            
             <div className= " min-w-[400px] ">
                <header 
                   className=  "flex justify-between px-2 py-2 rounded-t-lg bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E] text-white" >
                   <p className ="font-semibold text-md text-left ">Quick filters</p>
                </header>
                <div className="flex flex-col border-[0.1em] text-left border-[#21376A]  border-t-0 p-2 font-semibold ">
+
                   {
+
                      Object.entries(quickFilters).map(([key, value])=> {
            
                         return(
