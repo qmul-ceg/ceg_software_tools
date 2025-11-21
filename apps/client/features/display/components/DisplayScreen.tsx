@@ -61,11 +61,16 @@ const DisplayScreen = () => {
 
 
 
+type ExtraRowProps = {
+  tableConfig: typeof tableConfig;          // or your TableConfig type
+  reportKeys: typeof reportKeys;            // or a proper type
+  selectedForExport: typeof selectedForExport;
+};
 
 
 
-
-function renderRow({index, style } :{index:number, style : React.CSSProperties}){
+function renderRow(props : ExtraRowProps & {index:number, style : React.CSSProperties}){
+   const {index, style, tableConfig, reportKeys, selectedForExport } = props
    return <TableRow 
             row={filteredData[index]} tableConfig={tableConfig} 
             reportKeys={reportKeys} 
@@ -104,7 +109,7 @@ function renderRow({index, style } :{index:number, style : React.CSSProperties})
                gridTemplateColumns = {gridTemplateColumns} 
             />
             <div className="overflow-y-auto scroll-mt-20 " ref={bodyRef}>
-               <List 
+               <List<ExtraRowProps> 
                   style={{ height: "100%", width: "100%" }}
                   
                   rowCount = {filteredData.length}

@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Source_Sans_3 } from "next/font/google";
+// import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
@@ -10,11 +10,11 @@ import ScreenWidth from "@/features/display/components/ScreenWidth";
 config.autoAddCss = false
 
 
-const sourceFont = Source_Sans_3({
-   subsets:['latin'],
-   weight:"500"
+// const sourceFont = Source_Sans_3({
+//    subsets:['latin'],
+//    weight:"500"
    
-})
+// })
 
 export const metadata: Metadata = {
   title: "CEG Software Tools",
