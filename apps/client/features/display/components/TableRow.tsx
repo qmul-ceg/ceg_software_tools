@@ -2,6 +2,7 @@ import { tableConfig } from '@/types/shared.types';
 import { SystmOneReportKeys, EMISReportKeys } from '@/modules/cvd/constants/cvdDataEnums';
 import React from 'react';
 
+
 type IndexMap = typeof SystmOneReportKeys | typeof EMISReportKeys
 type TableRowProps = {
    row: string[]
@@ -20,7 +21,7 @@ type TableRowProps = {
 const TableRow = ({row, tableConfig, reportKeys, selectedForExport, toggleSelectedPatient, handlePatientClick, index, style, gridTemplateColumns}: TableRowProps)=> {
 
    return (
-      <div style ={{...style, display:"grid", gridTemplateColumns: gridTemplateColumns}} >
+      <div style ={{...style, display:"grid", gridTemplateColumns: gridTemplateColumns }} className='hover:bg-gray-50' >
          {
             tableConfig.map((data, configIndex) => {
                return (
