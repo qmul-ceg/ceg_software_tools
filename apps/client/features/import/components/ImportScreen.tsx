@@ -96,6 +96,7 @@ const ImportScreen = () => {
                
                
                   <div className="font-bold mt-4 text-xl leading-6" >
+                     HELLO HELLO HELLO 
                      These tools have been developed to present clinical information coded in the patient health record. 
                      They are not diagnostic tools and are not intended to replace clinical judgement.
                   </div>
