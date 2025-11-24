@@ -85,17 +85,18 @@ const ImportScreen = () => {
    
 
    return (
-      <main className={sourceFont.className}>
-         <div className= "flex justify-center items-start h-screen bg-[#21376A]">
-            <Card className = "w-[500px] text-center mt-[25vh] px-6 py-10 rounded-b-none">
+      // className={sourceFont.className}
+      <main  className={sourceFont.className}>
+         <div className= "flex justify-center items-center min-h-screen bg-[#21376A]">
+            <Card className = "w-[400px] text-center justify-center  px-4 py-6 rounded-b-none">
                <CardContent>
                   <div className="text-[#21376A]">
-                     <h2 className="text-xl font-bold ">Clinical Effectiveness Group</h2>
-                     <h1 className="text-3xl font-extrabold">CEG software tools</h1>
+                     <h2 className="text-lg font-bold ">Clinical Effectiveness Group</h2>
+                     <h1 className="text-2xl font-extrabold border">CEG software tools</h1>
                   </div>
                
                
-                  <div className="font-bold mt-4 text-xl leading-6" >
+                  <div className="font-semibold mt-4 text-lg leading-6" >
                      These tools have been developed to present clinical information coded in the patient health record. 
                      They are not diagnostic tools and are not intended to replace clinical judgement.
                   </div>
@@ -103,7 +104,7 @@ const ImportScreen = () => {
                   {/* Software tool selection */}
                   <div className="mt-4 text-[#21376A]">
                      <div>
-                        <p className="text-2xl mb-2 font-normal">Select CEG software tool</p>
+                        <p className="text-xl  font-normal">Select CEG software tool</p>
                         <div className="flex gap-4  justify-center">
                            <div>
                            <input
@@ -115,7 +116,7 @@ const ImportScreen = () => {
                            />
                            <label 
                               htmlFor='af_default_radio' 
-                              className='text-2xl font-extrabold cursor-pointer af_radio_label'>
+                              className='text-xl font-extrabold cursor-pointer af_radio_label'>
                                  AF
                            </label>
                         </div>
@@ -129,7 +130,7 @@ const ImportScreen = () => {
                            />
                            <label 
                               htmlFor='cvd_default_radio'
-                              className='text-2xl font-extrabold cursor-pointer cvd_radio_label'>CVD</label>
+                              className='text-xl font-extrabold cursor-pointer cvd_radio_label'>CVD</label>
                         </div>
                      </div>
                      </div>
@@ -137,7 +138,7 @@ const ImportScreen = () => {
                   
                   {/* Clinical system selection */}
                   <div className="mt-2 text-[#21376A]">
-                     <p className="text-2xl mb-2 font-normal">Select clinical system and import</p>
+                     <p className="text-xl font-normal">Select clinical system and import</p>
                      <div className="flex justify-center gap-4">
                         <div>
                            
@@ -148,7 +149,7 @@ const ImportScreen = () => {
                               checked = {selectedClinicalSystem == ClinicalSystems.EMIS}
                               onChange = {handleSelectClinicalSystem}
                            />
-                           <label htmlFor = "emis_default_radio" className="cursor-pointer text-2xl font-extrabold emis_radio_label">EMIS Web </label>
+                           <label htmlFor = "emis_default_radio" className="cursor-pointer text-xl font-extrabold emis_radio_label">EMIS Web </label>
                         </div>
 
                         <div>
@@ -160,18 +161,18 @@ const ImportScreen = () => {
                               checked = {selectedClinicalSystem == ClinicalSystems.SystmOne}
                               onChange = {handleSelectClinicalSystem}
                            />
-                           <label htmlFor = "systmone_default_radio" className="cursor-pointer text-2xl font-extrabold systmone_radio_label">SystmOne </label>
+                           <label htmlFor = "systmone_default_radio" className="cursor-pointer text-xl font-extrabold systmone_radio_label">SystmOne </label>
                         </div>
 
                      </div>
      
                   </div>
-                  <p className="text-lg mt-4 text-red-600 leading-5">{importError}</p>
-                  <div className="mt-4">
+                  <p className="text-md mt-2 text-red-600 leading-5">{importError}</p>
+                  <div className="mt-2">
                      <input  {...inputProps} ref ={fileInputRef} onChange={handleFileChange} style={{display:"none"}}></input>
                      <Button 
                         className="text-center bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E]
-                           text-white w-[8em] text-xl import_button cursor-pointer font-bold py-6 "
+                           text-white w-[5em] text-lg import_button cursor-pointer font-bold py-4 "
                         onClick={handleImportButtonClick}
                         disabled = {isImporting}
                      >
