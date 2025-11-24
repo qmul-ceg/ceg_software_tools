@@ -92,7 +92,7 @@ const ImportScreen = () => {
                <CardContent>
                   <div className="text-[#21376A]">
                      <h2 className="text-lg font-bold ">Clinical Effectiveness Group</h2>
-                     <h1 className="text-2xl font-extrabold border">CEG software tools</h1>
+                     <h1 className="text-2xl font-extrabold ">CEG software tools</h1>
                   </div>
                
                
@@ -172,7 +172,7 @@ const ImportScreen = () => {
                      <input  {...inputProps} ref ={fileInputRef} onChange={handleFileChange} style={{display:"none"}}></input>
                      <Button 
                         className="text-center bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E]
-                           text-white w-[5em] text-lg import_button cursor-pointer font-bold py-4 "
+                           text-white w-[7em] text-lg import_button cursor-pointer font-bold py-4 "
                         onClick={handleImportButtonClick}
                         disabled = {isImporting}
                      >
