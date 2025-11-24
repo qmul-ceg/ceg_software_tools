@@ -10,7 +10,7 @@ import { TfiClose } from "react-icons/tfi";
 import { GoDotFill } from "react-icons/go";
 
 
-type ActiveFilters = "ageFilter" | "comorbiditiesFilter";
+// type ActiveFilters = "ageFilter" | "comorbiditiesFilter";
 type FilterStateProps = {
       filterStates: FilterStates;
       setFilterStates: React.Dispatch<React.SetStateAction<FilterStates>>
@@ -373,7 +373,7 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
                   className=  "flex justify-between px-2 py-2 rounded-t-lg bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E] text-white" >
                   <p className ="font-semibold text-md text-left ">Quick filters</p>
                </header>
-               <div className="flex flex-col border-[0.1em] text-left border-[#21376A]  border-t-0 p-2 font-semibold ">
+               <div className="flex flex-col border-[0.1em] text-left border-[#21376A]  border-t-0 p-2  ">
 
                   {
 
@@ -382,7 +382,7 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
                         return(
                            <ul>
                               <li>
-                                 <label htmlFor="" className="cursor-pointer hover:opacity-80">
+                                 <label htmlFor="" className=" hover:opacity-80 text-md font-semibold">
                                     <input 
                                        className="mr-2 cursor-pointer hover:opacity-90"
                                        type = "checkbox"

@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription } from '@/components/ui/card';
 
 const ScreenWidth = () => {
-   const [windowWidth, setWindowWidth ] = useState<number>(0);
+   const [windowWidth, setWindowWidth ] = useState<number>(window.innerWidth);
 
    useEffect(()=> {
+   
       if(typeof window !== "undefined"){
          const handleResize = () => setWindowWidth(window.innerWidth);
          window.addEventListener("resize", handleResize);

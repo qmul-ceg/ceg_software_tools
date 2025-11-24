@@ -5,7 +5,7 @@ import "./globals.css";
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import DisplayProvider from "@/context/DispayContext";
-import ScreenWidth from "@/features/display/components/ScreenWidth";
+// import ScreenWidth from "@/features/display/components/ScreenWidth";
 
 config.autoAddCss = false
 
@@ -31,11 +31,11 @@ export default function RootLayout({ children,}: Readonly<{children: React.React
       <html lang="en">
          <body
             className={` antialiased`}
-         ><ScreenWidth />
+         >
+            {/* <ScreenWidth /> */}
             <DisplayProvider>
-               
                {children}
-               </DisplayProvider>
+            </DisplayProvider>
          </body>
       </html>
    );
