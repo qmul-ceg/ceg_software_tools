@@ -85,60 +85,60 @@ const ImportScreen = () => {
    
 
    return (
-      // className={sourceFont.className}
-      <main  className={sourceFont.className}>
-         <div className= "flex justify-center items-center min-h-screen bg-[#21376A]">
-            <Card className = "w-[400px] text-center justify-center  px-4 py-6 rounded-b-none">
+
+      <main  className={`${sourceFont.className} `}>
+         <div className= "flex  items-center bg-[#21376A]  justify-center h-screen overflow-x-hidden">
+            <Card className = "border border-black w-[390px] text-center  px-2  rounded-b-none ">
                <CardContent>
-                  <div className="text-[#21376A]">
-                     <h2 className="text-lg font-bold ">Clinical Effectiveness Group</h2>
-                     <h1 className="text-2xl font-extrabold ">CEG software tools</h1>
+                  <div className="text-[#21376A] ">
+                     <h2 className="text-lg font-bold  leading-4">Clinical Effectiveness Group</h2>
+                     <h1 className="text-2xl font-extrabold  leading-8">CEG software tools </h1>
                   </div>
                
                
-                  <div className="font-semibold mt-4 text-lg leading-6" >
+                  <div className="font-normal text-black mt-2 text-md leading-4.5 " >
                      These tools have been developed to present clinical information coded in the patient health record. 
                      They are not diagnostic tools and are not intended to replace clinical judgement.
                   </div>
                   
                   {/* Software tool selection */}
-                  <div className="mt-4 text-[#21376A]">
+                  <div className="mt-2 text-[#21376A]">
                      <div>
-                        <p className="text-xl  font-normal">Select CEG software tool</p>
+                        <p className="text-lg  font-normal leading-4.5">Select CEG software tool</p>
                         <div className="flex gap-4  justify-center">
                            <div>
-                           <input
-                              id="af_default_radio"
-                              type= "radio"
-                              value ={SoftwareTools.af}
-                              checked = {selectedSoftwareTool == SoftwareTools.af}
-                              onChange = {handleSelectTool}
-                           />
-                           <label 
-                              htmlFor='af_default_radio' 
-                              className='text-xl font-extrabold cursor-pointer af_radio_label'>
-                                 AF
-                           </label>
-                        </div>
-                        <div>
-                           <input
-                              id="cvd_default_radio"
-                              type= "radio"
-                              value ={SoftwareTools.cvd}
-                              checked = {selectedSoftwareTool == SoftwareTools.cvd}
-                              onChange = {handleSelectTool}
-                           />
-                           <label 
-                              htmlFor='cvd_default_radio'
-                              className='text-xl font-extrabold cursor-pointer cvd_radio_label'>CVD</label>
-                        </div>
+                              <input
+                                 id="af_default_radio"
+                                 type= "radio"
+                                 value ={SoftwareTools.af}
+                                 checked = {selectedSoftwareTool == SoftwareTools.af}
+                                 onChange = {handleSelectTool}
+                              />
+                              <label 
+                                 htmlFor='af_default_radio' 
+                                 className='text-lg font-extrabold cursor-pointer af_radio_label'>
+                                    AF
+                              </label>
+                           </div>
+                           <div>
+                              <input
+                                 id="cvd_default_radio"
+                                 type= "radio"
+                                 value ={SoftwareTools.cvd}
+                                 checked = {selectedSoftwareTool == SoftwareTools.cvd}
+                                 onChange = {handleSelectTool}
+                              />
+                              <label 
+                                 htmlFor='cvd_default_radio'
+                                 className='text-lg font-extrabold cursor-pointer cvd_radio_label'>CVD</label>
+                           </div>
                      </div>
                      </div>
                   </div>
                   
                   {/* Clinical system selection */}
                   <div className="mt-2 text-[#21376A]">
-                     <p className="text-xl font-normal">Select clinical system and import</p>
+                     <p className="text-lg font-normal leading-5">Select clinical system and import</p>
                      <div className="flex justify-center gap-4">
                         <div>
                            
@@ -149,7 +149,7 @@ const ImportScreen = () => {
                               checked = {selectedClinicalSystem == ClinicalSystems.EMIS}
                               onChange = {handleSelectClinicalSystem}
                            />
-                           <label htmlFor = "emis_default_radio" className="cursor-pointer text-xl font-extrabold emis_radio_label">EMIS Web </label>
+                           <label htmlFor = "emis_default_radio" className="cursor-pointer text-lg font-extrabold emis_radio_label">EMIS Web </label>
                         </div>
 
                         <div>
@@ -161,18 +161,18 @@ const ImportScreen = () => {
                               checked = {selectedClinicalSystem == ClinicalSystems.SystmOne}
                               onChange = {handleSelectClinicalSystem}
                            />
-                           <label htmlFor = "systmone_default_radio" className="cursor-pointer text-xl font-extrabold systmone_radio_label">SystmOne </label>
+                           <label htmlFor = "systmone_default_radio" className="cursor-pointer text-lg font-extrabold systmone_radio_label">SystmOne </label>
                         </div>
 
                      </div>
      
                   </div>
-                  <p className="text-md mt-2 text-red-600 leading-5">{importError}</p>
-                  <div className="mt-2">
+                  <p className="text-md mt-2 text-red-600 leading-4" >{importError}</p>
+                  <div className="mt-4">
                      <input  {...inputProps} ref ={fileInputRef} onChange={handleFileChange} style={{display:"none"}}></input>
                      <Button 
                         className="text-center bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E]
-                           text-white w-[7em] text-lg import_button cursor-pointer font-bold py-4 "
+                           text-white w-[7em] text-md import_button cursor-pointer font-normal  py-4 "
                         onClick={handleImportButtonClick}
                         disabled = {isImporting}
                      >
