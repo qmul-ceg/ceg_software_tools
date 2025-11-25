@@ -14,11 +14,9 @@
 .emis_radio_label:hover, .systmone_radio_label:hover
 {
    color:black;
+   border-bottom: 0.2em solid black;
 }
 
-/* .af_radio_label{
-   box-shadow: 0 2px 0 0 black
-} */
 
 
 
@@ -28,7 +26,7 @@
 #systmone_default_radio:checked + .systmone_radio_label 
 {
    color: #21376A;
-   border-bottom: 0.4rem solid #21376A;
+   border-bottom: 0.2em solid #21376A;
 
 } 
 
