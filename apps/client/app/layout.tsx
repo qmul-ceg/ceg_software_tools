@@ -1,11 +1,11 @@
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Source_Sans_3 } from "next/font/google";
+import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import DisplayProvider from "@/context/DispayContext";
-import ScreenWidth from "@/features/display/components/ScreenWidth";
+// import ScreenWidth from "@/features/display/components/ScreenWidth";
 
 config.autoAddCss = false
 
@@ -30,12 +30,12 @@ export default function RootLayout({ children,}: Readonly<{children: React.React
    return (
       <html lang="en">
          <body
-            className={` antialiased`}
-         ><ScreenWidth />
+            className={` antialiased ${sourceFont.className}`}
+         >
+            {/* <ScreenWidth /> */}
             <DisplayProvider>
-               
                {children}
-               </DisplayProvider>
+            </DisplayProvider>
          </body>
       </html>
    );
