@@ -16,17 +16,17 @@ import SoftwareTools from '@/constants/softwareTools';
 import ClinicalSystems from '@/constants/clinicalSystems';
 import useFileImport from '@/features/import/hooks/useFileImport';
 import { Card, CardContent} from "@/components/ui/card";
-import { Source_Sans_3 } from 'next/font/google';
+// import { Source_Sans_3 } from 'next/font/google';
 import getFileInputProps from '../helpers/importHelpers';
 import { executeImport } from '../services/importService';
 import { useDisplay } from '@/context/DispayContext';
 import { useRouter } from 'next/navigation';
 import ErrorMessages from "@/constants/messages";
 
-const sourceFont = Source_Sans_3({
-   subsets:['latin'],
-   weight:"500"
-});
+// const sourceFont = Source_Sans_3({
+//    subsets:['latin'],
+//    weight:"500"
+// });
 
 const ImportScreen = () => {
    const [selectedSoftwareTool, setSelectedSoftwareTool] = useState<SoftwareTools>(SoftwareTools.NotSelected)
@@ -86,15 +86,14 @@ const ImportScreen = () => {
 
    return (
 
-      <main  className={`${sourceFont.className} `}>
+      <main  >
          <div className= "flex  items-center bg-[#21376A]  justify-center h-screen overflow-x-hidden">
-            <Card className = "border border-black w-[390px] text-center  px-2  rounded-b-none ">
+            <Card className = "border border-black w-[360px] text-center  px-0  rounded-b-none ">
                <CardContent>
                   <div className="text-[#21376A] ">
                      <h2 className="text-lg font-bold  leading-4">Clinical Effectiveness Group</h2>
                      <h1 className="text-2xl font-extrabold  leading-8">CEG software tools </h1>
                   </div>
-               
                
                   <div className="font-normal text-black mt-2 text-md leading-4.5 " >
                      These tools have been developed to present clinical information coded in the patient health record. 
