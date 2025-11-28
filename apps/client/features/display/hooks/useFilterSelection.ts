@@ -10,24 +10,24 @@ type FilterHookPayload = {
 }
 
 
-   const defaultFilters:FilterStates = {
-      antihypertensiveMedsFilter : {   kind: "grouped", value: [[],[], [], []]   },
-      bloodPressureFilter: {  kind: "grouped", value: [  [], []]  },
-      houseboundCarehomeFilter : {  kind: "multi", value: []},
-      lipidMedicationsFilter: {kind: "grouped", value: [[],[],[],[]]},
-      comorbiditiesFilter: {kind: "multi", value: []},
-      cholestrolFilter: {kind: "grouped", value: [[], []]},
-      qRiskFilter: {kind: "grouped", value: [[],[]]},
-      vulnerabilitiesFilter: {kind: "multi", value: []},
-      ethnicityFilter: {kind: "multi", value: []},
-      ageFilter: {kind: "multi", value: []},
-      adverseMedsFilter: {kind: "multi", value: []},
-      hptnDiagnosis: {kind: "multi", value: []},
-      aceiArbFilter : {kind : "multi", value : []}
-   }
+const defaultFilters:FilterStates = {
+   antihypertensiveMedsFilter : {   kind: "grouped", value: [[],[], [], []]   },
+   bloodPressureFilter: {  kind: "grouped", value: [  [], []]  },
+   houseboundCarehomeFilter : {  kind: "multi", value: []},
+   lipidMedicationsFilter: {kind: "grouped", value: [[],[],[],[]]},
+   comorbiditiesFilter: {kind: "multi", value: []},
+   cholestrolFilter: {kind: "grouped", value: [[], []]},
+   qRiskFilter: {kind: "grouped", value: [[],[]]},
+   vulnerabilitiesFilter: {kind: "multi", value: []},
+   ethnicityFilter: {kind: "multi", value: []},
+   ageFilter: {kind: "multi", value: []},
+   adverseMedsFilter: {kind: "multi", value: []},
+   hptnDiagnosis: {kind: "multi", value: []},
+   aceiArbFilter : {kind : "multi", value : []}
+}
 
 export default function useFilterSelection (payload: FilterHookPayload){
-   const [selectedQuickFilter, setSelectedQuickFilter] = useState<FilterStates>({})
+   const [selectedQuickFilter, setSelectedQuickFilter] = useState<FilterStates>({});
    
    type FilterSelectionPayload = {
       selectedFilterName : string,
@@ -111,7 +111,7 @@ export default function useFilterSelection (payload: FilterHookPayload){
       payload.setFilterStates(defaultFilters)
       payload.setFilterStates({...defaultFilters, ...quickFilterPayload});
    
-   }
+   };
 
 
    function removeAllFilters(){
