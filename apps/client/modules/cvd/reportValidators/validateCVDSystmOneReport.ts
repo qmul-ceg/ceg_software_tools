@@ -12,7 +12,7 @@ export default async function validateCVDSystmOneReport(files:FileList){
    const filesArray = filterCSVFiles(files)
 
    if(filesArray.length !== 3){
-      validationResult['status'] = "failure";
+      validationResult['status'] = "fail";
       validationResult['info'] = "cvdImportError1";
       return validationResult
    }
@@ -28,11 +28,11 @@ export default async function validateCVDSystmOneReport(files:FileList){
    const headerValidation = validateCVDReportHeaders(headerResults);
 
    if (headerValidation){
-      validationResult['status'] = "success";
+      validationResult['status'] = "pass";
       validationResult['info'] = "All headers are correct";
    }
    else{
-      validationResult['status'] = "failure";
+      validationResult['status'] = "fail";
       validationResult['info'] = "cvdImportError2";
    }
    

@@ -9,7 +9,7 @@ type FilteredDataPayload<EnumType> = {
    activeFilters : string[],
    filterStates : FilterStates,
    reportKeys: EnumType,
-   relativeRunDate: string
+   relativeRunDate: string,
    filterFunctionalities: Record<string, (row: string[], filterStates: FilterStates, reportKeys: EnumType , relativeDate: string) => boolean>
 }
 
@@ -24,7 +24,6 @@ export default function useFilteredData<EnumType>(payload: FilteredDataPayload<E
             return payload.filterFunctionalities[activeFilter](row, payload.filterStates, payload.reportKeys, payload.relativeRunDate) === true 
          });
       });
-
    }, [payload.filterStates, payload.activeFilters]);
   return filtered;
-}
+};

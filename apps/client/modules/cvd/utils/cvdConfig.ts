@@ -6,14 +6,27 @@ import { TableConfig } from "@/types/shared.types";
 //CREATE TYPE FOR THE CONFIGURATIONS SO THAT OTHER TOOLS WILL BE ABLE TO USE IT 
 
 
+type MultiOption = {
+   value: string;
+   label: string
+}
+
+type GroupOption = {
+   groupName: string;
+   groupOptions: MultiOption[]
+}
+
 type Options = Record<string, { groupName : string; groupOptions: { value: string; label: string }[]}>
+
+type GroupedOptions = Record <string, GroupOption>;
+
 
 type MultiFilter = {
    id : string,
    label : string,
    ui : { width : number, bgColour: string},
    kind : "multi",
-   options : {value : string, label : string}[],
+   options : MultiOption[],
    emptyBehaviour : []
 } 
 
@@ -22,7 +35,7 @@ type GroupedFilter = {
    label : string,
    ui : { width : number, bgColour: string},
    kind : "grouped",
-   options : Options,
+   options : GroupedOptions,
    emptyBehaviour : [][]
 } 
 type IndexMap = typeof SystmOneReportKeys | typeof EMISReportKeys
@@ -35,14 +48,22 @@ type quickFilter = {
    value : FilterStates
 }
 
+
+
+type moduleConfig = {
+   toolName: string,
+   filters : {}
+}
+
+
+
+
 export const cvdConfig = {
 
-   
    toolName : "CVD Prevention tool",
 
    filters : {
 
-      //AntihypertensiveMeds
       antihypertensiveMedsFilter : {
          id: "antihypertensiveMedsFilter",
          label : "Antihypertensive meds",
@@ -58,7 +79,6 @@ export const cvdConfig = {
                groupOptions: [
                   {  value: "acei/arb", label : "ACEi/ARB"  },
                   {  value: "no_acei/arb", label : "No ACEi/ARB"  },
-
                   {  value: "cachannel", label : "Ca-Channel"  },
                   {  value: "thiazides", label : "Thiazides"  },
                   {  value: "betablockers", label : "Beta-blockers"  },
@@ -785,16 +805,7 @@ export const cvdConfig = {
 
       },
 
-      // ethnicityFilter :(row: string[], filterStates:FilterStates, reportKeys:IndexMap, relativeRunDate:string): boolean => {
-      //    //Ethnicity_category5 name of enum column
-      //    // 
-      // }
-
    }
-
-
-
-   
    
 }
 

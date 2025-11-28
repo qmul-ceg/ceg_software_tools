@@ -1,159 +1,33 @@
 "use client"
-import React, { useEffect, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronUp } from '@fortawesome/free-solid-svg-icons'
-import { useDisplay } from '@/context/DispayContext'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { FilterStates } from '@/types/shared.types'
-import { cvdConfig } from '@/modules/cvd/utils/cvdConfig'
-import { TfiClose } from "react-icons/tfi";
-import { GoDotFill } from "react-icons/go";
+import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { useDisplay } from '@/context/DispayContext';
+
+import { FilterStates } from '@/types/shared.types';
+import useFilterSelection from '../hooks/useFilterSelection';
+import SelectedFilterDisplay from './SelectedFilterDisplay';
+import Filters from './Filters';
 
 
-// type ActiveFilters = "ageFilter" | "comorbiditiesFilter";
-type FilterStateProps = {
-      filterStates: FilterStates;
-      setFilterStates: React.Dispatch<React.SetStateAction<FilterStates>>
-      activeFilters: string[];
-      setActiveFilters : React.Dispatch<React.SetStateAction<string[]>>
-}
 
 
-const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveFilters}:FilterStateProps) => {
+type FilterSectionProps = {
+   filterStates: FilterStates;
+   setFilterStates: React.Dispatch<React.SetStateAction<FilterStates>>
+   activeFilters: string[];
+   setActiveFilters : React.Dispatch<React.SetStateAction<string[]>>
+};
 
-   const [showFilter, setShowFilter] = useState<boolean>(true)
+const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveFilters}:FilterSectionProps) => {
+   const [showFilter, setShowFilter] = useState<boolean>(true);
    const {  importedData } = useDisplay()
-            // filterStates, setFilterStates, 
-            // activeFilters, setActiveFilters  
-  
-   type FilterKind = "multi" | "grouped"
-   type FilterSelectionPayload = {
-      selectedFilterName : string,
-      selectedValue : string,
-      selectedFilterKind : FilterKind,
-      selectedIndex? : number
-   }
-
-
-
-
-
-
-
-
-
-
-   const defaultFilters:FilterStates = {
-      antihypertensiveMedsFilter : {   kind: "grouped", value: [[],[], [], []]   },
-      bloodPressureFilter: {  kind: "grouped", value: [  [], []]  },
-      houseboundCarehomeFilter : {  kind: "multi", value: []},
-      lipidMedicationsFilter: {kind: "grouped", value: [[],[],[],[]]},
-      comorbiditiesFilter: {kind: "multi", value: []},
-      cholestrolFilter: {kind: "grouped", value: [[], []]},
-      qRiskFilter: {kind: "grouped", value: [[],[]]},
-      vulnerabilitiesFilter: {kind: "multi", value: []},
-      ethnicityFilter: {kind: "multi", value: []},
-      ageFilter: {kind: "multi", value: []},
-      adverseMedsFilter: {kind: "multi", value: []},
-      hptnDiagnosis: {kind: "multi", value: []},
-      aceiArbFilter : {kind : "multi", value : []}
-   }
-
-   const [selectedQuickFilter, setSelectedQuickFilter] = useState<FilterStates>({})
-   // const [selectedFilterList, setSelectedFilterList] = useState<FilterStates>({})
-
-   // console.log(filterItems)
-   const handleFilterSelection = (filterPayload : FilterSelectionPayload) => {
-      // console.log(filterPayload)
-      if(filterPayload.selectedFilterKind === "multi"){
-         const updateMultiFilterState = () => {
-            
-            const filterKeyToUpdate = filterPayload.selectedFilterName
-            setFilterStates((prev) => {
-               if((prev[filterKeyToUpdate].value as string[]).includes(filterPayload.selectedValue)){
-                  
-                  return {
-                     ...prev,
-                     [filterKeyToUpdate] : {
-                        kind: "multi", 
-                        value :(prev[filterKeyToUpdate].value as string[]).filter(value => value !== filterPayload.selectedValue)
-
-                     }
-                  }
-               }
-               return {
-                  ...prev,
-                  [filterKeyToUpdate] : { kind : "multi", value : [...prev[filterKeyToUpdate].value as string[], filterPayload.selectedValue]
-               
-                  }
-               }
-              
-            })
-         }
-         updateMultiFilterState()
-      }
-
-      if (filterPayload.selectedFilterKind === "grouped"){
-   
-         const updateGroupedFilterState = () => {
-            const filterToUpdate = filterPayload.selectedFilterName;
-            setFilterStates((prev) => {
-               const arrayToUpdate = prev[filterToUpdate].value[filterPayload.selectedIndex as number]
-
-               if(arrayToUpdate.includes(filterPayload.selectedValue)){
-                  return {
-                     ...prev,
-                     [filterToUpdate] : { 
-                        kind : "grouped",
-                        value : (prev[filterToUpdate].value as [][]).map((item: string[], index:number) => 
-                           index === filterPayload.selectedIndex ? item.filter(value => value !== filterPayload.selectedValue) : item 
-                        )
-                       
-                     }
-                  }
-                  
-               }
-               return {
-                  ...prev,
-                  [filterToUpdate] : {
-                     kind : "grouped",
-                     value : (prev[filterToUpdate].value as [][]).map((item: string[], index:number) => 
-                           index === filterPayload.selectedIndex ? [...item, filterPayload.selectedValue] : item
-                     )
-                  }
-               }
-            })          
-         }
-         updateGroupedFilterState()
-      }
-   }
-
-
-   const handleQuickFilterSelection = (payload:FilterStates)=> {
-      // Function checks if our payload already exists in state
-      // If it does then we clear our state and return this mimics user deselecting the filter
-      // if it doesn't we update the selected quick filter state and we then we updated the selected filterState.
-
-      const exists = Object.entries(payload).every(([key, value]) => (
-         JSON.stringify(selectedQuickFilter[key]) === JSON.stringify(value)
-      ))
-
-      if(selectedQuickFilter && exists){
-         setFilterStates(defaultFilters)
-         setSelectedQuickFilter({})
-         return
-      }
-
-      setSelectedQuickFilter(payload)
-      setFilterStates(defaultFilters)
-      setFilterStates({...defaultFilters, ...payload});
-   }
-
+   const { handleFilterSelection, selectedQuickFilter, handleQuickFilterSelection, setSelectedQuickFilter, removeAllFilters } = useFilterSelection({  filterStates, setFilterStates });
 
 
    useEffect(()=> {
       const updateFilters = () => {
-         let currentFilterList = {}
+         let currentFilterList:Record<string, any> = {}
 
          if(filterStates){
             Object.entries(filterStates).map(([filterKey, filterValue])=> {
@@ -163,57 +37,41 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
                   if(!activeFilters.includes(filterKey)){
                      setActiveFilters(prev => [...prev, filterKey])
                   }
-                  
-                  
                   currentFilterList[filterKey] = filterValue
                }
                else{
                   if (activeFilters.includes(filterKey)){
-                     setActiveFilters(prev => prev.filter(value => value !== filterKey))
+                     setActiveFilters(prev => prev.filter(value => value !== filterKey));
                   }
                }
 
             })
          }
-
-
-
          return currentFilterList
       }
       
       
-   function checkEquality(objectOne, objectTwo){
+      function checkEquality(objectOne:any, objectTwo:any){
          const keysOne = Object.keys(objectOne)
          const keysTwo = Object.keys(objectTwo)
-
-
          if (keysOne.length !== keysTwo.length) return false
-
          return keysOne.every(key => objectOne[key] === objectTwo[key])
-   }
+      }
 
 
-   if(!checkEquality(selectedQuickFilter, updateFilters())){
-      // console.log(updateFilters())
-      setSelectedQuickFilter({})
-   }
+      if(!checkEquality(selectedQuickFilter, updateFilters())){
+         setSelectedQuickFilter({})
+      }
 
    }, [filterStates])
 
-
-
-
-   function removeAllFilters(){
-      setSelectedQuickFilter({})
-      setFilterStates(defaultFilters)
-   }
-   
-
-   const quickFilters = importedData?.config?.quickFilters ?? []
-   const filterItems = importedData?.config?.filters ?? []
+   const quickFilters = importedData?.config?.quickFilters ?? [];
+   const filterItems = importedData?.config?.filters ?? [];
 
    return (
       <div >
+
+         {/* FILTER HEADER */}
          <div className = " flex px-4 min-h-16 items-center  rounded-t-lg bg-[#21376A]">
             <div className=" items-center flex">
                <p className="text-xl font-bold text-white mr-4">
@@ -221,129 +79,10 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
                </p>
 
                {/* FILTER SELECTION DISPLAY */}
-               <div className="flex gap-2 flex-wrap  p-2">
-                  {
-                     Object.entries(filterStates).map(([selectedFilterName, selectedFilterValue]) => {
-                        if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){           
-                              return (
-                                 <div className="  text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
-                                    <span className='inline-flex gap-2 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName].label }: {
-                                       selectedFilterValue.value.map((item)=>{
-                                          return (
-                                             <div className="flex items-center">
-                                                {
-                                                   cvdConfig.filters[selectedFilterName].options.map((filterOptions)=> {
-                                                      if (item === filterOptions.value){
-                                                         return (
-                                                            <span className="font-normal mr-2">{filterOptions.label}</span>
-                                                         )
-                                                      }
-                                                   })
-                                                }
-                                                
-                                                <button className=" cursor-pointer text-red-500 hover:opacity-90 text-sm hover:text-lg font-black" 
-                                                   onClick= {()=> handleFilterSelection(
-                                                      {
-                                                      selectedFilterName : selectedFilterName,
-                                                      selectedValue : item,
-                                                      selectedFilterKind : selectedFilterValue.kind
-                                                   })}>
-
-                                                   
-                                                   <TfiClose  className="font-bold"/>
-                                                </button>
-                                                {
-                                                   selectedFilterValue.value.indexOf(item) < selectedFilterValue.value.length - 1? <GoDotFill className=" ml-2 text-gray-500" /> : ""
-                                                }
-                                             </div> 
-                                          )
-                                       })
-                                    }
-                                    </span>
-                                 </div>
-                              )
-                           
-                        }
-
-
-                        else if(selectedFilterValue.kind === "grouped" && selectedFilterValue.value.some((group) =>group.length > 0)){
-                           return (
-                              <div className=" border text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
-                                 <span className='inline-flex gap-2 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName].label } : 
-                                 {
-                                    selectedFilterValue.value.map((group, groupIndex)=>{
-                                       if(group.length > 0 ){
-                                          return (
-                                             <div className="flex items-center gap-2">
-                                                {
-                                                   group.map((item) => {
-                                                      return (
-                                                         <div className="flex items-center">
-                                                            {
-                                                               Object.entries(cvdConfig.filters[selectedFilterName].options).map(([filterGroup, groupDetails])=> {
-                                                            
-                                                                  return (
-                                                                     <div className="flex">
-                                                                        {
-                                                                           groupDetails.groupOptions.map((filterOptions)=> {
-                                                                              if (item === filterOptions.value){
-                                                                              
-                                                                                 return <span className="font-normal mr-1">{filterOptions.label}</span>
-                                                      
-                                                                              }
-                                                                           })
-                                                                        } 
-                                                                     </div>
-                                                                  )
-                                                               })
-                                                            }
-                                                               <button 
-                                                                  className=" cursor-pointer text-red-500 hover:opacity-90 text-xs hover:text-sm" 
-                                                                  onClick = { ()=>handleFilterSelection({
-                                                                     selectedFilterName : selectedFilterName,
-                                                                     selectedValue : item,
-                                                                     selectedFilterKind : selectedFilterValue.kind,
-                                                                     selectedIndex : groupIndex
-
-
-                                                                  })       
-                                                                     
-                                                                  }
-                                                                  
-                                                                  >
-                                                               <TfiClose  />
-                                                            </button>
-                                                            {
-                                                               group.indexOf(item) < group.length - 1? <GoDotFill className=" ml-2 text-gray-500 " /> : ""
-                                                            }
-                                                         </div>
-                                                      )
-                                                   })
-                                                }
-                                                {
-                                                groupIndex < selectedFilterValue.value.length -1 ? <span className="text-gray-300">|</span> : ""
-                                                }
-                                                                        
-
-                                             </div>
-                                       )
-                                          
-                                       }
-                                    })
-
-                                 }
-                                 </span>
-                              </div>
-                           )
-                        }
-                     })
-                  }
-                  
-               </div>
-
+               <SelectedFilterDisplay filterStates={filterStates} handleFilterSelection={handleFilterSelection} />
+              
             </div>
             
-            {/* FILTER ADD OR DELETE FILTERS */}
             
             <div className="ml-auto mr-8 text-center min-w-[140px] ">
                <button
@@ -371,12 +110,10 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
             <div className= " min-w-[400px] ">
                <header 
                   className=  "flex justify-between px-2 py-2 rounded-t-lg bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E] text-white" >
-                  <p className ="font-semibold text-md text-left ">Quick filters</p>
+                  <p className ="font-semibold text-md text-left">Quick filters</p>
                </header>
                <div className="flex flex-col border-[0.1em] text-left border-[#21376A]  border-t-0 p-2  ">
-
                   {
-
                      Object.entries(quickFilters).map(([key, value])=> {
            
                         return(
@@ -397,10 +134,106 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
                   }
                </div>
             </div>
+            
+            <Filters filterItems={filterItems} filterStates={filterStates} handleFilterSelection={handleFilterSelection}/>
+
+            {/* SUMMARY BOX */}
+            <div className="max-w-[650px] w-[600px] ml-0">
+               <header className="flex  rounded-t-lg px-2 py-2 bg-[#21376A] text-white justify-between">
+                  <p className ="font-semibold text-md text-left ">Summary</p>
+                  <div className= "flex gap-6 text-sm font-bold  mr-14">
+                     <p>Denominator</p>
+                     <p>Numerator</p>
+                     <p>%</p>
+                  </div>
+               </header>
+               <div className="border-[0.1em] border-[#21376A] border-t-0  p-2 font-semibold ">
+                  {importedData?.data?.summaryTable?.map((item, index)=> (
+                     <div key = {index} className="text-sm flex  justify-between">
+                        <p>{item[0]}</p>
+                        <div className="flex gap-16 mr-12">
+                           {item.map((subItem, subIndex)=> (
+                             subIndex ? <p>{subItem}</p> : ""
+                           ))}
+                        </div>
+                     </div>
+                  ))}
+               </div>
+
+            </div>
+         </div>
+   </div>
+  )
+}
+
+export default FilterSection
 
 
-            {/* FILTERS */}
-            <div className=" border-black border-dotted w-[800px] grid grid-rows-3 grid-flow-col h-50 justify-between">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {/* FILTERS */}
+
+            {/* <div className=" border-black border-dotted w-[800px] grid grid-rows-3 grid-flow-col h-50 justify-between">
                {
                   Object.entries(filterItems).map(([key, value])=> {
                      return (
@@ -453,36 +286,32 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
                                                    {inner.groupOptions.map((option) => 
                                                       {
                                                          if (option.value !== "no_acei/arb"){
-                                                            return  (
-                                                                     <li >
-                                                                        <label>
-                                                                           <input 
-                                                                              type = "checkbox"
-                                                                              className = "cursor-pointer mr-2 "
-                                                                              value = {option.value}
-                                                                              checked = {
-                                                                                 value.kind === "grouped" && (filterStates[value.id].value[groupIndex].includes(option.value))
-                                                                              }
-                                                                              onChange = {()=>handleFilterSelection(
-                                                                                 {
-                                                                                    selectedFilterName : value.id,
-                                                                                    selectedValue : option.value,
-                                                                                    selectedFilterKind : value.kind,
-                                                                                    selectedIndex : groupIndex
-                                                                                 }
-                                                                              )}
-                                                                           />
-                                                                           {option.label}
-                                                                        </label>
-                                                                     </li>
-                                                                  )
+                                                            return (
+                                                               <li>
+                                                                  <label>
+                                                                     <input 
+                                                                        type = "checkbox"
+                                                                        className = "cursor-pointer mr-2 "
+                                                                        value = {option.value}
+                                                                        checked = {
+                                                                           value.kind === "grouped" && (filterStates[value.id].value[groupIndex].includes(option.value))
+                                                                        }
+                                                                        onChange = {()=>handleFilterSelection(
+                                                                           {
+                                                                              selectedFilterName : value.id,
+                                                                              selectedValue : option.value,
+                                                                              selectedFilterKind : value.kind,
+                                                                              selectedIndex : groupIndex
+                                                                           }
+                                                                        )}
+                                                                     />
+                                                                     {option.label}
+                                                                  </label>
+                                                               </li>
+                                                            )
                                                          }
                                                       }
-                                                   
-                                                
-                                                )
-                                                   
-                                                   }
+                                                   )}
                                                 </ul>
                                              </div>
                                           )
@@ -493,62 +322,267 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
                         </div>
                      )
                   })
-                  
                }
-
-            </div>
-
+            </div> */}
 
 
 
+
+
+
+ {/* <div className="flex gap-2 flex-wrap  p-2">
+                  {
+                     Object.entries(filterStates).map(([selectedFilterName, selectedFilterValue]) => {
+                        if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){           
+                              return (
+                                 <div className="  text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
+                                    <span className='inline-flex gap-2 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName as keyof typeof cvdConfig.filters].label }: {
+                                       selectedFilterValue.value.map((item)=>{
+                                          return (
+                                             <div className="flex items-center">
+                                                {
+                                                   
+                                                   cvdConfig.filters[selectedFilterName as keyof typeof cvdConfig.filters].options.map((filterOptions)=> {
+                                                      if (item === filterOptions.value){
+                                                         return (
+                                                            <span className="font-normal mr-2">{filterOptions.label}</span>
+                                                         )
+                                                      }
+                                                   })
+                                                }
+                                                
+                                                <button className=" cursor-pointer text-red-500 hover:opacity-90 text-sm hover:text-lg font-black" 
+                                                   onClick= {()=> handleFilterSelection(
+                                                      {
+                                                      selectedFilterName : selectedFilterName,
+                                                      selectedValue : item,
+                                                      selectedFilterKind : selectedFilterValue.kind
+                                                   })}>
+
+                                                   
+                                                   <TfiClose  className="font-bold"/>
+                                                </button>
+                                                {
+                                                   selectedFilterValue.value.indexOf(item) < selectedFilterValue.value.length - 1? <GoDotFill className=" ml-2 text-gray-500" /> : ""
+                                                }
+                                             </div> 
+                                          )
+                                       })
+                                    }
+                                    </span>
+                                 </div>
+                              )
+                        }
+
+
+                        else if(selectedFilterValue.kind === "grouped" && selectedFilterValue.value.some((group) =>group.length > 0)){
+                           return (
+                              <div className=" border text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
+                                 <span className='inline-flex gap-2 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName as keyof typeof cvdConfig.filters].label } : 
+                                 {
+                                    selectedFilterValue.value.map((group, groupIndex)=>{
+                                       if(group.length > 0 ){
+                                          return (
+                                             <div className="flex items-center gap-2">
+                                                {
+                                                   group.map((item) => {
+                                                      return (
+                                                         <div className="flex items-center">
+                                                            {
+                                                               Object.entries(cvdConfig.filters[selectedFilterName as keyof typeof cvdConfig.filters].options).map(([filterGroup, groupDetails])=> {
+                                                            
+                                                                  return (
+                                                                     <div className="flex">
+                                                                        {
+                                                                           groupDetails.groupOptions.map((filterOptions)=> {
+                                                                              if (item === filterOptions.value){
+                                                                              
+                                                                                 return <span className="font-normal mr-1">{filterOptions.label}</span>
+                                                      
+                                                                              }
+                                                                           })
+                                                                        } 
+                                                                     </div>
+                                                                  )
+                                                               })
+                                                            }
+                                                               <button 
+                                                                  className=" cursor-pointer text-red-500 hover:opacity-90 text-xs hover:text-sm" 
+                                                                  onClick = { ()=>handleFilterSelection({
+                                                                     selectedFilterName : selectedFilterName,
+                                                                     selectedValue : item,
+                                                                     selectedFilterKind : selectedFilterValue.kind,
+                                                                     selectedIndex : groupIndex
+
+
+                                                                  })       
+                                                                     
+                                                                  }
+                                                                  
+                                                                  >
+                                                               <TfiClose  />
+                                                            </button>
+                                                            {
+                                                               group.indexOf(item) < group.length - 1? <GoDotFill className=" ml-2 text-gray-500 " /> : ""
+                                                            }
+                                                         </div>
+                                                      )
+                                                   })
+                                                }
+                                                {
+                                                groupIndex < selectedFilterValue.value.length -1 ? <span className="text-gray-300">|</span> : ""
+                                                }
+                                                                        
+
+                                             </div>
+                                          )  
+                                       }
+                                    })
+                                 }
+                                 </span>
+                              </div>
+                           )
+                        }
+                     })
+                  }
+               </div> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   // const handleQuickFilterSelection = (payload:FilterStates)=> {
+   //    // Function checks if our payload already exists in state
+   //    // If it does then we clear our state and return this mimics user deselecting the filter
+   //    // if it doesn't we update the selected quick filter state and we then we updated the selected filterState.
+
+   //    const exists = Object.entries(payload).every(([key, value]) => (
+   //       JSON.stringify(selectedQuickFilter[key]) === JSON.stringify(value)
+   //    ))
+
+   //    if(selectedQuickFilter && exists){
+   //       setFilterStates(defaultFilters)
+   //       setSelectedQuickFilter({})
+   //       return
+   //    };
+
+   //    setSelectedQuickFilter(payload)
+   //    setFilterStates(defaultFilters)
+   //    setFilterStates({...defaultFilters, ...payload});
+   // }
+
+
+
+
+   // type FilterKind = "multi" | "grouped"
+
+   // type FilterSelectionPayload = {
+   //    selectedFilterName : string,
+   //    selectedValue : string,
+   //    selectedFilterKind : FilterKind,
+   //    selectedIndex? : number
+   // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+   // const handleFilterSelection = (filterPayload : FilterSelectionPayload) => {
+   
+   //    if(filterPayload.selectedFilterKind === "multi"){
+   //       const updateMultiFilterState = () => {
             
-            
-            {/* SUMMARY BOX */}
-            <div className="max-w-[650px] w-[600px] ml-0">
-               <header className="flex  rounded-t-lg px-2 py-2 bg-[#21376A] text-white justify-between">
-                  <p className ="font-semibold text-md text-left ">Summary</p>
-                  <div className= "flex gap-6 text-sm font-bold  mr-14">
-                     <p>Denominator</p>
-                     <p>Numerator</p>
-                     <p>%</p>
-                  </div>
-               </header>
-               <div className="border-[0.1em] border-[#21376A] border-t-0  p-2 font-semibold ">
-                  {importedData?.data?.summaryTable?.map((item, index)=> (
-                     <div key = {index} className="text-sm flex  justify-between">
-                        <p>{item[0]}</p>
-                        <div className="flex gap-16 mr-12">
-                           {item.map((subItem, subIndex)=> (
-                             subIndex ? <p>{subItem}</p> : ""
-                           ))}
-                        </div>
-                     </div>
-                  ))}
-               </div>
+   //          const filterKeyToUpdate = filterPayload.selectedFilterName
+   //          setFilterStates((prev) => {
+   //             if((prev[filterKeyToUpdate].value as string[]).includes(filterPayload.selectedValue)){
+                  
+   //                return {
+   //                   ...prev,
+   //                   [filterKeyToUpdate] : {
+   //                      kind: "multi", 
+   //                      value :(prev[filterKeyToUpdate].value as string[]).filter(value => value !== filterPayload.selectedValue)
 
-            </div>
-         </div>
-   </div>
-  )
-}
+   //                   }
+   //                }
+   //             }
+   //             return {
+   //                ...prev,
+   //                [filterKeyToUpdate] : { kind : "multi", value : [...prev[filterKeyToUpdate].value as string[], filterPayload.selectedValue]
+               
+   //                }
+   //             }
+              
+   //          })
+   //       }
+   //       updateMultiFilterState()
+   //    }
 
-export default FilterSection
+   //    if (filterPayload.selectedFilterKind === "grouped"){
+   
+   //       const updateGroupedFilterState = () => {
+   //          const filterToUpdate = filterPayload.selectedFilterName;
+   //          setFilterStates((prev) => {
+   //             const arrayToUpdate = prev[filterToUpdate].value[filterPayload.selectedIndex as number]
+
+   //             if(arrayToUpdate.includes(filterPayload.selectedValue)){
+   //                return {
+   //                   ...prev,
+   //                   [filterToUpdate] : { 
+   //                      kind : "grouped",
+   //                      value : (prev[filterToUpdate].value as [][]).map((item: string[], index:number) => 
+   //                         index === filterPayload.selectedIndex ? item.filter(value => value !== filterPayload.selectedValue) : item 
+   //                      )
+                       
+   //                   }
+   //                }
+   //             }
+   //             return {
+   //                ...prev,
+   //                [filterToUpdate] : {
+   //                   kind : "grouped",
+   //                   value : (prev[filterToUpdate].value as [][]).map((item: string[], index:number) => 
+   //                         index === filterPayload.selectedIndex ? [...item, filterPayload.selectedValue] : item
+   //                   )
+   //                }
+   //             }
+   //          })          
+   //       }
+   //       updateGroupedFilterState()
+   //    }
+   // }
 
 
+            // filterStates, setFilterStates, 
+            // activeFilters, setActiveFilters  
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+   // const [selectedFilterList, setSelectedFilterList] = useState<FilterStates>({})
 
 
 

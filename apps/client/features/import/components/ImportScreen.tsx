@@ -8,7 +8,6 @@
  * - File upload functionality is delegated to useFileImport hook 
 **/
 
-
 "use client"
 import React, { useEffect, useState } from 'react';
 import { Button } from '../../../components/ui/button';
@@ -16,17 +15,13 @@ import SoftwareTools from '@/constants/softwareTools';
 import ClinicalSystems from '@/constants/clinicalSystems';
 import useFileImport from '@/features/import/hooks/useFileImport';
 import { Card, CardContent} from "@/components/ui/card";
-// import { Source_Sans_3 } from 'next/font/google';
+
 import getFileInputProps from '../helpers/importHelpers';
 import { executeImport } from '../services/importService';
 import { useDisplay } from '@/context/DispayContext';
 import { useRouter } from 'next/navigation';
 import ErrorMessages from "@/constants/messages";
 
-// const sourceFont = Source_Sans_3({
-//    subsets:['latin'],
-//    weight:"500"
-// });
 
 const ImportScreen = () => {
    const [selectedSoftwareTool, setSelectedSoftwareTool] = useState<SoftwareTools>(SoftwareTools.NotSelected)
@@ -96,7 +91,7 @@ const ImportScreen = () => {
                   </div>
                
                
-                  <div className="font-bold mt-4 text-xl leading-6" >
+                  <div className=" mt-4 text-md leading-5" >
                      These tools have been developed to present clinical information coded in the patient health record. 
                      They are not diagnostic tools and are not intended to replace clinical judgement.
                   </div>
