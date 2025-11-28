@@ -179,6 +179,12 @@ export default DisplayScreen
 
 
 
+
+
+
+
+
+
    // const [  scrollbarWidth, setScrollBarWidth   ] = useState<number>(11);
    // const [  masterCheckbox, setMasterCheckbox   ] = useState<boolean>(false);
 
@@ -239,18 +245,6 @@ export default DisplayScreen
    // }, []);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
    // useEffect on that stores all rows into an object when filtered data changes
    // useEffect(()=> {
    //    let patientsSelectedForExport = {}
@@ -263,10 +257,6 @@ export default DisplayScreen
    //    }
    //    updateSelectedForExport()
    // }, [filteredData]);
-
-
-
-
 
    //function to filter data
    // const filteredData = useMemo(()=> {
@@ -287,12 +277,6 @@ export default DisplayScreen
                   activeFilters={activeFilters} setSelectedForExport={setSelectedForExport} selectedForExport={selectedForExport} 
                   setSelectedPatientIndex={setSelectedPatientIndex} filteredData={filteredData} reportKeys = {reportKeys} tableConfig={tableConfig}
                /> */}
-
-
-
-
-
-
 
 
    // const [displayScreen, setDisplayScreen] = useState<string[][]>([])

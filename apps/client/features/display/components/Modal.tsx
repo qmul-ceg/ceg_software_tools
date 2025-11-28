@@ -4,10 +4,6 @@ import { TfiArrowLeft } from "react-icons/tfi";
 import { GrClose } from "react-icons/gr";
 import { SystmOneReportKeys, EMISReportKeys } from '@/modules/cvd/constants/cvdDataEnums';
 
-
-
-
-
 type IndexMap = typeof SystmOneReportKeys | typeof EMISReportKeys
 type ModalProps = {
    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
@@ -281,9 +277,7 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
                                                 <th className='w-[40%] '>{tableConfig[1]}</th>
                                                 <th>{tableConfig[2]}</th>
                                              </tr>
-                                          
-                                       
-                                       
+
                                     </thead>:
                                     <tbody>
                                        {

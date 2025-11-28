@@ -15,13 +15,20 @@ import SoftwareTools from '@/constants/softwareTools';
 import ClinicalSystems from '@/constants/clinicalSystems';
 import useFileImport from '@/features/import/hooks/useFileImport';
 import { Card, CardContent} from "@/components/ui/card";
-
 import getFileInputProps from '../helpers/importHelpers';
 import { executeImport } from '../services/importService';
 import { useDisplay } from '@/context/DispayContext';
 import { useRouter } from 'next/navigation';
 import ErrorMessages from "@/constants/messages";
+import { Source_Sans_3 } from "next/font/google";
 
+
+
+const sourceFont = Source_Sans_3({
+   subsets:['latin'],
+   weight:"500"
+   
+})
 
 const ImportScreen = () => {
    const [selectedSoftwareTool, setSelectedSoftwareTool] = useState<SoftwareTools>(SoftwareTools.NotSelected)
@@ -29,6 +36,8 @@ const ImportScreen = () => {
    const [selectedReport, setSelectedReport] = useState<FileList | null>(null)
    const [isImporting, setIsImporting] = useState<boolean>(false)
    const [importError, setImportError] = useState<ErrorMessages>(ErrorMessages.None);
+
+
 
    const { setImportedData } = useDisplay();
    const router = useRouter();
@@ -85,19 +94,19 @@ const ImportScreen = () => {
          <div className= "flex  items-center bg-[#21376A]  justify-center h-screen overflow-x-hidden">
             <Card className = "border border-black w-[360px] text-center  px-0  rounded-b-none ">
                <CardContent>
-                  <div className="text-[#21376A] ">
-                     <h2 className="text-lg font-bold  leading-4">Clinical Effectiveness Group</h2>
-                     <h1 className="text-2xl font-extrabold  leading-8">CEG software tools </h1>
+                  <div className={`text-[#21376A] ${sourceFont.className}`}>
+                     <h2 className={`text-lg font-bold  leading-4 `}>Clinical Effectiveness Group</h2>
+                     <h1 className="text-2xl font-extrabold  leading-7 ">CEG software tools </h1>
                   </div>
                
                
-                  <div className=" mt-4 text-md leading-5" >
+                  <div className=" mt-2  text-md leading-4 text-black font-semibold" >
                      These tools have been developed to present clinical information coded in the patient health record. 
                      They are not diagnostic tools and are not intended to replace clinical judgement.
                   </div>
                   
                   {/* Software tool selection */}
-                  <div className="mt-2 text-[#21376A]">
+                  <div className="mt-4 text-[#21376A]">
                      <div>
                         <p className="text-lg  font-normal leading-4.5">Select CEG software tool</p>
                         <div className="flex gap-4  justify-center">
@@ -167,7 +176,7 @@ const ImportScreen = () => {
                      <input  {...inputProps} ref ={fileInputRef} onChange={handleFileChange} style={{display:"none"}}></input>
                      <Button 
                         className="text-center bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E]
-                           text-white w-[7em] text-md import_button cursor-pointer font-normal  py-4 "
+                           text-white w-[8em] text-sm  import_button cursor-pointer font-semibold  py-4 "
                         onClick={handleImportButtonClick}
                         disabled = {isImporting}
                      >
