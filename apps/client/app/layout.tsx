@@ -1,10 +1,10 @@
+
 import type { Metadata } from "next";
 import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import DisplayProvider from "@/context/DispayContext";
-import ScreenWidthProvider from "@/context/ScreenWidthContext";
 config.autoAddCss = false
 
 
@@ -32,10 +32,8 @@ export default function RootLayout({ children,}: Readonly<{children: React.React
          >
             
             <DisplayProvider>
-               <ScreenWidthProvider>
                   {children}
-               </ScreenWidthProvider>
-               
+
             </DisplayProvider>
          </body>
       </html>

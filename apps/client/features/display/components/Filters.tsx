@@ -55,7 +55,7 @@ type FiltersPayload = {
 
 const Filters = ({filterItems, filterStates, handleFilterSelection}:FiltersPayload) => {
    return (
-      <div className=" border-black border-dotted w-[800px] grid grid-rows-3 grid-flow-col h-50 justify-between">
+      <div className=" border-black border-dotted w-[800px]  grid grid-rows-3 grid-flow-col h-50 justify-between mr-2 ">
          {
             Object.entries(filterItems).map(([key, value])=> {
                return (
