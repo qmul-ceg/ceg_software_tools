@@ -62,20 +62,20 @@ const Filters = ({filterItems, filterStates, handleFilterSelection}:FiltersPaylo
                   <div style={{ width : `${value.ui.width}em`}}>
                      <Select key = {key} >
                         <SelectTrigger 
-                           className="cursor-pointer w-full hover:opacity-95" 
-                           style={{ backgroundColor : value.ui.bgColour , color : 'white', fontWeight : 'bold'}}
+                           className="cursor-pointer w-full hover:opacity-95 text-sm font-bold" 
+                           style={{ backgroundColor : value.ui.bgColour , color : 'white'}}
                            >
 
                            {value.label}
                         </SelectTrigger>
-                        <SelectContent className="px-2">
+                        <SelectContent className="px-2 text-sm font-medium leading-normal">
                            {
                               value.kind === "multi" ?
                                  value.options.map((option: {value: string, label: string} ) => {
                                     if(option.value !== "noHypertension"){
                                        return (
-                                          <ul>
-                                             <label key = {option.value}>
+                                          <ul className="">
+                                             <label key = {option.value} className="cursor-pointer ">
                                                 <input 
                                                    type = "checkbox"
                                                    className=" cursor-pointer mr-2"
@@ -104,7 +104,7 @@ const Filters = ({filterItems, filterStates, handleFilterSelection}:FiltersPaylo
                                     return (
                                        <div>
                                           <p className="font-bold">{inner.groupName}</p>
-                                          <ul className={`${groupIndex !== groupArray.length -1 ? " border-b-2" : ""} py-1`}>
+                                          <ul className={`${groupIndex !== groupArray.length -1 ? " border-b-1" : ""} py-1`}>
                                              {inner.groupOptions.map((option) => 
                                                 {
                                                    if (option.value !== "no_acei/arb"){
