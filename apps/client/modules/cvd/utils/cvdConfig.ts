@@ -367,7 +367,7 @@ export const cvdConfig = {
 
    quickFilters : {
       optionOne : {
-         id : 1,
+         id : "optionsOne",
          label : "BP > 140/90, no hypertension diagnosis",
          payload : {
                bloodPressureFilter: {  kind: "grouped", value: [["gte140/90"],[]]  },
@@ -377,7 +377,7 @@ export const cvdConfig = {
          }
       },
       optionTwo : {
-         id : 2,
+         id : "optionTwo",
          label : "CVD and not on statin",
          payload : {
             comorbiditiesFilter : {kind : "multi", value : ["cvd"]},
@@ -386,7 +386,7 @@ export const cvdConfig = {
          }
       },
       optionThree : {
-         id : 3,
+         id : "optionThree",
          label : "CKD 3-5 and diabetes, not on ACEi/ARB",
          payload : {
                // aceiArbFilter : {kind : "multi", value : ["no"]},

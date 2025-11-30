@@ -25,7 +25,7 @@ const HeaderSection = ({exportObject, data, reportKeys}:HeaderProps) => {
 
    return (
       <div className = "flex  ">
-         <div className= " w-[15%] max-w-[300px]">
+         <div className= " w-[200px]">
             <a href="https://www.qmul.ac.uk" target="_blank" rel="noopener noreferrer">
                <img 
                   src = '/icons/QMUL_Logo.png' 

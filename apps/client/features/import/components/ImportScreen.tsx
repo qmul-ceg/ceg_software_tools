@@ -23,7 +23,6 @@ import ErrorMessages from "@/constants/messages";
 import { Source_Sans_3 } from "next/font/google";
 
 
-
 const sourceFont = Source_Sans_3({
    subsets:['latin'],
    weight:"500"
@@ -33,8 +32,8 @@ const sourceFont = Source_Sans_3({
 const ImportScreen = () => {
    const [selectedSoftwareTool, setSelectedSoftwareTool] = useState<SoftwareTools>(SoftwareTools.NotSelected)
    const [selectedClinicalSystem, setSelectedClinicalSystem] = useState<ClinicalSystems>(ClinicalSystems.NotSelected)
-   const [selectedReport, setSelectedReport] = useState<FileList | null>(null)
-   const [isImporting, setIsImporting] = useState<boolean>(false)
+   const [selectedReport, setSelectedReport] = useState<FileList | null>(null);
+   const [isImporting, setIsImporting] = useState<boolean>(false);
    const [importError, setImportError] = useState<ErrorMessages>(ErrorMessages.None);
 
 
@@ -92,7 +91,7 @@ const ImportScreen = () => {
 
       <main  >
          <div className= "flex  items-center bg-[#21376A]  justify-center h-screen overflow-x-hidden">
-            <Card className = "border border-black w-[360px] text-center  px-0  rounded-b-none ">
+            <Card className = "border border-black w-[370px] text-center  px-0  rounded-b-none ">
                <CardContent>
                   <div className={`text-[#21376A] ${sourceFont.className}`}>
                      <h2 className={`text-lg font-bold  leading-4 `}>Clinical Effectiveness Group</h2>
@@ -100,7 +99,7 @@ const ImportScreen = () => {
                   </div>
                
                
-                  <div className=" mt-2  text-md leading-4 text-black font-semibold" >
+                  <div className=" mt-1 text-md leading-4 text-black font-semibold " >
                      These tools have been developed to present clinical information coded in the patient health record. 
                      They are not diagnostic tools and are not intended to replace clinical judgement.
                   </div>
@@ -176,11 +175,11 @@ const ImportScreen = () => {
                      <input  {...inputProps} ref ={fileInputRef} onChange={handleFileChange} style={{display:"none"}}></input>
                      <Button 
                         className="text-center bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E]
-                           text-white w-[8em] text-sm  import_button cursor-pointer font-semibold  py-4 "
+                           text-white w-[5em] text-sm  import_button cursor-pointer font-semibold  py-4 "
                         onClick={handleImportButtonClick}
                         disabled = {isImporting}
                      >
-                        Select report
+                        Import
                      </Button>
                      
                   </div>
