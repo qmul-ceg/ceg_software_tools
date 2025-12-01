@@ -30,7 +30,7 @@ const TableRow = ({row, tableConfig, reportKeys, selectedForExport, toggleSelect
                         <input type = "checkbox" onChange = {()=>toggleSelectedPatient(index)} checked = {row[reportKeys!.Full_Name] in selectedForExport}/>
                      </div>
                   :  <div 
-                        className ={`w-[${data.width}] flex justify-${data.align} items-center border-gray-100 border-b border-r px-2 py-1 text-sm font-medium  ${data.id === reportKeys!.Full_Name ? "cursor-pointer text-[#21376A]": undefined}`}
+                        className ={`w-[${data.width}] flex justify-${data.align} items-center border-gray-100 border-b border-r px-2 py-1 text-xs font-medium  ${data.id === reportKeys!.Full_Name ? "cursor-pointer text-[#21376A]": undefined}`}
                         onClick={   data.id === reportKeys!.Full_Name ? () => handlePatientClick(index) : undefined  }
                      >
                         {row[data.id]}

@@ -28,7 +28,7 @@ const SelectedFilterDisplay = ({filterStates, handleFilterSelection} : SelectedF
                if(selectedFilterValue.kind === "multi" && selectedFilterValue.value.length > 0){           
                      return (
                         <div className="  text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
-                           <span className='inline-flex gap-2 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName as keyof typeof cvdConfig.filters].label }: {
+                           <span className='inline-flex gap-1 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName as keyof typeof cvdConfig.filters].label }: {
                               selectedFilterValue.value.map((item)=>{
                                  return (
                                     <div className="flex items-center">
@@ -37,7 +37,7 @@ const SelectedFilterDisplay = ({filterStates, handleFilterSelection} : SelectedF
                                           cvdConfig.filters[selectedFilterName as keyof typeof cvdConfig.filters].options.map((filterOptions)=> {
                                              if (item === filterOptions.value){
                                                 return (
-                                                   <span className="font-normal mr-2">{filterOptions.label}</span>
+                                                   <span className="font-normal mr-1">{filterOptions.label}</span>
                                                 )
                                              }
                                           })
@@ -55,7 +55,7 @@ const SelectedFilterDisplay = ({filterStates, handleFilterSelection} : SelectedF
                                           <TfiClose  className="font-bold"/>
                                        </button>
                                        {
-                                          selectedFilterValue.value.indexOf(item) < selectedFilterValue.value.length - 1? <GoDotFill className=" ml-2 text-gray-500" /> : ""
+                                          selectedFilterValue.value.indexOf(item) < selectedFilterValue.value.length - 1? <GoDotFill className=" ml-2 text-gray-400" /> : ""
                                        }
                                     </div> 
                                  )
@@ -70,7 +70,7 @@ const SelectedFilterDisplay = ({filterStates, handleFilterSelection} : SelectedF
                else if(selectedFilterValue.kind === "grouped" && selectedFilterValue.value.some((group) =>group.length > 0)){
                   return (
                      <div className=" border text-sm text-[#21376A] bg-white px-2 rounded-lg  ">
-                        <span className='inline-flex gap-2 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName as keyof typeof cvdConfig.filters].label } : 
+                        <span className='inline-flex gap-1 items-center justify-center font-bold'>{ cvdConfig.filters[selectedFilterName as keyof typeof cvdConfig.filters].label } : 
                         {
                            selectedFilterValue.value.map((group, groupIndex)=>{
                               if(group.length > 0 ){

@@ -55,20 +55,20 @@ type FiltersPayload = {
 
 const Filters = ({filterItems, filterStates, handleFilterSelection}:FiltersPayload) => {
    return (
-      <div className=" border-black border-dotted w-[800px]  grid grid-rows-3 grid-flow-col h-50 justify-between mr-2 ">
+      <div className=" border-black border-dotted w-[800px]  grid grid-rows-3 grid-flow-col h-42 gap-2 justify-between mr-2 ">
          {
             Object.entries(filterItems).map(([key, value])=> {
                return (
                   <div style={{ width : `${value.ui.width}em`}}>
                      <Select key = {key} >
                         <SelectTrigger 
-                           className="cursor-pointer w-full hover:opacity-95 text-sm font-bold" 
+                           className="cursor-pointer w-full hover:opacity-95 text-sm font-semibold" 
                            style={{ backgroundColor : value.ui.bgColour , color : 'white'}}
                            >
 
                            {value.label}
                         </SelectTrigger>
-                        <SelectContent className="px-2 text-sm font-medium leading-normal">
+                        <SelectContent className="px-2 text-sm font-medium leading-normal ">
                            {
                               value.kind === "multi" ?
                                  value.options.map((option: {value: string, label: string} ) => {

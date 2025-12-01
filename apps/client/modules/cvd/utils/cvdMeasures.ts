@@ -6,7 +6,6 @@ import { StatinsIntensity, StatinExclusion, StatinIntensity } from './cvdStatinI
 export function CVD_Measures(dataArray: any[], reportKeys : typeof EMISReportKeys | typeof SystmOneReportKeys) : CVD_Metrics {
 
     let metrices : CVD_Metrics = { };
-
     // 1- CVD:- prescribed high intensity statin
     const CVD_Denominator : number = CVDpopulation(dataArray, reportKeys);
     

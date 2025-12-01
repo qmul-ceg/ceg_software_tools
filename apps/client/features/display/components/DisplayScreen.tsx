@@ -113,7 +113,7 @@ function renderRow(props : ExtraRowProps & {index:number, style : React.CSSPrope
                   style={{ height: "100%", width: "100%" }}
                   
                   rowCount = {filteredData.length}
-                  rowHeight={30}
+                  rowHeight={24}
                   rowComponent={renderRow}
                   rowProps={{ tableConfig, reportKeys, selectedForExport }}
                />

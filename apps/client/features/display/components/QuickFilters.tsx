@@ -1,6 +1,6 @@
 import { FilterStates } from '@/types/shared.types'
 import useScreenWidth from '@/app/hooks/useScreenWidth'
-import { PopoverContent, Popover, PopoverTrigger } from "@/components/ui/popover"
+import { PopoverContent, Popover, PopoverTrigger } from "@/components/ui/popover";
 import React from 'react'
 
 
@@ -14,19 +14,19 @@ type QuickFiltersPayload = {
 const QuickFilters = ({handleQuickFilterSelection, selectedQuickFilter, quickFilters}: QuickFiltersPayload) => {
    const screenWidth = useScreenWidth();
 
-   if (screenWidth < 1700){
+   if (screenWidth < 1759){
       return (
          <Popover>
-            <PopoverTrigger className=" mr-2 h-9 min-w-[100px] text-left p-2 rounded-t-lg bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E] text-white font-semibold text-sm">
+            <PopoverTrigger className=" mr-2 h-9 min-w-[120px] w-[140px] text-left p-2 rounded-lg bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E] text-white font-semibold text-sm">
             Quick filters
             </PopoverTrigger>
-            <PopoverContent className="ml-8 w-100 border p-2">
+            <PopoverContent className="ml-8 w-95  p-2">
                <div className="flex flex-col border-[#21376A] text-sm font-medium">
                {
                   Object.entries(quickFilters).map(([key, value])=> {
          
                      return(
-                        <ul className="leading-normal">
+                        <ul className="leading-4.5">
                            <li>
                               <label htmlFor={value.id} className=" hover:opacity-90   cursor-pointer">
                                  <input 
@@ -49,17 +49,17 @@ const QuickFilters = ({handleQuickFilterSelection, selectedQuickFilter, quickFil
       )
    }
    return (
-      <div className= " min-w-[400px] ">
+      <div className= " min-w-[390px] mr-2">
          <header 
             className=  "p-2 rounded-t-lg bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E] text-white" >
             <p className ="font-semibold text-sm text-left">Quick filters</p>
          </header>
-         <div className="flex flex-col border-[0.1em] border-[#21376A]  border-t-0 p-2  text-sm font-medium">
+         <div className="flex flex-col border-[0.1em] border-[#21376A]  border-t-0 p-2  text-sm font-semibold">
             {
                Object.entries(quickFilters).map(([key, value])=> {
       
                   return(
-                     <ul className="leading-normal">
+                     <ul className="leading-5">
                         <li>
                            <label htmlFor={value.id} className=" hover:opacity-90   cursor-pointer">
                               <input 

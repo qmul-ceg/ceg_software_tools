@@ -9,7 +9,7 @@ import useFilterSelection from '../hooks/useFilterSelection';
 import SelectedFilterDisplay from './SelectedFilterDisplay';
 import Filters from './Filters';
 import QuickFilters from './QuickFilters';
-
+import SummaryTable from './SummaryTable';
 
 
 type FilterSectionProps = {
@@ -20,10 +20,9 @@ type FilterSectionProps = {
 };
 
 const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveFilters}:FilterSectionProps) => {
-   const [showFilter, setShowFilter] = useState<boolean>(true);
+   const [  showFilter, setShowFilter  ] = useState<boolean>(true);
    const {  importedData } = useDisplay()
    const { handleFilterSelection, selectedQuickFilter, handleQuickFilterSelection, setSelectedQuickFilter, removeAllFilters } = useFilterSelection({  filterStates, setFilterStates });
-
 
    useEffect(()=> {
       const updateFilters = () => {
@@ -67,6 +66,7 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
 
    const quickFilters = importedData?.config?.quickFilters ?? [];
    const filterItems = importedData?.config?.filters ?? [];
+   const summaryTable = importedData?.data?.summaryTable!; 
 
    return (
       <div >
@@ -112,29 +112,8 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
             
             <Filters filterItems={filterItems} filterStates={filterStates} handleFilterSelection={handleFilterSelection}/>
 
-            {/* SUMMARY BOX */}
-            <div className="max-w-[650px] w-[600px] ml-0">
-               <header className="flex  rounded-t-lg px-2 py-2 bg-[#21376A] text-white justify-between">
-                  <p className ="font-semibold text-md text-left ">Summary</p>
-                  <div className= "flex gap-6 text-sm font-bold  mr-14">
-                     <p>Denominator</p>
-                     <p>Numerator</p>
-                     <p>%</p>
-                  </div>
-               </header>
-               <div className="border-[0.1em] border-[#21376A] border-t-0  p-2 font-semibold ">
-                  {importedData?.data?.summaryTable?.map((item, index)=> (
-                     <div key = {index} className="text-sm flex  justify-between">
-                        <p>{item[0]}</p>
-                        <div className="flex gap-16 mr-12">
-                           {item.map((subItem, subIndex)=> (
-                             subIndex ? <p>{subItem}</p> : ""
-                           ))}
-                        </div>
-                     </div>
-                  ))}
-               </div>
-            </div>
+            <SummaryTable summaryTable={summaryTable}/>
+            
          </div>
    </div>
   )
@@ -182,6 +161,69 @@ export default FilterSection
 
 
 
+
+
+
+
+{/* SUMMARY BOX */}
+
+            {/* <div className="max-w-[600px]   ml-0">
+               <header className="flex  rounded-t-lg p-2 bg-[#21376A] text-white justify-between">
+                  <h1 className ="font-semibold text-sm text-left ">Summary</h1>
+                  
+               </header>
+               <div className="border-[0.1em] border-[#21376A] border-t-0 px-2 pb-1 font-medium ">
+                  <table>
+                     <thead>
+                        <tr className=' w-1.5'>
+                           {
+                              summaryTable.headers.map((header, index)=> {
+                                 return <th className=" font-semibold text-sm w-100">{header}</th>
+                              })
+
+                           }
+
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {
+                           summaryTable.summaryContent.map((content, index)=> {
+                              return (
+                                 <tr className={` text-sm ${index % 2 == 0 ? "bg-gray-100": ""} `}>
+                                    <td className="w-[60%] font-semibold">{content.description}</td>
+                                    <td className='text-center '>{content.denominator}</td>
+                                    <td className='text-center'> {content.numerator}</td>
+                                    <td className='text-center'>{content.percentage}</td>
+
+                                    
+                                 </tr>
+
+                              )
+                              
+                           })
+                        }
+                     </tbody>
+                  </table>
+               </div>
+            </div> */}
+
+
+
+
+
+
+  {/* {  importedData?.data?.summaryTable?.map((item, index)=> (
+                     <div key = {index} className="text-xs flex   justify-between">
+                        <p>{item[0]}</p>
+                        <div className="flex gap-14 mr-12">
+                           {  
+                              item.map((subItem, subIndex)=> (
+                                 subIndex ? <p>{subItem}</p> : ""
+                              ))
+                           }
+                        </div>
+                     </div>
+                  ))} */}
 
 
 

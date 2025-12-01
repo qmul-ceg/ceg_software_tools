@@ -79,6 +79,12 @@ type GroupedFilter = {
 export type IndexMap = typeof SystmOneReportKeys | typeof EMISReportKeys
 
 
+type summaryHeaders = string[];
+type summaryRow = { description: string, denominator: number, numerator: number, percentage: string}
+export type SummaryTableType = {
+   headers: summaryHeaders,
+   summaryContent : summaryRow[]
+}
 
 export type ParserResult = {
 
@@ -105,7 +111,8 @@ export type ParserResult = {
       reportRunDate : string;
       
       tableHeader?: string[] ; //Change to table config
-      summaryTable?: string[][];
+      // summaryTable?: summaryTable
+      summaryTable?: summaryTable
       masterReport: Record<string, string[]>;
    }
 }

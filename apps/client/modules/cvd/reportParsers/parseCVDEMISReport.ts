@@ -104,7 +104,7 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
    
 
    let parsedFile = await parseFile(report[0])
-   // console.log(parsedFile)
+
    return parsedFile
 }  
 

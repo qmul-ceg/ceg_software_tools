@@ -10,7 +10,7 @@ const Display = () => {
    return (
       <>
         {
-         screenWidth < 1024 && (
+         screenWidth < 1040 && (
             <ScreenWidth />
          ) 
 

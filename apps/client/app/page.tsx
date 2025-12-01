@@ -8,7 +8,7 @@ export default function Home() {
    return (
       <>
       {
-         screenWidth < 1024 && (
+         screenWidth < 1040 && (
             <ScreenWidth />
          ) 
 
