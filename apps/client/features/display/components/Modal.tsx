@@ -154,13 +154,13 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
                   </div>
 
                   {/* GET PREVIOUS AND NEXT PATIENT */}
-                  <div className=' bg-white flex justify-center gap-6 p-2 '>
-                     <button className="cursor-pointer  flex flex-col  hover:font-medium">
-                        <span onClick={()=>handleNextPatient("previous")}>Previous patient</span>
+                  <div className=' bg-white flex justify-center gap-4 p-2 '>
+                     <button className="cursor-pointer  flex flex-col text-sm font-medium hover:font-semibold">
+                        <span className= ""onClick={()=>handleNextPatient("previous")}>Previous patient</span>
                         <TfiArrowLeft className=" m-auto text-gray-500"/>
                      </button>
                    
-                     <button className="cursor-pointer  flex flex-col  hover:font-medium"> 
+                     <button className="cursor-pointer  flex flex-col text-sm font-medium hover:font-semibold"> 
                         <span onClick={()=>handleNextPatient("next")}>Next patient</span>
                         <TfiArrowRight className=" m-auto text-gray-500" />
                      </button>
@@ -238,11 +238,11 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
 
 
                   {/* TABLES */}
-                  <div className="  w-full my-4  px-2 text-sm max-h-[40vh] border overflow-auto bg-white">
+                  <div className="  w-full my-4  px-2 text-sm max-h-[40vh]  overflow-auto bg-white">
                      {/* BLOOD PRESSURE CHART TABLE */}
-                     <table className='w-full border rounded-t-2xl'>
+                     <table className='w-full  border-separate border-spacing-0  rounded-t-lg '>
                         <thead className=''>
-                           <tr className="text-white bg-[#21376A] border">
+                           <tr className="text-white text-sm bg-[#21376A]   ">
                            
                              
                               <th className="py-2 px-4  rounded-tl-lg w-[30%] ">Systolic BP value (mmHg)</th>
@@ -253,11 +253,11 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
 
                            </tr>
                         </thead>
-                        <tbody className=''>
+                        <tbody className=' border-[#21376A]'>
                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td className=""colSpan={3}><ModalChart /></td>
+                              <td className="border-l border-b"></td>
+                              <td className= "border-b"></td>
+                              <td className="border-b border-r"colSpan={3}><ModalChart /></td>
 
                            </tr>
                              
@@ -271,41 +271,45 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
 
                     {
                      Object.entries(cvdModalConfig).map(([config, tableObject]) => {
+                        // console.log(Object.entries(cvdModalConfig))
+                        // console.log(tableObject)
                         return (
-                            Object.entries(tableObject).map(([data, tableConfig])=>{
-                           
-                              return (
-                                 
-                                 <table className='w-full text-left mt-4 pt-4'>  
-                                    {data === "tableHeaders" ?
-                                    <thead className='border '>
-                                        
-                                             <tr className='flex p-2 text-white bg-[#21376A] rounded-t-lg'>
-                                                <th className='w-[45%] '>{tableConfig[0]}</th>
-                                                <th className='w-[40%] '>{tableConfig[1]}</th>
-                                                <th>{tableConfig[2]}</th>
-                                             </tr>
+                           <table className="w-full  mt-4 border-separate border-spacing-0  rounded-t-lg">
+                              <thead>
+                                 <tr className=' rounded-t-lg '>
+                                    {
+                                       tableObject.tableHeaders.map((header, index)=> {
+                                          const firstHeader = index === 0;
+                                          const lastHeader = index === tableObject.tableHeaders.length - 1
+                                          
+                                          return (
+                                             <th className={`p-2 bg-[#21376A] text-white${firstHeader ? " rounded-tl-lg": ""} ${lastHeader ? "rounded-tr-lg " : ""}`
 
-                                    </thead>:
-                                    <tbody>
-                                       {
-                                          tableConfig.map((row)=> {
-                                 
-                                             return (
-                                                <tr className= "border">
-                                                   <td className=''>{row.info}</td>
-                                                   <td>{filteredData[selectedPatientIndex][row.description]}</td>
-                                                   <td>{filteredData[selectedPatientIndex][row.dateRecorded]}</td>
-                                                </tr>
-                                             )
+                                             }
                                              
-                                          })
-                                       }
-                                    </tbody>}
-                                 </table>
-                              )
+                                             >{header}</th>
+                                          )
+                                       })
+                                    }
+                                 </tr>
 
-                            })
+
+                              </thead>
+                              <tbody className="">
+                                 {
+                                    tableObject.tableData.map((row, index)=> {
+                                       return (
+                                       <tr className={`${index % 2 !== 0 ? "bg-gray-100": ""} `}>
+                                          <td className="border-l border-b px-2 py-1 font-semibold w-[35%]">{row.info}</td>
+                                          <td className="border-b text-center">{filteredData[selectedPatientIndex][row.description]}</td>
+                                          <td className='border-b border-r w-[20%] text-center'>{filteredData[selectedPatientIndex][row.dateRecorded]}</td>
+                                       </tr>)
+                                    })
+                                 }
+                              </tbody>
+                              
+                           </table>
+                           
                         )
                        
                      })
@@ -318,9 +322,64 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
    );    
 }
 
+//  Object.entries(tableObject).map(([data, tableConfig])=>{
+                           
+                           //    return (
+                           //       <div>hi</div>
+                           //       // <table className='w-full text-left mt-4 pt-4'>  
+                                    
+                           //       //    <thead className=' '>
+                                        
+                           //       //             <tr className='  text-white bg-[#21376A] rounded-t-lg'>
+                           //       //                <th className='w-[45%] p-2'>{tableConfig[0]}</th>
+                           //       //                <th className='w-[40%] '>{tableConfig[1]}</th>
+                           //       //                <th>{tableConfig[2]}</th>
+                           //       //             </tr>
+
+                           //       //    </thead>
+                                   
+                           //       // </table>
+                           //    )
+
+                           //  })
+//   Object.entries(tableObject).map(([data, tableConfig])=>{
+                           
+//                               return (
+//                                  <div>hi</div>
+                                 // <table className='w-full text-left mt-4 pt-4'>  
+                                    
+                                 //    <thead className=' '>
+                                        
+                                 //             <tr className='  text-white bg-[#21376A] rounded-t-lg'>
+                                 //                <th className='w-[45%] p-2'>{tableConfig[0]}</th>
+                                 //                <th className='w-[40%] '>{tableConfig[1]}</th>
+                                 //                <th>{tableConfig[2]}</th>
+                                 //             </tr>
+
+                                 //    </thead>
+                                   
+                           //       // </table>
+                           //    )
+
+                           //  })
 
 
-
+ {/* // <tbody> */}
+                                    {/* //    { *
+                                    //       tableConfig.map((row)=> {
+                                 
+                                    //          return (
+                                    //             <tr className= "border">
+                                    //                <td className=''>{row.info}</td>
+                                    //                <td>{filteredData[selectedPatientIndex][row.description]}</td>
+                                    //                <td>{filteredData[selectedPatientIndex][row.dateRecorded]}</td>
+                                    //             </tr>
+                                    //          )
+                                             
+                                    //       })
+                                    //    }
+                                    // </tbody>
+                                    }
 
 
 
