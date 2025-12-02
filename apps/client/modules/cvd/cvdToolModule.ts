@@ -69,16 +69,18 @@ export default async function cvdToolModule(payload:ImportPayload):Promise<ToolR
 
                   //Calculate CVD KPI/metrices
                   let CVD_summary_data: CVD_Metrics =  CVD_Measures(parsedDataObject, reportKeys);                  
+                  
 
-                  // cvdConfig.summaryTable.forEach((summaryMetric : any[], index) => {
+                  cvdConfig.summaryTable.summaryContent.forEach((metric, index) => {
+                     if (Object.entries(CVD_summary_data)[index]){
+                        metric.denominator = Object.entries(CVD_summary_data)[index][1].Denominator;
+                        metric.numerator = Object.entries(CVD_summary_data)[index][1].Numerator;
+                        metric.percentage = Object.entries(CVD_summary_data)[index][1].Percentage;
+                        
 
-                  //    if (Object.entries(CVD_summary_data)[index]) {
+                     }
+                  })
 
-                  //       summaryMetric[1] = Object.entries(CVD_summary_data)[index][1].Denominator;
-                  //       summaryMetric[2] = Object.entries(CVD_summary_data)[index][1].Numerator;
-                  //       summaryMetric[3] = Object.entries(CVD_summary_data)[index][1].Percentage;
-                  //    }
-                  // });
                } 
 
                return { validationResult : validationResult, parserResult: parserResult}

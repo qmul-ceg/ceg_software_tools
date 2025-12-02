@@ -490,7 +490,7 @@ export const cvdConfig = {
 
    filterFunctionalities: { 
       antihypertensiveMedsFilter : (row: string[], filterStates:FilterStates, reportKeys:IndexMap, relativeRunDate:string) : boolean => {
-          const antihypertensiveMedsFilterGroupOne = () => {
+         const antihypertensiveMedsFilterGroupOne = () => {
             const aceiArb = filterStates.antihypertensiveMedsFilter.value[0].includes("acei/arb") && row[reportKeys.ACEi_ARB_Name_Dosage_Quantity].trim();
             const noAceiArb = filterStates.antihypertensiveMedsFilter.value[0].includes("no_acei/arb") && !row[reportKeys.ACEi_ARB_Name_Dosage_Quantity].trim();
 
