@@ -25,7 +25,7 @@ const HeaderSection = ({exportObject, data, reportKeys}:HeaderProps) => {
 
    return (
       <div className = "flex  ">
-         <div className= " w-[200px]">
+         <div className= " w-[210px]">
             <a href="https://www.qmul.ac.uk" target="_blank" rel="noopener noreferrer">
                <img 
                   src = '/icons/QMUL_Logo.png' 
@@ -33,7 +33,7 @@ const HeaderSection = ({exportObject, data, reportKeys}:HeaderProps) => {
                />
             </a>
          </div>
-         <div className={`text-center w-full  flex-row flex-1  ${sourceFont.className}`}>
+         <div className={`text-center  flex-row flex-1 ${sourceFont.className}`}>
             <a 
                href="https://www.qmul.ac.uk/ceg/" target = "_blank" rel ="noopener noreferrer"
                className=" text-xl font-bold text-[#21376A] leading-4"

@@ -47,7 +47,7 @@ const ModalChart = () => {
 
 
   return (
-     <div className=" w-110 h-48 p-0">
+     <div className=" w-110 h-48 p-0 ">
      
       <CardContent className='p-0  w-100 h-48 mx-auto '>
         <ChartContainer config={chartConfig} className=" h-46 w-100  ">

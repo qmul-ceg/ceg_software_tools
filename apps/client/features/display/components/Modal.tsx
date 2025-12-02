@@ -300,9 +300,9 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
                                     tableObject.tableData.map((row, index)=> {
                                        return (
                                        <tr className={`${index % 2 !== 0 ? "bg-gray-100": ""} `}>
-                                          <td className="border-l border-b px-2 py-1 font-semibold w-[35%]">{row.info}</td>
-                                          <td className="border-b text-center">{filteredData[selectedPatientIndex][row.description]}</td>
-                                          <td className='border-b border-r w-[20%] text-center'>{filteredData[selectedPatientIndex][row.dateRecorded]}</td>
+                                          <td className="border-l border-b px-2 py-0.5 font-semibold w-[38%]">{row.info}</td>
+                                          <td className="border-b text-center px-2">{filteredData[selectedPatientIndex][row.description]}</td>
+                                          <td className='border-b border-r w-[20%] text-center px-2'>{filteredData[selectedPatientIndex][row.dateRecorded]}</td>
                                        </tr>)
                                     })
                                  }
