@@ -16,13 +16,10 @@ const SummaryTable = ({summaryTable}: SummaryTableProps) => {
             <PopoverTrigger className=" mr-2 h-9 min-w-[100px] w-[140px] text-left p-2 rounded-lg bg-gradient-to-r from-[#7B0E72] from-70% to-[#E6007E] text-white font-semibold text-sm">
                Summary
             </PopoverTrigger>
-            <PopoverContent className="mr-10 w-[600px] border-0 p-0">
+            <PopoverContent className="mr-10 w-[600px] p-1">
                <div className="max-w-[600px]   ml-0">
-               {/* <header className="flex  rounded-t-lg p-2 bg-[#21376A] text-white justify-between">
-                  <h1 className ="font-semibold text-sm text-left ">Summary</h1>
-                  
-               </header> */}
-               <div className="border-[0.1em] border-[#21376A] px-2 pb-1 font-medium ">
+              
+               <div className=" px-2 pb-1 font-medium ">
                   <table>
                      <thead>
                         <tr className=' w-1.5'>

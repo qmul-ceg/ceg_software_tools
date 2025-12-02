@@ -3,6 +3,7 @@ import { TfiArrowRight } from "react-icons/tfi";
 import { TfiArrowLeft } from "react-icons/tfi";
 import { GrClose } from "react-icons/gr";
 import { SystmOneReportKeys, EMISReportKeys } from '@/modules/cvd/constants/cvdDataEnums';
+import ModalChart from './ModalChart';
 
 type IndexMap = typeof SystmOneReportKeys | typeof EMISReportKeys
 type ModalProps = {
@@ -143,7 +144,7 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
          <div className=" cursor-pointer fixed top-0 left-0 w-full h-full bg-black/90 z-40" onClick={()=> setIsModalOpen(false)}>
             </div>
 
-            <div className=" z-100 bg-white fixed  rounded-t-xl top-30 left-1/2 tranform -translate-x-1/2 w-[50%]  max-w-[1000px] ">
+            <div className=" z-50 bg-white fixed  rounded-t-xl top-30 left-1/2 tranform -translate-x-1/2   w-[900px] ">
                   
                   
                   {/* HEADER */}
@@ -237,23 +238,30 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
 
 
                   {/* TABLES */}
-                  <div className="  my-4  px-2 text-sm max-h-[50vh] border overflow-auto bg-white">
+                  <div className="  w-full my-4  px-2 text-sm max-h-[40vh] border overflow-auto bg-white">
                      {/* BLOOD PRESSURE CHART TABLE */}
-                     <table className=' w-full'>
-                        <thead>
-                           <tr className=' flex p-2 text-white bg-[#21376A] rounded-t-lg'>
-                              <div className='flex gap-20'>
-                                 <th className=" ">Systolic BP value (mmHg)</th>
-                                 <th className=' '>Date recorded (last 3y)</th>
-                              </div>
+                     <table className='w-full border rounded-t-2xl'>
+                        <thead className=''>
+                           <tr className="text-white bg-[#21376A] border">
+                           
+                             
+                              <th className="py-2 px-4  rounded-tl-lg w-[30%] ">Systolic BP value (mmHg)</th>
+                              <th className='  w-[25%] py-2 px-4'>Date recorded (last 3y)</th>
+                            
                               
-                              <th className=' '></th>
+                              <th className='rounded-tr-lg  '></th>
 
                            </tr>
                         </thead>
                         <tbody className=''>
-                           <div className='border h-50 '>
-                           </div>
+                           <tr>
+                              <td></td>
+                              <td></td>
+                              <td className=""colSpan={3}><ModalChart /></td>
+
+                           </tr>
+                             
+                           
                         </tbody>
                      </table>
 
@@ -309,6 +317,11 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
          
    );    
 }
+
+
+
+
+
 
 
 
