@@ -1,18 +1,18 @@
 "use client"
 import React from 'react'
 import { TrendingUp } from "lucide-react"
-import { CartesianGrid, Dot, Line, LineChart, LabelList } from "recharts"
+import { CartesianGrid, Dot, Line, LineChart, LabelList, XAxis } from "recharts"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card"
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent, } from "@/components/ui/chart"
 
 
 export const description = "A line chart with a custom label"
 const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
+  { date: "2024-01-01", value: 275, fill: "var(--color-chrome)" },
+  { date: "2024-06-01", value: 200, fill: "var(--color-safari)" },
+  { date: "2024-12-01", value: 187, fill: "var(--color-firefox)" },
+  { date: "2025-01-01", value: 173, fill: "var(--color-edge)" },
+  { date: "2025-06-01", value: 90, fill: "var(--color-other)" },
 ]
 const chartConfig = {
   visitors: {
@@ -60,20 +60,21 @@ const ModalChart = () => {
               right: 24,
             }}
           >
+            <XAxis dataKey="date"/>
             <CartesianGrid vertical={false} />
             <ChartTooltip
               cursor={false}
               content={
                 <ChartTooltipContent
                   indicator="line"
-                  nameKey="visitors"
+                  nameKey="value"
                   hideLabel
                   
                 />
               }
             />
             <Line
-              dataKey="visitors"
+              dataKey="value"
               type="natural"
               stroke="#21376A"
               strokeWidth={2}
@@ -89,9 +90,9 @@ const ModalChart = () => {
                 offset={12}
                 className="fill-foreground"
                 fontSize={12}
-                dataKey="browser"
+                dataKey="value"
                 formatter={(value: keyof typeof chartConfig) =>
-                  chartConfig[value]?.label
+                  value//chartConfig[value]?.label
                 }
               />
             </Line>

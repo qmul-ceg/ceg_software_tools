@@ -155,13 +155,13 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
 
                   {/* GET PREVIOUS AND NEXT PATIENT */}
                   <div className=' bg-white flex justify-center gap-4 p-2 '>
-                     <button className="cursor-pointer  flex flex-col text-sm font-medium hover:font-semibold">
-                        <span className= ""onClick={()=>handleNextPatient("previous")}>Previous patient</span>
+                     <button onClick={()=>handleNextPatient("previous")} className="cursor-pointer  flex flex-col text-sm font-medium hover:font-semibold">
+                        <span className= "">Previous patient</span>
                         <TfiArrowLeft className=" m-auto text-gray-500"/>
                      </button>
                    
-                     <button className="cursor-pointer  flex flex-col text-sm font-medium hover:font-semibold"> 
-                        <span onClick={()=>handleNextPatient("next")}>Next patient</span>
+                     <button  onClick={()=>handleNextPatient("next")}className="cursor-pointer  flex flex-col text-sm font-medium hover:font-semibold"> 
+                        <span >Next patient</span>
                         <TfiArrowRight className=" m-auto text-gray-500" />
                      </button>
                   </div>

@@ -17,7 +17,7 @@ const TableHeader = ({  handleToggleSelectAll, gridTemplateColumns, filteredData
    
    return (
       <div 
-         className={` border-b-6 border-[#21376A] rounded-t-lg pr-[11px]`}
+         className={` border-b-6  border-[#21376A] rounded-t-lg pr-[11px]`}
          
       >
          <div className='flex' style = {{display:"grid", gridTemplateColumns:gridTemplateColumns}}>
@@ -26,7 +26,7 @@ const TableHeader = ({  handleToggleSelectAll, gridTemplateColumns, filteredData
                   item.id == "select" 
                   ?  <div  className= "border-r-1 border-[#21376A] flex justify-center"><input type = "checkbox" 
                            checked = {Object.keys(selectedForExport).length === filteredData.length} onChange={handleToggleSelectAll} /> </div>
-                  :  <div key = {index} className={`text-center font-bold flex text-sm  px-2 py-1 items-center justify-${item.align} ${item.header !== "Medication review latest date" ? "border-r-1 " : "" }   border-[#21376A]`}>
+                  :  <div key = {index} className={`text-center  font-bold flex text-sm  px-1 py-1 items-center justify-${item.align} ${item.header !== "Medication review latest date" ? "border-r-1 " : "" }   border-[#21376A]`}>
                         {item.header}
                      </div>
                ))}

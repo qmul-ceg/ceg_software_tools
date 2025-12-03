@@ -49,6 +49,7 @@ type tableConfigDetails = {
    width: string;
    align: string;
    colour: string;
+   priority:string;
 }
 
 export type tableConfig = tableConfigDetails[]

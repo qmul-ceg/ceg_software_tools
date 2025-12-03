@@ -974,7 +974,8 @@ export const EMISTableConfig = [
       header : "",
       width : "2%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority: "high"
 
    },
    {
@@ -982,56 +983,62 @@ export const EMISTableConfig = [
       header : "Full name",
       width : "1fr",
       align : "left",
-      colour : "blue"
+      colour : "blue",
+      priority: "high"
    },
   {
       id : EMISReportKeys.Age,
       header : "Age",
       width : "2%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority: "low"
    },
    {
       id : EMISReportKeys.Gender,
       header : "Gender",
       width : "3%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority: "low"
    },
    {
       id : "Patient reference no.",
       header : "Patient reference no.",
       width : "5%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority: "low"
    },
    {
       id : EMISReportKeys.Statin_Name_Dosage_Quantity,
       header : "Statin prescription",
       width : "14%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority: "high"
    },
    {
       id : EMISReportKeys.Statin_Intensity,
       header : "Statin intensity",
       width : "4%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority: "high"
    },
    {
       id : EMISReportKeys.Statin_Exclusion,
       header : "Statin exclusion",
       width : "4%",
       align : "center",
-      colour : ""
+      colour : "high"
    },
    {
       id : EMISReportKeys.Inclisiran,
       header : "Inclisiran",
-      width : "4%",
+      width : "5%",
       align : "center",
-      colour : ""
+      colour : "high"
    },
    
    {
@@ -1039,49 +1046,55 @@ export const EMISTableConfig = [
       header : "Blood pressure",
       width : "4%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority: ""
    },
    {
       id : EMISReportKeys.CVD,
       header : "CVD",
       width : "3%",
       align : "center",
-      colour : ""
+      colour : "high"
    },
    {
       id : EMISReportKeys.CKD3_5,
       header : "CKD 3-5",
       width : "4%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority: ""
    },
    {
       id : EMISReportKeys.Hypertension,
       header : "HTN",
       width : "3%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority: "high"
    },
    {
       id : EMISReportKeys.Diabetes,
       header : "Diabetes",
       width : "4%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority: "high"
    },
    {
       id : EMISReportKeys.Total_Cholestrol_Value,
       header : "Total cholestrol",
       width : "4%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority: "high"
    },
    {
       id : EMISReportKeys.LDL_Cholestrol_Value,
       header : "LDL",
       width : "3%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority: "high"
    },
    {
       id : EMISReportKeys.EGFR_Value,
@@ -1095,14 +1108,16 @@ export const EMISTableConfig = [
       header : "No. of anti-hptn meds",
       width : "5%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority: "high"
    },
    {
       id : EMISReportKeys.Medication_Review_Date,
       header : "Medication review latest date",
       width : "8%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority: "high"
    },
 ];
 

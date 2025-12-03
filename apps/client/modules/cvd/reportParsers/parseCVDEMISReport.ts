@@ -22,7 +22,7 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
                //Get the first header row of patients
                for (let i = 0; i < result_array.length; i++){
                   let currentArray = result_array[i] as Array<string>
-                  if(currentArray[0].toLowerCase().trim() === 'anonymised identifier'){
+                  if(currentArray[0].toLowerCase().trim() === 'anonymised identifier' || currentArray[0].toLowerCase().trim() ==="full name"){
                      startingPatientIndex = result_array.indexOf(currentArray)
                   }
                }
