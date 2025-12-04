@@ -451,7 +451,6 @@ export const cvdConfig = {
 
    },
    // summaryTable:  [
-        
    //       ["CVD:- prescribed high intensity statin", "0", "0", "0%"],
    //       ["CVD with LDL ≥ 2.6 and NOT on inclisiran", "0", "0", "0%"],
    //       ["CVD with LDL <= 2 (QoF)", "0", "0", "0%"],
@@ -464,10 +463,11 @@ export const cvdConfig = {
    // ],
 
    tableHeader : 
-      [  "Full name", "Age", "Gender", "Patient reference no.", "Statin prescription", "Statin intensity", 
+      [  
+         "Full name", "Age", "Gender", "Patient reference no.", "Statin prescription", "Statin intensity", 
          "Statin exclusion", "Inclisiran", "Blood pressure", "CVD", "CKD 3 - 5", "HTN", "Diabetes", "Total cholestrol", 
          "LDL cholestrol", "eGFR", "No. of anti-hptn meds", "Medication review latest date"
-   ],
+      ],
 
       
    filterStatesConfig: {
@@ -975,7 +975,10 @@ export const EMISTableConfig = [
       width : "2%",
       align : "center",
       colour : "",
-      priority: "high"
+      priority: "high",
+      minWidth: "",
+      maxWidth: "",
+
 
    },
    {
@@ -984,15 +987,19 @@ export const EMISTableConfig = [
       width : "1fr",
       align : "left",
       colour : "blue",
-      priority: "high"
+      priority: "high",
+      minWidth: "300px",
+      maxWidth: "200px",
    },
   {
       id : EMISReportKeys.Age,
       header : "Age",
-      width : "2%",
+      width : "3%",
       align : "center",
       colour : "",
-      priority: "low"
+      priority: "high",
+      minWidth: "",
+      maxWidth: "",
    },
    {
       id : EMISReportKeys.Gender,
@@ -1000,7 +1007,10 @@ export const EMISTableConfig = [
       width : "3%",
       align : "center",
       colour : "",
-      priority: "low"
+      priority: "low",
+      minWidth: "",
+      maxWidth: "",
+      
    },
    {
       id : "Patient reference no.",
@@ -1008,12 +1018,14 @@ export const EMISTableConfig = [
       width : "5%",
       align : "center",
       colour : "",
-      priority: "low"
+      priority: "low",
+      minWidth: "",
+      maxWidth: "",
    },
    {
       id : EMISReportKeys.Statin_Name_Dosage_Quantity,
       header : "Statin prescription",
-      width : "14%",
+      width : "1fr",
       align : "center",
       colour : "",
       priority: "high"
@@ -1021,40 +1033,52 @@ export const EMISTableConfig = [
    {
       id : EMISReportKeys.Statin_Intensity,
       header : "Statin intensity",
-      width : "4%",
+      width : "8%",
       align : "center",
       colour : "",
-      priority: "high"
+      priority: "high",
+      minWidth: "",
+      maxWidth: "",
    },
    {
       id : EMISReportKeys.Statin_Exclusion,
       header : "Statin exclusion",
-      width : "4%",
+      width : "5%",
       align : "center",
-      colour : "high"
+      colour : "high",
+       priority: "high",
+      minWidth: "",
+      maxWidth: "",
    },
    {
       id : EMISReportKeys.Inclisiran,
       header : "Inclisiran",
       width : "5%",
       align : "center",
-      colour : "high"
+      colour : "high",
+      priority: "high",
+      minWidth: "",
+      maxWidth: "",
    },
    
    {
       id : EMISReportKeys.BloodPressure,
       header : "Blood pressure",
-      width : "4%",
+      width : "5%",
       align : "center",
       colour : "",
-      priority: ""
+      priority: "high",
+      minWidth: "",
+      maxWidth: "",
    },
    {
       id : EMISReportKeys.CVD,
       header : "CVD",
       width : "3%",
       align : "center",
-      colour : "high"
+      colour : "high",
+      minWidth: "",
+      maxWidth: "",
    },
    {
       id : EMISReportKeys.CKD3_5,
@@ -1062,7 +1086,9 @@ export const EMISTableConfig = [
       width : "4%",
       align : "center",
       colour : "",
-      priority: ""
+      priority: "high",
+      minWidth: "",
+      maxWidth: "",
    },
    {
       id : EMISReportKeys.Hypertension,
@@ -1070,23 +1096,29 @@ export const EMISTableConfig = [
       width : "3%",
       align : "center",
       colour : "",
-      priority: "high"
+      priority: "high",
+      minWidth: "",
+      maxWidth: "",
    },
    {
       id : EMISReportKeys.Diabetes,
       header : "Diabetes",
-      width : "4%",
+      width : "5%",
       align : "center",
       colour : "",
-      priority: "high"
+      priority: "high",
+      minWidth: "",
+      maxWidth: "",
    },
    {
       id : EMISReportKeys.Total_Cholestrol_Value,
       header : "Total cholestrol",
-      width : "4%",
+      width : "6%",
       align : "center",
       colour : "",
-      priority: "high"
+      priority: "high",
+      minWidth: "",
+      maxWidth: "",
    },
    {
       id : EMISReportKeys.LDL_Cholestrol_Value,
@@ -1094,22 +1126,29 @@ export const EMISTableConfig = [
       width : "3%",
       align : "center",
       colour : "",
-      priority: "high"
+      priority: "high",
+      minWidth: "",
+      maxWidth: "",
    },
    {
       id : EMISReportKeys.EGFR_Value,
       header : "eGFR",
       width : "3%",
       align : "center",
-      colour : ""
+      colour : "",
+      priority:"high",
+      minWidth: "",
+      maxWidth: "",
    },
    {
       id : EMISReportKeys.AntiHptnMedicationCount,
       header : "No. of anti-hptn meds",
-      width : "5%",
+      width : "7%",
       align : "center",
       colour : "",
-      priority: "high"
+      priority: "high",
+      minWidth: "50px",
+      maxWidth: "",
    },
    {
       id : EMISReportKeys.Medication_Review_Date,
@@ -1117,7 +1156,9 @@ export const EMISTableConfig = [
       width : "8%",
       align : "center",
       colour : "",
-      priority: "high"
+      priority: "high",
+      minWidth: "100px",
+      maxWidth: "200px",
    },
 ];
 

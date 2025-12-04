@@ -50,6 +50,8 @@ type tableConfigDetails = {
    align: string;
    colour: string;
    priority:string;
+   minWidth: string;
+   maxWidth:string
 }
 
 export type tableConfig = tableConfigDetails[]
@@ -113,7 +115,7 @@ export type ParserResult = {
       
       tableHeader?: string[] ; //Change to table config
       // summaryTable?: summaryTable
-      summaryTable?: summaryTable
+      summaryTable?: summaryTable;
       masterReport: Record<string, string[]>;
    }
 }

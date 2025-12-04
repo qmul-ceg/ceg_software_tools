@@ -30,14 +30,14 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
          
          else if(direction === "previous"){
             if(selectedPatientIndex === 0 ){
-               nextPatientIndex = filteredData.length - 1
+               nextPatientIndex = filteredData.length - 1;
             }
-            else nextPatientIndex = selectedPatientIndex - 1
+            else nextPatientIndex = selectedPatientIndex - 1;
          }
       }
-      setSelectedPatientIndex(nextPatientIndex)
+      setSelectedPatientIndex(nextPatientIndex);
   
-   }
+   };
    // console.log(filteredData)
    // const reportKeys = importedData?.config?.reportKeys
 
@@ -255,8 +255,13 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
                         </thead>
                         <tbody className=' border-[#21376A]'>
                            <tr>
+
+                              
                               <td className="border-l border-b"></td>
                               <td className= "border-b"></td>
+                              
+                              
+                              
                               <td className="border-b border-r"colSpan={3}><ModalChart /></td>
 
                            </tr>
@@ -321,6 +326,48 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
          
    );    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //  Object.entries(tableObject).map(([data, tableConfig])=>{
                            

@@ -49,7 +49,7 @@ const DisplayScreen = () => {
 
 
 
-
+   // console.log(gridTemplateColumns)
    
    
    //patient modal open functionality 

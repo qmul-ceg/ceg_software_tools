@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useDisplay } from '@/context/DispayContext'
 import { IndexMap } from '@/types/shared.types'
-
+import useScreenWidth from "@/app/hooks/useScreenWidth";
 type TableHeaderProps = {
    gridTemplateColumns: string,
    handleToggleSelectAll : ()=>void,
@@ -15,6 +15,8 @@ type TableHeaderProps = {
 const TableHeader = ({  handleToggleSelectAll, gridTemplateColumns, filteredData, selectedForExport   } : TableHeaderProps) => {
    const { importedData } = useDisplay()
    
+
+   const screenWidth = useScreenWidth()
    return (
       <div 
          className={` border-b-6  border-[#21376A] rounded-t-lg pr-[11px]`}
@@ -26,8 +28,13 @@ const TableHeader = ({  handleToggleSelectAll, gridTemplateColumns, filteredData
                   item.id == "select" 
                   ?  <div  className= "border-r-1 border-[#21376A] flex justify-center"><input type = "checkbox" 
                            checked = {Object.keys(selectedForExport).length === filteredData.length} onChange={handleToggleSelectAll} /> </div>
-                  :  <div key = {index} className={`text-center  font-bold flex text-sm  px-1 py-1 items-center justify-${item.align} ${item.header !== "Medication review latest date" ? "border-r-1 " : "" }   border-[#21376A]`}>
-                        {item.header}
+                  :  <div 
+                        key = {index} 
+                        className = {`${screenWidth < 1800 && item.priority !== "high" ? "hidden" : ""} text-center  font-bold flex text-sm  px-1 py-1     items-center justify-${item.align} ${item.header !== "Medication review latest date" ? "border-r-1 " : "" }   border-[#21376A] `}
+                           style= {{minWidth: item.minWidth, maxWidth: item.maxWidth}}
+                        >
+                           {item.header}
+                     
                      </div>
                ))}
          </div>
