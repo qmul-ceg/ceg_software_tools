@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react'
 import { FilterStates } from '@/types/shared.types'
 import { TfiClose } from "react-icons/tfi";

@@ -1,3 +1,4 @@
+"use client"
 import { PopoverContent, Popover, PopoverTrigger } from "@/components/ui/popover"
 import Link from "next/link"
 import * as XLSX from 'xlsx';

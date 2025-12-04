@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { TfiArrowRight } from "react-icons/tfi";
 import { TfiArrowLeft } from "react-icons/tfi";

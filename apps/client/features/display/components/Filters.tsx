@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import { Select, SelectContent, SelectTrigger } from "@/components/ui/select";
 import { FilterStates } from '@/types/shared.types';
