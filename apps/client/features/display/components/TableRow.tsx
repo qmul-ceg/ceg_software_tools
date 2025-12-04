@@ -32,7 +32,7 @@ const TableRow = ({row, tableConfig, reportKeys, selectedForExport, toggleSelect
                         <input type = "checkbox" onChange = {()=>toggleSelectedPatient(index)} checked = {row[reportKeys!.Full_Name] in selectedForExport}/>
                      </div>
                   :  <div 
-                        className ={`${screenWidth < 1800 && data.priority !== "high" ? "hidden" : ""}  flex justify-${data.align} items-center border-gray-100 border-b border-r px-2 py-1 text-xs font-medium  ${data.id === reportKeys!.Full_Name ? "cursor-pointer text-[#21376A]": undefined}`}
+                        className ={`${screenWidth < 1800 && data.priority !== "high" ? "hidden " : ""}  flex justify-${data.align} items-center border-gray-100 border-b border-r px-2 py-1 text-xs font-medium  ${data.id === reportKeys!.Full_Name ? "cursor-pointer text-[#21376A]": undefined}`}
                         onClick={   data.id === reportKeys!.Full_Name ? () => handlePatientClick(index) : undefined  }
                         style= {{minWidth: data.minWidth, maxWidth: data.maxWidth}}
                      >
