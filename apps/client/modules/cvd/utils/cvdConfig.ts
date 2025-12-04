@@ -997,7 +997,7 @@ export const EMISTableConfig = [
       width : "3%",
       align : "center",
       colour : "",
-      priority: "high",
+      priority: "low",
       minWidth: "",
       maxWidth: "",
    },
@@ -1025,15 +1025,17 @@ export const EMISTableConfig = [
    {
       id : EMISReportKeys.Statin_Name_Dosage_Quantity,
       header : "Statin prescription",
-      width : "1fr",
+      width : "10%",
       align : "center",
       colour : "",
-      priority: "high"
+      priority: "high",
+      minWidth: "150px",
+      maxWidth: "300px",
    },
    {
       id : EMISReportKeys.Statin_Intensity,
       header : "Statin intensity",
-      width : "8%",
+      width : "1fr",
       align : "center",
       colour : "",
       priority: "high",
@@ -1153,7 +1155,7 @@ export const EMISTableConfig = [
    {
       id : EMISReportKeys.Medication_Review_Date,
       header : "Medication review latest date",
-      width : "8%",
+      width : "7%",
       align : "center",
       colour : "",
       priority: "high",
