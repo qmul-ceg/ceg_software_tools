@@ -36,34 +36,34 @@ const Menu = ({exportObject, data, reportKeys}:MenuProps) => {
             const patientInfo = data.find((patiendDetails) => patiendDetails[reportKeys.Full_Name] === patient)
 
             return {
-               Name : patientInfo[reportKeys.Full_Name],
-               Age: patientInfo[reportKeys.Age],
-               Gender: patientInfo[reportKeys.Gender],
-               "Patient reference" : patientInfo[reportKeys.PatientReference],
-               "CHA₂DS₂-VASc - Value" : patientInfo[reportKeys.Statin_Name_Dosage_Quantity],     
-               "CHA₂DS₂-VASc - Date": patientInfo[reportKeys.Statin_Intensity],
-               "ORBIT - Value": patientInfo[reportKeys.Statin_Exclusion],
+               Name : patientInfo![reportKeys.Full_Name],
+               Age: patientInfo![reportKeys.Age],
+               Gender: patientInfo![reportKeys.Gender],
+               // "Patient reference" : patientInfo![reportKeys.PatientReference!],
+               "CHA₂DS₂-VASc - Value" : patientInfo![reportKeys.Statin_Name_Dosage_Quantity],     
+               "CHA₂DS₂-VASc - Date": patientInfo![reportKeys.Statin_Intensity],
+               // "ORBIT - Value": patientInfo![reportKeys.Statn_Exclusion],
 
-               "ORBIT - Date": patientInfo[reportKeys.Inclisiran],
-               "Anticoagulant issued (6m)" : patientInfo[reportKeys.BloodPressure],
-               "Aspirin / antiplatelet issued (6m)" : patientInfo[reportKeys.CVD],
+               "ORBIT - Date": patientInfo![reportKeys.Inclisiran],
+               "Anticoagulant issued (6m)" : patientInfo![reportKeys.BloodPressure],
+               "Aspirin / antiplatelet issued (6m)" : patientInfo![reportKeys.CVD],
 
-               NSAID: patientInfo[reportKeys.CKD3_5],
-               HTN: patientInfo[reportKeys.Hypertension],
-               "Diabetes": patientInfo[reportKeys.Diabetes],
+               NSAID: patientInfo![reportKeys.CKD3_5],
+               HTN: patientInfo![reportKeys.Hypertension],
+               "Diabetes": patientInfo![reportKeys.Diabetes],
 
-               "Total Cholestrol": patientInfo[reportKeys.Total_Cholestrol_Value],
-               LDL: patientInfo[reportKeys.LDL_Cholestrol_Value],
+               "Total Cholestrol": patientInfo![reportKeys.Total_Cholestrol_Value],
+               LDL: patientInfo![reportKeys.LDL_Cholestrol_Value],
 
-               eGFR: patientInfo[reportKeys.EGFR_Value],
-               "No. of anti-hptn Medication" : patientInfo[reportKeys.AntiHptnMedicationCount],
-               "Medication Review Date": patientInfo[reportKeys.MedsReviewDate]
+               eGFR: patientInfo![reportKeys.EGFR_Value],
+               "No. of anti-hptn Medication" : patientInfo![reportKeys.AntiHptnMedicationCount],
+               // "Medication Review Date": patientInfo![reportKeys.MedsReviewDate]
             }
          })
 
          const date = new Date();
 
-         let worksheet = XLSX.utils.json_to_sheet(exportData, {origin: "A4"})
+         let worksheet = XLSX.utils.json_to_sheet(exportData)
          XLSX.utils.sheet_add_aoa(worksheet, [["CEG CVD Prevention Tool"]], {origin: "A1"});  
 
          XLSX.utils.sheet_add_aoa(worksheet,

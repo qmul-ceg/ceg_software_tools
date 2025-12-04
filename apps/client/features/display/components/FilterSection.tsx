@@ -65,7 +65,7 @@ const FilterSection = ({filterStates, setFilterStates, activeFilters, setActiveF
    }, [filterStates])
 
    const quickFilters = importedData?.config?.quickFilters ?? [];
-   const filterItems = importedData?.config?.filters ?? [];
+   const filterItems = importedData?.config?.filters ?? {};
    const summaryTable = importedData?.data?.summaryTable!; 
 
    return (

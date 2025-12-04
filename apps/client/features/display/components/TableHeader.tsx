@@ -1,3 +1,4 @@
+"use client"
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useDisplay } from '@/context/DispayContext'
 import { IndexMap } from '@/types/shared.types'

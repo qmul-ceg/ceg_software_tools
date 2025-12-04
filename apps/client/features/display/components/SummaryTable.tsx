@@ -1,3 +1,4 @@
+"use client";
 import React from 'react'
 import { SummaryTableType } from '@/types/shared.types';
 import useScreenWidth from '@/app/hooks/useScreenWidth';

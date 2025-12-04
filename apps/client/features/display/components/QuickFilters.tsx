@@ -1,3 +1,4 @@
+"use client";
 import { FilterStates } from '@/types/shared.types'
 import useScreenWidth from '@/app/hooks/useScreenWidth'
 import { PopoverContent, Popover, PopoverTrigger } from "@/components/ui/popover";

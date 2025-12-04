@@ -203,15 +203,16 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
                            </div>
                            <div className="flex">
                               <h2 className="w-[36%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Gender</h2>
-                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][reportKeys.Gender]}</div>
+                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex!][reportKeys.Gender]}</div>
                            </div>
                            <div className="flex">
                               <h2 className="w-[36%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Age</h2>
-                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][reportKeys.Age]}</div>
+                              <div className="border border-gray-400 w-[65%] rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex!][reportKeys.Age]}</div>
                            </div>
                            <div className="flex h-6">
                               <h2 className="w-[36%] text-white pl-2 bg-[#21376A] font-semibold py-1 rounded-l-lg">Mobile telephone</h2>
-                              <div className="border border-gray-400 w-[65%]  rounded-r-lg pl-2 py-1">{filteredData[selectedPatientIndex][reportKeys.Mobile_Number]}</div>
+                              <div className="border border-gray-400 w-[65%]  rounded-r-lg pl-2 py-1"></div>
+                              {/* {filteredData[selectedPatientIndex!][reportKeys.Mobile_Number]} */}
                            </div>
                            <div className="text-left text-sm ml-1">
                               <label className=" inline-flex gap-2 items-center cursor-pointer font-bold" htmlFor="modalCheckBox">
@@ -306,8 +307,8 @@ export default function Modal<EnumType extends number>({ setIsModalOpen, selecte
                                        return (
                                        <tr className={`${index % 2 !== 0 ? "bg-gray-100": ""} `}>
                                           <td className="border-l border-b px-2 py-0.5 font-semibold w-[38%]">{row.info}</td>
-                                          <td className="border-b text-center px-2">{filteredData[selectedPatientIndex][row.description]}</td>
-                                          <td className='border-b border-r w-[20%] text-center px-2'>{filteredData[selectedPatientIndex][row.dateRecorded]}</td>
+                                          <td className="border-b text-center px-2">{filteredData[selectedPatientIndex!][row.description]}</td>
+                                          <td className='border-b border-r w-[20%] text-center px-2'>{filteredData[selectedPatientIndex!][row.dateRecorded]}</td>
                                        </tr>)
                                     })
                                  }

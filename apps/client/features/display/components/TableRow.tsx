@@ -1,3 +1,4 @@
+"use client"
 import { tableConfig } from '@/types/shared.types';
 import { SystmOneReportKeys, EMISReportKeys } from '@/modules/cvd/constants/cvdDataEnums';
 import React from 'react';
