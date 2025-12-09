@@ -105,12 +105,14 @@ const parseSystmOneReport = async(files: Object): Promise<ParserResult> => {
 
 
       const convertDateForRelativeRunDate = (date:Date) => {
-         console.log(date)
+         //console.log(date)
          if(date){
-            const localeDate = date.toLocaleDateString()
-            const [day, month, year] = localeDate.split("/")
-            const months = { "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec" };
-               return `${day}-${months[month]}-${year}`; 
+            //const localeDate = date.toLocaleDateString()  // return date in format => mm/dd/yyyy
+            const day = date.getDate()
+            const month = date.toLocaleString('default', { month: 'short' })
+            const year = date.getFullYear()
+
+            return `${day}-${month}-${year}`; 
          }
          else return ""
       }

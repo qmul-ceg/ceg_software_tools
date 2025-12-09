@@ -16,7 +16,8 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
                // console.log(result)
                let result_array = result.data
                let patient_data_starting_index: number = 0
-
+               
+               let runDate: string;
             
                let startingPatientIndex: number = 0;
                //Get the first header row of patients
@@ -24,6 +25,11 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
                   let currentArray = result_array[i] as Array<string>
                   if(currentArray[0].toLowerCase().trim() === 'anonymised identifier' || currentArray[0].toLowerCase().trim() ==="full name"){
                      startingPatientIndex = result_array.indexOf(currentArray)
+                     break;
+                  }
+                  //Check if first relative run date line
+                  if (currentArray[0].toLowerCase().includes("last run")) {
+                     runDate = currentArray[3].split(" ")[0];
                   }
                }
                // console.log(startingPatientIndex)
@@ -58,15 +64,16 @@ export default async function parseCVDEMISReport(report: FileList):Promise<Parse
                }
                
 
-               const runDate = result.data[3][3].split(" ")[0]
+               //const runDate = result.data[3][3].split(" ")[0]
                // console.log(relativeDate)
                const convertDateForRelativeRunDate = (date:string) => {
                
-                  if(date){
+                  if(date) {
                      
-                     const [day, month, year] = date.split("/")
-                     const months:Record<string, string> = { "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec" };
-                        return `${day}-${months[month]}-${year}`; 
+                     let [day, month, year] = date.split(/[/-]/)
+                     const months:Record<string, string> = { "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec" }; 
+                     month = typeof month == 'number' ? months[month] : month
+                     return `${day}-${month}-${year}`; 
                   }
                   else return ""
                }
